@@ -15,7 +15,7 @@ A high-performance web application to help speedrunners track essential data whi
 
 ## Live Demo
 
-Visit the live app: [https://bo4-sr-tool.com/](https://bo4-sr-tool.com/)
+Visit the live app: [https://zomb-tools.com/](https://zomb-tools.com/)
 
 ## Local Development
 
@@ -29,8 +29,8 @@ Visit the live app: [https://bo4-sr-tool.com/](https://bo4-sr-tool.com/)
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/bo4-sr-helper.git
-cd bo4-sr-helper
+git clone https://github.com/yourusername/zomb-tools.git
+cd zomb-tools
 ```
 
 2. Install dependencies:
@@ -111,4 +111,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## Support
 
-If you encounter any issues or have suggestions, please [open an issue](https://github.com/yourusername/bo4-sr-helper/issues) on GitHub.
+If you encounter any issues or have suggestions, please [open an issue](https://github.com/yourusername/zomb-tools/issues) on GitHub.
