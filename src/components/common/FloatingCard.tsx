@@ -1,34 +1,29 @@
 import React from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import { SxProps, Theme } from "@mui/material/styles";
 
 interface FloatingCardProps {
 	children: React.ReactNode;
-	sx?: SxProps<Theme>;
 	className?: string;
-	elevation?: number;
+	interactive?: boolean;
+	style?: React.CSSProperties;
 }
 
 const FloatingCard: React.FC<FloatingCardProps> = ({
 	children,
-	sx,
-	className,
-	elevation = 8,
+	className = "",
+	interactive = false,
+	style,
 }) => {
 	return (
-		<Card
-			className={className}
-			elevation={elevation}
-			sx={{
-				maxWidth: 600,
-				margin: "2rem auto",
-				borderRadius: 4,
-				...sx,
-			}}
+		<div
+			className={`card${interactive ? " card--interactive" : ""}${
+				className ? " " + className : ""
+			}`}
+			style={style}
+			tabIndex={interactive ? 0 : undefined}
+			role={interactive ? "button" : undefined}
 		>
-			<CardContent>{children}</CardContent>
-		</Card>
+			{children}
+		</div>
 	);
 };
 

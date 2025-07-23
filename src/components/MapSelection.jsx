@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import FloatingCard from "./common/FloatingCard";
+import Button from "./common/Button";
 import { getGameById } from "../data/games";
 import { BO4_MAPS } from "../data/bo4/maps";
 import { BO6_MAPS } from "../data/bo6/maps";
-import "../styles/main.scss";
 
 const getMapsByGame = (gameId) => {
 	switch (gameId) {
@@ -18,70 +20,76 @@ const getMapsByGame = (gameId) => {
 function MapSelection({ gameId }) {
 	const game = getGameById(gameId);
 	const maps = getMapsByGame(gameId);
+	const navigate = useNavigate();
 
 	if (!game) {
 		return (
-			<div className="map-selection">
-				<div className="map-selection-header">
-					<h2>Game Not Found</h2>
-					<p>The requested game could not be found.</p>
-					<Link to="/" className="btn btn-primary">
-						← Back to Game Selection
-					</Link>
+			<FloatingCard>
+				<div className="card__header">
+					<div className="card__title">Game Not Found</div>
 				</div>
-			</div>
+				<div className="card__content">
+					The requested game could not be found.
+				</div>
+				<Button variantType="primary" onClick={() => navigate("/")}>
+					← Back to Game Selection
+				</Button>
+			</FloatingCard>
 		);
 	}
+
 	return (
 		<div className="map-selection">
-			<div className="map-selection-header">
-				<Link to="/" className="btn btn-secondary back-btn">
-					← Back to Games
-				</Link>
-				<h2>Select a {game.name} Map</h2>
-				<p>
-					Choose which {game.name} Zombies map you want to access speedrun tools
-					for.
-				</p>
-			</div>
-
-			<div className="map-grid">
+			<Button
+				variantType="secondary"
+				onClick={() => navigate("/")}
+				style={{ marginBottom: "2rem" }}
+			>
+				← Back to Games
+			</Button>
+			<h2 className="map-selection__title">Select a {game.name} Map</h2>
+			<p className="map-selection__subtitle">
+				Choose which {game.name} Zombies map you want to access speedrun tools
+				for.
+			</p>
+			<div className="map-selection__grid">
 				{maps.map((map) => (
-					<div
+					<FloatingCard
 						key={map.id}
-						className={`map-card ${!map.available ? "map-card--disabled" : ""}`}
+						style={{ opacity: map.available ? 1 : 0.5 }}
 					>
-						{map.available ? (
-							<Link to={map.route} className="map-card-link">
-								<div className="map-card-content">
-									<div className="map-card-header">
-										<h3 className="map-card-title">{map.name}</h3>
-									</div>
-									<p className="map-card-description">{map.status}</p>
-									{map.tools && map.tools.length > 0 && (
-										<div className="map-card-tools">
-											<span className="tools-label">Tools: </span>
-											<span className="tools-list">{map.tools.join(", ")}</span>
-										</div>
-									)}
-									<div className="map-card-arrow">→</div>
-								</div>
-							</Link>
-						) : (
-							<div className="map-card-content">
-								<div className="map-card-header">
-									<h3 className="map-card-title">{map.name}</h3>
-								</div>
-								{map.tools && map.tools.length > 0 && (
-									<div className="map-card-tools">
-										<span className="tools-label">Tools: </span>
-										<span className="tools-list">{map.tools.join(", ")}</span>
-									</div>
-								)}
-								<div className="map-card-status">{map.status}</div>
+						<div className="card__header">
+							<div className="card__title">{map.name}</div>
+						</div>
+						<div className="card__content">{map.status}</div>
+						{map.tools && map.tools.length > 0 && (
+							<div
+								className="card__content"
+								style={{ fontSize: "0.9em", marginTop: "0.5em" }}
+							>
+								<strong>Tools:</strong> {map.tools.join(", ")}
 							</div>
 						)}
-					</div>
+						{map.available ? (
+							<Button
+								fullWidth
+								variantType="primary"
+								onClick={() => navigate(map.route)}
+								style={{ marginTop: "1.5rem" }}
+							>
+								Open {map.name}
+							</Button>
+						) : (
+							<Button
+								fullWidth
+								variantType="secondary"
+								disabled
+								style={{ marginTop: "1.5rem" }}
+							>
+								Coming Soon
+							</Button>
+						)}
+					</FloatingCard>
 				))}
 			</div>
 		</div>

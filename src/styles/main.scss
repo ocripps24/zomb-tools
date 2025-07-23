@@ -15,6 +15,10 @@
 @use "components/buttons";
 @use "components/forms";
 @use "components/not-found";
+@use "components/cards";
+@use "components/nav";
+@use "components/step-navigation";
+@use "components/settings-panel";
 
 // 4. Layout - layout-specific styles
 @use "layout/app";

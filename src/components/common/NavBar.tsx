@@ -1,12 +1,4 @@
 import React from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import HomeIcon from "@mui/icons-material/Home";
-import MapIcon from "@mui/icons-material/Map";
-import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { useNavigate } from "react-router-dom";
 
 interface NavBarProps {
@@ -17,46 +9,38 @@ const NavBar: React.FC<NavBarProps> = ({ title }) => {
 	const navigate = useNavigate();
 
 	return (
-		<AppBar position="static" color="transparent" elevation={0} sx={{ mb: 3 }}>
-			<Toolbar>
-				<IconButton
-					edge="start"
-					color="inherit"
-					aria-label="home"
-					onClick={() => navigate("/")}
-					sx={{ mr: 2 }}
-				>
-					<HomeIcon />
-				</IconButton>
-				<IconButton
-					color="inherit"
-					aria-label="games"
-					onClick={() => navigate("/")}
-				>
-					<SportsEsportsIcon />
-				</IconButton>
-				<IconButton
-					color="inherit"
-					aria-label="maps"
-					onClick={() => navigate("/bo4")}
-				>
-					<MapIcon />
-				</IconButton>
-				<IconButton
-					color="inherit"
-					aria-label="settings"
-					onClick={() => navigate("/settings")}
-					sx={{ ml: "auto" }}
-				>
-					<SettingsIcon />
-				</IconButton>
-				{title && (
-					<Typography variant="h6" sx={{ ml: 2, flexGrow: 1, fontWeight: 700 }}>
-						{title}
-					</Typography>
-				)}
-			</Toolbar>
-		</AppBar>
+		<nav className="nav" aria-label="Global Navigation">
+			<button
+				className="nav__button"
+				aria-label="Home"
+				onClick={() => navigate("/")}
+			>
+				🏠
+			</button>
+			<button
+				className="nav__button"
+				aria-label="Games"
+				onClick={() => navigate("/")}
+			>
+				🎮
+			</button>
+			<button
+				className="nav__button"
+				aria-label="Maps"
+				onClick={() => navigate("/bo4")}
+			>
+				🗺️
+			</button>
+			<button
+				className="nav__button"
+				aria-label="Settings"
+				onClick={() => navigate("/settings")}
+				style={{ marginLeft: "auto" }}
+			>
+				⚙️
+			</button>
+			{title && <span className="nav__title">{title}</span>}
+		</nav>
 	);
 };
 

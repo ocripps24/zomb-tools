@@ -1,0 +1,41 @@
+// Navigation bar styles (BEM naming, glassmorphism)
+
+.nav {
+	background: rgba(24, 26, 27, 0.22);
+	backdrop-filter: blur(18px);
+	-webkit-backdrop-filter: blur(18px);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	box-shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.25);
+	padding: 1rem 2rem;
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+	position: sticky;
+	top: 0;
+	z-index: 100;
+
+	&__title {
+		font-size: 1.25rem;
+		font-weight: 700;
+		color: var(--primary-color, #00e0ff);
+		flex: 1;
+	}
+
+	&__button {
+		background: none;
+		border: none;
+		color: inherit;
+		font-size: 1.5rem;
+		cursor: pointer;
+		padding: 0.5rem 1rem;
+		border-radius: 0.5rem;
+		transition: background 0.15s;
+		&:hover {
+			background: rgba(0, 224, 255, 0.08);
+		}
+		&:focus {
+			outline: 2px solid var(--primary-color, #00e0ff);
+			outline-offset: 2px;
+		}
+	}
+}

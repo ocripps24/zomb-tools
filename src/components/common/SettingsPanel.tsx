@@ -1,8 +1,4 @@
 import React from "react";
-import Drawer from "@mui/material/Drawer";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 
 interface SettingsPanelProps {
 	open: boolean;
@@ -15,38 +11,23 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
 	onClose,
 	children,
 }) => {
+	if (!open) return null;
 	return (
-		<Drawer
-			anchor="right"
-			open={open}
-			onClose={onClose}
-			PaperProps={{
-				sx: {
-					width: { xs: "90vw", sm: 400 },
-					background: "rgba(24,26,27,0.18)",
-					backdropFilter: "blur(18px)",
-					borderLeft: "1px solid rgba(255,255,255,0.10)",
-				},
-			}}
+		<aside
+			className="settings-panel"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Settings Panel"
 		>
-			<Paper
-				elevation={0}
-				sx={{
-					p: 3,
-					minHeight: "100vh",
-					boxShadow: "none",
-					background: "transparent",
-				}}
+			<button
+				className="settings-panel__close"
+				aria-label="Close Settings"
+				onClick={onClose}
 			>
-				<IconButton
-					onClick={onClose}
-					sx={{ position: "absolute", top: 8, right: 8 }}
-				>
-					<CloseIcon />
-				</IconButton>
-				{children}
-			</Paper>
-		</Drawer>
+				×
+			</button>
+			{children}
+		</aside>
 	);
 };
 
