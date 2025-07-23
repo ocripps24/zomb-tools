@@ -3,6 +3,9 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "./styles/main.scss";
+// MUI ThemeProvider setup
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import theme from "./theme/muiTheme";
 
 // Handle GitHub Pages SPA redirect
 const urlParams = new URLSearchParams(window.location.search);
@@ -14,14 +17,17 @@ if (redirect) {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
-		<BrowserRouter
-			basename="/"
-			future={{
-				v7_startTransition: true,
-				v7_relativeSplatPath: true,
-			}}
-		>
-			<App />
-		</BrowserRouter>
+		<ThemeProvider theme={theme}>
+			<CssBaseline />
+			<BrowserRouter
+				basename="/"
+				future={{
+					v7_startTransition: true,
+					v7_relativeSplatPath: true,
+				}}
+			>
+				<App />
+			</BrowserRouter>
+		</ThemeProvider>
 	</React.StrictMode>
 );
