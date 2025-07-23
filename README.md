@@ -1,6 +1,6 @@
-# BO4 Speedrun Helper
+# Zomb Tools
 
-A high-performance web application to help speedrunners track essential data while playing Call of Duty: Black Ops 4 Zombies maps. Built with React + Vite for instantaneous interactions and optimal speedrunning efficiency.
+A high-performance web application to help track essential data while playing Zombies.
 
 ## Features
 
@@ -11,7 +11,13 @@ A high-performance web application to help speedrunners track essential data whi
 
 ### Currently Supported Maps
 
-- **Voyage of Despair** - Track clocks (locations, times, symbols), outlet locations with catalyst types, and planet order
+#### BO4
+
+- **Voyage of Despair** - Clocks - Outlets/Plugs - Planets
+
+#### BO6
+
+- **Terminus** - Nathan Code - Multiphasic Resonator Code Calculator
 
 ## Live Demo
 
