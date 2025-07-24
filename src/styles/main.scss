@@ -68,3 +68,21 @@
 	--info-border: rgba(37, 99, 235, 0.2);
 	--info-color: #{color(primary)};
 }
+
+html,
+body {
+	background: #0a0a0a;
+	color: #fff;
+	min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.game-selection__title,
+.map-selection__title {
+	color: #fff;
+}

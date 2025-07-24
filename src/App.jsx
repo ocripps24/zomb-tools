@@ -6,6 +6,7 @@ import Terminus from "./components/games/bo6/maps/terminus/Terminus";
 import NotFound from "./components/NotFound";
 import { getGameById } from "./data/games";
 import "./styles/main.scss";
+import NavBar from "./components/common/NavBar";
 
 function App() {
 	const location = useLocation();
@@ -39,6 +40,7 @@ function App() {
 	return (
 		<div className="app">
 			<header className="app-header">
+				<NavBar title={getPageTitle()} />
 				<h1>{getPageTitle()}</h1>
 			</header>
 

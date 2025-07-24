@@ -5,6 +5,10 @@ interface FloatingCardProps {
 	className?: string;
 	interactive?: boolean;
 	style?: React.CSSProperties;
+	onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+	role?: string;
+	tabIndex?: number;
+	onKeyDown?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
 }
 
 const FloatingCard: React.FC<FloatingCardProps> = ({
@@ -12,6 +16,10 @@ const FloatingCard: React.FC<FloatingCardProps> = ({
 	className = "",
 	interactive = false,
 	style,
+	onClick,
+	role,
+	tabIndex,
+	onKeyDown,
 }) => {
 	return (
 		<div
@@ -19,8 +27,10 @@ const FloatingCard: React.FC<FloatingCardProps> = ({
 				className ? " " + className : ""
 			}`}
 			style={style}
-			tabIndex={interactive ? 0 : undefined}
-			role={interactive ? "button" : undefined}
+			tabIndex={tabIndex}
+			role={role}
+			onKeyDown={onKeyDown}
+			onClick={onClick}
 		>
 			{children}
 		</div>

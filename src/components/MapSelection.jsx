@@ -1,10 +1,23 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import FloatingCard from "./common/FloatingCard";
-import Button from "./common/Button";
+import MapSelectionCard from "./MapSelectionCard";
 import { getGameById } from "../data/games";
 import { BO4_MAPS } from "../data/bo4/maps";
 import { BO6_MAPS } from "../data/bo6/maps";
+
+// Vite dynamic import for all map preview images (e.g., src/assets/maps/bo4/voyage-preview.png)
+const previews = import.meta.glob("../assets/maps/*/*-preview.png", {
+	eager: true,
+	import: "default",
+});
+
+const getPreview = (gameId, mapId) => {
+	// Try to find a preview image for this map
+	const match = Object.entries(previews).find(([path]) =>
+		path.includes(`/${gameId}/${mapId}-preview.png`)
+	);
+	return match ? match[1] : null;
+};
 
 const getMapsByGame = (gameId) => {
 	switch (gameId) {
@@ -24,29 +37,23 @@ function MapSelection({ gameId }) {
 
 	if (!game) {
 		return (
-			<FloatingCard>
-				<div className="card__header">
-					<div className="card__title">Game Not Found</div>
-				</div>
+			<MapSelectionCard label="Game Not Found">
 				<div className="card__content">
 					The requested game could not be found.
 				</div>
-				<Button variantType="primary" onClick={() => navigate("/")}>
-					← Back to Game Selection
-				</Button>
-			</FloatingCard>
+			</MapSelectionCard>
 		);
 	}
 
 	return (
 		<div className="map-selection">
-			<Button
-				variantType="secondary"
+			<button
+				className="btn btn--secondary"
 				onClick={() => navigate("/")}
 				style={{ marginBottom: "2rem" }}
 			>
 				← Back to Games
-			</Button>
+			</button>
 			<h2 className="map-selection__title">Select a {game.name} Map</h2>
 			<p className="map-selection__subtitle">
 				Choose which {game.name} Zombies map you want to access speedrun tools
@@ -54,13 +61,13 @@ function MapSelection({ gameId }) {
 			</p>
 			<div className="map-selection__grid">
 				{maps.map((map) => (
-					<FloatingCard
+					<MapSelectionCard
 						key={map.id}
+						image={getPreview(gameId, map.id)}
+						label={map.name}
+						onClick={map.available ? () => navigate(map.route) : undefined}
 						style={{ opacity: map.available ? 1 : 0.5 }}
 					>
-						<div className="card__header">
-							<div className="card__title">{map.name}</div>
-						</div>
 						<div className="card__content">{map.status}</div>
 						{map.tools && map.tools.length > 0 && (
 							<div
@@ -70,26 +77,16 @@ function MapSelection({ gameId }) {
 								<strong>Tools:</strong> {map.tools.join(", ")}
 							</div>
 						)}
-						{map.available ? (
-							<Button
-								fullWidth
-								variantType="primary"
-								onClick={() => navigate(map.route)}
-								style={{ marginTop: "1.5rem" }}
-							>
-								Open {map.name}
-							</Button>
-						) : (
-							<Button
-								fullWidth
-								variantType="secondary"
+						{!map.available && (
+							<button
+								className="btn btn--secondary"
 								disabled
-								style={{ marginTop: "1.5rem" }}
+								style={{ marginTop: "1.5rem", width: "100%" }}
 							>
 								Coming Soon
-							</Button>
+							</button>
 						)}
-					</FloatingCard>
+					</MapSelectionCard>
 				))}
 			</div>
 		</div>

@@ -9,7 +9,7 @@
 	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 	padding: 2rem;
 	margin: 2rem auto;
-	max-width: 600px;
+	width: 100%;
 	transition: box-shadow 0.2s;
 	position: relative;
 
@@ -35,5 +35,121 @@
 	&__content {
 		font-size: 1rem;
 		color: var(--text-primary, #f3f6f9);
+	}
+}
+
+// Only apply max-width to cards not in a grid
+.card:not(.game-selection__card):not(.map-selection__card) {
+	max-width: 600px;
+}
+
+.game-selection__card {
+	position: relative;
+	overflow: hidden;
+	min-height: 220px;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	padding: 0;
+}
+
+.game-selection__card-bg {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	background: #888; // fallback
+	background-size: cover;
+	background-position: center;
+	z-index: 1;
+	/* Add padding by using an inner shadow */
+	box-shadow: 0 0 0 8px rgba(24, 26, 27, 0.18) inset;
+	border-radius: 1.25rem;
+	pointer-events: none;
+}
+
+.game-selection__card-label-bubble {
+	position: absolute;
+	left: 50%;
+	bottom: 1.5rem;
+	transform: translateX(-50%);
+	background: rgba(24, 26, 27, 0.85);
+	color: #fff;
+	padding: 0.5em 1.1em;
+	border-radius: 2em;
+	font-size: 1rem;
+	font-weight: 700;
+	box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.18);
+	z-index: 2;
+	pointer-events: none;
+	transition: background 0.2s;
+}
+
+.game-selection__grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 2rem;
+	margin: 2rem 0;
+
+	@media (max-width: 900px) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	@media (max-width: 600px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.map-selection__card-bg {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	background: #888; // fallback
+	background-size: cover;
+	background-position: center;
+	z-index: 1;
+	box-shadow: 0 0 0 8px rgba(24, 26, 27, 0.18) inset;
+	border-radius: 1.25rem;
+	pointer-events: none;
+}
+
+.map-selection__card-label-bubble {
+	position: absolute;
+	left: 50%;
+	bottom: 1.5rem;
+	transform: translateX(-50%);
+	background: rgba(24, 26, 27, 0.85);
+	color: #fff;
+	padding: 0.5em 1.1em;
+	border-radius: 2em;
+	font-size: 1rem;
+	font-weight: 700;
+	box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.18);
+	z-index: 2;
+	pointer-events: none;
+	transition: background 0.2s;
+}
+
+.map-selection__card {
+	position: relative;
+	overflow: hidden;
+	min-height: 220px;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	padding: 0;
+}
+
+.map-selection__grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 2rem;
+	margin: 2rem 0;
+
+	@media (max-width: 900px) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	@media (max-width: 600px) {
+		grid-template-columns: 1fr;
 	}
 }

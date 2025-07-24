@@ -5,16 +5,17 @@
 }
 
 .app-header {
-	background-color: var(--surface);
-	border-bottom: 1px solid var(--border);
-	padding: 1.5rem 2rem;
-	box-shadow: var(--shadow);
+	background: transparent;
+	border-bottom: none;
+	padding: 2rem 2rem 1.5rem 2rem;
+	box-shadow: none;
 }
 
 .app-header h1 {
-	color: var(--primary-color);
+	color: #fff;
 	margin-bottom: 0;
 	text-align: center;
+	margin-top: 1.5rem;
 }
 
 .app-main {

@@ -1,8 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import FloatingCard from "./common/FloatingCard";
-import Button from "./common/Button";
+import GameSelectionCard from "./GameSelectionCard";
 import { getAvailableGames } from "../data/games";
+
+// Vite dynamic import for all game logos
+const logos = import.meta.glob("../assets/games/*-logo.png", {
+	eager: true,
+	import: "default",
+});
+
+const getLogo = (id) => {
+	const match = Object.entries(logos).find(([path]) =>
+		path.includes(`/${id}-logo.png`)
+	);
+	return match ? match[1] : null;
+};
 
 function GameSelection() {
 	const availableGames = getAvailableGames();
@@ -17,23 +29,12 @@ function GameSelection() {
 			</p>
 			<div className="game-selection__grid">
 				{availableGames.map((game) => (
-					<FloatingCard
+					<GameSelectionCard
 						key={game.id}
-						interactive
+						image={getLogo(game.id)}
+						label={game.name}
 						onClick={() => navigate(game.route)}
-					>
-						<div className="card__header">
-							<div className="card__title">{game.name}</div>
-						</div>
-						<div className="card__content">{game.description}</div>
-						<Button
-							fullWidth
-							variantType="primary"
-							style={{ marginTop: "1.5rem" }}
-						>
-							Explore {game.name}
-						</Button>
-					</FloatingCard>
+					/>
 				))}
 			</div>
 		</div>
