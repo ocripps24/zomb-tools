@@ -1,44 +1,79 @@
-// Step navigation styles (BEM naming, glassmorphism)
+// Step navigation styles (matching Voyage structure)
 
 .step-navigation {
 	display: flex;
-	background: var(--bg-secondary);
-	border: 2px solid var(--border);
-	border-radius: 0.5rem;
-	overflow: hidden;
+	border: 1px solid #fff;
 	margin: 2rem 0;
+}
 
-	&__tab {
-		background: none;
-		border: none;
-		border-right: 1px solid var(--border);
+.step-tabs {
+	display: flex;
+	width: 100%;
+	gap: 0.5rem;
+	padding: 0.5rem;
+}
+
+.step-tab {
+	background: none;
+	border: 1px solid #fff;
+	color: var(--text-primary);
+	padding: 1rem 2rem;
+	font-size: 1rem;
+	font-weight: 500;
+	cursor: pointer;
+	flex: 1; // Equal size on desktop - all tabs get equal space
+	transition: background var(--transition), color var(--transition),
+		flex var(--transition);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.25rem;
+	min-width: 0; // Allow flex items to shrink below content size
+
+	&:hover,
+	&:focus {
+		background: var(--bg-secondary);
 		color: var(--text-secondary);
-		padding: 1rem 2rem;
-		font-size: 1rem;
+	}
+
+	&.step-tab--active {
+		background: var(--bg-secondary);
+		color: var(--text-secondary);
+		// flex: 1; // Expand to fill remaining space
+	}
+
+	.step-number {
+		font-size: 0.8rem;
+		font-weight: 600;
+		opacity: 0.8;
+	}
+
+	.step-name {
+		font-size: 0.9rem;
 		font-weight: 500;
-		cursor: pointer;
-		flex: 1;
-		transition: background var(--transition), color var(--transition);
+		text-align: center;
+		white-space: nowrap; // Prevent text wrapping
+		overflow: hidden;
+		text-overflow: ellipsis; // Show ellipsis if text is too long
+		max-width: 100%; // Ensure text doesn't overflow the tab
+	}
+}
 
-		&:last-child {
-			border-right: none;
+// Mobile responsive behavior
+@media (max-width: 768px) {
+	.step-tab {
+		flex: 0 1 auto; // Don't expand by default on mobile
+
+		&.step-tab--active {
+			flex: 1; // Expand to fill remaining space on mobile
 		}
 
-		&:hover,
-		&:focus {
-			background: var(--bg-primary);
-			color: var(--text-primary);
+		.step-name {
+			display: none; // Hide step names on mobile for inactive tabs
 		}
 
-		&--active {
-			background: var(--bg-primary);
-			color: var(--text-primary);
-
-			&:hover,
-			&:focus {
-				background: var(--bg-primary);
-				color: var(--text-primary);
-			}
+		&.step-tab--active .step-name {
+			display: block; // Show step name only for active tab on mobile
 		}
 	}
 }

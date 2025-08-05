@@ -19,27 +19,27 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
 	className = "",
 }) => {
 	return (
-		<nav
-			className={`step-navigation${className ? " " + className : ""}`}
-			aria-label="Step Navigation"
-		>
-			{steps.map((step, idx) => (
-				<button
-					key={step.id}
-					className={`step-navigation__tab${
-						activeStep === idx ? " step-navigation__tab--active" : ""
-					}`}
-					aria-current={activeStep === idx ? "step" : undefined}
-					tabIndex={0}
-					onClick={() => onStepChange(idx)}
-					onKeyDown={(e) => {
-						if (e.key === "Enter" || e.key === " ") onStepChange(idx);
-					}}
-				>
-					{step.name}
-				</button>
-			))}
-		</nav>
+		<div className={`step-navigation${className ? " " + className : ""}`}>
+			<div className="step-tabs">
+				{steps.map((step, index) => (
+					<button
+						key={step.id}
+						onClick={() => onStepChange(index)}
+						className={`step-tab ${
+							activeStep === index ? "step-tab--active" : ""
+						}`}
+						aria-current={activeStep === index ? "step" : undefined}
+						tabIndex={0}
+						onKeyDown={(e) => {
+							if (e.key === "Enter" || e.key === " ") onStepChange(index);
+						}}
+					>
+						<span className="step-number">{index + 1}</span>
+						<span className="step-name">{step.name}</span>
+					</button>
+				))}
+			</div>
+		</div>
 	);
 };
 

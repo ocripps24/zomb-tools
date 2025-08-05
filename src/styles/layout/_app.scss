@@ -18,10 +18,79 @@
 
 .app-main {
 	flex: 1;
-	padding: 2rem;
+	padding: 0 2rem 2rem 2rem;
 	max-width: 1200px;
 	margin: 0 auto;
 	width: 100%;
+}
+
+// Standardized Map Structure
+.map-info {
+	text-align: center;
+	margin-bottom: 2rem;
+	padding: 1rem 0;
+}
+
+.map-title {
+	color: var(--text-primary);
+	margin: 0;
+	font-size: 2.5rem;
+	font-weight: 700;
+}
+
+.map-header {
+	margin-bottom: 2rem;
+}
+
+.map-nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1rem;
+	gap: 1rem;
+
+	.nav-right {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+	}
+
+	.btn {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1rem;
+		border: 2px solid var(--border);
+		border-radius: 0.25rem;
+		background: var(--bg-secondary);
+		color: var(--text-secondary);
+		text-decoration: none;
+		font-size: 0.9rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all var(--transition);
+
+		&:hover,
+		&:focus {
+			background: var(--bg-primary);
+			color: var(--text-primary);
+			transform: translateY(-1px);
+		}
+
+		.btn-text {
+			@media (max-width: 768px) {
+				display: none;
+			}
+		}
+
+		.btn-icon {
+			font-size: 1.1rem;
+		}
+	}
+}
+
+.map-content {
+	margin-top: 2rem;
 }
 
 @media (max-width: 768px) {

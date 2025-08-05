@@ -75,11 +75,12 @@ export const BO4_MAPS = [
 	{
 		id: "tag-der-toten",
 		name: "Tag der Toten",
-		status: "Coming later",
+		status: "Available",
 		route: "/bo4/tag-der-toten",
-		component: null,
-		available: false,
-		tools: ["TBC"],
+		component: () =>
+			import("../../components/games/bo4/maps/tag-der-toten/TagDerToten.jsx"),
+		available: true,
+		tools: ["Totems", "Seal of Duality", "Orb Locations"],
 		difficulty: "hard",
 	},
 ];

@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import GameSelection from "./components/GameSelection";
 import MapSelection from "./components/MapSelection";
 import VoyageOfDespair from "./components/games/bo4/maps/voyage-of-despair/VoyageOfDespair";
+import TagDerToten from "./components/games/bo4/maps/tag-der-toten/TagDerToten";
 import Terminus from "./components/games/bo6/maps/terminus/Terminus";
 import NotFound from "./components/NotFound";
 import { getGameById } from "./data/games";
@@ -18,6 +19,9 @@ function App() {
 		// Handle specific map pages
 		if (path.includes("/voyage-of-despair")) {
 			return "Voyage of Despair";
+		}
+		if (path.includes("/tag-der-toten")) {
+			return "Tag der Toten";
 		}
 		if (path.includes("/terminus")) {
 			return "Terminus";
@@ -44,7 +48,6 @@ function App() {
 			</header>
 
 			<main className="app-main">
-				<h1>{getPageTitle()}</h1>
 				<Routes>
 					{/* Root - Game Selection */}
 					<Route path="/" element={<GameSelection />} />
@@ -55,6 +58,7 @@ function App() {
 						path="/bo4/voyage-of-despair/*"
 						element={<VoyageOfDespair />}
 					/>
+					<Route path="/bo4/tag-der-toten/*" element={<TagDerToten />} />
 
 					{/* BO6 Routes */}
 					<Route path="/bo6" element={<MapSelection gameId="bo6" />} />
