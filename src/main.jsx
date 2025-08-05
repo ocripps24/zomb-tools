@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "./styles/main.scss";
+import { initTheme } from "./utils/theme.js";
 
 // Handle GitHub Pages SPA redirect
 const urlParams = new URLSearchParams(window.location.search);
@@ -11,6 +12,9 @@ if (redirect) {
 	// Remove the redirect parameter and navigate to the intended route
 	window.history.replaceState({}, "", "/" + redirect);
 }
+
+// Initialize theme before rendering
+initTheme();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>

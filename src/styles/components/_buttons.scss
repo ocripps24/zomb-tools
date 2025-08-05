@@ -4,34 +4,78 @@
 
 // Button components
 .btn {
-	@include button-base;
+	background: var(--bg-primary);
+	border: 2px solid var(--border);
+	color: var(--text-primary);
+	border-radius: 0.25rem;
+	padding: 0.75rem 1.5rem;
+	font-size: 1rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all var(--transition);
+	text-decoration: none;
+	display: inline-block;
+	text-align: center;
 
-	// Button variants
-	&-primary {
-		@include button-primary;
+	&:hover,
+	&:focus {
+		background: var(--bg-secondary);
+		border-color: var(--border);
+		color: var(--text-secondary);
+		transform: translateY(-1px);
 	}
 
-	&-secondary {
-		@include button-secondary;
+	&:active {
+		transform: translateY(0);
 	}
 
-	// Button sizes
-	&-sm {
-		padding: space(sm) space(lg);
-		font-size: font-size(sm);
-		min-height: 36px;
+	&:disabled {
+		background: #ccc;
+		border-color: #ccc;
+		color: #666;
+		cursor: not-allowed;
+		transform: none;
 	}
 
-	&-lg {
-		padding: space(lg) space(2xl);
-		font-size: font-size(lg);
-		min-height: 52px;
+	&--primary {
+		background: var(--bg-primary);
+		border-color: var(--border);
+		color: var(--text-primary);
+
+		&:hover,
+		&:focus {
+			background: var(--bg-secondary);
+			border-color: var(--border);
+			color: var(--text-secondary);
+		}
 	}
 
-	// Button states
-	&:focus-visible {
-		outline: none;
-		box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.5);
+	&--secondary {
+		background: var(--bg-secondary);
+		border-color: var(--border);
+		color: var(--text-secondary);
+
+		&:hover,
+		&:focus {
+			background: var(--bg-primary);
+			color: var(--text-primary);
+		}
+	}
+
+	&--danger {
+		background: #dc3545;
+		border-color: #dc3545;
+		color: #fff;
+
+		&:hover,
+		&:focus {
+			background: #c82333;
+			border-color: #bd2130;
+		}
+	}
+
+	&--full-width {
+		width: 100%;
 	}
 }
 

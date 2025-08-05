@@ -41,10 +41,10 @@ function App() {
 		<div className="app">
 			<header className="app-header">
 				<NavBar title={getPageTitle()} />
-				<h1>{getPageTitle()}</h1>
 			</header>
 
 			<main className="app-main">
+				<h1>{getPageTitle()}</h1>
 				<Routes>
 					{/* Root - Game Selection */}
 					<Route path="/" element={<GameSelection />} />

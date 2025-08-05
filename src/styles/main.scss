@@ -31,31 +31,23 @@
 @use "pages/game-selection";
 @use "pages/terminus";
 
-// Legacy CSS custom properties for fallback
+// Legacy CSS custom properties for backwards compatibility with existing components
 :root {
 	--primary-color: #{color(primary)};
-	--primary-hover: #{color(primary-hover)};
 	--secondary-color: #{color(secondary)};
 	--success-color: #{color(success)};
 	--warning-color: #{color(warning)};
 	--danger-color: #{color(danger)};
 	--background: #{color(background)};
 	--surface: #{color(surface)};
-	--text-primary: #{color(text-primary)};
-	--text-secondary: #{color(text-secondary)};
-	--border: #{color(border)};
+	--border-color: #{color(border)};
 	--border-focus: #{color(border-focus)};
-	--shadow: #{shadow(base)};
-	--shadow-lg: #{shadow(lg)};
-	--radius: #{radius(base)};
-	--transition: #{transition(base)};
 
-	// Additional variables for terminus and other components
+	// Additional variables for existing components
 	--card-bg: #{color(surface)};
 	--input-bg: #{color(background)};
 	--text-color: #{color(text-primary)};
 	--text-muted: #{color(text-secondary)};
-	--border-color: #{color(border)};
 	--hover-bg: rgba(100, 116, 139, 0.1);
 
 	// Success theme
@@ -71,9 +63,10 @@
 
 html,
 body {
-	background: #0a0a0a;
-	color: #fff;
+	background: var(--bg-primary);
+	color: var(--text-primary);
 	min-height: 100vh;
+	transition: background-color var(--transition), color var(--transition);
 }
 
 h1,
@@ -84,5 +77,5 @@ h5,
 h6,
 .game-selection__title,
 .map-selection__title {
-	color: #fff;
+	color: var(--text-primary);
 }
