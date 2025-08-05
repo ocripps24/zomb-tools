@@ -1,6 +1,16 @@
+// Import abstracts for functions, mixins, and variables
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
 .map-selection {
-	max-width: 800px;
+	padding: spacing(6) spacing(4);
+	max-width: 1200px;
 	margin: 0 auto;
+
+	@include mobile {
+		padding: spacing(4) spacing(3);
+	}
 }
 
 .map-selection-header {
