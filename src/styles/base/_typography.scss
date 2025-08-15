@@ -11,6 +11,7 @@ h6 {
 	line-height: 1.2;
 	margin-bottom: space(sm);
 	font-weight: font-weight(semibold);
+	font-family: var(--font-family);
 }
 
 h1 {
@@ -45,6 +46,7 @@ h6 {
 
 p {
 	margin-bottom: space(lg);
+	font-family: var(--font-family);
 
 	&:last-child {
 		margin-bottom: 0;

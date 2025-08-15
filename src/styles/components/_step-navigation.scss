@@ -3,16 +3,21 @@
 	margin-bottom: 2rem;
 }
 
+// When step navigation is used within map pages
+.map-page .step-navigation {
+	margin-bottom: 1.5rem;
+}
+
 .step-tabs {
 	display: flex;
 	gap: 0.5rem;
 	border-radius: var(--radius);
-	overflow: hidden;
 	border: 2px solid var(--border-color);
+	overflow: hidden; // Add back to ensure clean edges
 }
 
 .step-tab {
-	background: var(--bg-tertiary); // Use tertiary background for better contrast
+	background: var(--bg-tertiary); // Use tertiary background for default state
 	border: none;
 	color: var(--text-primary);
 	padding: 1rem 2rem;
@@ -20,8 +25,7 @@
 	font-weight: 500;
 	cursor: pointer;
 	flex: 1; // Equal size on desktop - all tabs get equal space
-	transition: background var(--transition), color var(--transition),
-		flex var(--transition);
+	transition: all var(--transition);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -30,16 +34,25 @@
 
 	&:hover,
 	&:focus {
-		background: var(--bg-secondary); // Use secondary background on hover
+		background: var(
+			--step-tab-active-bg
+		); // Use theme-appropriate gray for hover
 		color: var(--text-primary);
+		transform: translateY(-1px);
+	}
+
+	&:active {
+		transform: translateY(0);
 	}
 
 	&.step-tab--active {
 		background: var(
-			--bg-secondary
-		); // Use secondary background for active state
+			--step-tab-active-bg
+		); // Use theme-appropriate gray for active state
 		color: var(--text-primary);
-		// flex: 1; // Expand to fill remaining space
+		transform: none; // No transform for active state
+		position: relative;
+		font-weight: 600; // Make active tab text slightly bolder
 	}
 
 	.step-number {
@@ -77,6 +90,66 @@
 
 		&.step-tab--active {
 			flex: 1; // Active tab expands to fill remaining space on mobile
+		}
+	}
+}
+
+// Inline navigation buttons (for maps that use inline navigation instead of StepNavigationButtons component)
+.map-navigation {
+	margin-top: 2rem;
+}
+
+.navigation-buttons {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	padding: 1rem 0;
+	border-top: 1px solid var(--border-subtle);
+
+	.nav-btn {
+		flex-shrink: 0;
+		min-width: 120px;
+	}
+
+	.step-indicator {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 1rem;
+		background: var(--bg-tertiary);
+		border: 2px solid var(--border-color);
+		border-radius: var(--radius);
+		font-weight: 600;
+
+		.current-step {
+			color: var(--text-primary);
+			font-weight: 700;
+		}
+
+		.step-separator {
+			color: var(--text-secondary);
+		}
+
+		.total-steps {
+			color: var(--text-primary);
+		}
+	}
+}
+
+// Mobile responsive for navigation buttons
+@media (max-width: 768px) {
+	.navigation-buttons {
+		flex-direction: column;
+		gap: 1rem;
+
+		.nav-btn {
+			width: 100%;
+			min-width: auto;
+		}
+
+		.step-indicator {
+			order: -1; // Move step indicator to top on mobile
 		}
 	}
 }

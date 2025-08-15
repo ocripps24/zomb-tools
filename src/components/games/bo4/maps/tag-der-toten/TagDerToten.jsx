@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import StepNavigation from "../../../../common/StepNavigation";
 import MapNavigation from "../../../../common/MapNavigation";
 import SettingsPage from "../../../../common/SettingsPage";
 import FloatingCard from "../../../../common/FloatingCard";
@@ -8,25 +7,24 @@ import Button from "../../../../common/Button";
 import TotemsSection from "./sections/TotemsSection";
 import SealOfDualitySection from "./sections/SealOfDualitySection";
 import OrbLocationsSection from "./sections/OrbLocationsSection";
-import StepNavigationButtons from "../../../../common/StepNavigationButtons";
 
 const STEPS = [
 	{
 		id: "totems",
 		name: "Totems",
-		path: "totems",
+		path: "/bo4/tag-der-toten/totems",
 		component: TotemsSection,
 	},
 	{
 		id: "seal-of-duality",
 		name: "Seal of Duality",
-		path: "seal-of-duality",
+		path: "/bo4/tag-der-toten/seal-of-duality",
 		component: SealOfDualitySection,
 	},
 	{
 		id: "orb-locations",
 		name: "Orb Locations",
-		path: "orb-locations",
+		path: "/bo4/tag-der-toten/orb-locations",
 		component: OrbLocationsSection,
 	},
 ];
@@ -40,34 +38,78 @@ function TagDerToten() {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	// Get current step index
+	// Default to totems step if no specific step
 	const currentPath = location.pathname;
-	const currentStepIndex = STEPS.findIndex(
-		(step) =>
-			currentPath.endsWith(step.path) || currentPath === "/bo4/tag-der-toten"
-	);
+	const currentStepIndex = STEPS.findIndex((step) => step.path === currentPath);
 
-	// Handle redirect to first step if needed
-	useEffect(() => {
-		if (currentStepIndex === -1 && location.pathname === "/bo4/tag-der-toten") {
-			navigate(STEPS[0].path, { replace: true });
-		}
-	}, [currentStepIndex, location.pathname, navigate]);
-
-	// Active step logic
+	// Handle active step logic - consider settings page context
 	const getActiveStepIndex = () => {
-		if (currentStepIndex >= 0) {
-			return currentStepIndex;
+		// If we're on settings page, try to determine which step to highlight
+		if (currentPath === "/bo4/tag-der-toten/settings") {
+			// Check if we have navigation state indicating where we came from
+			if (location.state?.returnTo) {
+				const returnStepIndex = STEPS.findIndex(
+					(step) => step.path === location.state.returnTo
+				);
+				if (returnStepIndex >= 0) {
+					return returnStepIndex;
+				}
+			}
+			// Fallback: try to determine from the last non-settings page in session storage
+			const lastStep = sessionStorage.getItem("bo4-tag-der-toten-last-step");
+			if (lastStep) {
+				const lastStepIndex = STEPS.findIndex((step) => step.path === lastStep);
+				if (lastStepIndex >= 0) {
+					return lastStepIndex;
+				}
+			}
+			// Final fallback if on settings - return 0 (totems)
+			return 0;
+		} else {
+			// Store the current step if it's not settings and we found a valid step
+			if (currentStepIndex >= 0) {
+				sessionStorage.setItem("bo4-tag-der-toten-last-step", currentPath);
+				return currentStepIndex;
+			}
+			// If we're at the base tag der toten path, default to totems
+			if (currentPath === "/bo4/tag-der-toten") {
+				return 0;
+			}
 		}
-		// Default to first step if no match
+
+		// Default logic: if step found, use it; otherwise default to totems (index 0)
 		return 0;
 	};
 
 	const activeStepIndex = getActiveStepIndex();
+	const currentStep = STEPS[activeStepIndex];
+
+	// Load data from localStorage on component mount
+	useEffect(() => {
+		const savedTotemsData = localStorage.getItem("tag-der-toten-totems-data");
+		const savedSealData = localStorage.getItem("tag-der-toten-seal-data");
+		const savedOrbData = localStorage.getItem("tag-der-toten-orb-data");
+
+		if (savedTotemsData) {
+			setTotemsData(JSON.parse(savedTotemsData));
+		}
+		if (savedSealData) {
+			setSealData(JSON.parse(savedSealData));
+		}
+		if (savedOrbData) {
+			setOrbData(JSON.parse(savedOrbData));
+		}
+	}, []);
 
 	// Navigation functions
-	const goToStep = (stepIndex) => {
-		navigate(STEPS[stepIndex].path);
+	const goToStep = (stepPath) => {
+		// If we're currently on settings page, we need to navigate away from settings first
+		if (currentPath.endsWith("/settings")) {
+			// Navigate to the step and close settings
+			navigate(stepPath);
+		} else {
+			navigate(stepPath);
+		}
 	};
 
 	const goToNext = () => {
@@ -140,36 +182,93 @@ function TagDerToten() {
 				/>
 
 				<div className="step-navigation">
-					<StepNavigation
-						steps={STEPS}
-						currentStep={activeStepIndex}
-						onStepChange={goToStep}
-					/>
+					<div className="step-tabs">
+						{STEPS.map((step, index) => (
+							<button
+								key={step.id}
+								onClick={() => goToStep(step.path)}
+								className={`step-tab ${
+									activeStepIndex === index ? "step-tab--active" : ""
+								}`}
+							>
+								<span className="step-number">{index + 1}</span>
+								<span className="step-name">{step.name}</span>
+							</button>
+						))}
+					</div>
 				</div>
 			</div>
 
 			<div className="map-content">
 				<Routes>
-					<Route path="/" element={<TotemsSection />} />
-					<Route path="/totems" element={<TotemsSection />} />
-					<Route path="/seal-of-duality" element={<SealOfDualitySection />} />
-					<Route path="/orb-locations" element={<OrbLocationsSection />} />
+					{/* Settings route */}
 					<Route
-						path="/settings"
+						path="settings"
 						element={<SettingsPage backTo="/bo4/tag-der-toten" />}
 					/>
-					<Route path="*" element={<TotemsSection />} />
-				</Routes>
-			</div>
 
-			<div className="map-footer">
-				<StepNavigationButtons
-					currentStepIndex={activeStepIndex}
-					totalSteps={STEPS.length}
-					onPrevious={goToPrevious}
-					onNext={goToNext}
-					stepNames={STEPS.map((step) => step.name)}
-				/>
+					{/* Default route - show TotemsSection when no sub-path */}
+					<Route
+						path="/"
+						element={
+							<TotemsSection
+								data={getStepData("totems")}
+								onChange={getStepOnChange("totems")}
+								onNext={goToNext}
+								onPrevious={goToPrevious}
+								currentStep={activeStepIndex}
+								totalSteps={STEPS.length}
+							/>
+						}
+					/>
+
+					{/* Individual step routes */}
+					{STEPS.map((step) => (
+						<Route
+							key={step.id}
+							path={step.id}
+							element={
+								<step.component
+									data={getStepData(step.id)}
+									onChange={getStepOnChange(step.id)}
+									onNext={goToNext}
+									onPrevious={goToPrevious}
+									currentStep={activeStepIndex}
+									totalSteps={STEPS.length}
+								/>
+							}
+						/>
+					))}
+				</Routes>
+
+				{/* Navigation buttons - Only show if not on settings page */}
+				{!currentPath.endsWith("/settings") && (
+					<div className="map-navigation">
+						<div className="navigation-buttons">
+							<button
+								onClick={goToPrevious}
+								disabled={activeStepIndex === 0}
+								className="btn btn-secondary nav-btn"
+							>
+								<span className="btn-text">← Previous</span>
+							</button>
+
+							<div className="step-indicator">
+								<span className="current-step">{activeStepIndex + 1}</span>
+								<span className="step-separator">of</span>
+								<span className="total-steps">{STEPS.length}</span>
+							</div>
+
+							<button
+								onClick={goToNext}
+								disabled={activeStepIndex === STEPS.length - 1}
+								className="btn btn-primary nav-btn"
+							>
+								<span className="btn-text">Next →</span>
+							</button>
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	);

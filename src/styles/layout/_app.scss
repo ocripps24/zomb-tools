@@ -69,7 +69,7 @@
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		padding: 0.75rem 1rem;
+		// Inherit padding from global .btn styles for consistent height
 		border: 2px solid var(--border-color);
 		border-radius: var(--radius);
 		background: var(--btn-secondary-bg);

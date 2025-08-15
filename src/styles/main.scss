@@ -6,10 +6,11 @@
 @use "abstracts/functions" as *;
 @use "abstracts/mixins" as *;
 
-// 2. Base - reset, typography, utilities
+// 2. Base - reset, typography, utilities, fonts
 @use "base/reset";
 @use "base/typography";
 @use "base/utilities";
+@use "base/fonts";
 
 // 3. Components - reusable UI components
 @use "components/buttons";

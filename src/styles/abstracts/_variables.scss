@@ -55,11 +55,27 @@ $font-sizes: (
 	4xl: 2.25rem,
 );
 
+// Font families
+$font-families: (
+	primary: "Oxanium",
+	fallback: (
+		-apple-system,
+		BlinkMacSystemFont,
+		"Segoe UI",
+		"Arial",
+		"Helvetica",
+		sans-serif,
+	),
+);
+
 $font-weights: (
+	thin: 200,
+	light: 300,
 	normal: 400,
 	medium: 500,
 	semibold: 600,
 	bold: 700,
+	extrabold: 800,
 );
 
 // Minimal shadows (even though we won't use them)
@@ -124,6 +140,11 @@ $z-indexes: (
 	--transition: #{map.get($transitions, base)};
 	--radius: #{map.get($radius, base)};
 	--accent-color: #{map.get($colors, gray-300)};
+	--step-tab-active-bg: #{map.get($colors, gray-700)}; // Step tab hover/active background
+
+	// Typography
+	--font-family: #{map.get($font-families, primary)},
+		#{map.get($font-families, fallback)};
 
 	// Semantic colors
 	--success-color: #{map.get($colors, success)};
@@ -164,6 +185,11 @@ $z-indexes: (
 	--transition: #{map.get($transitions, base)};
 	--radius: #{map.get($radius, base)};
 	--accent-color: #{map.get($colors, gray-600)};
+	--step-tab-active-bg: #{map.get($colors, gray-300)}; // Step tab hover/active background
+
+	// Typography
+	--font-family: #{map.get($font-families, primary)},
+		#{map.get($font-families, fallback)};
 
 	// Semantic colors
 	--success-color: #{map.get($colors, success)};
