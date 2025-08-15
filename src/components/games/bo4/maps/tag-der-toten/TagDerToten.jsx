@@ -8,24 +8,25 @@ import Button from "../../../../common/Button";
 import TotemsSection from "./sections/TotemsSection";
 import SealOfDualitySection from "./sections/SealOfDualitySection";
 import OrbLocationsSection from "./sections/OrbLocationsSection";
+import StepNavigationButtons from "../../../../common/StepNavigationButtons";
 
 const STEPS = [
 	{
 		id: "totems",
 		name: "Totems",
-		path: "/bo4/tag-der-toten/totems",
+		path: "totems",
 		component: TotemsSection,
 	},
 	{
 		id: "seal-of-duality",
 		name: "Seal of Duality",
-		path: "/bo4/tag-der-toten/seal-of-duality",
+		path: "seal-of-duality",
 		component: SealOfDualitySection,
 	},
 	{
 		id: "orb-locations",
 		name: "Orb Locations",
-		path: "/bo4/tag-der-toten/orb-locations",
+		path: "orb-locations",
 		component: OrbLocationsSection,
 	},
 ];
@@ -41,7 +42,10 @@ function TagDerToten() {
 
 	// Get current step index
 	const currentPath = location.pathname;
-	const currentStepIndex = STEPS.findIndex((step) => step.path === currentPath);
+	const currentStepIndex = STEPS.findIndex(
+		(step) =>
+			currentPath.endsWith(step.path) || currentPath === "/bo4/tag-der-toten"
+	);
 
 	// Handle redirect to first step if needed
 	useEffect(() => {
@@ -123,113 +127,53 @@ function TagDerToten() {
 	};
 
 	return (
-		<>
-			{/* Map Info - Standardized container for map metadata */}
+		<div className="map-page tag-der-toten">
 			<div className="map-info">
 				<h1 className="map-title">Tag der Toten</h1>
 			</div>
 
-			{/* Map Header - Standardized container for map navigation */}
 			<div className="map-header">
-				{/* Map Navigation - Reusable component */}
-				<MapNavigation
-					gameId="bo4"
-					mapId="tag-der-toten"
-					onReset={handleReset}
-					settingsPath="/bo4/tag-der-toten/settings"
-					currentPath={currentPath}
-				/>
+				<div className="map-nav">
+					<MapNavigation
+						backTo="/bo4"
+						settingsPath="/bo4/tag-der-toten/settings"
+						onReset={handleReset}
+					/>
+				</div>
 
-				{/* Step Navigation - Reusable component across all maps */}
-				<StepNavigation
-					steps={STEPS}
-					activeStep={activeStepIndex}
-					onStepChange={goToStep}
-				/>
+				<div className="step-navigation">
+					<StepNavigation
+						steps={STEPS}
+						currentStep={activeStepIndex}
+						onStepChange={goToStep}
+					/>
+				</div>
 			</div>
 
-			{/* Map Content - Standardized container for map-specific content */}
 			<div className="map-content">
 				<Routes>
-					{/* Settings route */}
+					<Route path="/" element={<TotemsSection />} />
+					<Route path="/totems" element={<TotemsSection />} />
+					<Route path="/seal-of-duality" element={<SealOfDualitySection />} />
+					<Route path="/orb-locations" element={<OrbLocationsSection />} />
 					<Route
-						path="settings"
-						element={
-							<SettingsPage mapId="tag-der-toten" gameId="bo4">
-								<p>Tag der Toten specific settings will be added here.</p>
-							</SettingsPage>
-						}
+						path="/settings"
+						element={<SettingsPage backTo="/bo4/tag-der-toten" />}
 					/>
-
-					{/* Step Content */}
-					{STEPS.map((step) => {
-						const StepComponent = step.component;
-						return (
-							<Route
-								key={step.id}
-								path={step.id}
-								element={
-									<FloatingCard>
-										<StepComponent
-											data={getStepData(step.id)}
-											onChange={getStepOnChange(step.id)}
-										/>
-
-										{/* Navigation Buttons */}
-										<div className="tag-der-toten__navigation">
-											<Button
-												variantType="secondary"
-												onClick={goToPrevious}
-												disabled={activeStepIndex === 0}
-											>
-												← Previous
-											</Button>
-											<Button
-												variantType="primary"
-												onClick={goToNext}
-												disabled={activeStepIndex === STEPS.length - 1}
-											>
-												Next →
-											</Button>
-										</div>
-									</FloatingCard>
-								}
-							/>
-						);
-					})}
-					{/* Default route to first step */}
-					<Route
-						path="*"
-						element={
-							<FloatingCard>
-								<TotemsSection
-									data={getStepData("totems")}
-									onChange={getStepOnChange("totems")}
-								/>
-
-								{/* Navigation Buttons */}
-								<div className="tag-der-toten__navigation">
-									<Button
-										variantType="secondary"
-										onClick={goToPrevious}
-										disabled={activeStepIndex === 0}
-									>
-										← Previous
-									</Button>
-									<Button
-										variantType="primary"
-										onClick={goToNext}
-										disabled={activeStepIndex === STEPS.length - 1}
-									>
-										Next →
-									</Button>
-								</div>
-							</FloatingCard>
-						}
-					/>
+					<Route path="*" element={<TotemsSection />} />
 				</Routes>
 			</div>
-		</>
+
+			<div className="map-footer">
+				<StepNavigationButtons
+					currentStepIndex={activeStepIndex}
+					totalSteps={STEPS.length}
+					onPrevious={goToPrevious}
+					onNext={goToNext}
+					stepNames={STEPS.map((step) => step.name)}
+				/>
+			</div>
+		</div>
 	);
 }
 

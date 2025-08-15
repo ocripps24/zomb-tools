@@ -10,11 +10,6 @@
 	@return null;
 }
 
-// Color functions
-@function color($name) {
-	@return get($colors, $name);
-}
-
 // Spacing functions
 @function space($size) {
 	@return get($spacing, $size);

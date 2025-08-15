@@ -1,23 +1,17 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface MapNavigationProps {
-	gameId: string;
-	mapId: string;
-	onReset: () => void;
+	backTo: string;
 	settingsPath: string;
-	currentPath: string;
+	onReset: () => void;
 }
 
 const MapNavigation: React.FC<MapNavigationProps> = ({
-	gameId,
-	mapId,
-	onReset,
+	backTo,
 	settingsPath,
-	currentPath,
+	onReset,
 }) => {
-	const location = useLocation();
-
 	const handleReset = () => {
 		if (
 			window.confirm(
@@ -28,18 +22,45 @@ const MapNavigation: React.FC<MapNavigationProps> = ({
 		}
 	};
 
+	// Extract game name from backTo path for display
+	const getGameName = (path: string) => {
+		if (!path || typeof path !== "string") {
+			console.warn("MapNavigation: backTo prop is invalid:", path);
+			return "Game";
+		}
+
+		const pathParts = path.split("/");
+		const gameId = pathParts[1]; // Extract "bo4" from "/bo4"
+
+		if (!gameId) {
+			console.warn("MapNavigation: Could not extract game ID from path:", path);
+			return "Game";
+		}
+
+		return gameId.toUpperCase();
+	};
+
+	// Ensure we have valid props
+	if (!backTo || !settingsPath) {
+		console.error("MapNavigation: Missing required props:", {
+			backTo,
+			settingsPath,
+		});
+		return (
+			<div className="map-nav">
+				<div className="btn btn-secondary">Navigation Error</div>
+			</div>
+		);
+	}
+
 	return (
 		<div className="map-nav">
-			<Link to={`/${gameId}`} className="btn btn-secondary">
-				<span className="btn-text">← Back to {gameId.toUpperCase()} Maps</span>
+			<Link to={backTo} className="btn btn-secondary">
+				<span className="btn-text">← Back to {getGameName(backTo)} Maps</span>
 				<span className="btn-icon">←</span>
 			</Link>
 			<div className="nav-right">
-				<Link
-					to={settingsPath}
-					state={{ returnTo: currentPath }}
-					className="btn btn-secondary settings-btn"
-				>
+				<Link to={settingsPath} className="btn btn-secondary settings-btn">
 					<span className="btn-text">⚙️ Options</span>
 					<span className="btn-icon">⚙️</span>
 				</Link>

@@ -1,78 +1,97 @@
-// Navigation bar styles (BEM naming, glassmorphism)
-
+// Navigation component styles
 .nav {
-	position: relative;
 	display: flex;
 	align-items: center;
-	gap: 2em;
-	background: var(--bg-secondary);
-	padding: 0.5em 2em;
-	z-index: 1000;
+	gap: 1rem;
+	position: relative;
+	padding: 1rem 1.5rem;
+	background: var(
+		--bg-tertiary
+	); // Use same subtle gray as header for consistency
+	border: 2px solid var(--border-color);
+	border-radius: var(--radius);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	margin-bottom: 1rem;
 
 	&__brand {
-		color: var(--text-secondary);
-		font-size: 1.25rem;
+		font-size: 1.5rem;
 		font-weight: 700;
-		padding: 0.5em 1em;
-		border-radius: 0.25rem;
-		cursor: pointer;
-		transition: background var(--transition), color var(--transition);
+		color: var(--text-primary);
+		text-decoration: none;
+		margin-right: auto;
 
 		&:hover,
 		&:focus {
-			background: var(--bg-primary);
-			color: var(--text-primary);
+			color: var(--accent-color);
 		}
 	}
 
 	&__links {
 		display: flex;
 		align-items: center;
-		gap: 1em;
+		gap: 0.5rem;
 	}
 
 	&__link {
-		background: none;
-		border: none;
-		color: var(--text-secondary);
-		font-size: 1rem;
+		background: transparent;
+		border: 2px solid transparent;
+		color: var(--text-primary);
+		padding: 0.5rem 1rem;
+		border-radius: var(--radius);
+		text-decoration: none;
 		font-weight: 500;
-		padding: 0.5em 1em;
-		border-radius: 0.25rem;
+		transition: all var(--transition);
 		cursor: pointer;
-		transition: background var(--transition), color var(--transition);
 
 		&:hover,
 		&:focus {
-			background: var(--bg-primary);
+			background: var(--bg-tertiary);
+			border-color: var(--border-color);
 			color: var(--text-primary);
 		}
 
 		&--active {
-			background: var(--bg-primary) !important;
-			color: var(--text-primary) !important;
-		}
-
-		&--theme {
-			font-size: 1.2rem;
-			padding: 0.4em 0.8em;
-
-			&:hover,
-			&:focus {
-				background: var(--bg-primary);
-				color: var(--text-primary);
-			}
+			background: var(--bg-tertiary);
+			border-color: var(--border-color);
+			color: var(--text-primary);
 		}
 	}
 
 	&__separator {
 		width: 1px;
-		height: 2em;
-		background: var(--border);
-		margin: 0 0.5em;
+		height: 2rem;
+		background: var(--border-subtle);
+		margin: 0 0.5rem;
 	}
 
 	&__spacer {
 		flex: 1;
+	}
+
+	// Theme toggle button
+	&__theme-toggle {
+		background: transparent;
+		border: 2px solid var(--border-color);
+		color: var(--text-primary);
+		padding: 0.5rem;
+		border-radius: var(--radius);
+		cursor: pointer;
+		transition: all var(--transition);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+
+		&:hover,
+		&:focus {
+			background: var(--bg-tertiary);
+			border-color: var(--border-focus);
+		}
+
+		svg {
+			width: 1.2rem;
+			height: 1.2rem;
+		}
 	}
 }

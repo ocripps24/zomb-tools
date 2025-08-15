@@ -1,39 +1,65 @@
-// Settings panel styles (BEM naming, glassmorphism)
-
+// Settings Panel component styles
 .settings-panel {
 	position: fixed;
 	top: 0;
 	right: 0;
-	width: 400px;
+	width: 100%;
+	max-width: 400px;
 	height: 100vh;
-	background: var(--bg-secondary);
-	border-left: 2px solid var(--border);
-	padding: 2rem;
-	z-index: 1001;
+	background: var(--card-bg);
+	border-left: 2px solid var(--border-color);
+	box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+	z-index: 1000;
+	transform: translateX(100%);
+	transition: transform var(--transition);
 	overflow-y: auto;
 
+	&--open {
+		transform: translateX(0);
+	}
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1.5rem;
+		border-bottom: 1px solid var(--border-subtle);
+	}
+
+	&__title {
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: var(--text-primary);
+		margin: 0;
+	}
+
 	&__close {
-		position: absolute;
-		top: 1rem;
-		right: 1rem;
-		background: none;
-		border: 2px solid var(--border);
-		color: var(--text-secondary);
-		width: 2.5rem;
-		height: 2.5rem;
-		border-radius: 0.25rem;
-		font-size: 1.5rem;
-		font-weight: bold;
+		background: transparent;
+		border: 2px solid var(--border-color);
+		color: var(--text-primary);
+		padding: 0.5rem;
+		border-radius: var(--radius);
 		cursor: pointer;
+		transition: all var(--transition);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		transition: background var(--transition), color var(--transition);
+		width: 2.5rem;
+		height: 2.5rem;
 
 		&:hover,
 		&:focus {
-			background: var(--bg-primary);
-			color: var(--text-primary);
+			background: var(--bg-tertiary);
+			border-color: var(--border-focus);
 		}
+
+		svg {
+			width: 1.2rem;
+			height: 1.2rem;
+		}
+	}
+
+	&__content {
+		padding: 1.5rem;
 	}
 }

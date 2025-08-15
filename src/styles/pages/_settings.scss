@@ -14,7 +14,7 @@
 	margin-bottom: space(3xl);
 
 	h2 {
-		color: color(primary);
+		color: var(--text-primary);
 		margin: 0;
 	}
 
@@ -39,14 +39,14 @@
 	gap: space(lg);
 
 	h3 {
-		color: color(text-primary);
+		color: var(--text-primary);
 		margin: 0;
 		font-size: font-size(xl);
 	}
 }
 
 .settings-description {
-	color: color(text-secondary);
+	color: var(--text-secondary);
 	font-size: font-size(base);
 	margin: 0;
 }
@@ -55,7 +55,7 @@
 	@include card;
 
 	h4 {
-		color: color(text-primary);
+		color: var(--text-primary);
 		margin: 0 0 space(lg) 0;
 		font-size: font-size(lg);
 	}
@@ -72,35 +72,35 @@
 
 	label {
 		font-weight: font-weight(medium);
-		color: color(text-primary);
+		color: var(--text-primary);
 		font-size: font-size(base);
 	}
 }
 
 .setting-select {
 	padding: space(md);
-	border: 1px solid color(border);
+	border: 1px solid var(--border-color);
 	border-radius: radius(base);
-	background-color: color(background);
-	color: color(text-primary);
+	background-color: var(--input-bg);
+	color: var(--text-primary);
 	font-size: font-size(base);
 	transition: transition(base);
 
 	&:focus {
 		outline: none;
-		border-color: color(border-focus);
+		border-color: var(--border-focus);
 		box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 	}
 
 	&:disabled {
 		opacity: 0.6;
 		cursor: not-allowed;
-		background-color: color(surface);
+		background-color: var(--card-bg);
 	}
 }
 
 .setting-note {
 	font-size: font-size(sm);
-	color: color(text-secondary);
+	color: var(--text-secondary);
 	font-style: italic;
 }

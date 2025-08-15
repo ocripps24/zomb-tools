@@ -4,10 +4,10 @@
 
 // Button components
 .btn {
-	background: var(--bg-primary);
-	border: 2px solid var(--border);
-	color: var(--text-primary);
-	border-radius: 0.25rem;
+	background: var(--btn-secondary-bg);
+	border: 2px solid var(--border-color);
+	color: var(--btn-secondary-text);
+	border-radius: var(--radius);
 	padding: 0.75rem 1.5rem;
 	font-size: 1rem;
 	font-weight: 500;
@@ -19,9 +19,9 @@
 
 	&:hover,
 	&:focus {
-		background: var(--bg-secondary);
-		border-color: var(--border);
-		color: var(--text-secondary);
+		background: var(--btn-primary-bg);
+		border-color: var(--border-color);
+		color: var(--btn-primary-text);
 		transform: translateY(-1px);
 	}
 
@@ -30,42 +30,42 @@
 	}
 
 	&:disabled {
-		background: #ccc;
-		border-color: #ccc;
-		color: #666;
+		background: var(--bg-tertiary);
+		border-color: var(--border-subtle);
+		color: var(--text-muted);
 		cursor: not-allowed;
 		transform: none;
 	}
 
 	&--primary {
-		background: var(--bg-primary);
-		border-color: var(--border);
-		color: var(--text-primary);
+		background: var(--btn-primary-bg);
+		border-color: var(--border-color);
+		color: var(--btn-primary-text);
 
 		&:hover,
 		&:focus {
-			background: var(--bg-secondary);
-			border-color: var(--border);
-			color: var(--text-secondary);
+			background: var(--btn-secondary-bg);
+			border-color: var(--border-color);
+			color: var(--btn-secondary-text);
 		}
 	}
 
 	&--secondary {
-		background: var(--bg-secondary);
-		border-color: var(--border);
-		color: var(--text-secondary);
+		background: var(--btn-secondary-bg);
+		border-color: var(--border-color);
+		color: var(--btn-secondary-text);
 
 		&:hover,
 		&:focus {
-			background: var(--bg-primary);
-			color: var(--text-primary);
+			background: var(--btn-primary-bg);
+			color: var(--btn-primary-text);
 		}
 	}
 
 	&--danger {
-		background: #dc3545;
-		border-color: #dc3545;
-		color: #fff;
+		background: var(--danger-color);
+		border-color: var(--danger-color);
+		color: var(--white);
 
 		&:hover,
 		&:focus {
@@ -83,32 +83,32 @@
 .symbol-btn {
 	@include touch-target(52px);
 	@include flex-center;
-	border: 2px solid color(border);
+	border: 2px solid var(--border-color);
 	border-radius: radius(base);
-	background-color: color(background);
-	color: color(text-secondary);
+	background-color: var(--bg-primary);
+	color: var(--text-secondary);
 	cursor: pointer;
 	transition: transition(base);
 	padding: space(sm);
 
 	&:hover:not(:disabled):not(.symbol-btn--faded) {
-		border-color: color(primary);
-		color: color(primary);
-		background-color: color(surface);
+		border-color: var(--accent-color);
+		color: var(--accent-color);
+		background-color: var(--card-bg);
 	}
 
 	&--selected {
-		border-color: color(primary);
+		border-color: var(--accent-color);
 		// border-width: 3px;
 		background-color: transparent;
-		color: color(primary);
+		color: var(--accent-color);
 	}
 
 	&--disabled {
 		opacity: 0.4;
 		cursor: not-allowed;
-		border-color: color(border);
-		color: color(text-secondary);
+		border-color: var(--border-color);
+		color: var(--text-secondary);
 	}
 
 	&--faded {
@@ -127,21 +127,21 @@
 .catalyst-btn {
 	@include button-base;
 	@include touch-target;
-	background-color: color(background);
-	color: color(text-primary);
-	border: 1px solid color(border);
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
+	border: 1px solid var(--border-color);
 	font-size: font-size(sm);
 	font-weight: font-weight(medium);
 
 	&:hover:not(:disabled) {
-		border-color: color(primary);
-		color: color(primary);
-		background-color: color(surface);
+		border-color: var(--accent-color);
+		color: var(--accent-color);
+		background-color: var(--card-bg);
 	}
 
 	&--selected {
-		border-color: color(primary);
-		background-color: color(primary);
+		border-color: var(--accent-color);
+		background-color: var(--accent-color);
 		color: white;
 		font-weight: font-weight(semibold);
 	}
@@ -173,79 +173,151 @@
 .movement-btn {
 	@include button-base;
 	padding: space(xs) space(xs);
-	border: 1px solid color(border);
-	background-color: color(background);
-	color: color(text-primary);
+	border: 1px solid var(--border-color);
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
 	font-size: font-size(sm);
 	font-weight: font-weight(medium);
-	min-width: 25px;
-	text-align: center;
+	min-width: 44px;
+	min-height: 44px;
 
-	&:hover:not(.movement-btn--selected) {
-		border-color: color(primary);
-		color: color(primary);
-		background-color: color(surface);
+	&:hover:not(:disabled) {
+		border-color: var(--accent-color);
+		color: var(--accent-color);
+		background-color: var(--card-bg);
+	}
+
+	&:focus-visible {
+		outline: none;
+		box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+	}
+
+	&--disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+		border-color: var(--border-color);
+		color: var(--text-secondary);
 	}
 
 	&--selected {
-		border-color: color(primary);
-		background-color: color(primary);
+		border-color: var(--accent-color);
+		background-color: var(--accent-color);
 		color: white;
 		font-weight: font-weight(semibold);
 	}
 
+	// Mobile movement button content
+	&__full {
+		@include mobile {
+			display: none;
+		}
+	}
+
+	&__short {
+		display: none;
+
+		@include mobile {
+			display: block;
+		}
+	}
+
 	@include mobile {
-		min-width: 25px;
-		padding: space(xs) space(xs);
+		padding: space(xs);
+		gap: space(xs);
 		font-size: font-size(xs);
+		min-width: 40px;
+		min-height: 40px;
 	}
 }
 
-// Switch button for mobile navigation
-.switch-btn {
-	padding: space(sm) space(md);
-	border: 1px solid color(border);
-	border-radius: radius(base);
-	background-color: color(surface);
-	color: color(text-primary);
-	cursor: pointer;
-	transition: transition(base);
+// Preference buttons
+.preference-btn {
+	@include button-base;
+	@include touch-target;
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
+	border: 1px solid var(--border-color);
 	font-size: font-size(sm);
 	font-weight: font-weight(medium);
 
-	&:hover {
-		border-color: color(primary);
-		color: color(primary);
-		background-color: color(background);
+	&:hover:not(:disabled) {
+		border-color: var(--accent-color);
+		color: var(--accent-color);
+		background-color: var(--card-bg);
+	}
+
+	&--selected {
+		border-color: var(--accent-color);
+		background-color: var(--accent-color);
+		color: white;
+		font-weight: font-weight(semibold);
+	}
+
+	// Mobile preference button content
+	&__full {
+		@include mobile {
+			display: none;
+		}
+	}
+
+	&__short {
+		display: none;
+
+		@include mobile {
+			display: block;
+		}
 	}
 
 	@include mobile {
+		padding: space(sm) space(xs);
+		gap: space(xs);
 		font-size: font-size(xs);
-		padding: space(xs) space(sm);
+		min-height: 40px;
 	}
 }
 
-// Stepper buttons
-.stepper-btn {
-	@include flex-center;
-	@include touch-target(32px);
-	border: 1px solid color(border);
-	border-radius: radius(base);
-	background-color: color(background);
-	color: color(text-primary);
-	cursor: pointer;
-	transition: transition(base);
+// Time input buttons
+.time-input-btn {
+	@include button-base;
+	@include touch-target;
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
+	border: 1px solid var(--border-color);
+	font-size: font-size(sm);
 	font-weight: font-weight(medium);
-	font-size: font-size(lg);
 
 	&:hover:not(:disabled) {
-		border-color: color(primary);
-		color: color(primary);
-		background-color: color(surface);
+		border-color: var(--accent-color);
+		color: var(--accent-color);
+		background-color: var(--card-bg);
 	}
 
-	&:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
+	&--selected {
+		border-color: var(--accent-color);
+		background-color: var(--accent-color);
+		color: white;
+		font-weight: font-weight(semibold);
+	}
+
+	// Mobile time input button content
+	&__full {
+		@include mobile {
+			display: none;
+		}
+	}
+
+	&__short {
+		display: none;
+
+		@include mobile {
+			display: block;
+		}
+	}
+
+	@include mobile {
+		padding: space(sm) space(xs);
+		gap: space(xs);
+		font-size: font-size(xs);
+		min-height: 40px;
 	}
 }

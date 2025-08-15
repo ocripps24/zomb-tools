@@ -1,5 +1,4 @@
 @use "../abstracts/variables" as *;
-@use "../abstracts/functions" as *;
 @use "../abstracts/mixins" as *;
 
 .not-found-container {
@@ -12,8 +11,8 @@
 	padding: space(3xl);
 	background: linear-gradient(
 		135deg,
-		color(primary-light) 0%,
-		color(primary) 100%
+		var(--accent-color) 0%,
+		var(--text-primary) 100%
 	);
 	border-radius: radius(base);
 	margin: space(xl) 0;

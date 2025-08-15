@@ -28,18 +28,18 @@
 	margin-bottom: space(lg);
 
 	h3 {
-		color: color(primary);
+		color: var(--text-primary);
 		margin-bottom: 0;
 	}
 }
 
 .section-status {
-	background-color: color(surface);
+	background-color: var(--card-bg);
 	padding: space(xs) space(md);
 	border-radius: radius(full);
 	font-size: font-size(sm);
-	color: color(text-secondary);
-	border: 1px solid color(border);
+	color: var(--text-secondary);
+	border: 1px solid var(--border-color);
 }
 
 // Responsive section titles and status
@@ -75,22 +75,22 @@
 }
 
 .clock-location {
-	background-color: color(background);
-	border: 1px solid color(border);
+	background-color: var(--bg-primary);
+	border: 1px solid var(--border-color);
 	border-radius: radius(base);
 	padding: space(2xl);
 	transition: transition(base);
 
 	@include mobile {
 		border: 0;
-		border-bottom: 1px solid color(border);
+		border-bottom: 1px solid var(--border-color);
 		border-radius: 0;
 		padding: 0; // Smaller padding on mobile
 	}
 
 	&--active {
-		border-color: color(primary);
-		background-color: color(surface);
+		border-color: var(--accent-color);
+		background-color: var(--card-bg);
 	}
 
 	&-header {
@@ -108,7 +108,7 @@
 
 		h4 {
 			margin: 0;
-			color: color(text-primary);
+			color: var(--text-primary);
 			font-size: font-size(xl);
 
 			@include mobile {
@@ -144,16 +144,16 @@
 }
 
 .outlet-location {
-	border: 1px solid color(border);
+	border: 1px solid var(--border-color);
 	border-radius: radius(base);
 	padding: space(lg);
-	background-color: color(surface);
+	background-color: var(--card-bg);
 	transition: transition(base);
 
 	&--selected {
-		border-color: color(primary);
-		background-color: color(background);
-		box-shadow: 0 0 0 1px color(primary);
+		border-color: var(--accent-color);
+		background-color: var(--bg-primary);
+		box-shadow: 0 0 0 1px var(--accent-color);
 	}
 
 	&--disabled {
@@ -163,7 +163,7 @@
 
 	&-title {
 		margin: 0 0 space(lg) 0;
-		color: color(text-primary);
+		color: var(--text-primary);
 		font-size: font-size(base);
 		text-align: center;
 	}
@@ -209,23 +209,23 @@
 .planet-item {
 	@include flex-center;
 	padding: space(lg);
-	background-color: color(surface);
-	border: 1px solid color(border);
+	background-color: var(--card-bg);
+	border: 1px solid var(--border-color);
 	border-radius: radius(base);
 	cursor: pointer;
 	transition: transition(base);
 	font-weight: font-weight(medium);
 
 	&:hover {
-		background-color: color(background);
-		border-color: color(primary);
-		color: color(primary);
+		background-color: var(--bg-primary);
+		border-color: var(--accent-color);
+		color: var(--accent-color);
 	}
 
 	&--selected {
-		background-color: color(primary);
+		background-color: var(--accent-color);
 		color: white;
-		border-color: color(primary);
+		border-color: var(--accent-color);
 	}
 
 	@include mobile {
@@ -240,7 +240,7 @@
 
 	h4 {
 		margin: 0 0 space(lg) 0;
-		color: color(text-primary);
+		color: var(--text-primary);
 		font-size: font-size(base);
 	}
 }
@@ -249,17 +249,17 @@
 .planet-btn {
 	@include button-base;
 	padding: space(md) space(lg);
-	border: 1px solid color(border);
-	background-color: color(background);
-	color: color(text-primary);
+	border: 1px solid var(--border-color);
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
 	font-size: font-size(sm);
 	font-weight: font-weight(medium);
 	transition: transition(base);
 
 	&:hover {
-		border-color: color(primary);
-		color: color(primary);
-		background-color: color(surface);
+		border-color: var(--accent-color);
+		color: var(--accent-color);
+		background-color: var(--card-bg);
 	}
 
 	@include mobile {
@@ -274,7 +274,7 @@
 
 	h4 {
 		margin: 0 0 space(lg) 0;
-		color: color(text-primary);
+		color: var(--text-primary);
 		font-size: font-size(base);
 	}
 
@@ -286,8 +286,8 @@
 	&-item {
 		@include flex-between;
 		padding: space(md);
-		background-color: color(background);
-		border: 1px solid color(border);
+		background-color: var(--bg-primary);
+		border: 1px solid var(--border-color);
 		border-radius: radius(base);
 		user-select: none;
 		-webkit-user-select: none;
@@ -298,7 +298,7 @@
 			opacity transition(base);
 
 		&:hover {
-			border-color: color(primary);
+			border-color: var(--accent-color);
 			box-shadow: shadow(sm);
 		}
 
@@ -319,7 +319,7 @@
 		.step-number {
 			@include flex-center;
 			@include touch-target(32px);
-			background-color: color(primary);
+			background-color: var(--accent-color);
 			color: white;
 			border-radius: radius(full);
 			font-weight: font-weight(semibold);
@@ -334,7 +334,7 @@
 
 		.drag-handle {
 			cursor: grab;
-			color: color(text-secondary);
+			color: var(--text-secondary);
 			padding: space(xs);
 			background: none;
 			border: none;
@@ -348,16 +348,16 @@
 			transition: transition(base);
 
 			&:hover {
-				color: color(primary);
+				color: var(--accent-color);
 			}
 
 			&:active {
 				cursor: grabbing;
-				color: color(primary);
+				color: var(--accent-color);
 			}
 
 			&:focus {
-				outline: 2px solid color(primary);
+				outline: 2px solid var(--accent-color);
 				outline-offset: 2px;
 			}
 
@@ -379,7 +379,7 @@
 .planet-number {
 	@include flex-center;
 	@include touch-target(32px);
-	background-color: color(primary);
+	background-color: var(--accent-color);
 	color: white;
 	border-radius: radius(full);
 	font-weight: font-weight(semibold);
@@ -397,7 +397,7 @@
 
 .planet-name {
 	font-weight: font-weight(medium);
-	color: color(text-primary);
+	color: var(--text-primary);
 	font-size: font-size(base);
 
 	@include mobile {
@@ -412,7 +412,7 @@
 
 .delete-btn {
 	@include flex-center;
-	background-color: color(danger);
+	background-color: var(--danger-color);
 	color: white;
 	border: none;
 	border-radius: radius(full);
@@ -454,13 +454,13 @@
 .portal-order {
 	margin-top: space(3xl);
 	padding: space(2xl);
-	border: 1px solid color(border);
+	border: 1px solid var(--border-color);
 	border-radius: radius(base);
-	background-color: color(surface);
+	background-color: var(--card-bg);
 
 	h4 {
 		margin: 0 0 space(lg) 0;
-		color: color(text-primary);
+		color: var(--text-primary);
 		font-size: font-size(base);
 	}
 
@@ -474,13 +474,13 @@
 		align-items: center;
 		gap: space(md);
 		padding: space(md) space(lg);
-		background-color: color(background);
-		border: 1px solid color(border);
+		background-color: var(--bg-primary);
+		border: 1px solid var(--border-color);
 		border-radius: radius(base);
 		transition: transition(base);
 
 		&--assigned {
-			border-color: color(success);
+			border-color: var(--success-color);
 			background-color: #f0fdf4;
 		}
 	}
@@ -489,7 +489,7 @@
 .portal-step {
 	@include flex-center;
 	@include touch-target(32px);
-	background-color: color(primary);
+	background-color: var(--accent-color);
 	color: white;
 	border: 2px solid white;
 	border-radius: radius(full);
@@ -502,7 +502,7 @@
 .portal-location {
 	font-size: font-size(lg);
 	font-weight: font-weight(semibold);
-	color: color(text-primary);
+	color: var(--text-primary);
 	flex: 1;
 	text-align: left;
 
@@ -514,7 +514,7 @@
 .portal-catalyst {
 	font-weight: font-weight(semibold);
 	font-size: font-size(base);
-	color: color(text-primary);
+	color: var(--text-primary);
 	text-align: right;
 	flex-shrink: 0;
 
@@ -526,7 +526,7 @@
 // Clear button for planets
 .clear-btn {
 	margin-top: space(lg);
-	background-color: color(danger);
+	background-color: var(--danger-color);
 	color: white;
 	border: none;
 
@@ -539,19 +539,19 @@
 .clock-helper {
 	margin-top: space(3xl);
 	padding: space(2xl);
-	border: 1px solid color(border);
+	border: 1px solid var(--border-color);
 	border-radius: radius(base);
-	background-color: color(surface);
+	background-color: var(--card-bg);
 
 	h4 {
 		margin: 0 0 space(lg) 0;
-		color: color(text-primary);
+		color: var(--text-primary);
 		font-size: font-size(2xl);
 	}
 
 	.helper-description {
 		margin-bottom: space(2xl);
-		color: color(text-secondary);
+		color: var(--text-secondary);
 		font-size: font-size(sm);
 	}
 }
@@ -564,7 +564,7 @@
 .helper-location {
 	h5 {
 		margin: 0 0 space(lg) 0;
-		color: color(text-primary);
+		color: var(--text-primary);
 		font-size: font-size(base);
 		font-weight: font-weight(semibold);
 	}
@@ -600,7 +600,7 @@
 
 	.lever-position {
 		font-weight: font-weight(medium);
-		color: color(text-primary);
+		color: var(--text-primary);
 		font-size: font-size(sm);
 		text-align: center;
 	}
@@ -611,17 +611,17 @@
 	align-items: center;
 	gap: space(sm);
 	padding: space(md);
-	border: 1px solid color(border);
+	border: 1px solid var(--border-color);
 	border-radius: radius(base);
-	background-color: color(surface);
+	background-color: var(--card-bg);
 	min-width: 60px;
 
 	&--available {
-		border-color: color(success);
+		border-color: var(--success-color);
 		background-color: #f0fdf4;
 
 		.helper-data {
-			color: color(success);
+			color: var(--success-color);
 		}
 	}
 
@@ -630,7 +630,7 @@
 		border-style: dashed;
 
 		.helper-data {
-			color: color(text-secondary);
+			color: var(--text-secondary);
 		}
 	}
 
@@ -641,7 +641,7 @@
 	.helper-data {
 		font-weight: font-weight(semibold);
 		font-size: font-size(lg);
-		color: color(text-primary);
+		color: var(--text-primary);
 		text-align: center;
 	}
 }
@@ -650,13 +650,13 @@
 .clock-preferences {
 	margin-top: space(3xl);
 	padding: space(2xl);
-	border: 1px solid color(border);
+	border: 1px solid var(--border-color);
 	border-radius: radius(base);
-	background-color: color(surface);
+	background-color: var(--card-bg);
 
 	h4 {
 		margin: 0 0 space(lg) 0;
-		color: color(text-primary);
+		color: var(--text-primary);
 		font-size: font-size(base);
 	}
 }

@@ -18,6 +18,7 @@
 @use "components/cards";
 @use "components/nav";
 @use "components/step-navigation";
+@use "components/step-navigation-buttons";
 @use "components/settings-panel";
 @use "components/settings-page";
 
@@ -32,36 +33,6 @@
 @use "pages/game-selection";
 @use "pages/terminus";
 @use "pages/tag-der-toten";
-
-// Legacy CSS custom properties for backwards compatibility with existing components
-:root {
-	--primary-color: #{color(primary)};
-	--secondary-color: #{color(secondary)};
-	--success-color: #{color(success)};
-	--warning-color: #{color(warning)};
-	--danger-color: #{color(danger)};
-	--background: #{color(background)};
-	--surface: #{color(surface)};
-	--border-color: #{color(border)};
-	--border-focus: #{color(border-focus)};
-
-	// Additional variables for existing components
-	--card-bg: #{color(surface)};
-	--input-bg: #{color(background)};
-	--text-color: #{color(text-primary)};
-	--text-muted: #{color(text-secondary)};
-	--hover-bg: rgba(100, 116, 139, 0.1);
-
-	// Success theme
-	--success-bg: rgba(22, 163, 74, 0.1);
-	--success-border: rgba(22, 163, 74, 0.2);
-	--success-light-bg: rgba(22, 163, 74, 0.05);
-
-	// Info theme
-	--info-bg: rgba(37, 99, 235, 0.1);
-	--info-border: rgba(37, 99, 235, 0.2);
-	--info-color: #{color(primary)};
-}
 
 html,
 body {

@@ -1,21 +1,19 @@
-// Step navigation styles (matching Voyage structure)
-
+// Step Navigation component styles
 .step-navigation {
-	display: flex;
-	border: 1px solid #fff;
-	margin: 2rem 0;
+	margin-bottom: 2rem;
 }
 
 .step-tabs {
 	display: flex;
-	width: 100%;
 	gap: 0.5rem;
-	padding: 0.5rem;
+	border-radius: var(--radius);
+	overflow: hidden;
+	border: 2px solid var(--border-color);
 }
 
 .step-tab {
-	background: none;
-	border: 1px solid #fff;
+	background: var(--bg-secondary);
+	border: none;
 	color: var(--text-primary);
 	padding: 1rem 2rem;
 	font-size: 1rem;
@@ -32,13 +30,13 @@
 
 	&:hover,
 	&:focus {
-		background: var(--bg-secondary);
-		color: var(--text-secondary);
+		background: var(--bg-tertiary);
+		color: var(--text-primary);
 	}
 
 	&.step-tab--active {
-		background: var(--bg-secondary);
-		color: var(--text-secondary);
+		background: var(--bg-tertiary);
+		color: var(--text-primary);
 		// flex: 1; // Expand to fill remaining space
 	}
 
@@ -61,19 +59,22 @@
 
 // Mobile responsive behavior
 @media (max-width: 768px) {
+	.step-tabs {
+		flex-direction: column;
+	}
+
 	.step-tab {
-		flex: 0 1 auto; // Don't expand by default on mobile
+		justify-content: center;
+		padding: 1rem;
+
+		&:not(.step-tab--active) {
+			.step-name {
+				display: none; // Hide step names on inactive tabs on mobile
+			}
+		}
 
 		&.step-tab--active {
-			flex: 1; // Expand to fill remaining space on mobile
-		}
-
-		.step-name {
-			display: none; // Hide step names on mobile for inactive tabs
-		}
-
-		&.step-tab--active .step-name {
-			display: block; // Show step name only for active tab on mobile
+			flex: 1; // Active tab expands to fill remaining space on mobile
 		}
 	}
 }

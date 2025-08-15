@@ -1,5 +1,4 @@
 @use "../abstracts/variables" as *;
-@use "../abstracts/functions" as *;
 @use "../abstracts/mixins" as *;
 
 // Typography styles
@@ -94,19 +93,19 @@ p {
 
 // Text color utilities
 .text-primary {
-	color: color(text-primary);
+	color: var(--text-primary);
 }
 .text-secondary {
-	color: color(text-secondary);
+	color: var(--text-secondary);
 }
 .text-success {
-	color: color(success);
+	color: var(--success-color);
 }
 .text-warning {
-	color: color(warning);
+	color: var(--warning-color);
 }
 .text-danger {
-	color: color(danger);
+	color: var(--danger-color);
 }
 
 // Text alignment utilities

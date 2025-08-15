@@ -1,35 +1,144 @@
 @use "../abstracts/variables" as *;
-@use "../abstracts/functions" as *;
 @use "../abstracts/mixins" as *;
+
+// Display utilities
+.block {
+	display: block;
+}
+.inline {
+	display: inline;
+}
+.inline-block {
+	display: inline-block;
+}
+.flex {
+	display: flex;
+}
+.inline-flex {
+	display: inline-flex;
+}
+.grid {
+	display: grid;
+}
+.inline-grid {
+	display: inline-grid;
+}
+.hidden {
+	display: none;
+}
+
+// Flex utilities
+.flex-row {
+	flex-direction: row;
+}
+.flex-row-reverse {
+	flex-direction: row-reverse;
+}
+.flex-col {
+	flex-direction: column;
+}
+.flex-col-reverse {
+	flex-direction: column-reverse;
+}
+.flex-wrap {
+	flex-wrap: wrap;
+}
+.flex-nowrap {
+	flex-wrap: nowrap;
+}
+.flex-wrap-reverse {
+	flex-wrap: wrap-reverse;
+}
+
+// Flex grow/shrink
+.flex-1 {
+	flex: 1 1 0%;
+}
+.flex-auto {
+	flex: 1 1 auto;
+}
+.flex-initial {
+	flex: 0 1 auto;
+}
+.flex-none {
+	flex: none;
+}
+
+// Flex justify content
+.justify-start {
+	justify-content: flex-start;
+}
+.justify-end {
+	justify-content: flex-end;
+}
+.justify-center {
+	justify-content: center;
+}
+.justify-between {
+	justify-content: space-between;
+}
+.justify-around {
+	justify-content: space-around;
+}
+.justify-evenly {
+	justify-content: space-evenly;
+}
+
+// Flex align items
+.items-start {
+	align-items: flex-start;
+}
+.items-end {
+	align-items: flex-end;
+}
+.items-center {
+	align-items: center;
+}
+.items-baseline {
+	align-items: baseline;
+}
+.items-stretch {
+	align-items: stretch;
+}
+
+// Grid utilities
+.grid-cols-1 {
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+.grid-cols-2 {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.grid-cols-3 {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.grid-cols-4 {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.grid-cols-5 {
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.grid-cols-6 {
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.grid-cols-12 {
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+// Gap utilities
+@each $name, $value in $spacing {
+	.gap-#{$name} {
+		gap: $value;
+	}
+	.gap-x-#{$name} {
+		column-gap: $value;
+	}
+	.gap-y-#{$name} {
+		row-gap: $value;
+	}
+}
 
 // Spacing utilities
 @each $name, $value in $spacing {
-	// Margin utilities
-	.m-#{$name} {
-		margin: $value;
-	}
-	.mt-#{$name} {
-		margin-top: $value;
-	}
-	.mr-#{$name} {
-		margin-right: $value;
-	}
-	.mb-#{$name} {
-		margin-bottom: $value;
-	}
-	.ml-#{$name} {
-		margin-left: $value;
-	}
-	.mx-#{$name} {
-		margin-left: $value;
-		margin-right: $value;
-	}
-	.my-#{$name} {
-		margin-top: $value;
-		margin-bottom: $value;
-	}
-
-	// Padding utilities
 	.p-#{$name} {
 		padding: $value;
 	}
@@ -53,186 +162,115 @@
 		padding-top: $value;
 		padding-bottom: $value;
 	}
-}
 
-// Margin auto utilities
-.m-auto {
-	margin: auto;
-}
-.mx-auto {
-	margin-left: auto;
-	margin-right: auto;
-}
-.my-auto {
-	margin-top: auto;
-	margin-bottom: auto;
-}
-.mt-auto {
-	margin-top: auto;
-}
-.mr-auto {
-	margin-right: auto;
-}
-.mb-auto {
-	margin-bottom: auto;
-}
-.ml-auto {
-	margin-left: auto;
-}
-
-// Grid utilities
-.grid-1 {
-	@include grid(1);
-}
-.grid-2 {
-	@include grid(2);
-}
-.grid-3 {
-	@include grid(3);
-}
-.grid-4 {
-	@include grid(4);
-}
-
-@include mobile {
-	.grid-2,
-	.grid-3,
-	.grid-4 {
-		grid-template-columns: 1fr;
+	.m-#{$name} {
+		margin: $value;
+	}
+	.mt-#{$name} {
+		margin-top: $value;
+	}
+	.mr-#{$name} {
+		margin-right: $value;
+	}
+	.mb-#{$name} {
+		margin-bottom: $value;
+	}
+	.ml-#{$name} {
+		margin-left: $value;
+	}
+	.mx-#{$name} {
+		margin-left: $value;
+		margin-right: $value;
+	}
+	.my-#{$name} {
+		margin-top: $value;
+		margin-bottom: $value;
 	}
 }
 
-// Responsive grid utilities
-.responsive-grid-2 {
-	@include responsive-grid(1, 2, 2);
+// Text utilities
+.text-left {
+	text-align: left;
 }
-.responsive-grid-3 {
-	@include responsive-grid(1, 2, 3);
+.text-center {
+	text-align: center;
 }
-.responsive-grid-4 {
-	@include responsive-grid(1, 2, 4);
+.text-right {
+	text-align: right;
 }
-
-// Flex utilities
-.flex {
-	display: flex;
-}
-.flex-column {
-	@include flex-column;
-}
-.flex-center {
-	@include flex-center;
-}
-.flex-between {
-	@include flex-between;
-}
-.flex-start {
-	display: flex;
-	align-items: flex-start;
-}
-.flex-end {
-	display: flex;
-	align-items: flex-end;
-}
-.justify-center {
-	justify-content: center;
-}
-.justify-between {
-	justify-content: space-between;
-}
-.justify-start {
-	justify-content: flex-start;
-}
-.justify-end {
-	justify-content: flex-end;
-}
-.items-center {
-	align-items: center;
-}
-.items-start {
-	align-items: flex-start;
-}
-.items-end {
-	align-items: flex-end;
-}
-.flex-wrap {
-	flex-wrap: wrap;
-}
-.flex-nowrap {
-	flex-wrap: nowrap;
-}
-.flex-1 {
-	flex: 1;
+.text-justify {
+	text-align: justify;
 }
 
-// Display utilities
-.hidden {
-	display: none;
-}
-.block {
-	display: block;
-}
-.inline {
-	display: inline;
-}
-.inline-block {
-	display: inline-block;
+// Font size utilities
+@each $name, $value in $font-sizes {
+	.text-#{$name} {
+		font-size: $value;
+	}
 }
 
-// Position utilities
-.relative {
-	position: relative;
-}
-.absolute {
-	position: absolute;
-}
-.fixed {
-	position: fixed;
-}
-.sticky {
-	position: sticky;
+// Font weight utilities
+@each $name, $value in $font-weights {
+	.font-#{$name} {
+		font-weight: $value;
+	}
 }
 
-// Size utilities
-.w-full {
-	width: 100%;
+// Text color utilities
+.text-primary {
+	color: var(--text-primary);
 }
-.h-full {
-	height: 100%;
+.text-secondary {
+	color: var(--text-secondary);
 }
-.w-auto {
-	width: auto;
+.text-muted {
+	color: var(--text-muted);
 }
-.h-auto {
-	height: auto;
+.text-success {
+	color: var(--success-color);
+}
+.text-warning {
+	color: var(--warning-color);
+}
+.text-danger {
+	color: var(--danger-color);
 }
 
-// Overflow utilities
-.overflow-hidden {
-	overflow: hidden;
+// Background color utilities
+.bg-primary {
+	background-color: var(--bg-primary);
 }
-.overflow-auto {
-	overflow: auto;
+.bg-secondary {
+	background-color: var(--bg-secondary);
 }
-.overflow-scroll {
-	overflow: scroll;
+.bg-tertiary {
+	background-color: var(--bg-tertiary);
+}
+.bg-success {
+	background-color: var(--success-color);
+}
+.bg-warning {
+	background-color: var(--warning-color);
+}
+.bg-danger {
+	background-color: var(--danger-color);
 }
 
 // Border utilities
 .border {
-	border: 1px solid color(border);
+	border: 1px solid var(--border-color);
 }
 .border-t {
-	border-top: 1px solid color(border);
+	border-top: 1px solid var(--border-color);
 }
 .border-r {
-	border-right: 1px solid color(border);
+	border-right: 1px solid var(--border-color);
 }
 .border-b {
-	border-bottom: 1px solid color(border);
+	border-bottom: 1px solid var(--border-color);
 }
 .border-l {
-	border-left: 1px solid color(border);
+	border-left: 1px solid var(--border-color);
 }
 .border-none {
 	border: none;
@@ -250,32 +288,6 @@
 	.shadow-#{$name} {
 		box-shadow: $value;
 	}
-}
-
-// Background utilities
-.bg-transparent {
-	background-color: transparent;
-}
-.bg-primary {
-	background-color: color(primary);
-}
-.bg-secondary {
-	background-color: color(secondary);
-}
-.bg-success {
-	background-color: color(success);
-}
-.bg-warning {
-	background-color: color(warning);
-}
-.bg-danger {
-	background-color: color(danger);
-}
-.bg-background {
-	background-color: color(background);
-}
-.bg-surface {
-	background-color: color(surface);
 }
 
 // Screen reader only

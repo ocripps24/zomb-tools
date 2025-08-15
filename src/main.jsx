@@ -5,6 +5,14 @@ import App from "./App.jsx";
 import "./styles/main.scss";
 import { initTheme } from "./utils/theme.js";
 
+// Suppress React Router v7 warnings
+const router = {
+	future: {
+		v7_startTransition: true,
+		v7_relativeSplatPath: true,
+	},
+};
+
 // Handle GitHub Pages SPA redirect
 const urlParams = new URLSearchParams(window.location.search);
 const redirect = urlParams.get("redirect");
@@ -13,12 +21,12 @@ if (redirect) {
 	window.history.replaceState({}, "", "/" + redirect);
 }
 
-// Initialize theme before rendering
+// Initialize theme
 initTheme();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
-		<BrowserRouter>
+		<BrowserRouter {...router}>
 			<App />
 		</BrowserRouter>
 	</React.StrictMode>

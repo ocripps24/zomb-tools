@@ -1,5 +1,4 @@
 @use "../abstracts/variables" as *;
-@use "../abstracts/functions" as *;
 @use "../abstracts/mixins" as *;
 
 // Form components
@@ -41,7 +40,7 @@
 .symbol-label {
 	font-size: font-size(sm);
 	font-weight: font-weight(medium);
-	color: color(text-primary);
+	color: var(--text-primary);
 
 	@include mobile {
 		display: none;
@@ -51,7 +50,7 @@
 .movement-label {
 	font-size: font-size(sm);
 	font-weight: font-weight(medium);
-	color: color(text-primary);
+	color: var(--text-primary);
 }
 
 // Symbol picker
@@ -98,221 +97,287 @@
 
 	.slider-container {
 		@include flex-between;
-		gap: space(sm);
 		align-items: center;
+		gap: space(sm);
 
 		@include mobile {
 			gap: space(xs); // Tighter spacing on mobile
 		}
 	}
 
-	.slider-limit {
-		font-size: font-size(sm);
-		color: color(text-secondary);
-		font-weight: font-weight(medium);
-		min-width: 24px;
-		text-align: center;
-
-		@include mobile {
-			display: none; // Hide limits on mobile to save space
-		}
-	}
-
-	.movement-display {
-		font-weight: font-weight(semibold);
-		font-size: font-size(base);
-		color: color(text-primary);
-		text-align: center;
-		min-height: 24px;
-	}
-}
-
-.movement-range {
-	flex: 1;
-	height: 8px;
-	border-radius: radius(full);
-	background: color(border);
-	outline: none;
-	cursor: pointer;
-	transition: transition(base);
-
-	&::-webkit-slider-thumb {
+	.slider {
+		flex: 1;
+		height: 6px;
+		border-radius: 3px;
+		background: var(--bg-tertiary);
+		outline: none;
+		-webkit-appearance: none;
 		appearance: none;
-		width: 20px;
-		height: 20px;
-		border-radius: radius(full);
-		background: color(primary);
-		cursor: pointer;
-		border: 2px solid color(background);
-		box-shadow: shadow(sm);
-		transition: transition(base);
-
-		&:hover {
-			transform: scale(1.1);
-			box-shadow: shadow(md);
-		}
-	}
-
-	&::-moz-range-thumb {
-		width: 20px;
-		height: 20px;
-		border-radius: radius(full);
-		background: color(primary);
-		cursor: pointer;
-		border: 2px solid color(background);
-		box-shadow: shadow(sm);
-		transition: transition(base);
-	}
-
-	&::-webkit-slider-track {
-		height: 8px;
-		border-radius: radius(full);
-		background: color(border);
-	}
-
-	&::-moz-range-track {
-		height: 8px;
-		border-radius: radius(full);
-		background: color(border);
-		border: none;
-	}
-
-	@include mobile {
-		height: 12px;
 
 		&::-webkit-slider-thumb {
-			width: 24px;
-			height: 24px;
+			-webkit-appearance: none;
+			appearance: none;
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background: var(--btn-primary-bg);
+			border: 2px solid var(--border-color);
+			cursor: pointer;
+			transition: all var(--transition);
+
+			&:hover {
+				transform: scale(1.1);
+			}
 		}
 
 		&::-moz-range-thumb {
-			width: 24px;
-			height: 24px;
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background: var(--btn-primary-bg);
+			border: 2px solid var(--border-color);
+			cursor: pointer;
+			transition: all var(--transition);
+
+			&:hover {
+				transform: scale(1.1);
+			}
+		}
+	}
+
+	.slider-value {
+		min-width: 40px;
+		text-align: center;
+		font-weight: font-weight(medium);
+		color: var(--text-primary);
+		font-size: font-size(sm);
+
+		@include mobile {
+			min-width: 30px; // Smaller on mobile
+			font-size: font-size(xs);
 		}
 	}
 }
 
-// Movement stepper
 .movement-stepper {
 	@include flex-column;
 	gap: space(sm);
 
 	@include mobile {
-		flex-direction: row;
-		align-items: center;
-		gap: space(sm);
-		margin-bottom: space(xs);
+		gap: space(xs); // Tighter spacing on mobile
 	}
 
-	.stepper-container {
+	.stepper-controls {
 		@include flex-center;
 		gap: space(sm);
 
 		@include mobile {
-			gap: space(xs); // Tighter spacing between buttons and display
+			gap: space(xs); // Tighter spacing on mobile
 		}
 	}
 
-	.stepper-display {
-		@include flex-center;
-		min-width: 80px;
-		padding: space(sm);
-		border: 1px solid color(border);
-		border-radius: radius(base);
-		background-color: color(background);
-		font-weight: font-weight(medium);
-		font-size: font-size(base);
-
-		@include mobile {
-			// More compact for mobile inline layout
-			min-width: 50px;
-			padding: space(xs);
-			font-size: font-size(sm);
-		}
-	}
-
-	.stepper-time {
+	.stepper-btn {
+		@include button-base;
+		@include button-secondary;
+		padding: space(xs) space(sm);
 		font-size: font-size(sm);
-		color: color(text-secondary);
+		min-width: 32px;
+		height: 32px;
+
+		@include mobile {
+			min-width: 28px; // Smaller on mobile
+			height: 28px;
+			font-size: font-size(xs);
+		}
+
+		&:hover:not(:disabled) {
+			background-color: var(--btn-primary-bg);
+			color: var(--btn-primary-text);
+		}
+	}
+
+	.stepper-value {
+		min-width: 40px;
 		text-align: center;
-	}
-}
-
-// Movement buttons
-.movement-buttons {
-	@include flex-column;
-	gap: space(lg);
-
-	&-section {
-		@include flex-column;
-		gap: space(sm);
-
-		@include mobile {
-			flex-direction: row;
-			align-items: center;
-			gap: space(sm);
-			margin-bottom: space(xs);
-		}
-	}
-
-	&-header {
-		@include flex-between;
-		align-items: center;
-		margin-bottom: space(sm);
-	}
-
-	&-grid {
-		display: flex;
-		gap: space(xs);
-		flex-wrap: wrap;
-
-		@include mobile {
-			justify-content: center;
-		}
-	}
-}
-
-// Preference controls
-.preference-controls {
-	display: flex;
-	gap: space(3xl);
-	flex-wrap: wrap;
-}
-
-.preference-group {
-	@include flex-column;
-	gap: space(sm);
-	min-width: 200px;
-
-	label {
-		font-size: font-size(sm);
 		font-weight: font-weight(medium);
-		color: color(text-primary);
+		color: var(--text-primary);
+		font-size: font-size(sm);
+
+		@include mobile {
+			min-width: 30px; // Smaller on mobile
+			font-size: font-size(xs);
+		}
 	}
 }
 
-.preference-select {
-	@include input-base;
-	padding: space(sm);
-	font-size: font-size(sm);
-	cursor: pointer;
-}
-
-// Time input styling
-.time-inputs {
-	display: flex;
-	gap: space(lg);
+// Symbol selection
+.symbol-grid {
+	@include grid(6, space(sm));
+	max-width: 300px;
 
 	@include mobile {
-		gap: space(md);
-		margin-bottom: 5px; // Small spacing below time inputs on mobile
+		grid-template-columns: repeat(4, 1fr); // 4 columns on mobile
+		gap: space(xs); // Tighter spacing on mobile
+	}
+}
 
-		.input-group {
-			flex: 1; // Equal width for hour and minute groups
+.symbol-button {
+	@include button-base;
+	@include button-secondary;
+	aspect-ratio: 1;
+	padding: space(xs);
+	font-size: font-size(sm);
+	min-width: 40px;
+	height: 40px;
 
-			.time-input {
-				width: 100%; // Fill available container space
-			}
+	@include mobile {
+		min-width: 36px; // Smaller on mobile
+		height: 36px;
+		font-size: font-size(xs);
+	}
+
+	&:hover:not(:disabled) {
+		background-color: var(--btn-primary-bg);
+		color: var(--btn-primary-text);
+	}
+
+	&.selected {
+		background-color: var(--btn-primary-bg);
+		color: var(--btn-primary-text);
+		border-color: var(--border-color);
+		box-shadow: 0 0 0 2px var(--border-color) inset;
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+		background-color: var(--bg-tertiary);
+		border-color: var(--border-subtle);
+		color: var(--text-muted);
+
+		&:hover {
+			background-color: var(--bg-tertiary);
+			color: var(--text-muted);
 		}
+	}
+
+	.symbol-icon {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+}
+
+// Form validation
+.input-error {
+	color: var(--danger-color);
+	font-size: font-size(sm);
+	margin-top: space(xs);
+}
+
+.input-help {
+	color: var(--text-muted);
+	font-size: font-size(sm);
+	margin-top: space(xs);
+}
+
+// Form groups
+.form-group {
+	@include flex-column;
+	gap: space(sm);
+	margin-bottom: space(lg);
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.form-label {
+	font-size: font-size(sm);
+	font-weight: font-weight(medium);
+	color: var(--text-primary);
+}
+
+.form-input {
+	@include input-base;
+	width: 100%;
+
+	&:focus {
+		border-color: var(--border-focus);
+		box-shadow: 0 0 0 1px var(--border-focus);
+	}
+
+	&::placeholder {
+		color: var(--text-muted);
+	}
+}
+
+.form-textarea {
+	@extend .form-input;
+	resize: vertical;
+	min-height: 100px;
+}
+
+.form-select {
+	@extend .form-input;
+	appearance: none;
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+	background-position: right space(sm) center;
+	background-repeat: no-repeat;
+	background-size: 1.5em 1.5em;
+	padding-right: space(2xl);
+}
+
+// Checkbox and radio
+.form-checkbox,
+.form-radio {
+	@include flex-center;
+	gap: space(sm);
+	cursor: pointer;
+
+	input[type="checkbox"],
+	input[type="radio"] {
+		width: 1.2em;
+		height: 1.2em;
+		margin: 0;
+		cursor: pointer;
+	}
+
+	label {
+		cursor: pointer;
+		color: var(--text-primary);
+		font-size: font-size(sm);
+	}
+}
+
+// Form actions
+.form-actions {
+	@include flex-between;
+	gap: space(md);
+	margin-top: space(xl);
+
+	@include mobile {
+		flex-direction: column;
+		gap: space(sm);
+	}
+}
+
+.form-submit {
+	@include button-base;
+	@include button-primary;
+	min-width: 120px;
+
+	@include mobile {
+		width: 100%;
+	}
+}
+
+.form-cancel {
+	@include button-base;
+	@include button-secondary;
+	min-width: 120px;
+
+	@include mobile {
+		width: 100%;
 	}
 }

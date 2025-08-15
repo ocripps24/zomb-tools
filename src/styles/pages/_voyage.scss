@@ -2,330 +2,271 @@
 @use "../abstracts/functions" as *;
 @use "../abstracts/mixins" as *;
 
+// Voyage of Despair page styles
 .voyage-page {
-	max-width: 1000px;
-	margin: 0 auto;
-}
-
-.voyage-header {
-	margin-bottom: 2rem;
-}
-
-.voyage-nav {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 1.5rem;
-	gap: 1rem;
-}
-
-.nav-right {
-	display: flex;
-	gap: 1rem;
-	align-items: center;
-}
-
-.voyage-nav .reset-btn {
-	background-color: var(--danger-color);
-	color: white;
-}
-
-.voyage-nav .reset-btn:hover {
-	background-color: #b91c1c;
-}
-
-.voyage-nav .settings-btn {
-	background-color: var(--surface);
-	color: var(--text-primary);
-}
-
-.voyage-nav .settings-btn:hover {
-	background-color: var(--background);
-	border-color: var(--primary-color);
-	color: var(--primary-color);
-}
-
-// Mobile responsive buttons - show only icons
-.btn-text {
-	@include mobile {
-		display: none;
-	}
-}
-
-.btn-icon {
-	display: none;
-
-	@include mobile {
-		display: inline;
-	}
-}
-
-@include mobile {
-	.voyage-nav {
-		gap: 0.5rem;
-	}
-
-	.nav-right {
-		gap: 0.5rem;
-	}
-
-	.btn {
-		min-width: 44px; // Touch target
-		padding: 0.75rem 0.5rem;
-		font-size: 1.2rem; // Larger icons
-	}
-}
-
-.voyage-header h2 {
-	color: var(--primary-color);
-	margin-bottom: 0.5rem;
-}
-
-.voyage-header p {
-	color: var(--text-secondary);
-	font-size: 1.125rem;
-}
-
-/* Step Navigation - Now only contains tabs */
-// .step-navigation {
-// 	margin-top: 1.5rem;
-// 	border: 1px solid var(--border);
-// 	border-radius: var(--radius);
-// 	background-color: var(--surface);
-// 	padding: 1rem;
-// }
-
-// .step-tabs {
-// 	display: flex;
-// 	gap: 0.5rem;
-// 	margin-bottom: 0; /* Remove bottom margin since no controls below */
-// }
-
-// .step-tab {
-// 	display: flex;
-// 	flex-direction: column;
-// 	align-items: center;
-// 	padding: 0.75rem 1rem;
-// 	border: 1px solid var(--border);
-// 	border-radius: var(--radius);
-// 	background-color: white;
-// 	color: var(--text-secondary);
-// 	cursor: pointer;
-// 	transition: var(--transition);
-// 	flex: 1;
-// 	min-width: 80px;
-// }
-
-// .step-tab:hover {
-// 	border-color: var(--primary-color);
-// 	/* color: var(--primary-color); */
-// }
-
-// .step-tab--active {
-// 	border-color: var(--primary-color);
-// 	background-color: var(--primary-color);
-// 	color: white;
-// }
-
-// .step-number {
-// 	font-size: 1.25rem;
-// 	font-weight: 700;
-// 	margin-bottom: 0.25rem;
-// }
-
-// .step-name {
-// 	font-size: 0.875rem;
-// 	font-weight: 500;
-// }
-
-/* Content Area */
-.voyage-content {
-	margin-top: 2rem;
-	margin-bottom: 2rem; /* Add bottom margin for footer spacing */
-}
-
-/* Navigation Buttons - At bottom of page */
-.voyage-navigation {
-	margin-top: 2rem;
-	padding: 1.5rem;
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-	background-color: var(--surface);
-}
-
-.navigation-buttons {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 1rem;
-}
-
-.nav-btn {
-	flex: 0 0 auto;
-	min-width: 120px;
-
-	&:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-}
-
-.step-indicator {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-	font-size: 1rem;
-	color: var(--text-secondary);
-	font-weight: 500;
-}
-
-.current-step {
-	color: var(--primary-color);
-	font-weight: 700;
-	font-size: 1.125rem;
-}
-
-.step-separator {
-	color: var(--text-secondary);
-}
-
-.total-steps {
-	color: var(--text-secondary);
-}
-
-/* Legacy step controls - keep for backward compatibility */
-.step-controls {
-	display: flex;
-	justify-content: space-between;
-	gap: 1rem;
-	margin-top: 2rem;
-	@include card;
-}
-
-.step-controls .btn {
-	flex: 1;
-	max-width: 150px;
-}
-
-.step-controls .btn:disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
-}
-
-@media (max-width: 768px) {
-	/* Tighter overall spacing */
-	.voyage-header {
-		margin-bottom: 1rem;
-	}
-
-	/* Keep voyage-nav buttons on one line */
-	.voyage-nav {
-		gap: 0.5rem;
-		margin-bottom: 1rem;
-	}
-
-	.voyage-nav .btn {
-		font-size: 0.875rem;
-		padding: 0.5rem 0.75rem;
-	}
-
-	/* Step navigation with tighter spacing */
-	.step-navigation {
-		margin-top: 1rem;
-		padding: 0.75rem;
-		margin-bottom: 0;
-	}
-
-	/* Step tabs - stretch full width, active takes remaining space */
-	.step-tabs {
-		gap: 0.25rem;
-		margin-bottom: 0;
-		width: 100%;
-	}
-
-	.step-tab {
-		flex: 0 0 auto; /* Don't grow equally */
-		min-width: 40px;
-		padding: 0.5rem 0.25rem;
-	}
-
-	/* Navigation buttons responsive */
-	.voyage-navigation {
-		margin-top: 1.5rem;
-		padding: 1rem;
-	}
-
-	.navigation-buttons {
-		gap: 0.5rem;
-	}
-
-	.nav-btn {
-		min-width: 80px;
-		font-size: 0.875rem;
-		padding: 0.5rem 0.75rem;
-	}
-
-	.step-indicator {
-		font-size: 0.875rem;
-		gap: 0.25rem;
-	}
-
-	.current-step {
-		font-size: 1rem;
-	}
-
-	/* Non-active tabs: fixed size */
-	.step-tab:not(.step-tab--active) {
-		flex: 0 0 40px;
-		width: 40px;
-		padding: 0.5rem 0.25rem;
-	}
-
-	/* Active tab: takes remaining available space */
-	.step-tab--active {
-		flex: 1; /* Take up remaining space */
-		padding: 0.5rem 0.75rem;
-		flex-direction: row;
+	&__header {
+		display: flex;
+		justify-content: space-between;
 		align-items: center;
-		gap: 0.5rem;
-		justify-content: center;
+		margin-bottom: 2rem;
+		flex-wrap: wrap;
+		gap: 1rem;
+
+		h3 {
+			margin: 0;
+			color: var(--text-primary);
+		}
+
+		p {
+			flex: 1 1 100%;
+			margin: 0.5rem 0 0 0;
+			color: var(--text-secondary);
+		}
 	}
 
-	/* Hide step name on non-active tabs */
-	.step-tab .step-name {
-		display: none;
+	&__navigation {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 2rem;
+		gap: 1rem;
+
+		@media (max-width: 600px) {
+			flex-direction: column;
+		}
+	}
+}
+
+// Clock section styles
+.clock-section {
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 2rem;
+		flex-wrap: wrap;
+		gap: 1rem;
+
+		h3 {
+			margin: 0;
+			color: var(--text-primary);
+		}
+
+		p {
+			flex: 1 1 100%;
+			margin: 0.5rem 0 0 0;
+			color: var(--text-secondary);
+		}
 	}
 
-	/* Show step name on active tab, inline with number */
-	.step-tab--active .step-name {
-		display: block;
-		margin: 0;
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1.5rem;
+		margin: 2rem 0;
 	}
 
-	.step-number {
-		font-size: 1rem;
-		margin-bottom: 0;
+	&__completion {
+		margin-top: 2rem;
+	}
+}
+
+.clock-card {
+	padding: 1.5rem;
+	cursor: pointer;
+	transition: all var(--transition);
+	background: var(--card-bg);
+	border: 2px solid var(--border-color);
+	border-radius: var(--radius);
+
+	&--completed {
+		opacity: 0.7;
+		border-color: var(--success-color);
 	}
 
-	.step-tab--active .step-name {
-		font-size: 0.875rem;
-		font-weight: 500;
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1rem;
+
+		h4 {
+			margin: 0;
+			color: var(--text-primary);
+		}
 	}
 
-	/* Tighter content spacing */
-	.voyage-content {
-		margin-top: 1rem;
-		margin-bottom: 1rem; /* Reduce bottom margin on mobile */
+	&__status {
+		font-size: 1.5rem;
 	}
 
-	/* Step controls styling for mobile */
-	.step-controls {
-		padding: 1rem;
-		margin-top: 1rem;
+	&__content {
+		div {
+			margin-bottom: 0.5rem;
+			color: var(--text-secondary);
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
 	}
 
-	.step-controls .btn {
-		font-size: 0.875rem;
-		padding: 0.75rem 1rem;
+	&__time,
+	&__location {
+		font-size: 0.9rem;
+		line-height: 1.4;
+	}
+}
+
+// Outlet section styles
+.outlet-section {
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 2rem;
+		flex-wrap: wrap;
+		gap: 1rem;
+
+		h3 {
+			margin: 0;
+			color: var(--text-primary);
+		}
+
+		p {
+			flex: 1 1 100%;
+			margin: 0.5rem 0 0 0;
+			color: var(--text-secondary);
+		}
+	}
+
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1.5rem;
+		margin: 2rem 0;
+	}
+}
+
+.outlet-card {
+	padding: 1.5rem;
+	cursor: pointer;
+	transition: all var(--transition);
+	background: var(--card-bg);
+	border: 2px solid var(--border-color);
+	border-radius: var(--radius);
+
+	&--completed {
+		opacity: 0.7;
+		border-color: var(--success-color);
+	}
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1rem;
+
+		h4 {
+			margin: 0;
+			color: var(--text-primary);
+		}
+	}
+
+	&__status {
+		font-size: 1.5rem;
+	}
+
+	&__content {
+		div {
+			margin-bottom: 0.5rem;
+			color: var(--text-secondary);
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	&__number,
+	&__location {
+		font-size: 0.9rem;
+		line-height: 1.4;
+	}
+}
+
+// Planet section styles
+.planet-section {
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 2rem;
+		flex-wrap: wrap;
+		gap: 1rem;
+
+		h3 {
+			margin: 0;
+			color: var(--text-primary);
+		}
+
+		p {
+			flex: 1 1 100%;
+			margin: 0.5rem 0 0 0;
+			color: var(--text-secondary);
+		}
+	}
+
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1.5rem;
+		margin: 2rem 0;
+	}
+}
+
+.planet-card {
+	padding: 1.5rem;
+	cursor: pointer;
+	transition: all var(--transition);
+	background: var(--card-bg);
+	border: 2px solid var(--border-color);
+	border-radius: var(--radius);
+
+	&--completed {
+		opacity: 0.7;
+		border-color: var(--success-color);
+	}
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1rem;
+
+		h4 {
+			margin: 0;
+			color: var(--text-primary);
+		}
+	}
+
+	&__status {
+		font-size: 1.5rem;
+	}
+
+	&__content {
+		div {
+			margin-bottom: 0.5rem;
+			color: var(--text-secondary);
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	&__name,
+	&__location {
+		font-size: 0.9rem;
+		line-height: 1.4;
 	}
 }

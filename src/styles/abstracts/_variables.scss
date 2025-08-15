@@ -2,24 +2,27 @@
 
 // Essential SASS variables that functions/mixins depend on
 $colors: (
-	// Theme colors (black/white theme)
-	primary: #000,
-	primary-hover: #333,
-	primary-light: #666,
-	secondary: #fff,
+	// Core theme colors
+	black: #000000,
+	white: #ffffff,
 
-	// Legacy colors for existing components
+	// Gray scale for nuance
+	gray-50: #f9fafb,
+	gray-100: #f3f4f6,
+	gray-200: #e5e7eb,
+	gray-300: #d1d5db,
+	gray-400: #9ca3af,
+	gray-500: #6b7280,
+	gray-600: #4b5563,
+	gray-700: #374151,
+	gray-800: #1f2937,
+	gray-900: #111827,
+
+	// Semantic colors
 	success: #16a34a,
 	warning: #d97706,
 	danger: #dc2626,
-
-	// Surface colors
-	background: #fff,
-	surface: #fff,
-	text-primary: #000,
-	text-secondary: #666,
-	border: #000,
-	border-focus: #000
+	info: #3b82f6
 );
 
 // Minimal spacing system
@@ -89,21 +92,82 @@ $z-indexes: (
 );
 
 // CSS Custom Properties for theme system
-// Dark mode (default)
+// Dark mode (default) - Black background, white text/elements
 :root {
-	--bg-primary: #{map.get($colors, primary)};
-	--bg-secondary: #{map.get($colors, secondary)};
-	--text-primary: #{map.get($colors, secondary)};
-	--text-secondary: #{map.get($colors, primary)};
-	--border: #{map.get($colors, border)};
+	// Core theme colors
+	--bg-primary: #{map.get($colors, black)};
+	--bg-secondary: #{map.get($colors, white)};
+	--bg-tertiary: #{map.get($colors, gray-800)};
+
+	// Text colors
+	--text-primary: #{map.get($colors, white)};
+	--text-secondary: #{map.get($colors, gray-300)};
+	--text-muted: #{map.get($colors, gray-400)};
+
+	// Border colors
+	--border-color: #{map.get($colors, white)};
+	--border-focus: #{map.get($colors, gray-300)};
+	--border-subtle: #{map.get($colors, gray-700)};
+
+	// Interactive elements
+	--btn-primary-bg: #{map.get($colors, white)};
+	--btn-primary-text: #{map.get($colors, black)};
+	--btn-secondary-bg: #{map.get($colors, gray-800)};
+	--btn-secondary-text: #{map.get($colors, white)};
+
+	// Card and component backgrounds
+	--card-bg: #{map.get($colors, white)};
+	--nav-bg: #{map.get($colors, white)};
+	--input-bg: #{map.get($colors, gray-800)};
+
+	// Utility colors
 	--transition: #{map.get($transitions, base)};
+	--radius: #{map.get($radius, base)};
+	--accent-color: #{map.get($colors, gray-300)};
+
+	// Semantic colors
+	--success-color: #{map.get($colors, success)};
+	--warning-color: #{map.get($colors, warning)};
+	--danger-color: #{map.get($colors, danger)};
+	--info-color: #{map.get($colors, info)};
 }
 
-// Light mode
+// Light mode - White background, black text/elements
 [data-theme="light"] {
-	--bg-primary: #{map.get($colors, secondary)};
-	--bg-secondary: #{map.get($colors, primary)};
-	--text-primary: #{map.get($colors, primary)};
-	--text-secondary: #{map.get($colors, secondary)};
-	--border: #{map.get($colors, border)};
+	// Core theme colors
+	--bg-primary: #{map.get($colors, white)};
+	--bg-secondary: #{map.get($colors, black)};
+	--bg-tertiary: #{map.get($colors, gray-200)};
+
+	// Text colors
+	--text-primary: #{map.get($colors, black)};
+	--text-secondary: #{map.get($colors, gray-700)};
+	--text-muted: #{map.get($colors, gray-500)};
+
+	// Border colors
+	--border-color: #{map.get($colors, black)};
+	--border-focus: #{map.get($colors, gray-600)};
+	--border-subtle: #{map.get($colors, gray-300)};
+
+	// Interactive elements
+	--btn-primary-bg: #{map.get($colors, black)};
+	--btn-primary-text: #{map.get($colors, white)};
+	--btn-secondary-bg: #{map.get($colors, gray-200)};
+	--btn-secondary-text: #{map.get($colors, black)};
+
+	// Card and component backgrounds
+	--card-bg: #{map.get($colors, black)};
+	--nav-bg: #{map.get($colors, black)};
+	--input-bg: #{map.get($colors, gray-200)};
+
+	// Utility colors
+	--transition: #{map.get($transitions, base)};
+	--radius: #{map.get($radius, base)};
+	--accent-color: #{map.get($colors, gray-600)};
+
+	// Semantic colors
+	--success-color: #{map.get($colors, success)};
+	--warning-color: #{map.get($colors, warning)};
+	--danger-color: #{map.get($colors, danger)};
+	--info-color: #{map.get($colors, info)};
 }
