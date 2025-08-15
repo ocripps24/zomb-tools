@@ -48,11 +48,17 @@
 
 .map-nav {
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-between; // Simple and reliable
 	align-items: center;
 	margin-bottom: 1rem;
 	gap: 1rem;
 
+	// Back button - keep it on the left
+	.btn {
+		flex-shrink: 0;
+	}
+
+	// Right side navigation
 	.nav-right {
 		display: flex;
 		gap: 1rem;
@@ -96,6 +102,9 @@
 .map-content {
 	margin-top: 2rem;
 	min-height: 400px; // Ensure content area has minimum height
+	background: var(--bg-tertiary); // Use tertiary background for better contrast
+	border-radius: var(--radius);
+	padding: 1rem;
 }
 
 .map-footer {

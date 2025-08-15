@@ -133,13 +133,11 @@ function TagDerToten() {
 			</div>
 
 			<div className="map-header">
-				<div className="map-nav">
-					<MapNavigation
-						backTo="/bo4"
-						settingsPath="/bo4/tag-der-toten/settings"
-						onReset={handleReset}
-					/>
-				</div>
+				<MapNavigation
+					backTo="/bo4"
+					settingsPath="/bo4/tag-der-toten/settings"
+					onReset={handleReset}
+				/>
 
 				<div className="step-navigation">
 					<StepNavigation

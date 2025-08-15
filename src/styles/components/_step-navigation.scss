@@ -12,7 +12,7 @@
 }
 
 .step-tab {
-	background: var(--bg-secondary);
+	background: var(--bg-tertiary); // Use tertiary background for better contrast
 	border: none;
 	color: var(--text-primary);
 	padding: 1rem 2rem;
@@ -30,12 +30,14 @@
 
 	&:hover,
 	&:focus {
-		background: var(--bg-tertiary);
+		background: var(--bg-secondary); // Use secondary background on hover
 		color: var(--text-primary);
 	}
 
 	&.step-tab--active {
-		background: var(--bg-tertiary);
+		background: var(
+			--bg-secondary
+		); // Use secondary background for active state
 		color: var(--text-primary);
 		// flex: 1; // Expand to fill remaining space
 	}
