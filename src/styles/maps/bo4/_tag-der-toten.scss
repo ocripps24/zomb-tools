@@ -262,6 +262,24 @@
 	}
 }
 
+// Orb locations list styling
+.orb-locations-list {
+	list-style: none;
+	padding: 0;
+	margin: 0.5rem 0 0 0;
+	
+	li {
+		color: var(--text-primary);
+		font-size: 0.95rem;
+		line-height: 1.4;
+		margin-bottom: 0.3rem;
+		
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
 // Completion card styles
 .completion-card {
 	text-align: center;

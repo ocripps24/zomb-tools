@@ -1,169 +1,143 @@
 import { useState, useEffect } from "react";
 import FloatingCard from "../../../../../common/FloatingCard";
 import Button from "../../../../../common/Button";
+import LocationCard from "../../../../../common/LocationCard";
 
-// Placeholder data - replace with actual orb locations
-const ORB_LOCATIONS = [
+// Orb location data - each orb can spawn in one of these locations
+const ORBS_DATA = [
 	{
-		id: "location-1",
-		area: "Area 1",
-		description: "Location description here",
-		coordinates: "X: 0, Y: 0, Z: 0",
-		notes: "Additional notes here",
-		visited: false,
+		id: "orb-1",
+		name: "Orb 1",
+		found: false,
+		possibleLocations: [
+			"Docks",
+			"Boathouse", 
+			"L.H. Annex",
+			"Crevasse",
+			"Lagoon",
+			"Ice Grotto"
+		],
 	},
 	{
-		id: "location-2",
-		area: "Area 2",
-		description: "Location description here",
-		coordinates: "X: 0, Y: 0, Z: 0",
-		notes: "Additional notes here",
-		visited: false,
+		id: "orb-2", 
+		name: "Orb 2",
+		found: false,
+		possibleLocations: [
+			"L.H. Cove",
+			"Hidden Path",
+			"Beach",
+			"L.H. Approach",
+			"L.H. Station"
+		],
 	},
 	{
-		id: "location-3",
-		area: "Area 3",
-		description: "Location description here",
-		coordinates: "X: 0, Y: 0, Z: 0",
-		notes: "Additional notes here",
-		visited: false,
-	},
-	{
-		id: "location-4",
-		area: "Area 4",
-		description: "Location description here",
-		coordinates: "X: 0, Y: 0, Z: 0",
-		notes: "Additional notes here",
-		visited: false,
-	},
-	{
-		id: "location-5",
-		area: "Area 5",
-		description: "Location description here",
-		coordinates: "X: 0, Y: 0, Z: 0",
-		notes: "Additional notes here",
-		visited: false,
+		id: "orb-3",
+		name: "Orb 3", 
+		found: false,
+		possibleLocations: [
+			"Security Lobby",
+			"Decontamination",
+			"Geological",
+			"Specimen", 
+			"Human Infusion",
+			"Loading Platform"
+		],
 	},
 ];
 
 function OrbLocationsSection({ data, onChange }) {
 	const [localData, setLocalData] = useState(
-		data || { locations: [...ORB_LOCATIONS] }
+		(data && data.orbs) ? data : { orbs: [...ORBS_DATA] }
 	);
 
-	// Load from localStorage on mount
 	useEffect(() => {
-		const saved = localStorage.getItem("tag-orb-data");
+		const saved = localStorage.getItem("tag-der-toten-orbs-data");
 		if (saved) {
 			try {
 				const parsedData = JSON.parse(saved);
 				setLocalData(parsedData);
 			} catch (e) {
-				console.error("Failed to parse orb data:", e);
-				setLocalData({ locations: [...ORB_LOCATIONS] });
+				console.error("Failed to parse orbs data:", e);
+				setLocalData({ orbs: [...ORBS_DATA] });
 			}
+		} else {
+			// Set default data if no saved data exists
+			setLocalData({ orbs: [...ORBS_DATA] });
 		}
 	}, []);
 
-	// Save to localStorage and update parent when data changes
 	useEffect(() => {
-		localStorage.setItem("tag-orb-data", JSON.stringify(localData));
+		localStorage.setItem("tag-der-toten-orbs-data", JSON.stringify(localData));
 		onChange?.(localData);
 	}, [localData, onChange]);
 
-	const toggleLocationVisited = (locationId) => {
+	const toggleOrbFound = (orbId) => {
 		setLocalData((prev) => ({
 			...prev,
-			locations: prev.locations.map((location) =>
-				location.id === locationId
-					? { ...location, visited: !location.visited }
-					: location
+			orbs: prev.orbs.map((orb) =>
+				orb.id === orbId ? { ...orb, found: !orb.found } : orb
 			),
 		}));
 	};
 
 	const resetAll = () => {
-		setLocalData({ locations: [...ORB_LOCATIONS] });
+		setLocalData({ orbs: [...ORBS_DATA] });
 	};
 
-	const visitedCount =
-		localData.locations?.filter((location) => location.visited).length || 0;
-	const totalCount = localData.locations?.length || 0;
+	const foundCount = localData.orbs?.filter((orb) => orb.found).length || 0;
+	const totalCount = localData.orbs?.length || 0;
 
 	return (
-		<div className="orb-section">
-			<FloatingCard>
-				<div className="orb-section__header">
-					<h3>
-						Orb Locations Chart ({visitedCount}/{totalCount})
+		<div className="orb-locations-section">
+			<div className="section-header">
+				<div className="section-header__top-row">
+					<h3 className="section-header__title">
+						Orb Locations{" "}
+						<span className="progress-counter">
+							({foundCount}/{totalCount})
+						</span>
 					</h3>
-					<p>
-						Track your progress through the orb locations. Check off each
-						location as you visit it.
-					</p>
 					<Button variantType="secondary" onClick={resetAll}>
-						Reset All
+						Reset All Orbs
 					</Button>
 				</div>
+				<p className="section-header__description">
+					Find 3 orbs by searching their possible spawn locations. 
+					Each orb can appear in one of the listed locations.
+				</p>
+			</div>
 
-				<div className="orb-section__table">
-					<div className="orb-table">
-						<div className="orb-table__header">
-							<div className="orb-table__cell orb-table__cell--header">
-								Status
-							</div>
-							<div className="orb-table__cell orb-table__cell--header">
-								Area
-							</div>
-							<div className="orb-table__cell orb-table__cell--header">
-								Description
-							</div>
-							<div className="orb-table__cell orb-table__cell--header">
-								Coordinates
-							</div>
-							<div className="orb-table__cell orb-table__cell--header">
-								Notes
-							</div>
-						</div>
+			<div className="location-grid location-grid--orbs">
+				{localData.orbs?.map((orb) => (
+					<LocationCard
+						key={orb.id}
+						primaryText={orb.name}
+						isCompleted={orb.found}
+						onToggle={() => toggleOrbFound(orb.id)}
+						showSecondaryAlways={true}
+						variant="location"
+					>
+						<ul className="orb-locations-list">
+							{orb.possibleLocations.map((location, index) => (
+								<li key={index}>
+									{location}
+								</li>
+							))}
+						</ul>
+					</LocationCard>
+				))}
+			</div>
 
-						{localData.locations?.map((location) => (
-							<div
-								key={location.id}
-								className={`orb-table__row ${
-									location.visited ? "orb-table__row--visited" : ""
-								}`}
-								onClick={() => toggleLocationVisited(location.id)}
-							>
-								<div className="orb-table__cell orb-table__cell--status">
-									{location.visited ? "✅" : "📍"}
-								</div>
-								<div className="orb-table__cell">
-									<strong>{location.area}</strong>
-								</div>
-								<div className="orb-table__cell">{location.description}</div>
-								<div className="orb-table__cell orb-table__cell--coordinates">
-									{location.coordinates}
-								</div>
-								<div className="orb-table__cell orb-table__cell--notes">
-									{location.notes}
-								</div>
-							</div>
-						))}
-					</div>
+			{foundCount === totalCount && totalCount > 0 && (
+				<div className="section-completion">
+					<FloatingCard className="completion-card">
+						<h4>🎉 All Orbs Found!</h4>
+						<p>
+							You've successfully located all 3 orbs! You can now proceed to the next step of the Easter Egg.
+						</p>
+					</FloatingCard>
 				</div>
-
-				{visitedCount === totalCount && (
-					<div className="orb-section__completion">
-						<FloatingCard className="completion-card">
-							<h4>🎉 All Locations Visited!</h4>
-							<p>
-								You have checked all orb locations. The Easter Egg should be
-								ready to complete!
-							</p>
-						</FloatingCard>
-					</div>
-				)}
-			</FloatingCard>
+			)}
 		</div>
 	);
 }

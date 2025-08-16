@@ -108,12 +108,12 @@ function LocationCard({
 			
 			<div className="location-card__content">
 				<div className="location-card__primary">
-					<strong>{variant === "quote" ? "Quote:" : variant === "totem" ? "Location:" : "Primary:"}</strong> "{primaryText}"
+					<strong>{primaryText}</strong>
 				</div>
 				
 				{shouldShowSecondary && (
 					<div className="location-card__secondary">
-						<strong>{variant === "quote" ? "Location:" : variant === "totem" ? "Reward:" : "Secondary:"}</strong> {secondaryText}
+						{secondaryText}
 					</div>
 				)}
 				

@@ -28,14 +28,16 @@
 // 4. Layout - layout-specific styles
 @use "layout/app";
 
-// 5. Pages - page-specific styles
+// 5. Pages - general page-specific styles
 @use "pages/clocks";
-@use "pages/voyage";
 @use "pages/map-selection";
 @use "pages/settings";
 @use "pages/game-selection";
-@use "pages/terminus";
-@use "pages/tag-der-toten";
+
+// 6. Maps - map-specific styles
+@use "maps/bo4/voyage";
+@use "maps/bo4/tag-der-toten";
+@use "maps/bo6/terminus";
 
 html,
 body {
