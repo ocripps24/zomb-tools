@@ -93,6 +93,40 @@
 	}
 }
 
+// Apothican Offerings section styles
+.apothican-section {
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 2rem;
+		flex-wrap: wrap;
+		gap: 1rem;
+
+		h3 {
+			margin: 0;
+			color: var(--text-primary);
+		}
+
+		p {
+			flex: 1 1 100%;
+			margin: 0.5rem 0 0 0;
+			color: var(--text-secondary);
+		}
+	}
+
+	&__list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1.5rem;
+		margin: 2rem 0;
+	}
+
+	&__completion {
+		margin-top: 2rem;
+	}
+}
+
 // Seal of Duality section styles
 .seal-section {
 	&__header {

@@ -5,6 +5,7 @@ import SettingsPage from "../../../../common/SettingsPage";
 import FloatingCard from "../../../../common/FloatingCard";
 import Button from "../../../../common/Button";
 import TotemsSection from "./sections/TotemsSection";
+import ApothicanOfferingsSection from "./sections/ApothicanOfferingsSection";
 import SealOfDualitySection from "./sections/SealOfDualitySection";
 import OrbLocationsSection from "./sections/OrbLocationsSection";
 
@@ -14,6 +15,12 @@ const STEPS = [
 		name: "Totems",
 		path: "/bo4/tag-der-toten/totems",
 		component: TotemsSection,
+	},
+	{
+		id: "apothican-offerings",
+		name: "Apothican Offerings",
+		path: "/bo4/tag-der-toten/apothican-offerings",
+		component: ApothicanOfferingsSection,
 	},
 	{
 		id: "seal-of-duality",
@@ -32,6 +39,7 @@ const STEPS = [
 function TagDerToten() {
 	// State management for each section
 	const [totemsData, setTotemsData] = useState({});
+	const [apothicanData, setApothicanData] = useState({});
 	const [sealData, setSealData] = useState({});
 	const [orbData, setOrbData] = useState({});
 
@@ -87,11 +95,15 @@ function TagDerToten() {
 	// Load data from localStorage on component mount
 	useEffect(() => {
 		const savedTotemsData = localStorage.getItem("tag-der-toten-totems-data");
+		const savedApothicanData = localStorage.getItem("tag-der-toten-apothican-data");
 		const savedSealData = localStorage.getItem("tag-der-toten-seal-data");
 		const savedOrbData = localStorage.getItem("tag-der-toten-orb-data");
 
 		if (savedTotemsData) {
 			setTotemsData(JSON.parse(savedTotemsData));
+		}
+		if (savedApothicanData) {
+			setApothicanData(JSON.parse(savedApothicanData));
 		}
 		if (savedSealData) {
 			setSealData(JSON.parse(savedSealData));
@@ -127,10 +139,12 @@ function TagDerToten() {
 	// Reset function
 	const handleReset = () => {
 		setTotemsData({});
+		setApothicanData({});
 		setSealData({});
 		setOrbData({});
 		// Clear localStorage
 		localStorage.removeItem("tag-der-toten-totems-data");
+		localStorage.removeItem("tag-der-toten-apothican-data");
 		localStorage.removeItem("tag-der-toten-seal-data");
 		localStorage.removeItem("tag-der-toten-orb-data");
 	};
@@ -140,6 +154,8 @@ function TagDerToten() {
 		switch (stepId) {
 			case "totems":
 				return totemsData;
+			case "apothican-offerings":
+				return apothicanData;
 			case "seal-of-duality":
 				return sealData;
 			case "orb-locations":
@@ -151,6 +167,8 @@ function TagDerToten() {
 
 	const handleTotemsChange = useCallback((data) => setTotemsData(data), []);
 
+	const handleApothicanChange = useCallback((data) => setApothicanData(data), []);
+
 	const handleSealChange = useCallback((data) => setSealData(data), []);
 
 	const handleOrbChange = useCallback((data) => setOrbData(data), []);
@@ -159,6 +177,8 @@ function TagDerToten() {
 		switch (stepId) {
 			case "totems":
 				return handleTotemsChange;
+			case "apothican-offerings":
+				return handleApothicanChange;
 			case "seal-of-duality":
 				return handleSealChange;
 			case "orb-locations":

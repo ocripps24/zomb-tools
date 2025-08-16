@@ -1,41 +1,48 @@
 import { useState, useEffect } from "react";
 import FloatingCard from "../../../../../common/FloatingCard";
 import Button from "../../../../../common/Button";
+import LocationCard from "../../../../../common/LocationCard";
 
-// Placeholder data - replace with actual quotes and locations
+// Game mechanics constants
+const GAME_CONFIG = {
+	maxQuotesInGame: 1, // Players receive 1 quote during actual gameplay
+	totalQuotesAvailable: 4, // Total quotes in our database
+};
+
 const QUOTES = [
 	{
 		id: "quote-1",
-		text: "Quote text here",
-		location: "Location description here",
+		text: "Where humans suffer",
+		location: "Locate and melee the bulletin board found on the wall in Specimen Storage. Open the safe by building and placing a Dynamite Bomb on it",
 		found: false,
 	},
 	{
 		id: "quote-2",
-		text: "Quote text here",
-		location: "Location description here",
+		text: "Inside an icy hall",
+		location: "Locate and melee the wooden board found in Ice Grotto. Open the safe by building and placing a Dynamite Bomb on it",
 		found: false,
 	},
 	{
 		id: "quote-3",
-		text: "Quote text here",
-		location: "Location description here",
+		text: "Where Aether was gathered",
+		location: "Locate and melee the bulletin board found in Geological Processing. Open the safe by building and placing a Dynamite Bomb on it",
 		found: false,
 	},
 	{
 		id: "quote-4",
-		text: "Quote text here",
-		location: "Location description here",
+		text: "Where cages hang",
+		location: "Locate and melee the framed map found in the Boathouse. Open the safe by building and placing a Dynamite Bomb on it",
 		found: false,
 	},
 ];
 
 function SealOfDualitySection({ data, onChange }) {
-	const [localData, setLocalData] = useState(data || { quotes: [...QUOTES] });
+	const [localData, setLocalData] = useState(
+		(data && data.quotes) ? data : { quotes: [...QUOTES] }
+	);
 
-	// Load from localStorage on mount
 	useEffect(() => {
-		const saved = localStorage.getItem("tag-seal-data");
+		const saved = localStorage.getItem("tag-der-toten-seal-data");
 		if (saved) {
 			try {
 				const parsedData = JSON.parse(saved);
@@ -44,12 +51,14 @@ function SealOfDualitySection({ data, onChange }) {
 				console.error("Failed to parse seal data:", e);
 				setLocalData({ quotes: [...QUOTES] });
 			}
+		} else {
+			// Set default data if no saved data exists
+			setLocalData({ quotes: [...QUOTES] });
 		}
 	}, []);
 
-	// Save to localStorage and update parent when data changes
 	useEffect(() => {
-		localStorage.setItem("tag-seal-data", JSON.stringify(localData));
+		localStorage.setItem("tag-der-toten-seal-data", JSON.stringify(localData));
 		onChange?.(localData);
 	}, [localData, onChange]);
 
@@ -72,58 +81,50 @@ function SealOfDualitySection({ data, onChange }) {
 
 	return (
 		<div className="seal-section">
-			<FloatingCard>
-				<div className="seal-section__header">
-					<h3>
-						Seal of Duality Quotes ({foundCount}/{totalCount})
+			<div className="section-header">
+				<div className="section-header__top-row">
+					<h3 className="section-header__title">
+						Seal of Duality <span className="progress-counter">({foundCount}/{GAME_CONFIG.maxQuotesInGame})</span>
 					</h3>
-					<p>
-						Find all quotes for the Seal of Duality step. Check off each quote
-						as you find it.
-					</p>
 					<Button variantType="secondary" onClick={resetAll}>
 						Reset All
 					</Button>
 				</div>
+				<p className="section-header__description">
+					Listen for the quote in-game, then click on the matching quote below to reveal its location.
+				</p>
+			</div>
 
-				<div className="seal-section__list">
-					{localData.quotes?.map((quote, index) => (
-						<FloatingCard
+			<div className="location-grid location-grid--quotes">
+				{localData.quotes?.map((quote, index) => {
+					// Disable quotes if max quotes are already found and this one isn't found
+					const isDisabled = foundCount >= GAME_CONFIG.maxQuotesInGame && !quote.found;
+					
+					return (
+						<LocationCard
 							key={quote.id}
-							className={`quote-card ${quote.found ? "quote-card--found" : ""}`}
-							interactive
-							onClick={() => toggleQuoteFound(quote.id)}
-						>
-							<div className="quote-card__header">
-								<span className="quote-card__number">#{index + 1}</span>
-								<span className="quote-card__status">
-									{quote.found ? "✅" : "🔍"}
-								</span>
-							</div>
-							<div className="quote-card__content">
-								<div className="quote-card__text">
-									<strong>Quote:</strong> "{quote.text}"
-								</div>
-								<div className="quote-card__location">
-									<strong>Location:</strong> {quote.location}
-								</div>
-							</div>
-						</FloatingCard>
-					))}
-				</div>
+							primaryText={quote.text}
+							secondaryText={quote.location}
+							isCompleted={quote.found}
+							onToggle={() => toggleQuoteFound(quote.id)}
+							showSecondaryOnlyWhenCompleted={true}
+							disabled={isDisabled}
+							variant="quote"
+						/>
+					);
+				})}
+			</div>
 
-				{foundCount === totalCount && (
-					<div className="seal-section__completion">
-						<FloatingCard className="completion-card">
-							<h4>🎉 All Quotes Found!</h4>
-							<p>
-								The Seal of Duality is ready. You can now proceed to the next
-								step.
-							</p>
-						</FloatingCard>
-					</div>
-				)}
-			</FloatingCard>
+			{foundCount === totalCount && (
+				<div className="section-completion">
+					<FloatingCard className="completion-card">
+						<h4>🎉 All Quotes Found!</h4>
+						<p>
+							You've completed the Seal of Duality step. You can now proceed to the next step.
+						</p>
+					</FloatingCard>
+				</div>
+			)}
 		</div>
 	);
 }

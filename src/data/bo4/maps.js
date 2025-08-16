@@ -80,7 +80,7 @@ export const BO4_MAPS = [
 		component: () =>
 			import("../../components/games/bo4/maps/tag-der-toten/TagDerToten.jsx"),
 		available: true,
-		tools: ["Totems", "Seal of Duality", "Orb Locations"],
+		tools: ["Totems", "Apothican Offerings", "Seal of Duality", "Orb Locations"],
 		difficulty: "hard",
 	},
 ];

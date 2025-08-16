@@ -1,0 +1,195 @@
+// LocationCard component styles
+.location-card {
+	padding: 1rem;
+	transition: all var(--transition);
+	background: transparent;
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius);
+	position: relative;
+	
+	&--clickable {
+		cursor: pointer;
+		
+		&:hover:not(.location-card--completed) {
+			border-color: var(--border-focus);
+			background: var(--location-card-hover-bg);
+		}
+	}
+	
+	&--completed {
+		border-color: var(--location-card-completed-border);
+		background: var(--location-card-completed-bg);
+		
+		&:hover {
+			border-color: var(--location-card-completed-border);
+			background: var(--location-card-completed-bg);
+		}
+	}
+	
+	&--selected {
+		border-color: var(--text-primary);
+		background: var(--location-card-selected-bg);
+	}
+	
+	// Completed takes priority over selected
+	&--completed.location-card--selected {
+		border-color: var(--location-card-completed-border);
+		background: var(--location-card-completed-bg);
+	}
+	
+	&--disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+		
+		&:hover {
+			border-color: var(--border-subtle);
+			background: transparent;
+		}
+	}
+	
+	&__status {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+		font-size: 1.1rem;
+		z-index: 1;
+	}
+	
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		margin-right: 2rem; // Space for the status icon
+	}
+	
+	&__primary,
+	&__secondary {
+		font-size: 0.9rem;
+		line-height: 1.4;
+		color: var(--text-secondary);
+		
+		strong {
+			color: var(--text-primary);
+			font-weight: 600;
+		}
+	}
+	
+	&__primary {
+		font-size: 0.95rem;
+	}
+	
+	&__secondary {
+		font-size: 0.85rem;
+		color: var(--text-primary); // Make secondary text whiter and more readable
+		opacity: 0.9;
+	}
+	
+	&__extra {
+		margin-top: 0.5rem;
+		font-size: 0.8rem;
+		color: rgba(255, 255, 255, 0.6);
+	}
+}
+
+// Grid layouts for different sections
+.location-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	max-width: none;
+	gap: 1rem;
+	margin: 1.5rem 0;
+	
+	// Limit to max 3 columns
+	@media (min-width: 1200px) {
+		grid-template-columns: repeat(3, 1fr);
+	}
+	
+	// More compact for quotes (more cards)
+	&--quotes {
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		gap: 0.8rem;
+		
+		// Limit to max 3 columns for quotes
+		@media (min-width: 1000px) {
+			grid-template-columns: repeat(3, 1fr);
+		}
+		
+		.location-card {
+			padding: 0.8rem;
+		}
+	}
+	
+	// Larger for totems (fewer cards, more detail)
+	&--totems {
+		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		gap: 1.2rem;
+		
+		// Limit to max 3 columns for totems
+		@media (min-width: 1200px) {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+}
+
+// Completion message styling for totems
+.completion-message {
+	background: var(--completion-message-bg);
+	border: 1px solid var(--location-card-completed-border);
+	border-radius: var(--radius);
+	padding: 1rem;
+	text-align: center;
+	
+	h4 {
+		color: var(--location-card-completed-border);
+		margin-bottom: 0.5rem;
+	}
+	
+	p {
+		color: var(--text-secondary);
+		margin: 0;
+	}
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+	.location-grid {
+		grid-template-columns: 1fr;
+		gap: 0.8rem;
+		
+		&--quotes {
+			grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		}
+	}
+	
+	.location-card {
+		padding: 0.8rem;
+		
+		&__primary,
+		&__secondary {
+			font-size: 0.85rem;
+		}
+	}
+}
+
+@media (max-width: 480px) {
+	.location-grid {
+		grid-template-columns: 1fr;
+		
+		&--quotes {
+			grid-template-columns: 1fr;
+		}
+	}
+	
+	.location-card {
+		padding: 0.7rem;
+		
+		&__status {
+			font-size: 1rem;
+		}
+		
+		&__primary,
+		&__secondary {
+			font-size: 0.8rem;
+		}
+	}
+}

@@ -20,6 +20,7 @@ $colors: (
 
 	// Semantic colors
 	success: #16a34a,
+	success-light: #22c55e,
 	warning: #d97706,
 	danger: #dc2626,
 	info: #3b82f6
@@ -148,9 +149,17 @@ $z-indexes: (
 
 	// Semantic colors
 	--success-color: #{map.get($colors, success)};
+	--success-light-color: #{map.get($colors, success-light)};
 	--warning-color: #{map.get($colors, warning)};
 	--danger-color: #{map.get($colors, danger)};
 	--info-color: #{map.get($colors, info)};
+
+	// Location card specific colors
+	--location-card-hover-bg: rgba(255, 255, 255, 0.02);
+	--location-card-selected-bg: rgba(255, 255, 255, 0.05);
+	--location-card-completed-bg: rgba(34, 197, 94, 0.05);
+	--location-card-completed-border: #{map.get($colors, success-light)};
+	--completion-message-bg: rgba(34, 197, 94, 0.1);
 }
 
 // Light mode - White background, black text/elements
@@ -193,7 +202,15 @@ $z-indexes: (
 
 	// Semantic colors
 	--success-color: #{map.get($colors, success)};
+	--success-light-color: #{map.get($colors, success-light)};
 	--warning-color: #{map.get($colors, warning)};
 	--danger-color: #{map.get($colors, danger)};
 	--info-color: #{map.get($colors, info)};
+
+	// Location card specific colors (light mode)
+	--location-card-hover-bg: rgba(0, 0, 0, 0.02);
+	--location-card-selected-bg: rgba(0, 0, 0, 0.05);
+	--location-card-completed-bg: rgba(34, 197, 94, 0.05);
+	--location-card-completed-border: #{map.get($colors, success-light)};
+	--completion-message-bg: rgba(34, 197, 94, 0.1);
 }
