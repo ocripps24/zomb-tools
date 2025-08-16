@@ -67,14 +67,13 @@ function TotemsSection({ data, onChange }) {
 	const initialData =
 		data && data.totems ? data : { totems: [...CHALLENGE_TOTEMS] };
 	const [localData, setLocalData] = useState(initialData);
-	const [selectedTotems, setSelectedTotems] = useState(new Set([CHALLENGE_TOTEMS[0].id]));
-
-	console.log("TotemsSection props:", { data, initialData });
+	const [selectedTotems, setSelectedTotems] = useState(
+		new Set([CHALLENGE_TOTEMS[0].id])
+	);
 
 	// Load from localStorage on mount
 	useEffect(() => {
 		const saved = localStorage.getItem("tag-der-toten-totems-data");
-		console.log("Loading from localStorage:", { saved });
 		if (saved) {
 			try {
 				const parsedData = JSON.parse(saved);
@@ -105,13 +104,15 @@ function TotemsSection({ data, onChange }) {
 			const updatedTotems = prev.totems.map((totem) =>
 				totem.id === totemId ? { ...totem, completed: !totem.completed } : totem
 			);
-			
+
 			// If marking as completed, ensure it's selected
-			const updatedTotem = updatedTotems.find(t => t.id === totemId);
+			const updatedTotem = updatedTotems.find((t) => t.id === totemId);
 			if (updatedTotem?.completed) {
-				setSelectedTotems(prevSelected => new Set([...prevSelected, totemId]));
+				setSelectedTotems(
+					(prevSelected) => new Set([...prevSelected, totemId])
+				);
 			}
-			
+
 			return {
 				...prev,
 				totems: updatedTotems,
@@ -129,13 +130,13 @@ function TotemsSection({ data, onChange }) {
 	const totalCount = localData.totems?.length || 0;
 	const toggleTotemSelection = (totemId) => {
 		// Check if the totem is completed
-		const totem = localData.totems?.find(t => t.id === totemId);
+		const totem = localData.totems?.find((t) => t.id === totemId);
 		if (totem?.completed) {
 			// Don't allow unselecting completed totems
 			return;
 		}
-		
-		setSelectedTotems(prev => {
+
+		setSelectedTotems((prev) => {
 			const newSet = new Set(prev);
 			if (newSet.has(totemId)) {
 				newSet.delete(totemId);
@@ -146,14 +147,6 @@ function TotemsSection({ data, onChange }) {
 			return newSet.size === 0 ? new Set([CHALLENGE_TOTEMS[0].id]) : newSet;
 		});
 	};
-
-	// Debug logging
-	console.log("TotemsSection render:", {
-		localData,
-		"localData.totems": localData.totems,
-		"localData.totems length": localData.totems?.length,
-		selectedTotems: Array.from(selectedTotems),
-	});
 
 	return (
 		<div className="totems-section">
@@ -205,9 +198,13 @@ function TotemsSection({ data, onChange }) {
 			<div className="totems-challenges">
 				{localData.totems && localData.totems.length > 0 ? (
 					localData.totems
-						.filter(totem => selectedTotems.has(totem.id))
+						.filter((totem) => selectedTotems.has(totem.id))
 						.map((totem) => (
-							<div key={totem.id} className="totem-challenge-section" style={{ marginBottom: '2rem' }}>
+							<div
+								key={totem.id}
+								className="totem-challenge-section"
+								style={{ marginBottom: "2rem" }}
+							>
 								{totem.completed ? (
 									<div className="completion-message">
 										<h4>{totem.name} - Complete! 🎉</h4>
