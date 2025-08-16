@@ -1,12 +1,10 @@
-import { useState, useCallback } from "react";
-import {
-	Link,
-	Routes,
-	Route,
-	useNavigate,
-	useLocation,
-} from "react-router-dom";
-// We'll create this component next
+import { useState, useCallback, useEffect } from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import MapNavigation from "../../../../common/MapNavigation";
+import SettingsPage from "../../../../common/SettingsPage";
+import StepNavigationButtons from "../../../../common/StepNavigationButtons";
+import FloatingCard from "../../../../common/FloatingCard";
+import Button from "../../../../common/Button";
 import NathanCodeSection from "./sections/NathanCodeSection";
 import BeamCodeSection from "./sections/BeamCodeSection";
 
@@ -33,9 +31,16 @@ function Terminus() {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	// Get current step index
+	// Default to nathan-code step if no specific step
 	const currentPath = location.pathname;
 	const currentStepIndex = STEPS.findIndex((step) => step.path === currentPath);
+
+	useEffect(() => {
+		// Redirect to first step if user visits base terminus URL
+		if (currentPath === "/bo6/terminus" || currentPath === "/bo6/terminus/") {
+			navigate(STEPS[0].path, { replace: true });
+		}
+	}, [currentPath, navigate]);
 
 	// Active step logic
 	const getActiveStepIndex = () => {
@@ -111,25 +116,18 @@ function Terminus() {
 	};
 
 	return (
-		<div className="terminus-page">
-			<div className="terminus-header">
-				<div className="terminus-nav">
-					<Link to="/bo6" className="btn btn-secondary">
-						<span className="btn-text">← Back to BO6 Maps</span>
-						<span className="btn-icon">←</span>
-					</Link>
-					<div className="nav-right">
-						<button
-							onClick={handleReset}
-							className="btn btn-secondary reset-btn"
-						>
-							<span className="btn-text">🗑️ Reset All Data</span>
-							<span className="btn-icon">🗑️</span>
-						</button>
-					</div>
-				</div>
+		<div className="map-page terminus">
+			<div className="map-info">
+				<h1 className="map-title">Terminus</h1>
+			</div>
 
-				{/* Step Navigation */}
+			<div className="map-header">
+				<MapNavigation
+					backTo="/bo6"
+					settingsPath="/bo6/terminus/settings"
+					onReset={handleReset}
+				/>
+
 				<div className="step-navigation">
 					<div className="step-tabs">
 						{STEPS.map((step, index) => (
@@ -139,7 +137,6 @@ function Terminus() {
 								className={`step-tab ${
 									activeStepIndex === index ? "step-tab--active" : ""
 								}`}
-								disabled={!step.component} // Disable if component not ready
 							>
 								<span className="step-number">{index + 1}</span>
 								<span className="step-name">{step.name}</span>
@@ -149,8 +146,14 @@ function Terminus() {
 				</div>
 			</div>
 
-			<div className="terminus-content">
+			<div className="map-content">
 				<Routes>
+					{/* Settings route */}
+					<Route
+						path="settings"
+						element={<SettingsPage backTo="/bo6/terminus" />}
+					/>
+
 					{/* Default route - show first available step */}
 					<Route
 						path="/"
@@ -192,34 +195,14 @@ function Terminus() {
 					))}
 				</Routes>
 
-				{/* Navigation buttons */}
-				<div className="terminus-navigation">
-					<div className="navigation-buttons">
-						<button
-							onClick={goToPrevious}
-							disabled={activeStepIndex === 0}
-							className="btn btn-secondary nav-btn"
-						>
-							<span className="btn-text">← Previous</span>
-							<span className="btn-icon">←</span>
-						</button>
-
-						<div className="step-indicator">
-							<span className="current-step">{activeStepIndex + 1}</span>
-							<span className="step-separator">of</span>
-							<span className="total-steps">{STEPS.length}</span>
-						</div>
-
-						<button
-							onClick={goToNext}
-							disabled={activeStepIndex === STEPS.length - 1}
-							className="btn btn-primary nav-btn"
-						>
-							<span className="btn-text">Next →</span>
-							<span className="btn-icon">→</span>
-						</button>
-					</div>
-				</div>
+				{/* Step Navigation Buttons */}
+				<StepNavigationButtons
+					currentStepIndex={activeStepIndex}
+					totalSteps={STEPS.length}
+					onPrevious={goToPrevious}
+					onNext={goToNext}
+					stepNames={STEPS.map(step => step.name)}
+				/>
 			</div>
 		</div>
 	);

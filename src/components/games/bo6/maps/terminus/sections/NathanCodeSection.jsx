@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import Button from "../../../../../common/Button";
 
 // Define the three locations and their value ranges
 const CODE_LOCATIONS = [
@@ -118,6 +119,12 @@ function NathanCodeSection({
 		};
 	};
 
+	// Reset function
+	const resetAll = () => {
+		const initialData = getInitialData();
+		setLocalData(initialData);
+	};
+
 	// Get the final code in correct order
 	const getFinalCode = () => {
 		const { isComplete } = getCompletionStatus();
@@ -132,8 +139,18 @@ function NathanCodeSection({
 	return (
 		<div className="nathan-code-section">
 			<div className="section-header">
-				<h2>Nathan Code</h2>
-				<p className="section-description">
+				<div className="section-header__top-row">
+					<h3 className="section-header__title">
+						Nathan Code{" "}
+						<span className="progress-counter">
+							({status.completed}/{status.total})
+						</span>
+					</h3>
+					<Button variantType="secondary" onClick={resetAll}>
+						Reset All
+					</Button>
+				</div>
+				<p className="section-header__description">
 					Collect three numbers from around the map to form the Nathan Code. The
 					numbers must be entered in the order: Clock → Card → Sign.
 				</p>

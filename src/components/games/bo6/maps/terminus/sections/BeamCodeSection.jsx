@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import Button from "../../../../../common/Button";
 import { BeamSymbols, SYMBOL_DATA, getSymbolValue } from "./BeamSymbols";
 
 const SYMBOL_LOCATIONS = [
@@ -94,6 +95,11 @@ function BeamCodeSection({
 		};
 	};
 
+	// Reset function
+	const resetAll = () => {
+		setLocalData({});
+	};
+
 	const status = getCompletionStatus();
 	const results = calculateEquations();
 	const usedSymbols = Object.values(localData).filter(Boolean);
@@ -101,8 +107,18 @@ function BeamCodeSection({
 	return (
 		<div className="beam-code-section">
 			<div className="section-header">
-				<h2>Beam Code</h2>
-				<p className="section-description">
+				<div className="section-header__top-row">
+					<h3 className="section-header__title">
+						Beam Code{" "}
+						<span className="progress-counter">
+							({status.completed}/{status.total})
+						</span>
+					</h3>
+					<Button variantType="secondary" onClick={resetAll}>
+						Reset All
+					</Button>
+				</div>
+				<p className="section-header__description">
 					Find the 3 laptops with X, Y, Z stickers and record the symbols they
 					display.
 				</p>
