@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import SymbolPicker from "../../../../../common/SymbolPicker";
+import Button from "../../../../../common/Button";
 import { SYMBOL_ICONS, SYMBOL_NAMES } from "./SymbolIcons";
 
 const CLOCK_LOCATIONS = [
@@ -79,9 +81,27 @@ function ClockSection({ data, onChange }) {
 	const [localData, setLocalData] = useState(data || getInitialData());
 	const isInitializing = useRef(true);
 
-	// UI preference states - loaded from settings
-	const [displayFormat, setDisplayFormat] = useState("time");
-	const [inputMethod, setInputMethod] = useState("sliders");
+	// Load initial UI preferences from localStorage
+	const getInitialSettings = () => {
+		try {
+			const saved = localStorage.getItem("voyage-clocks-settings");
+			if (saved) {
+				const settings = JSON.parse(saved);
+				return {
+					displayFormat: settings.displayFormat || "time",
+					inputMethod: settings.inputMethod || "sliders"
+				};
+			}
+		} catch (e) {
+			console.error("Failed to parse clock settings:", e);
+		}
+		return { displayFormat: "time", inputMethod: "sliders" };
+	};
+
+	// UI preference states
+	const initialSettings = getInitialSettings();
+	const [displayFormat, setDisplayFormat] = useState(initialSettings.displayFormat);
+	const [inputMethod, setInputMethod] = useState(initialSettings.inputMethod);
 
 	// Load from localStorage on mount or when parent data changes (reset)
 	useEffect(() => {
@@ -177,49 +197,11 @@ function ClockSection({ data, onChange }) {
 		}
 	}, [localData]); // Removed onChange from dependencies to prevent infinite loop
 
-	// Load UI preferences from settings
+	// Save UI preferences to localStorage when they change
 	useEffect(() => {
-		const loadSettings = () => {
-			const savedSettings = localStorage.getItem("voyage-clocks-settings");
-			if (savedSettings) {
-				try {
-					const settings = JSON.parse(savedSettings);
-					setDisplayFormat(settings.displayFormat || "time");
-					setInputMethod(settings.inputMethod || "sliders");
-				} catch (e) {
-					console.error("Failed to parse clock settings:", e);
-				}
-			}
-		};
-
-		// Load settings on mount
-		loadSettings();
-
-		// Listen for storage changes (when settings are updated in another tab)
-		const handleStorageChange = (e) => {
-			if (e.key === "voyage-clocks-settings") {
-				loadSettings();
-			}
-		};
-
-		// Listen for custom events (when settings are updated in the same tab)
-		const handleSettingsChange = (e) => {
-			const { setting, value } = e.detail;
-			if (setting === "displayFormat") {
-				setDisplayFormat(value);
-			} else if (setting === "inputMethod") {
-				setInputMethod(value);
-			}
-		};
-
-		window.addEventListener("storage", handleStorageChange);
-		window.addEventListener("clockSettingsChanged", handleSettingsChange);
-
-		return () => {
-			window.removeEventListener("storage", handleStorageChange);
-			window.removeEventListener("clockSettingsChanged", handleSettingsChange);
-		};
-	}, []);
+		const settings = { displayFormat, inputMethod };
+		localStorage.setItem("voyage-clocks-settings", JSON.stringify(settings));
+	}, [displayFormat, inputMethod]);
 
 	// Validation functions
 	const isMovementValid = (movement, symbol) => {
@@ -367,12 +349,15 @@ function ClockSection({ data, onChange }) {
 		);
 	};
 
-	// Count locations that have complete data (hour, minute, and symbol)
-	const getActiveLocationsCount = () => {
-		return Object.values(localData).filter(
-			(clock) => clock.hour !== "" && clock.minute !== "" && clock.symbol !== ""
-		).length;
+	// Convert SYMBOLS to format expected by SymbolPicker
+	const getSymbolsForPicker = () => {
+		return SYMBOLS.map(symbolId => ({
+			id: symbolId,
+			component: SYMBOL_ICONS[symbolId],
+			name: SYMBOL_NAMES[symbolId]
+		}));
 	};
+
 
 	// Get clocks that have complete data (hour, minute, and symbol)
 	const getCompleteClocks = () => {
@@ -390,7 +375,6 @@ function ClockSection({ data, onChange }) {
 			}));
 	};
 
-	const activeCount = getActiveLocationsCount();
 	const completeClocks = getCompleteClocks();
 
 	// Group clocks by symbol type for helper section
@@ -606,26 +590,31 @@ function ClockSection({ data, onChange }) {
 	};
 
 	return (
-		<div className="section-card">
+		<div className="clocks-section">
 			<div className="section-header">
-				<h3>
-					<span className="section-title__full">Clock Locations & Times</span>
-					<span className="section-title__short">Clocks</span>
-				</h3>
-				<div className="section-status">
-					<span className="section-status__full">
-						{completeClocks.length}/4 clocks complete
-					</span>
-					<span className="section-status__short">
-						{completeClocks.length}/4
-					</span>
+				<div className="section-header__top-row">
+					<h3 className="section-header__title">
+						Clock Locations & Times{" "}
+						<span className="progress-counter">
+							({completeClocks.length}/4)
+						</span>
+					</h3>
+					<Button 
+						variantType="secondary"
+						onClick={() => {
+							// Reset all clock data
+							const emptyData = getInitialData();
+							setLocalData(emptyData);
+							onChange(emptyData);
+						}}
+					>
+						Reset Clocks
+					</Button>
 				</div>
+				<p className="section-header__description">
+					Record times and symbols for active clocks. Enter hour and minute separately. Each symbol can only be used once.
+				</p>
 			</div>
-
-			<p className="section-description">
-				Record times and symbols for active clocks. Enter hour and minute
-				separately. Each symbol can only be used once.
-			</p>
 
 			<div className="clock-grid">
 				{CLOCK_LOCATIONS.map((location) => {
@@ -640,116 +629,50 @@ function ClockSection({ data, onChange }) {
 					// Ensure we don't show converted values for empty data in text inputs
 					const displayHour = clockData.hour || "";
 					const displayMinute = clockData.minute || "";
-					const availableSymbols = getAvailableSymbols(clockData.symbol);
 					const hasData =
 						clockData.hour !== "" &&
 						clockData.minute !== "" &&
 						clockData.symbol !== "";
+					
+					const hasSymbol = clockData.symbol !== "";
+
+					// Determine the class based on completion state
+					let locationClass = "clock-location";
+					if (hasData) {
+						locationClass += " clock-location--active";
+					} else if (hasSymbol) {
+						locationClass += " clock-location--symbol-selected";
+					}
 
 					return (
 						<div
 							key={location.id}
-							className={`clock-location ${
-								hasData ? "clock-location--active" : ""
-							}`}
+							className={locationClass}
 						>
 							<div className="clock-location-header">
 								<h4>{location.name}</h4>
-
-								{/* Symbol picker in header - mobile only */}
-								<div className="symbol-picker symbol-picker--header">
-									{SYMBOLS.map((symbol) => {
-										const IconComponent = SYMBOL_ICONS[symbol];
-										const isSymbolSelected = clockData.symbol === symbol;
-										const isDisabled = !availableSymbols.includes(symbol);
-										const usedSymbols = getUsedSymbols();
-										const isSymbolUsedElsewhere =
-											usedSymbols.includes(symbol) && !isSymbolSelected;
-										const shouldFade =
-											isSymbolUsedElsewhere ||
-											(clockData.symbol && clockData.symbol !== symbol);
-
-										return (
-											<button
-												key={symbol}
-												onClick={() => {
-													// If clicking the currently selected symbol, deselect it
-													if (isSymbolSelected) {
-														handleSymbolChange(location.id, "");
-													} else {
-														handleSymbolChange(location.id, symbol);
-													}
-												}}
-												className={`symbol-btn ${
-													isSymbolSelected ? "symbol-btn--selected" : ""
-												} ${isDisabled ? "symbol-btn--disabled" : ""} ${
-													shouldFade && !isDisabled ? "symbol-btn--faded" : ""
-												}`}
-												disabled={isDisabled}
-												title={
-													isSymbolSelected
-														? `Deselect ${SYMBOL_NAMES[symbol]}`
-														: SYMBOL_NAMES[symbol]
-												}
-												type="button"
-											>
-												<IconComponent size={32} />
-											</button>
-										);
-									})}
-								</div>
 							</div>
 
-							<div className="clock-inputs">
-								{/* Symbol Selection - Always First */}
-								<div className="input-group">
-									<label className="symbol-label">Symbol:</label>
-									<div className="symbol-picker">
-										{SYMBOLS.map((symbol) => {
-											const IconComponent = SYMBOL_ICONS[symbol];
-											const isSymbolSelected = clockData.symbol === symbol;
-											const isDisabled = !availableSymbols.includes(symbol);
-											const usedSymbols = getUsedSymbols();
-											const isSymbolUsedElsewhere =
-												usedSymbols.includes(symbol) && !isSymbolSelected;
-											const shouldFade =
-												isSymbolUsedElsewhere ||
-												(clockData.symbol && clockData.symbol !== symbol);
+							{/* Symbol Selection */}
+							<div className="symbol-selection">
+								<label className="symbol-label">Symbol:</label>
+								<SymbolPicker
+									symbols={getSymbolsForPicker()}
+									selectedSymbol={clockData.symbol || ""}
+									onSymbolChange={handleSymbolChange}
+									usedSymbols={getUsedSymbols()}
+									locationId={location.id}
+									className="symbol-picker--voyage"
+									gridConfig={{ columns: 4, rows: 1 }}
+									allowDeselect={true}
+									greyOutUnselected={true}
+								/>
+							</div>
 
-											return (
-												<button
-													key={symbol}
-													onClick={() => {
-														// If clicking the currently selected symbol, deselect it
-														if (isSymbolSelected) {
-															handleSymbolChange(location.id, "");
-														} else {
-															handleSymbolChange(location.id, symbol);
-														}
-													}}
-													className={`symbol-btn ${
-														isSymbolSelected ? "symbol-btn--selected" : ""
-													} ${isDisabled ? "symbol-btn--disabled" : ""} ${
-														shouldFade && !isDisabled ? "symbol-btn--faded" : ""
-													}`}
-													disabled={isDisabled}
-													title={
-														isSymbolSelected
-															? `Deselect ${SYMBOL_NAMES[symbol]}`
-															: SYMBOL_NAMES[symbol]
-													}
-													type="button"
-												>
-													<IconComponent size={32} />
-												</button>
-											);
-										})}
-									</div>
-								</div>
-
-								{/* Time/Movement Inputs */}
+							{/* Time/Movement Inputs */}
+							<div className="time-inputs">
 								{inputMethod === "text" && (
-									<div className="time-inputs">
+									<div className="text-input-group">
 										<div className="input-group">
 											<label
 												htmlFor={`hour-${location.id}`}
@@ -798,7 +721,7 @@ function ClockSection({ data, onChange }) {
 								)}
 
 								{inputMethod === "sliders" && (
-									<div className="movement-inputs">
+									<div className="slider-input-group">
 										<MovementSlider
 											locationId={location.id}
 											type="hour"
@@ -817,7 +740,7 @@ function ClockSection({ data, onChange }) {
 								)}
 
 								{inputMethod === "steppers" && (
-									<div className="movement-inputs">
+									<div className="stepper-input-group">
 										<MovementStepper
 											locationId={location.id}
 											type="hour"
@@ -836,7 +759,7 @@ function ClockSection({ data, onChange }) {
 								)}
 
 								{inputMethod === "buttons" && (
-									<div className="movement-inputs">
+									<div className="button-input-group">
 										<MovementButtons
 											locationId={location.id}
 											symbol={clockData.symbol}
@@ -850,6 +773,50 @@ function ClockSection({ data, onChange }) {
 						</div>
 					);
 				})}
+			</div>
+
+			{/* Clock Input Settings */}
+			<div className="section-settings">
+				<h4>Clock Input Preferences</h4>
+				<p className="settings-description">
+					Customize how you input clock times and how they are displayed.
+				</p>
+				
+				<div className="settings-grid">
+					<div className="setting-group">
+						<label htmlFor="display-format">Display Format:</label>
+						<select
+							id="display-format"
+							value={displayFormat}
+							onChange={(e) => setDisplayFormat(e.target.value)}
+							className="setting-select"
+						>
+							<option value="time">Time Format (01:45)</option>
+							<option value="movements">Movement Format (+1/-3)</option>
+						</select>
+						<span className="setting-note">
+							How times are displayed throughout the interface
+						</span>
+					</div>
+
+					<div className="setting-group">
+						<label htmlFor="input-method">Input Method:</label>
+						<select
+							id="input-method"
+							value={inputMethod}
+							onChange={(e) => setInputMethod(e.target.value)}
+							className="setting-select"
+						>
+							<option value="sliders">Sliders (range controls)</option>
+							<option value="steppers">Steppers (+/- buttons)</option>
+							<option value="buttons">Button Grid</option>
+							<option value="text">Text Fields</option>
+						</select>
+						<span className="setting-note">
+							How you input time values for each clock location
+						</span>
+					</div>
+				</div>
 			</div>
 
 			{/* Helper Section */}

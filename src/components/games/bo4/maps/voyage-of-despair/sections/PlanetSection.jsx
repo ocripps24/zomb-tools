@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import Button from "../../../../../common/Button";
 import {
 	DndContext,
 	closestCenter,
@@ -208,25 +209,30 @@ function PlanetSection({ data, onChange }) {
 		return order;
 	}, [localData]);
 
-	return (
-		<div className="section-card">
-			<div className="section-header">
-				<h3>
-					<span className="section-title__full">Planet Order</span>
-					<span className="section-title__short">Planets</span>
-				</h3>
-				<div className="section-status">
-					<span className="section-status__full">
-						{localData.length}/8 planets ordered
-					</span>
-					<span className="section-status__short">{localData.length}/8</span>
-				</div>
-			</div>
+	// Reset function
+	const resetAll = () => {
+		setLocalData([]);
+	};
 
-			<p className="section-description">
-				Record the order of planets as they appear. Sun is automatically added
-				as the final step.
-			</p>
+	return (
+		<div className="planets-section">
+			<div className="section-header">
+				<div className="section-header__top-row">
+					<h3 className="section-header__title">
+						Planet Order{" "}
+						<span className="progress-counter">
+							({localData.length}/8)
+						</span>
+					</h3>
+					<Button variantType="secondary" onClick={resetAll}>
+						Reset Planets
+					</Button>
+				</div>
+				<p className="section-header__description">
+					Record the order of planets as they appear. Sun is automatically added
+					as the final step.
+				</p>
+			</div>
 
 			{/* Available planets - only show when there are planets available */}
 			{availablePlanets.length > 0 && (

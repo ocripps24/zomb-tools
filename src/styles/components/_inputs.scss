@@ -1,7 +1,8 @@
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
 
-// Form components
+// Input Components
+// Reusable input controls used across maps
 .input-group {
 	@include flex-column;
 	gap: space(sm);
@@ -51,12 +52,6 @@
 	font-size: font-size(sm);
 	font-weight: font-weight(medium);
 	color: var(--text-primary);
-}
-
-// Symbol picker
-.symbol-picker {
-	@include grid(4, space(sm));
-	max-width: 240px;
 }
 
 // Movement controls
@@ -210,63 +205,7 @@
 	}
 }
 
-// Symbol selection
-.symbol-grid {
-	@include grid(6, space(sm));
-	max-width: 300px;
-
-	@include mobile {
-		grid-template-columns: repeat(4, 1fr); // 4 columns on mobile
-		gap: space(xs); // Tighter spacing on mobile
-	}
-}
-
-.symbol-button {
-	@include button-base;
-	@include button-secondary;
-	aspect-ratio: 1;
-	padding: space(xs);
-	font-size: font-size(sm);
-	min-width: 40px;
-	height: 40px;
-
-	@include mobile {
-		min-width: 36px; // Smaller on mobile
-		height: 36px;
-		font-size: font-size(xs);
-	}
-
-	&:hover:not(:disabled) {
-		background-color: var(--btn-primary-bg);
-		color: var(--btn-primary-text);
-	}
-
-	&.selected {
-		background-color: var(--btn-primary-bg);
-		color: var(--btn-primary-text);
-		border-color: var(--border-color);
-		box-shadow: 0 0 0 2px var(--border-color) inset;
-	}
-
-	&:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-		background-color: var(--bg-tertiary);
-		border-color: var(--border-subtle);
-		color: var(--text-muted);
-
-		&:hover {
-			background-color: var(--bg-tertiary);
-			color: var(--text-muted);
-		}
-	}
-
-	.symbol-icon {
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-	}
-}
+// Note: Symbol selection styles moved to dedicated SymbolPicker component
 
 // Form validation
 .input-error {

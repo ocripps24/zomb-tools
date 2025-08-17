@@ -14,7 +14,7 @@
 
 // 3. Components - reusable UI components
 @use "components/buttons";
-// @use "components/forms";  // Commented out - legacy styles, will reference when rebuilding voyage
+@use "components/inputs"; // Renamed from forms.scss, cleaned up symbol styles
 @use "components/not-found";
 @use "components/cards";
 @use "components/nav";
@@ -30,7 +30,6 @@
 @use "layout/app";
 
 // 5. Pages - general page-specific styles
-// @use "pages/clocks";  // Commented out - has conflicting symbol-picker styles, will reference when rebuilding voyage
 @use "pages/map-selection";
 @use "pages/settings";
 @use "pages/game-selection";

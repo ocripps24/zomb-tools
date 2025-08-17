@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import Button from "../../../../../common/Button";
 
 const OUTLET_LOCATIONS = [
 	{ id: "state-rooms", name: "State Rooms" },
@@ -107,28 +108,31 @@ function OutletSection({ data, onChange }) {
 
 	const assignedCount = Object.keys(localData).length;
 
-	return (
-		<div className="section-card">
-			<div className="section-header">
-				<h3>
-					<span className="section-title__full">
-						Outlet Locations & Catalysts
-					</span>
-					<span className="section-title__short">Outlets</span>
-				</h3>
-				<div className="section-status">
-					<span className="section-status__full">
-						{assignedCount}/4 catalysts assigned
-					</span>
-					<span className="section-status__short">{assignedCount}/4</span>
-				</div>
-			</div>
+	// Reset function
+	const resetAll = () => {
+		setLocalData({});
+	};
 
-			<p className="section-description">
-				Select which catalyst zombie type appears at each outlet location. After
-				killing the catalyst zombie, enter the portals in the specific order
-				shown below.
-			</p>
+	return (
+		<div className="outlets-section">
+			<div className="section-header">
+				<div className="section-header__top-row">
+					<h3 className="section-header__title">
+						Outlet Locations & Catalysts{" "}
+						<span className="progress-counter">
+							({assignedCount}/4)
+						</span>
+					</h3>
+					<Button variantType="secondary" onClick={resetAll}>
+						Reset Outlets
+					</Button>
+				</div>
+				<p className="section-header__description">
+					Select which catalyst zombie type appears at each outlet location. After
+					killing the catalyst zombie, enter the portals in the specific order
+					shown below.
+				</p>
+			</div>
 
 			{/* Outlet Selection Grid */}
 			<div className="outlet-grid">
