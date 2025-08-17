@@ -1,0 +1,501 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+// Reckoning specific styles
+// Note: Section headers now handled by dedicated section-header component
+
+// Documents section layout
+.documents-section {
+	// Uses standard section structure with section-header component
+}
+
+// Documents grid layout
+.documents-grid {
+	@include responsive-grid(1, 2, 3, space(lg));
+	margin-bottom: space(xl);
+
+	@include mobile {
+		gap: space(md);
+	}
+}
+
+.document-card {
+	background-color: transparent;
+	border: 1px solid var(--border-subtle);
+	border-radius: radius(base);
+	padding: space(lg);
+	cursor: pointer;
+	transition: transition(base);
+
+	@include mobile {
+		border: 0;
+		border-bottom: 1px solid var(--border-subtle);
+		border-radius: 0;
+		padding: space(md) 0;
+	}
+
+	&:hover:not(&--disabled) {
+		border-color: var(--border-color);
+	}
+
+	&--selected {
+		border-color: var(--success-color);
+		background-color: var(--location-card-completed-bg);
+
+		@include mobile {
+			border-bottom-color: var(--success-color);
+		}
+	}
+
+	&--disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+.document-header {
+	@include flex-between;
+	align-items: center;
+	margin-bottom: space(md);
+}
+
+.document-number {
+	@include flex-center;
+	@include touch-target(32px);
+	background-color: var(--accent-color);
+	color: var(--btn-primary-text);
+	border-radius: radius(full);
+	font-weight: font-weight(semibold);
+	font-size: font-size(sm);
+	min-width: 32px;
+	flex-shrink: 0;
+}
+
+.document-status {
+	@include flex-center;
+	@include touch-target(24px);
+	font-size: font-size(lg);
+	font-weight: font-weight(bold);
+	color: var(--text-primary);
+	min-width: 24px;
+
+	.document-card--selected & {
+		color: var(--success-color);
+	}
+}
+
+.document-info {
+	@include flex-column;
+	gap: space(xs);
+}
+
+.document-name {
+	margin: 0;
+	color: var(--text-primary);
+	font-size: font-size(base);
+	font-weight: font-weight(medium);
+
+	@include mobile {
+		font-size: font-size(sm);
+	}
+}
+
+.document-date {
+	margin: 0;
+	color: var(--text-secondary);
+	font-size: font-size(sm);
+
+	@include mobile {
+		font-size: font-size(xs);
+	}
+}
+
+// Code preview section
+.code-preview {
+	margin-bottom: space(xl);
+	padding: space(2xl);
+	border: 1px solid var(--border-color);
+	border-radius: radius(base);
+	background-color: transparent;
+
+	h4 {
+		margin: 0 0 space(lg) 0;
+		color: var(--text-primary);
+		font-size: font-size(xl);
+	}
+}
+
+.code-display {
+	@include flex-center;
+	@include flex-column;
+	gap: space(sm);
+	text-align: center;
+}
+
+.code-value {
+	font-family: font-family(mono);
+	font-size: font-size(3xl);
+	font-weight: font-weight(bold);
+	color: var(--success-color);
+	background: transparent;
+	padding: space(md) space(lg);
+	border-radius: radius(base);
+	border: 2px solid var(--success-color);
+
+	@include mobile {
+		font-size: font-size(2xl);
+		padding: space(sm) space(md);
+	}
+}
+
+.code-note {
+	color: var(--text-secondary);
+	font-size: font-size(sm);
+	font-style: italic;
+}
+
+.code-instruction {
+	margin-top: space(md);
+	color: var(--text-primary);
+	font-size: font-size(sm);
+	text-align: center;
+}
+
+// Door code section styles
+.door-code-section {
+	// Uses standard section structure with section-header component
+}
+
+// Screens input grid
+.screens-grid {
+	@include grid(2, space(lg));
+	margin-bottom: space(xl);
+
+	@include mobile {
+		grid-template-columns: 1fr;
+	}
+}
+
+.screen-input {
+	@include flex-column;
+	gap: space(sm);
+}
+
+.screen-label {
+	@include flex-column;
+	gap: space(xs);
+	font-size: font-size(sm);
+	font-weight: font-weight(medium);
+	color: var(--text-primary);
+}
+
+.screen-note {
+	font-size: font-size(xs);
+	font-weight: font-weight(normal);
+	color: var(--text-secondary);
+	font-style: italic;
+}
+
+.screen-word-input {
+	@include input-base;
+	padding: space(md);
+	font-size: font-size(base);
+	text-align: center;
+	text-transform: uppercase;
+
+	&:focus {
+		border-color: var(--accent-color);
+		box-shadow: 0 0 0 1px var(--accent-color);
+	}
+}
+
+// Word dictionaries
+.word-dictionaries {
+	margin-bottom: space(xl);
+	padding: space(2xl);
+	border: 1px solid var(--border-color);
+	border-radius: radius(base);
+	background-color: transparent;
+
+	h4 {
+		margin: 0 0 space(sm) 0;
+		color: var(--text-primary);
+		font-size: font-size(xl);
+	}
+
+	.dictionaries-description {
+		margin: 0 0 space(xl) 0;
+		color: var(--text-secondary);
+		font-size: font-size(sm);
+	}
+}
+
+.dictionaries-grid {
+	@include grid(1, space(xl));
+
+	@include tablet {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+.dictionary-column {
+	@include flex-column;
+	gap: space(md);
+
+	h5 {
+		margin: 0;
+		color: var(--text-primary);
+		font-size: font-size(base);
+		font-weight: font-weight(semibold);
+		text-align: center;
+		padding-bottom: space(sm);
+		border-bottom: 1px solid var(--border-subtle);
+	}
+}
+
+.word-buttons {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+	gap: space(xs);
+
+	@include mobile {
+		grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+		gap: 2px;
+	}
+}
+
+.word-btn {
+	@include button-base;
+	@include button-secondary;
+	padding: space(xs) space(sm);
+	font-size: font-size(xs);
+	font-weight: font-weight(medium);
+	text-transform: uppercase;
+	transition: transition(base);
+	min-height: 32px;
+
+	@include mobile {
+		padding: space(xs);
+		font-size: font-size(2xs);
+		min-height: 28px;
+	}
+
+	&:hover:not(&--selected) {
+		background-color: var(--bg-tertiary);
+		border-color: var(--accent-color);
+	}
+
+	&--selected {
+		background-color: var(--accent-color);
+		color: var(--btn-primary-text);
+		border-color: var(--accent-color);
+	}
+}
+
+.door-code-result {
+	margin-bottom: space(xl);
+	padding: space(xl);
+	border: 2px solid var(--success-color);
+	border-radius: radius(base);
+	background: var(--location-card-completed-bg);
+	text-align: center;
+
+	h4 {
+		margin: 0 0 space(md) 0;
+		color: var(--success-color);
+		font-size: font-size(xl);
+	}
+
+	.element-info {
+		margin: space(sm) 0 0 0;
+		color: var(--text-secondary);
+		font-size: font-size(sm);
+		font-style: italic;
+	}
+}
+
+.element-not-found {
+	padding: space(lg);
+	border: 1px solid var(--danger-color);
+	border-radius: radius(base);
+	background: rgba(220, 38, 38, 0.1);
+
+	p {
+		margin: 0;
+		color: var(--danger-color);
+		font-size: font-size(sm);
+		text-align: center;
+	}
+}
+
+.door-code-formatted {
+	color: var(--success-color);
+	font-size: font-size(xl);
+	font-family: font-family(mono);
+	background: var(--location-card-completed-bg);
+	padding: space(xs) space(sm);
+	border-radius: radius(sm);
+	border: 1px solid var(--success-color);
+}
+
+// Possible elements display
+.possible-category {
+	margin-top: space(lg);
+	
+	h5 {
+		margin: 0 0 space(md) 0;
+		color: var(--text-primary);
+		font-size: font-size(sm);
+		font-weight: font-weight(semibold);
+	}
+}
+
+.possible-codes {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+	gap: space(sm);
+	
+	@include mobile {
+		grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+		gap: space(xs);
+	}
+}
+
+.possible-code-item {
+	@include flex-column;
+	align-items: center;
+	padding: space(sm);
+	border: 1px solid var(--border-color);
+	border-radius: radius(sm);
+	background: transparent;
+	text-align: center;
+	
+	@include mobile {
+		padding: space(xs);
+	}
+}
+
+.element-display {
+	font-weight: font-weight(bold);
+	color: var(--text-primary);
+	font-size: font-size(base);
+	margin-bottom: space(xs);
+	
+	@include mobile {
+		font-size: font-size(sm);
+	}
+}
+
+.code-display-small {
+	font-family: font-family(mono);
+	color: var(--success-color);
+	font-size: font-size(sm);
+	font-weight: font-weight(bold);
+	padding: space(xs) space(sm);
+	border: 1px solid var(--success-color);
+	border-radius: radius(xs);
+	background: var(--location-card-completed-bg);
+	
+	@include mobile {
+		font-size: font-size(xs);
+		padding: 2px space(xs);
+	}
+}
+
+// Periodic table reference
+.periodic-table-reference {
+	padding: space(2xl);
+	border: 1px solid var(--border-color);
+	border-radius: radius(base);
+	background-color: transparent;
+
+	h4 {
+		margin: 0 0 space(lg) 0;
+		color: var(--text-primary);
+		font-size: font-size(base);
+	}
+}
+
+.periodic-table-grid {
+	display: grid;
+	grid-template-columns: repeat(18, 1fr);
+	grid-template-rows: repeat(
+		9,
+		auto
+	); // 7 periods + 2 for lanthanides/actinides
+	gap: 2px;
+	font-size: font-size(xs);
+
+	@include mobile {
+		font-size: font-size(2xs);
+		gap: 1px;
+	}
+}
+
+.periodic-element {
+	@include flex-column;
+	align-items: center;
+	justify-content: center;
+	min-height: 40px;
+	padding: space(xs);
+	background: transparent;
+	border: 1px solid var(--border-subtle);
+	border-radius: radius(xs);
+	text-align: center;
+	transition: transition(base);
+	position: relative;
+
+	@include mobile {
+		min-height: 32px;
+		padding: 2px;
+	}
+
+	&:hover {
+		background: transparent;
+		border-color: var(--border-color);
+	}
+
+	&--highlighted {
+		border-color: var(--location-card-completed-border);
+		background: var(--location-card-completed-bg);
+
+		.element-number,
+		.element-symbol {
+			color: var(--text-primary);
+		}
+	}
+	
+	&--possible {
+		border-color: var(--accent-color);
+		background: rgba(var(--accent-color-rgb), 0.1);
+		
+		.element-number,
+		.element-symbol {
+			color: var(--accent-color);
+		}
+	}
+}
+
+.periodic-element .element-number {
+	font-size: font-size(2xs);
+	color: var(--text-secondary);
+	line-height: 1;
+	margin-bottom: 2px;
+
+	@include mobile {
+		font-size: 8px;
+		margin-bottom: 1px;
+	}
+}
+
+.periodic-element .element-symbol {
+	font-weight: font-weight(bold);
+	color: var(--text-primary);
+	font-size: font-size(xs);
+	line-height: 1;
+
+	@include mobile {
+		font-size: 10px;
+	}
+}

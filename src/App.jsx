@@ -4,6 +4,7 @@ import MapSelection from "./components/MapSelection";
 import VoyageOfDespair from "./components/games/bo4/maps/voyage-of-despair/VoyageOfDespair";
 import TagDerToten from "./components/games/bo4/maps/tag-der-toten/TagDerToten";
 import Terminus from "./components/games/bo6/maps/terminus/Terminus";
+import Reckoning from "./components/games/bo6/maps/reckoning/Reckoning";
 import NotFound from "./components/NotFound";
 import { getGameById } from "./data/games";
 import "./styles/main.scss";
@@ -25,6 +26,9 @@ function App() {
 		}
 		if (path.includes("/terminus")) {
 			return "Terminus";
+		}
+		if (path.includes("/reckoning")) {
+			return "Reckoning";
 		}
 
 		// Handle game selection pages
@@ -63,6 +67,7 @@ function App() {
 					{/* BO6 Routes */}
 					<Route path="/bo6" element={<MapSelection gameId="bo6" />} />
 					<Route path="/bo6/terminus/*" element={<Terminus />} />
+					<Route path="/bo6/reckoning/*" element={<Reckoning />} />
 
 					{/* Legacy route redirect for existing bookmarks */}
 					<Route path="/voyage-of-despair/*" element={<VoyageOfDespair />} />

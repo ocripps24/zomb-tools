@@ -51,14 +51,15 @@ export const BO6_MAPS = [
 		difficulty: "easy",
 	},
 	{
-		id: "the-reckoning",
-		name: "The Reckoning",
-		status: "Not released",
-		route: "/bo6/the-reckoning",
-		component: null,
-		available: false,
-		tools: ["N/A"],
-		difficulty: "easy",
+		id: "reckoning",
+		name: "Reckoning",
+		status: "Development in progress",
+		route: "/bo6/reckoning",
+		component: () =>
+			import("../../components/games/bo6/maps/reckoning/Reckoning.jsx"),
+		available: true,
+		tools: ["Documents Code", "Door Code"],
+		difficulty: "medium",
 	},
 ];
 
