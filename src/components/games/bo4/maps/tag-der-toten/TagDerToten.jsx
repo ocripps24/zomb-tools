@@ -1,9 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import MapNavigation from "../../../../common/MapNavigation";
-import SettingsPage from "../../../../common/SettingsPage";
-import FloatingCard from "../../../../common/FloatingCard";
-import Button from "../../../../common/Button";
 import TotemsSection from "./sections/TotemsSection";
 import ApothicanOfferingsSection from "./sections/ApothicanOfferingsSection";
 import SealOfDualitySection from "./sections/SealOfDualitySection";
@@ -197,7 +194,6 @@ function TagDerToten() {
 			<div className="map-header">
 				<MapNavigation
 					backTo="/bo4"
-					settingsPath="/bo4/tag-der-toten/settings"
 					onReset={handleReset}
 				/>
 
@@ -221,12 +217,6 @@ function TagDerToten() {
 
 			<div className="map-content">
 				<Routes>
-					{/* Settings route */}
-					<Route
-						path="settings"
-						element={<SettingsPage backTo="/bo4/tag-der-toten" />}
-					/>
-
 					{/* Default route - show TotemsSection when no sub-path */}
 					<Route
 						path="/"

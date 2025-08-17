@@ -64,11 +64,11 @@ function BeamCodeSection({
 
 	// Convert SYMBOL_DATA to format expected by SymbolPicker
 	const getSymbolsForPicker = () => {
-		return SYMBOL_DATA.map(symbol => ({
+		return SYMBOL_DATA.map((symbol) => ({
 			id: symbol.id,
 			component: BeamSymbols[symbol.id],
 			name: symbol.name,
-			value: symbol.value
+			value: symbol.value,
 		}));
 	};
 
@@ -163,15 +163,15 @@ function BeamCodeSection({
 					<div className="results-grid">
 						<div className="result-item">
 							<span className="result-number">{results.equation1}</span>
-							<span className="result-label">First Input</span>
+							<span className="result-label">First Number</span>
 						</div>
 						<div className="result-item">
 							<span className="result-number">{results.equation2}</span>
-							<span className="result-label">Second Input</span>
+							<span className="result-label">Second Number</span>
 						</div>
 						<div className="result-item">
 							<span className="result-number">{results.equation3}</span>
-							<span className="result-label">Third Input</span>
+							<span className="result-label">Third Number</span>
 						</div>
 					</div>
 				</div>

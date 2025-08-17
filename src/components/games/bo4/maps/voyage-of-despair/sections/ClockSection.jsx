@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import SymbolPicker from "../../../../../common/SymbolPicker";
 import Button from "../../../../../common/Button";
+import MovementSlider from "../../../../../common/MovementSlider";
+import MovementStepper from "../../../../../common/MovementStepper";
+import MovementButtons from "../../../../../common/MovementButtons";
 import { SYMBOL_ICONS, SYMBOL_NAMES } from "./SymbolIcons";
 
 const CLOCK_LOCATIONS = [
@@ -388,206 +391,6 @@ function ClockSection({ data, onChange }) {
 
 	const clocksBySymbol = getClocksBySymbol();
 
-	// Movement slider component
-	const MovementSlider = ({ locationId, type, movement, symbol, onChange }) => {
-		const [isDragging, setIsDragging] = useState(false);
-		const [tempValue, setTempValue] = useState(movement);
-		const limits = symbol ? MOVEMENT_LIMITS[symbol] : { min: -5, max: 5 };
-		const timeValue = movementToTime(isDragging ? tempValue : movement, type);
-
-		// Get time values for the limits
-		const minTimeValue = movementToTime(limits.min, type);
-		const maxTimeValue = movementToTime(limits.max, type);
-
-		const handleSliderChange = useCallback(
-			(e) => {
-				const newValue = parseInt(e.target.value);
-				setTempValue(newValue);
-				if (!isDragging) {
-					onChange(locationId, newValue, type);
-				}
-			},
-			[locationId, type, onChange, isDragging]
-		);
-
-		const handleMouseDown = useCallback(() => {
-			setIsDragging(true);
-			setTempValue(movement);
-		}, [movement]);
-
-		const handleMouseUp = useCallback(() => {
-			if (isDragging) {
-				onChange(locationId, tempValue, type);
-				setIsDragging(false);
-			}
-		}, [isDragging, locationId, tempValue, type, onChange]);
-
-		// Update temp value when external movement changes
-		useEffect(() => {
-			if (!isDragging) {
-				setTempValue(movement);
-			}
-		}, [movement, isDragging]);
-
-		return (
-			<div className="movement-slider">
-				<span className="movement-label">
-					{type === "hour" ? "Hour" : "Minute"}:
-				</span>
-				<div className="slider-container">
-					<span className="slider-limit">
-						{displayFormat === "movements" ? limits.min : minTimeValue}
-					</span>
-					<input
-						type="range"
-						min={limits.min}
-						max={limits.max}
-						step="1"
-						value={isDragging ? tempValue : movement}
-						onChange={handleSliderChange}
-						onMouseDown={handleMouseDown}
-						onMouseUp={handleMouseUp}
-						onTouchStart={handleMouseDown}
-						onTouchEnd={handleMouseUp}
-						className="movement-range"
-					/>
-					<span className="slider-limit">
-						{displayFormat === "movements" ? limits.max : maxTimeValue}
-					</span>
-				</div>
-				<div className="movement-display">
-					{displayFormat === "movements"
-						? `${(isDragging ? tempValue : movement) >= 0 ? "+" : ""}${
-								isDragging ? tempValue : movement
-						  }`
-						: timeValue}
-				</div>
-			</div>
-		);
-	};
-
-	// Movement stepper component
-	const MovementStepper = ({
-		locationId,
-		type,
-		movement,
-		symbol,
-		onChange,
-	}) => {
-		const limits = symbol ? MOVEMENT_LIMITS[symbol] : { min: -5, max: 5 };
-		const timeValue = movementToTime(movement, type);
-		const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
-		useEffect(() => {
-			const handleResize = () => {
-				setIsMobile(window.innerWidth < 768);
-			};
-			window.addEventListener("resize", handleResize);
-			return () => window.removeEventListener("resize", handleResize);
-		}, []);
-
-		return (
-			<div className="movement-stepper">
-				<span className="movement-label">
-					{isMobile
-						? type === "hour"
-							? "H:"
-							: "M:"
-						: type === "hour"
-						? "Hour:"
-						: "Minute:"}
-				</span>
-				<div className="stepper-container">
-					<button
-						onClick={() =>
-							onChange(locationId, Math.max(limits.min, movement - 1), type)
-						}
-						disabled={movement <= limits.min}
-						className="stepper-btn"
-					>
-						−
-					</button>
-					<div className="stepper-display">
-						{displayFormat === "movements"
-							? `${movement >= 0 ? "+" : ""}${movement}`
-							: timeValue}
-					</div>
-					<button
-						onClick={() =>
-							onChange(locationId, Math.min(limits.max, movement + 1), type)
-						}
-						disabled={movement >= limits.max}
-						className="stepper-btn"
-					>
-						+
-					</button>
-				</div>
-			</div>
-		);
-	};
-
-	// Movement buttons component
-	const MovementButtons = ({
-		locationId,
-		symbol,
-		hourMovement,
-		minuteMovement,
-		onChange,
-	}) => {
-		const limits = symbol ? MOVEMENT_LIMITS[symbol] : { min: -5, max: 5 };
-		const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
-		useEffect(() => {
-			const handleResize = () => {
-				setIsMobile(window.innerWidth < 768);
-			};
-			window.addEventListener("resize", handleResize);
-			return () => window.removeEventListener("resize", handleResize);
-		}, []);
-
-		// Generate buttons for the movement range
-		const generateButtons = (currentMovement, type) => {
-			const buttons = [];
-			for (let movement = limits.min; movement <= limits.max; movement++) {
-				const timeValue = movementToTime(movement, type);
-				const isSelected = currentMovement === movement;
-
-				buttons.push(
-					<button
-						key={movement}
-						onClick={() => onChange(locationId, movement, type)}
-						className={`movement-btn ${
-							isSelected ? "movement-btn--selected" : ""
-						}`}
-						title={`${movement >= 0 ? "+" : ""}${movement} = ${timeValue}`}
-					>
-						{displayFormat === "movements"
-							? `${movement >= 0 ? "+" : ""}${movement}`
-							: timeValue}
-					</button>
-				);
-			}
-			return buttons;
-		};
-
-		// Both mobile and desktop: Show both hour and minute buttons
-		return (
-			<div className="movement-buttons">
-				<div className="movement-buttons-section">
-					<span className="movement-label">{isMobile ? "H:" : "Hour:"}</span>
-					<div className="movement-buttons-grid">
-						{generateButtons(hourMovement || 0, "hour")}
-					</div>
-				</div>
-				<div className="movement-buttons-section">
-					<span className="movement-label">{isMobile ? "M:" : "Minute:"}</span>
-					<div className="movement-buttons-grid">
-						{generateButtons(minuteMovement || 0, "minute")}
-					</div>
-				</div>
-			</div>
-		);
-	};
 
 	return (
 		<div className="clocks-section">
@@ -726,14 +529,18 @@ function ClockSection({ data, onChange }) {
 											locationId={location.id}
 											type="hour"
 											movement={clockData.hourMovement || 0}
-											symbol={clockData.symbol}
+											limits={clockData.symbol ? MOVEMENT_LIMITS[clockData.symbol] : { min: -5, max: 5 }}
+											displayFormat={displayFormat}
+											movementToTime={movementToTime}
 											onChange={handleMovementChange}
 										/>
 										<MovementSlider
 											locationId={location.id}
 											type="minute"
 											movement={clockData.minuteMovement || 0}
-											symbol={clockData.symbol}
+											limits={clockData.symbol ? MOVEMENT_LIMITS[clockData.symbol] : { min: -5, max: 5 }}
+											displayFormat={displayFormat}
+											movementToTime={movementToTime}
 											onChange={handleMovementChange}
 										/>
 									</div>
@@ -745,14 +552,18 @@ function ClockSection({ data, onChange }) {
 											locationId={location.id}
 											type="hour"
 											movement={clockData.hourMovement || 0}
-											symbol={clockData.symbol}
+											limits={clockData.symbol ? MOVEMENT_LIMITS[clockData.symbol] : { min: -5, max: 5 }}
+											displayFormat={displayFormat}
+											movementToTime={movementToTime}
 											onChange={handleMovementChange}
 										/>
 										<MovementStepper
 											locationId={location.id}
 											type="minute"
 											movement={clockData.minuteMovement || 0}
-											symbol={clockData.symbol}
+											limits={clockData.symbol ? MOVEMENT_LIMITS[clockData.symbol] : { min: -5, max: 5 }}
+											displayFormat={displayFormat}
+											movementToTime={movementToTime}
 											onChange={handleMovementChange}
 										/>
 									</div>
@@ -765,6 +576,9 @@ function ClockSection({ data, onChange }) {
 											symbol={clockData.symbol}
 											hourMovement={clockData.hourMovement || 0}
 											minuteMovement={clockData.minuteMovement || 0}
+											limits={clockData.symbol ? MOVEMENT_LIMITS[clockData.symbol] : { min: -5, max: 5 }}
+											displayFormat={displayFormat}
+											movementToTime={movementToTime}
 											onChange={handleMovementChange}
 										/>
 									</div>

@@ -1,10 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import MapNavigation from "../../../../common/MapNavigation";
-import SettingsPage from "../../../../common/SettingsPage";
 import StepNavigationButtons from "../../../../common/StepNavigationButtons";
-import FloatingCard from "../../../../common/FloatingCard";
-import Button from "../../../../common/Button";
 import NathanCodeSection from "./sections/NathanCodeSection";
 import BeamCodeSection from "./sections/BeamCodeSection";
 
@@ -124,7 +121,6 @@ function Terminus() {
 			<div className="map-header">
 				<MapNavigation
 					backTo="/bo6"
-					settingsPath="/bo6/terminus/settings"
 					onReset={handleReset}
 				/>
 
@@ -148,12 +144,6 @@ function Terminus() {
 
 			<div className="map-content">
 				<Routes>
-					{/* Settings route */}
-					<Route
-						path="settings"
-						element={<SettingsPage backTo="/bo6/terminus" />}
-					/>
-
 					{/* Default route - show first available step */}
 					<Route
 						path="/"

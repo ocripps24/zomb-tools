@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import MapNavigation from "../../../../common/MapNavigation";
-import SettingsPage from "../../../../common/SettingsPage";
 import StepNavigationButtons from "../../../../common/StepNavigationButtons";
 import ClockSection from "./sections/ClockSection";
 import OutletSection from "./sections/OutletSection";
@@ -132,7 +131,6 @@ function VoyageOfDespair() {
 			<div className="map-header">
 				<MapNavigation
 					backTo="/bo4"
-					settingsPath="/bo4/voyage-of-despair/settings"
 					onReset={handleReset}
 				/>
 
@@ -156,12 +154,6 @@ function VoyageOfDespair() {
 
 			<div className="map-content">
 				<Routes>
-					{/* Settings route */}
-					<Route
-						path="settings"
-						element={<SettingsPage backTo="/bo4/voyage-of-despair" />}
-					/>
-
 					{/* Default route - show ClockSection when no sub-path */}
 					<Route
 						path="/"

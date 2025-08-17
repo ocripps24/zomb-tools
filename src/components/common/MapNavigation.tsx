@@ -3,13 +3,11 @@ import { Link } from "react-router-dom";
 
 interface MapNavigationProps {
 	backTo: string;
-	settingsPath: string;
 	onReset: () => void;
 }
 
 const MapNavigation: React.FC<MapNavigationProps> = ({
 	backTo,
-	settingsPath,
 	onReset,
 }) => {
 	const handleReset = () => {
@@ -41,10 +39,9 @@ const MapNavigation: React.FC<MapNavigationProps> = ({
 	};
 
 	// Ensure we have valid props
-	if (!backTo || !settingsPath) {
+	if (!backTo) {
 		console.error("MapNavigation: Missing required props:", {
 			backTo,
-			settingsPath,
 		});
 		return (
 			<div className="map-nav">
@@ -59,9 +56,6 @@ const MapNavigation: React.FC<MapNavigationProps> = ({
 				<span className="btn-text">← Back to {getGameName(backTo)} Maps</span>
 			</Link>
 			<div className="nav-right">
-				<Link to={settingsPath} className="btn btn-secondary settings-btn">
-					<span className="btn-text">⚙️ Options</span>
-				</Link>
 				<button onClick={handleReset} className="btn btn-secondary reset-btn">
 					<span className="btn-text">🗑️ Reset All Data</span>
 				</button>

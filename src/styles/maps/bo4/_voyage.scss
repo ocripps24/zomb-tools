@@ -435,7 +435,7 @@
 	}
 }
 
-// Outlet section styles (legacy - needs conversion to new structure)
+// Outlet section styles
 .outlet-grid {
 	@include responsive-grid(1, 2, 3, space(lg));
 
@@ -479,7 +479,7 @@
 	}
 }
 
-// Planet section styles (legacy - needs conversion to new structure)
+// Planet section styles
 .planet-grid {
 	display: grid;
 	gap: space(lg);
