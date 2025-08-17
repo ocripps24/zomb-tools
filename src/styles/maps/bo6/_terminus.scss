@@ -3,163 +3,7 @@
 	// Map-specific overrides can go here if needed
 }
 
-// Beam code section styles
-.beam-code-section {
-	&__header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 2rem;
-		flex-wrap: wrap;
-		gap: 1rem;
 
-		h3 {
-			margin: 0;
-			color: var(--text-primary);
-		}
-
-		p {
-			flex: 1 1 100%;
-			margin: 0.5rem 0 0 0;
-			color: var(--text-secondary);
-		}
-	}
-
-	&__grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		gap: 1.5rem;
-		margin: 2rem 0;
-	}
-
-	&__completion {
-		margin-top: 2rem;
-	}
-}
-
-.beam-code-card {
-	padding: 1.5rem;
-	cursor: pointer;
-	transition: all var(--transition);
-	background: var(--card-bg);
-	border: 2px solid var(--border-color);
-	border-radius: var(--radius);
-
-	&--completed {
-		opacity: 0.7;
-		border-color: var(--success-color);
-	}
-
-	&__header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 1rem;
-
-		h4 {
-			margin: 0;
-			color: var(--text-primary);
-		}
-	}
-
-	&__status {
-		font-size: 1.5rem;
-	}
-
-	&__content {
-		div {
-			margin-bottom: 0.5rem;
-			color: var(--text-secondary);
-
-			&:last-child {
-				margin-bottom: 0;
-			}
-		}
-	}
-
-	&__code,
-	&__location {
-		font-size: 0.9rem;
-		line-height: 1.4;
-	}
-}
-
-// Beam symbols section styles
-.beam-symbols-section {
-	&__header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 2rem;
-		flex-wrap: wrap;
-		gap: 1rem;
-
-		h3 {
-			margin: 0;
-			color: var(--text-primary);
-		}
-
-		p {
-			flex: 1 1 100%;
-			margin: 0.5rem 0 0 0;
-			color: var(--text-secondary);
-		}
-	}
-
-	&__grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		gap: 1.5rem;
-		margin: 2rem 0;
-	}
-}
-
-.beam-symbol-card {
-	padding: 1.5rem;
-	cursor: pointer;
-	transition: all var(--transition);
-	background: var(--card-bg);
-	border: 2px solid var(--border-color);
-	border-radius: var(--radius);
-
-	&--completed {
-		opacity: 0.7;
-		border-color: var(--success-color);
-	}
-
-	&__header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 1rem;
-
-		h4 {
-			margin: 0;
-			color: var(--text-primary);
-		}
-	}
-
-	&__status {
-		font-size: 1.5rem;
-	}
-
-	&__content {
-		div {
-			margin-bottom: 0.5rem;
-			color: var(--text-secondary);
-
-			&:last-child {
-				margin-bottom: 0;
-			}
-		}
-	}
-
-	&__symbol,
-	&__location {
-		font-size: 0.9rem;
-		line-height: 1.4;
-	}
-}
 
 // Nathan code section styles
 .nathan-code-section {
@@ -325,9 +169,18 @@
 .beam-code-section {
 	.symbol-selection {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-		gap: 2rem;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1rem;
 		margin: 2rem 0;
+		
+		// Responsive breakpoint for smaller screens
+		@media (max-width: 768px) {
+			grid-template-columns: 1fr;
+		}
+		
+		@media (max-width: 1024px) and (min-width: 769px) {
+			grid-template-columns: repeat(2, 1fr);
+		}
 	}
 	
 	.symbol-input-group {
@@ -335,76 +188,19 @@
 		border: 1px solid var(--border-subtle);
 		border-radius: var(--radius);
 		padding: 1.5rem;
-		transition: all var(--transition);
-		
-		&:hover {
-			border-color: var(--border-focus);
-		}
 		
 		.input-label {
 			margin-bottom: 1.5rem;
 			text-align: center;
 			
 			h3 {
-				margin: 0 0 0.5rem 0;
+				margin: 0;
 				color: var(--text-primary);
 				font-size: 1.5rem;
 				font-weight: bold;
 			}
-			
-			.input-description {
-				color: var(--text-secondary);
-				font-size: 0.9rem;
-				margin: 0;
-			}
 		}
 		
-		.symbol-grid {
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			gap: 0.75rem;
-			
-			.symbol-button {
-				aspect-ratio: 1;
-				background: var(--input-bg);
-				border: 1px solid var(--border-subtle);
-				border-radius: var(--radius);
-				color: var(--text-primary);
-				font-size: 1.2rem;
-				cursor: pointer;
-				transition: all var(--transition);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				min-height: 50px;
-				padding: 0.5rem;
-				
-				&:hover:not(.disabled) {
-					border-color: var(--border-focus);
-					background: var(--location-card-hover-bg);
-				}
-				
-				&.selected {
-					border-color: var(--success-light-color);
-					background: var(--location-card-completed-bg);
-					color: var(--success-light-color);
-				}
-				
-				&.disabled {
-					opacity: 0.3;
-					cursor: not-allowed;
-					background: var(--input-bg);
-				}
-				
-				.beam-symbol {
-					width: 100%;
-					height: 100%;
-					max-width: 32px;
-					max-height: 32px;
-					display: block;
-				}
-			}
-		}
 	}
 	
 	.equation-results {

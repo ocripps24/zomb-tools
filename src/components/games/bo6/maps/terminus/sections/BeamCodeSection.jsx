@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Button from "../../../../../common/Button";
+import SymbolPicker from "../../../../../common/SymbolPicker";
 import { BeamSymbols, SYMBOL_DATA, getSymbolValue } from "./BeamSymbols";
 
 const SYMBOL_LOCATIONS = [
@@ -58,6 +59,16 @@ function BeamCodeSection({
 		setLocalData((prevData) => ({
 			...prevData,
 			[locationId]: symbolId,
+		}));
+	};
+
+	// Convert SYMBOL_DATA to format expected by SymbolPicker
+	const getSymbolsForPicker = () => {
+		return SYMBOL_DATA.map(symbol => ({
+			id: symbol.id,
+			component: BeamSymbols[symbol.id],
+			name: symbol.name,
+			value: symbol.value
 		}));
 	};
 
@@ -129,31 +140,19 @@ function BeamCodeSection({
 					<div key={location.id} className="symbol-input-group">
 						<div className="input-label">
 							<h3>{location.name}</h3>
-							<p className="input-description">{location.description}</p>
 						</div>
 
-						<div className="symbol-grid">
-							{SYMBOL_DATA.map((symbol) => {
-								// Is this symbol already used in another row?
-								const isUsedElsewhere =
-									usedSymbols.includes(symbol.id) &&
-									localData[location.id] !== symbol.id;
-
-								return (
-									<button
-										key={symbol.id}
-										className={`symbol-button ${
-											localData[location.id] === symbol.id ? "selected" : ""
-										}${isUsedElsewhere ? " disabled" : ""}`}
-										onClick={() => handleSymbolSelect(location.id, symbol.id)}
-										disabled={isUsedElsewhere}
-										tabIndex={isUsedElsewhere ? -1 : 0}
-									>
-										{BeamSymbols[symbol.id]}
-									</button>
-								);
-							})}
-						</div>
+						<SymbolPicker
+							symbols={getSymbolsForPicker()}
+							selectedSymbol={localData[location.id] || ""}
+							onSymbolChange={handleSymbolSelect}
+							usedSymbols={usedSymbols}
+							locationId={location.id}
+							className="symbol-picker--terminus"
+							gridConfig={{ columns: 3, rows: 2 }}
+							allowDeselect={true}
+							greyOutUnselected={true}
+						/>
 					</div>
 				))}
 			</div>
