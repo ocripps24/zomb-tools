@@ -162,14 +162,12 @@ function DocumentsCodeSection({ data, onChange }) {
 							} ${isDisabled ? "document-card--disabled" : ""}`}
 							onClick={() => !isDisabled && handleDocumentToggle(document.id)}
 						>
-							<div className="document-header">
-								<div className="document-number">{document.number}</div>
-								<div className="document-status">{isSelected ? "✓" : "+"}</div>
-							</div>
+							<div className="document-number">#{document.number}</div>
 							<div className="document-info">
 								<h4 className="document-name">{document.name}</h4>
 								<p className="document-date">{document.date}</p>
 							</div>
+							<div className="document-status">{isSelected ? "✓" : "+"}</div>
 						</div>
 					);
 				})}

@@ -23,20 +23,25 @@
 }
 
 .document-card {
+	// Use CSS Grid for consistent layout across devices
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	grid-template-areas: "number info status";
+	align-items: center;
+	gap: space(sm);
+
 	// Mobile-first: Start with mobile styles
 	background-color: transparent;
-	border: 0;
-	border-bottom: 1px solid var(--border-subtle);
-	border-radius: 0;
-	padding: space(md) 0;
+	border: 1px solid var(--border-subtle);
+	border-radius: radius(base);
+	padding: space(md) space(sm);
 	cursor: pointer;
 	transition: transition(base);
 
 	// Tablet and up: Enhanced desktop styles
 	@include tmd-up {
-		border: 1px solid var(--border-subtle);
-		border-radius: radius(base);
 		padding: space(lg);
+		gap: space(md);
 	}
 
 	&:hover:not(&--disabled) {
@@ -45,7 +50,7 @@
 
 	&--selected {
 		// Mobile-first: Start with mobile selected state
-		border-bottom-color: var(--success-color);
+		border-color: var(--success-color);
 		background-color: var(--location-card-completed-bg);
 
 		// Tablet and up: Full border selected state
@@ -60,25 +65,21 @@
 	}
 }
 
-.document-header {
-	@include flex-between;
-	align-items: center;
-	margin-bottom: space(md);
-}
-
 .document-number {
-	@include flex-center;
-	@include touch-target(32px);
-	background-color: var(--accent-color);
-	color: var(--btn-primary-text);
-	border-radius: radius(full);
-	font-weight: font-weight(semibold);
-	font-size: font-size(sm);
-	min-width: 32px;
+	grid-area: number;
+	font-weight: font-weight(bold);
+	color: var(--text-primary);
+	@include fluid-text(2xl, bold, 1.2);
 	flex-shrink: 0;
+	padding-right: space(sm);
+
+	@include tsm-up {
+		// padding-right: 0;
+	}
 }
 
 .document-status {
+	grid-area: status;
 	@include flex-center;
 	@include touch-target(24px);
 	font-size: font-size(lg);
@@ -92,6 +93,7 @@
 }
 
 .document-info {
+	grid-area: info;
 	@include flex-column;
 	gap: space(xs);
 }
@@ -106,17 +108,21 @@
 .document-date {
 	margin: 0;
 	color: var(--text-secondary);
-	// Fluid typography: automatically scales from mobile to desktop  
+	// Fluid typography: automatically scales from mobile to desktop
 	@include fluid-text(sm, normal, 1.3);
 }
 
 // Code preview section
 .code-preview {
 	margin-bottom: space(xl);
-	padding: space(2xl);
+	padding: space(lg);
 	border: 1px solid var(--border-color);
 	border-radius: radius(base);
 	background-color: transparent;
+
+	@include tmd-up {
+		padding: space(2xl);
+	}
 
 	h4 {
 		margin: 0 0 space(lg) 0;
@@ -342,7 +348,7 @@
 // Possible elements display
 .possible-category {
 	margin-top: space(lg);
-	
+
 	h5 {
 		margin: 0 0 space(md) 0;
 		color: var(--text-primary);
@@ -355,7 +361,7 @@
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
 	gap: space(sm);
-	
+
 	@include mobile {
 		grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 		gap: space(xs);
@@ -370,7 +376,7 @@
 	border-radius: radius(sm);
 	background: transparent;
 	text-align: center;
-	
+
 	@include mobile {
 		padding: space(xs);
 	}
@@ -381,7 +387,7 @@
 	color: var(--text-primary);
 	font-size: font-size(base);
 	margin-bottom: space(xs);
-	
+
 	@include mobile {
 		font-size: font-size(sm);
 	}
@@ -396,7 +402,7 @@
 	border: 1px solid var(--success-color);
 	border-radius: radius(sm);
 	background: var(--location-card-completed-bg);
-	
+
 	@include mobile {
 		font-size: font-size(xs);
 		padding: 2px space(xs);
@@ -465,11 +471,11 @@
 			color: var(--text-primary);
 		}
 	}
-	
+
 	&--possible {
 		border-color: var(--accent-color);
 		background: rgba(var(--accent-color-rgb), 0.1);
-		
+
 		.element-number,
 		.element-symbol {
 			color: var(--accent-color);
