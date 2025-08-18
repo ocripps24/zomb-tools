@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import FloatingCard from "../../../../../common/FloatingCard";
-import Button from "../../../../../common/Button";
+import SectionHeader from "../../../../../common/SectionHeader";
 import LocationCard from "../../../../../common/LocationCard";
 
 // Real challenge totem data from the documentation
@@ -150,24 +150,13 @@ function TotemsSection({ data, onChange }) {
 
 	return (
 		<div className="totems-section">
-			<div className="section-header">
-				<div className="section-header__top-row">
-					<h3 className="section-header__title">
-						Challenge Totems{" "}
-						<span className="progress-counter">
-							({completedCount}/{totalCount})
-						</span>
-					</h3>
-					<Button variantType="secondary" onClick={resetAll}>
-						Reset All Totems
-					</Button>
-				</div>
-				<p className="section-header__description">
-					Complete 2 challenge totems to progress the Easter Egg or 5 to access
-					the Tundra Wonder Weapon. <br />
-					Each location has 3 challenges to complete.
-				</p>
-			</div>
+			<SectionHeader
+				title="Challenge Totems"
+				progress={{ completed: completedCount, total: totalCount }}
+				description="Complete 2 challenge totems to progress the Easter Egg or 5 to access the Tundra Wonder Weapon. Each location has 3 challenges to complete."
+				onReset={resetAll}
+				resetButtonText="Reset All Totems"
+			/>
 
 			{/* Totems Locations */}
 			<div className="totems-locations">

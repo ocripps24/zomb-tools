@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import Button from "../../../../../common/Button";
+import SectionHeader from "../../../../../common/SectionHeader";
 
 // Document data with predefined order for code calculation
 const DOCUMENTS = [
@@ -140,24 +140,13 @@ function DocumentsCodeSection({ data, onChange }) {
 
 	return (
 		<div className="documents-section">
-			<div className="section-header">
-				<div className="section-header__top-row">
-					<h3 className="section-header__title">
-						Documents Code{" "}
-						<span className="progress-counter">({selectedCount}/4)</span>
-					</h3>
-					<Button variantType="secondary" onClick={resetAll}>
-						Reset Documents
-					</Button>
-				</div>
-				<p className="section-header__description">
-					Select 4 documents that are present in your game. Only 4 out of 6
-					documents will appear in each game.
-					<br />
-					The code is generated automatically based on the chronological order
-					of the selected documents.
-				</p>
-			</div>
+			<SectionHeader
+				title="Documents Code"
+				progress={{ completed: selectedCount, total: 4 }}
+				description="Select the 4 documents that are present in your game."
+				onReset={resetAll}
+				resetButtonText="Reset Documents"
+			/>
 
 			{/* Document Selection Grid */}
 			<div className="documents-grid">

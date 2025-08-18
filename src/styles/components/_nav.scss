@@ -1,47 +1,89 @@
-// Navigation component styles
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+// Navigation component styles - Mobile First
 .nav {
 	display: flex;
 	align-items: center;
-	gap: 1rem;
+	// Mobile: Compact gap and padding
+	gap: space(sm);
 	position: relative;
-	padding: 1rem 1.5rem;
-	background: var(
-		--bg-tertiary
-	); // Use same subtle gray as header for consistency
+	padding: space(sm) space(md);
+	background: var(--bg-tertiary);
 	border: 2px solid var(--border-color);
 	border-radius: var(--radius);
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	margin-bottom: 1rem;
+
+	// Tablet and up: More spacious
+	@include tmd-up {
+		gap: space(lg);
+		padding: space(lg) space(xl);
+	}
 
 	&__brand {
-		font-size: 1.5rem;
-		font-weight: 700;
+		// Mobile-first: Small static brand text
+		@include static-text(base, bold, 1.2);
 		color: var(--text-primary);
 		text-decoration: none;
 		margin-right: auto;
+		background: transparent;
+		border: none;
+		cursor: pointer;
+
+		// Tablet and up: Much larger static brand text
+		@include tmd-up {
+			@include static-text(4xl, bold, 1.2);
+		}
 
 		&:hover,
 		&:focus {
 			color: var(--accent-color);
+		}
+
+		// Override nav__link font sizes when both classes are present
+		&.nav__link {
+			@include static-text(base, medium, 1.2);
+
+			@include tmd-up {
+				@include static-text(2xl, medium, 1.2);
+			}
 		}
 	}
 
 	&__links {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		// Mobile: Tighter spacing
+		gap: space(xs);
+
+		// Tablet and up: More comfortable spacing
+		@include tmd-up {
+			gap: space(sm);
+		}
 	}
 
 	&__link {
+		@include touch-target(44px); // Ensure touch-friendly size
 		background: transparent;
 		border: 2px solid transparent;
 		color: var(--text-primary);
-		padding: 0.5rem 1rem;
+		// Mobile: Compact padding
+		padding: space(xs) space(sm);
 		border-radius: var(--radius);
 		text-decoration: none;
-		font-weight: 500;
+		@include fluid-text(sm, medium, 1.3);
 		transition: all var(--transition);
 		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		// Tablet and up: More comfortable padding
+		@include tmd-up {
+			padding: space(sm) space(lg);
+			@include fluid-text(base, medium, 1.3);
+		}
 
 		&:hover,
 		&:focus {
@@ -55,43 +97,33 @@
 			border-color: var(--border-color);
 			color: var(--text-primary);
 		}
+
+		// Theme toggle specific styling
+		&--theme {
+			// Mobile: Smaller theme button
+			min-width: 44px;
+
+			@include tmd-up {
+				min-width: 48px;
+			}
+		}
 	}
 
 	&__separator {
 		width: 1px;
-		height: 2rem;
+		// Mobile: Shorter separator
+		height: 1.5rem;
 		background: var(--border-subtle);
-		margin: 0 0.5rem;
+		margin: 0 space(xs);
+
+		// Tablet and up: Taller separator with more margin
+		@include tmd-up {
+			height: 2rem;
+			margin: 0 space(sm);
+		}
 	}
 
 	&__spacer {
 		flex: 1;
-	}
-
-	// Theme toggle button
-	&__theme-toggle {
-		background: transparent;
-		border: 2px solid var(--border-color);
-		color: var(--text-primary);
-		padding: 0.5rem;
-		border-radius: var(--radius);
-		cursor: pointer;
-		transition: all var(--transition);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 2.5rem;
-		height: 2.5rem;
-
-		&:hover,
-		&:focus {
-			background: var(--bg-tertiary);
-			border-color: var(--border-focus);
-		}
-
-		svg {
-			width: 1.2rem;
-			height: 1.2rem;
-		}
 	}
 }

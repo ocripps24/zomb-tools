@@ -2,13 +2,14 @@
 @use "../abstracts/functions" as *;
 @use "../abstracts/mixins" as *;
 
-// Button components
+// Button components - Mobile First
 .btn {
 	background: var(--btn-secondary-bg);
 	border: 2px solid var(--border-color);
 	color: var(--btn-secondary-text);
 	border-radius: var(--radius);
-	padding: 0.75rem 1.5rem;
+	// Mobile: Compact horizontal padding
+	padding: 0.75rem 1rem;
 	font-size: 1rem;
 	font-weight: 500;
 	cursor: pointer;
@@ -16,6 +17,11 @@
 	text-decoration: none;
 	display: inline-block;
 	text-align: center;
+	
+	// Tablet and up: More spacious horizontal padding
+	@include tmd-up {
+		padding: 0.75rem 1.5rem;
+	}
 
 	&:hover,
 	&:focus {
@@ -76,6 +82,25 @@
 
 	&--full-width {
 		width: 100%;
+	}
+
+	// Responsive text content for section reset buttons
+	&__full {
+		display: none; // Hide full text on mobile
+
+		// Tablet and up: Show full text
+		@include tmd-up {
+			display: inline; // Show full text on larger screens
+		}
+	}
+
+	&__short {
+		display: inline; // Show short text on mobile
+
+		// Tablet and up: Hide short text
+		@include tmd-up {
+			display: none; // Hide short text on larger screens
+		}
 	}
 }
 
@@ -146,26 +171,34 @@
 		font-weight: font-weight(semibold);
 	}
 
-	// Mobile catalyst button content
+	// Mobile: compact button with short text
+	padding: space(sm) space(xs);
+	gap: space(xs);
+	font-size: font-size(xs);
+	min-height: 40px;
+
 	&__full {
-		@include mobile {
-			display: none;
-		}
+		display: none; // Hide full text on mobile
 	}
 
 	&__short {
-		display: none;
-
-		@include mobile {
-			display: block;
-		}
+		display: block; // Show short text on mobile
 	}
 
-	@include mobile {
-		padding: space(sm) space(xs);
-		gap: space(xs);
-		font-size: font-size(xs);
-		min-height: 40px;
+	// Tablet and up: larger button with full text
+	@include tmd-up {
+		padding: space(md) space(sm);
+		gap: space(sm);
+		font-size: font-size(sm);
+		min-height: 44px;
+
+		&__full {
+			display: block; // Show full text on larger screens
+		}
+
+		&__short {
+			display: none; // Hide short text on larger screens
+		}
 	}
 }
 
@@ -206,27 +239,36 @@
 		font-weight: font-weight(semibold);
 	}
 
-	// Mobile movement button content
+	// Mobile: compact movement button with short text
+	padding: space(xs);
+	gap: space(xs);
+	font-size: font-size(xs);
+	min-width: 40px;
+	min-height: 40px;
+
 	&__full {
-		@include mobile {
-			display: none;
-		}
+		display: none; // Hide full text on mobile
 	}
 
 	&__short {
-		display: none;
-
-		@include mobile {
-			display: block;
-		}
+		display: block; // Show short text on mobile
 	}
 
-	@include mobile {
-		padding: space(xs);
-		gap: space(xs);
-		font-size: font-size(xs);
-		min-width: 40px;
-		min-height: 40px;
+	// Tablet and up: larger button with full text
+	@include tmd-up {
+		padding: space(sm);
+		gap: space(sm);
+		font-size: font-size(sm);
+		min-width: 44px;
+		min-height: 44px;
+
+		&__full {
+			display: block; // Show full text on larger screens
+		}
+
+		&__short {
+			display: none; // Hide short text on larger screens
+		}
 	}
 }
 
@@ -253,26 +295,34 @@
 		font-weight: font-weight(semibold);
 	}
 
-	// Mobile preference button content
+	// Mobile: compact preference button with short text
+	padding: space(sm) space(xs);
+	gap: space(xs);
+	font-size: font-size(xs);
+	min-height: 40px;
+
 	&__full {
-		@include mobile {
-			display: none;
-		}
+		display: none; // Hide full text on mobile
 	}
 
 	&__short {
-		display: none;
-
-		@include mobile {
-			display: block;
-		}
+		display: block; // Show short text on mobile
 	}
 
-	@include mobile {
-		padding: space(sm) space(xs);
-		gap: space(xs);
-		font-size: font-size(xs);
-		min-height: 40px;
+	// Tablet and up: larger button with full text
+	@include tmd-up {
+		padding: space(md) space(sm);
+		gap: space(sm);
+		font-size: font-size(sm);
+		min-height: 44px;
+
+		&__full {
+			display: block; // Show full text on larger screens
+		}
+
+		&__short {
+			display: none; // Hide short text on larger screens
+		}
 	}
 }
 
@@ -299,25 +349,33 @@
 		font-weight: font-weight(semibold);
 	}
 
-	// Mobile time input button content
+	// Mobile: compact time input button with short text
+	padding: space(sm) space(xs);
+	gap: space(xs);
+	font-size: font-size(xs);
+	min-height: 40px;
+
 	&__full {
-		@include mobile {
-			display: none;
-		}
+		display: none; // Hide full text on mobile
 	}
 
 	&__short {
-		display: none;
-
-		@include mobile {
-			display: block;
-		}
+		display: block; // Show short text on mobile
 	}
 
-	@include mobile {
-		padding: space(sm) space(xs);
-		gap: space(xs);
-		font-size: font-size(xs);
-		min-height: 40px;
+	// Tablet and up: larger button with full text
+	@include tmd-up {
+		padding: space(md) space(sm);
+		gap: space(sm);
+		font-size: font-size(sm);
+		min-height: 44px;
+
+		&__full {
+			display: block; // Show full text on larger screens
+		}
+
+		&__short {
+			display: none; // Hide short text on larger screens
+		}
 	}
 }

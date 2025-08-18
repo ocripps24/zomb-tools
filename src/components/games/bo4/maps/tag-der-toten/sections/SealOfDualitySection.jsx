@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import FloatingCard from "../../../../../common/FloatingCard";
-import Button from "../../../../../common/Button";
+import SectionHeader from "../../../../../common/SectionHeader";
 import LocationCard from "../../../../../common/LocationCard";
 
 // Game mechanics constants
@@ -81,19 +81,13 @@ function SealOfDualitySection({ data, onChange }) {
 
 	return (
 		<div className="seal-section">
-			<div className="section-header">
-				<div className="section-header__top-row">
-					<h3 className="section-header__title">
-						Seal of Duality <span className="progress-counter">({foundCount}/{GAME_CONFIG.maxQuotesInGame})</span>
-					</h3>
-					<Button variantType="secondary" onClick={resetAll}>
-						Reset All
-					</Button>
-				</div>
-				<p className="section-header__description">
-					Listen for the quote in-game, then click on the matching quote below to reveal its location.
-				</p>
-			</div>
+			<SectionHeader
+				title="Seal of Duality"
+				progress={`${foundCount}/${GAME_CONFIG.maxQuotesInGame}`}
+				description="Listen for the quote in-game, then click on the matching quote below to reveal its location."
+				onReset={resetAll}
+				resetButtonText="Reset All"
+			/>
 
 			<div className="location-grid location-grid--quotes">
 				{localData.quotes?.map((quote, index) => {

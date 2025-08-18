@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import SymbolPicker from "../../../../../common/SymbolPicker";
-import Button from "../../../../../common/Button";
+import SectionHeader from "../../../../../common/SectionHeader";
 import MovementSlider from "../../../../../common/MovementSlider";
 import MovementStepper from "../../../../../common/MovementStepper";
 import MovementButtons from "../../../../../common/MovementButtons";
@@ -394,30 +394,18 @@ function ClockSection({ data, onChange }) {
 
 	return (
 		<div className="clocks-section">
-			<div className="section-header">
-				<div className="section-header__top-row">
-					<h3 className="section-header__title">
-						Clock Locations & Times{" "}
-						<span className="progress-counter">
-							({completeClocks.length}/4)
-						</span>
-					</h3>
-					<Button 
-						variantType="secondary"
-						onClick={() => {
-							// Reset all clock data
-							const emptyData = getInitialData();
-							setLocalData(emptyData);
-							onChange(emptyData);
-						}}
-					>
-						Reset Clocks
-					</Button>
-				</div>
-				<p className="section-header__description">
-					Record times and symbols for active clocks. Enter hour and minute separately. Each symbol can only be used once.
-				</p>
-			</div>
+			<SectionHeader
+				title="Clock Locations & Times"
+				progress={{ completed: completeClocks.length, total: 4 }}
+				description="Record times and symbols for active clocks. Enter hour and minute separately. Each symbol can only be used once."
+				onReset={() => {
+					// Reset all clock data
+					const emptyData = getInitialData();
+					setLocalData(emptyData);
+					onChange(emptyData);
+				}}
+				resetButtonText="Reset Clocks"
+			/>
 
 			<div className="clock-grid">
 				{CLOCK_LOCATIONS.map((location) => {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import Button from "../../../../../common/Button";
+import SectionHeader from "../../../../../common/SectionHeader";
 import {
 	DndContext,
 	closestCenter,
@@ -216,23 +216,13 @@ function PlanetSection({ data, onChange }) {
 
 	return (
 		<div className="planets-section">
-			<div className="section-header">
-				<div className="section-header__top-row">
-					<h3 className="section-header__title">
-						Planet Order{" "}
-						<span className="progress-counter">
-							({localData.length}/8)
-						</span>
-					</h3>
-					<Button variantType="secondary" onClick={resetAll}>
-						Reset Planets
-					</Button>
-				</div>
-				<p className="section-header__description">
-					Record the order of planets as they appear. Sun is automatically added
-					as the final step.
-				</p>
-			</div>
+			<SectionHeader
+				title="Planet Order"
+				progress={{ completed: localData.length, total: 8 }}
+				description="Record the order of planets as they appear. Sun is automatically added as the final step."
+				onReset={resetAll}
+				resetButtonText="Reset Planets"
+			/>
 
 			{/* Available planets - only show when there are planets available */}
 			{availablePlanets.length > 0 && (

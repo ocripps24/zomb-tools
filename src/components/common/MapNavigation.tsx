@@ -53,11 +53,12 @@ const MapNavigation: React.FC<MapNavigationProps> = ({
 	return (
 		<div className="map-nav">
 			<Link to={backTo} className="btn btn-secondary">
-				<span className="btn-text">← Back to {getGameName(backTo)} Maps</span>
+				<span className="btn-text">← {getGameName(backTo)} Maps</span>
 			</Link>
 			<div className="nav-right">
 				<button onClick={handleReset} className="btn btn-secondary reset-btn">
-					<span className="btn-text">🗑️ Reset All Data</span>
+					<span className="btn-icon">🗑️</span>
+					<span className="btn-text">Reset All Data</span>
 				</button>
 			</div>
 		</div>

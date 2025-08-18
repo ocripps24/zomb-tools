@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import Button from "../../../../../common/Button";
+import SectionHeader from "../../../../../common/SectionHeader";
 
 const OUTLET_LOCATIONS = [
 	{ id: "state-rooms", name: "State Rooms" },
@@ -115,24 +115,13 @@ function OutletSection({ data, onChange }) {
 
 	return (
 		<div className="outlets-section">
-			<div className="section-header">
-				<div className="section-header__top-row">
-					<h3 className="section-header__title">
-						Outlet Locations & Catalysts{" "}
-						<span className="progress-counter">
-							({assignedCount}/4)
-						</span>
-					</h3>
-					<Button variantType="secondary" onClick={resetAll}>
-						Reset Outlets
-					</Button>
-				</div>
-				<p className="section-header__description">
-					Select which catalyst zombie type appears at each outlet location. After
-					killing the catalyst zombie, enter the portals in the specific order
-					shown below.
-				</p>
-			</div>
+			<SectionHeader
+				title="Outlet Locations & Catalysts"
+				progress={{ completed: assignedCount, total: 4 }}
+				description="Select which catalyst zombie type appears at each outlet location. After killing the catalyst zombie, enter the portals in the specific order shown below."
+				onReset={resetAll}
+				resetButtonText="Reset Outlets"
+			/>
 
 			{/* Outlet Selection Grid */}
 			<div className="outlet-grid">

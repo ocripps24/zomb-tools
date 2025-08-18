@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import Button from "../../../../../common/Button";
+import SectionHeader from "../../../../../common/SectionHeader";
 
 // Complete periodic table (118 elements) with grid positions
 const PERIODIC_TABLE = [
@@ -326,20 +326,12 @@ function DoorCodeSection({ data, onChange }) {
 
 	return (
 		<div className="door-code-section">
-			<div className="section-header">
-				<div className="section-header__top-row">
-					<h3 className="section-header__title">T1 Bioweapons Lab Door Code</h3>
-					<Button variantType="secondary" onClick={resetAll}>
-						Reset Door Code
-					</Button>
-				</div>
-				<p className="section-header__description">
-					Enter the words displayed on the screens in the T1 Mutant Research Lab
-					area.
-					<br />
-					The atomic number of the corresponding element is your door code.
-				</p>
-			</div>
+			<SectionHeader
+				title="T1 Bioweapons Lab Door Code"
+				description="Enter the words displayed on the screens in the T1 Mutant Research Lab area."
+				onReset={resetAll}
+				resetButtonText="Reset Door Code"
+			/>
 
 			{/* Screen Inputs */}
 			<div className="screens-grid">

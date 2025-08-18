@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import FloatingCard from "../../../../../common/FloatingCard";
-import Button from "../../../../../common/Button";
+import SectionHeader from "../../../../../common/SectionHeader";
 import LocationCard from "../../../../../common/LocationCard";
 
 // Orb location data - each orb can spawn in one of these locations
@@ -89,23 +89,13 @@ function OrbLocationsSection({ data, onChange }) {
 
 	return (
 		<div className="orb-locations-section">
-			<div className="section-header">
-				<div className="section-header__top-row">
-					<h3 className="section-header__title">
-						Orb Locations{" "}
-						<span className="progress-counter">
-							({foundCount}/{totalCount})
-						</span>
-					</h3>
-					<Button variantType="secondary" onClick={resetAll}>
-						Reset All Orbs
-					</Button>
-				</div>
-				<p className="section-header__description">
-					Find 3 orbs by searching their possible spawn locations. 
-					Each orb can appear in one of the listed locations.
-				</p>
-			</div>
+			<SectionHeader
+				title="Orb Locations"
+				progress={{ completed: foundCount, total: totalCount }}
+				description="Find 3 orbs by searching their possible spawn locations. Each orb can appear in one of the listed locations."
+				onReset={resetAll}
+				resetButtonText="Reset All Orbs"
+			/>
 
 			<div className="location-grid location-grid--orbs">
 				{localData.orbs?.map((orb) => (

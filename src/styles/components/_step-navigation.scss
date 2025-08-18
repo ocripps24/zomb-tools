@@ -1,11 +1,15 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
 // Step Navigation component styles
 .step-navigation {
-	margin-bottom: 2rem;
+	margin-bottom: space(2xl);
 }
 
 // When step navigation is used within map pages
 .map-page .step-navigation {
-	margin-bottom: 1.5rem;
+	margin-bottom: space(xl);
 }
 
 .step-tabs {
@@ -17,20 +21,26 @@
 }
 
 .step-tab {
-	background: var(--bg-tertiary); // Use tertiary background for default state
+	background: var(--bg-tertiary);
 	border: none;
 	color: var(--text-primary);
-	padding: 1rem 2rem;
-	font-size: 1rem;
-	font-weight: 500;
+	// Mobile: More compact padding
+	padding: space(md) space(sm);
+	@include fluid-text(sm, medium, 1.3);
 	cursor: pointer;
 	flex: 1; // Equal size on desktop - all tabs get equal space
 	transition: all var(--transition);
 	display: flex;
-	flex-direction: column;
 	align-items: center;
-	gap: 0.25rem;
+	justify-content: center;
+	gap: space(xs);
 	min-width: 0; // Allow flex items to shrink below content size
+
+	// Desktop: More spacious padding
+	@include tmd-up {
+		padding: space(lg) space(xl);
+		@include fluid-text(base, medium, 1.3);
+	}
 
 	&:hover,
 	&:focus {
@@ -56,40 +66,54 @@
 	}
 
 	.step-number {
-		font-size: 0.8rem;
-		font-weight: 600;
-		opacity: 0.8;
+		@include fluid-text(sm, bold, 1.2);
+		opacity: 0.9;
+		flex-shrink: 0;
 	}
 
 	.step-name {
-		font-size: 0.9rem;
-		font-weight: 500;
-		text-align: center;
-		white-space: nowrap; // Prevent text wrapping
+		@include fluid-text(sm, medium, 1.2);
+		white-space: nowrap;
 		overflow: hidden;
-		text-overflow: ellipsis; // Show ellipsis if text is too long
-		max-width: 100%; // Ensure text doesn't overflow the tab
+		text-overflow: ellipsis;
+		min-width: 0;
 	}
 }
 
-// Mobile responsive behavior
-@media (max-width: 768px) {
-	.step-tabs {
-		flex-direction: column;
+// Mobile responsive behavior - Keep tabs on one row
+.step-tab {
+	// Mobile: Inactive tabs show only numbers, minimal padding
+	&:not(.step-tab--active) {
+		flex: 0 0 auto; // Don't grow, minimal size
+		padding: space(sm) space(md);
+
+		.step-name {
+			display: none; // Hide step names on inactive tabs
+		}
 	}
 
-	.step-tab {
-		justify-content: center;
-		padding: 1rem;
+	// Mobile: Active tab expanded with number and name
+	&.step-tab--active {
+		flex: 1; // Expand to fill remaining space
 
+		.step-name {
+			display: block; // Show name on active tab
+		}
+	}
+
+	// Tablet and up: All tabs get equal space and show both number and name
+	@include tmd-up {
+		// Override mobile behavior - all tabs equal size
 		&:not(.step-tab--active) {
+			flex: 1; // Equal size on desktop
+			
 			.step-name {
-				display: none; // Hide step names on inactive tabs on mobile
+				display: block; // Show names on all tabs at larger screens
 			}
 		}
 
 		&.step-tab--active {
-			flex: 1; // Active tab expands to fill remaining space on mobile
+			flex: 1; // Equal size on desktop (same as inactive)
 		}
 	}
 }

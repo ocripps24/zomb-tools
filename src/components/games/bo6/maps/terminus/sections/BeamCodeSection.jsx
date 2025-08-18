@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import Button from "../../../../../common/Button";
+import SectionHeader from "../../../../../common/SectionHeader";
 import SymbolPicker from "../../../../../common/SymbolPicker";
 import { BeamSymbols, SYMBOL_DATA, getSymbolValue } from "./BeamSymbols";
 
@@ -117,23 +117,13 @@ function BeamCodeSection({
 
 	return (
 		<div className="beam-code-section">
-			<div className="section-header">
-				<div className="section-header__top-row">
-					<h3 className="section-header__title">
-						Beam Code{" "}
-						<span className="progress-counter">
-							({status.completed}/{status.total})
-						</span>
-					</h3>
-					<Button variantType="secondary" onClick={resetAll}>
-						Reset All
-					</Button>
-				</div>
-				<p className="section-header__description">
-					Find the 3 laptops with X, Y, Z stickers and record the symbols they
-					display.
-				</p>
-			</div>
+			<SectionHeader
+				title="Beam Code"
+				progress={status}
+				description="Find the 3 laptops with X, Y, Z stickers and record the symbols they display."
+				onReset={resetAll}
+				resetButtonText="Reset Beam Code"
+			/>
 
 			<div className="symbol-selection">
 				{SYMBOL_LOCATIONS.map((location) => (

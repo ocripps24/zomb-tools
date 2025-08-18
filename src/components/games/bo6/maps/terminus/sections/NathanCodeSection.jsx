@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import Button from "../../../../../common/Button";
+import SectionHeader from "../../../../../common/SectionHeader";
 
 // Define the three locations and their value ranges
 const CODE_LOCATIONS = [
@@ -138,23 +138,13 @@ function NathanCodeSection({
 
 	return (
 		<div className="nathan-code-section">
-			<div className="section-header">
-				<div className="section-header__top-row">
-					<h3 className="section-header__title">
-						Nathan Code{" "}
-						<span className="progress-counter">
-							({status.completed}/{status.total})
-						</span>
-					</h3>
-					<Button variantType="secondary" onClick={resetAll}>
-						Reset All
-					</Button>
-				</div>
-				<p className="section-header__description">
-					Collect three numbers from around the map to form the Nathan Code. The
-					numbers must be entered in the order: Clock → Card → Sign.
-				</p>
-			</div>
+			<SectionHeader
+				title="Nathan Code"
+				progress={status}
+				description="Collect three numbers from around the map to form the Nathan Code."
+				onReset={resetAll}
+				resetButtonText="Reset Nathan Code"
+			/>
 
 			<div className="code-inputs">
 				{CODE_LOCATIONS.map((location) => (
