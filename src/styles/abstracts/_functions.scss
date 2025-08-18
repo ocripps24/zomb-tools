@@ -20,6 +20,11 @@
 	@return get($font-sizes, $size);
 }
 
+// Static font size function (for non-fluid typography)
+@function static-font-size($size) {
+	@return get($static-font-sizes, $size);
+}
+
 // Font weight functions
 @function font-weight($weight) {
 	@return get($font-weights, $weight);

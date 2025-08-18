@@ -1,39 +1,102 @@
 @use "variables" as *;
 @use "functions" as *;
 
-// Responsive breakpoint mixins
+// Mobile-First Responsive Breakpoint Mixins
+// Primary breakpoints (most commonly used)
+@mixin pmd-up {
+	@media (min-width: #{breakpoint(pmd)}) {
+		@content;
+	}
+}
+
+@mixin tmd-up {
+	@media (min-width: #{breakpoint(tmd)}) {
+		@content;
+	}
+}
+
+@mixin dsm-up {
+	@media (min-width: #{breakpoint(dsm)}) {
+		@content;
+	}
+}
+
+// Full breakpoint system (available when needed)
+@mixin psm-up {
+	@media (min-width: #{breakpoint(psm)}) {
+		@content;
+	}
+}
+
+@mixin plg-up {
+	@media (min-width: #{breakpoint(plg)}) {
+		@content;
+	}
+}
+
+@mixin tsm-up {
+	@media (min-width: #{breakpoint(tsm)}) {
+		@content;
+	}
+}
+
+@mixin tlg-up {
+	@media (min-width: #{breakpoint(tlg)}) {
+		@content;
+	}
+}
+
+@mixin dmd-up {
+	@media (min-width: #{breakpoint(dmd)}) {
+		@content;
+	}
+}
+
+@mixin dlg-up {
+	@media (min-width: #{breakpoint(dlg)}) {
+		@content;
+	}
+}
+
+@mixin dxl-up {
+	@media (min-width: #{breakpoint(dxl)}) {
+		@content;
+	}
+}
+
+@mixin bdsm-up {
+	@media (min-width: #{breakpoint(bdsm)}) {
+		@content;
+	}
+}
+
+// Legacy aliases (for backward compatibility during transition)
 @mixin mobile {
-	@media (max-width: #{breakpoint(mobile) - 1px}) {
+	@media (max-width: #{breakpoint(tmd) - 1px}) {
 		@content;
 	}
 }
 
 @mixin tablet {
-	@media (min-width: #{breakpoint(mobile)}) and (max-width: #{breakpoint(tablet) - 1px}) {
+	@media (min-width: #{breakpoint(tmd)}) and (max-width: #{breakpoint(dsm) - 1px}) {
 		@content;
 	}
 }
 
 @mixin desktop {
-	@media (min-width: #{breakpoint(tablet)}) {
-		@content;
-	}
-}
-
-@mixin mobile-only {
-	@media (max-width: #{breakpoint(mobile) - 1px}) {
+	@media (min-width: #{breakpoint(dsm)}) {
 		@content;
 	}
 }
 
 @mixin tablet-up {
-	@media (min-width: #{breakpoint(mobile)}) {
+	@media (min-width: #{breakpoint(tmd)}) {
 		@content;
 	}
 }
 
 @mixin desktop-up {
-	@media (min-width: #{breakpoint(tablet)}) {
+	@media (min-width: #{breakpoint(dsm)}) {
 		@content;
 	}
 }
@@ -163,11 +226,11 @@
 @mixin responsive-grid($mobile: 1, $tablet: 2, $desktop: 3, $gap: space(lg)) {
 	@include grid($mobile, $gap);
 
-	@include tablet-up {
+	@include tmd-up {
 		grid-template-columns: repeat($tablet, 1fr);
 	}
 
-	@include desktop-up {
+	@include dsm-up {
 		grid-template-columns: repeat($desktop, 1fr);
 	}
 }
@@ -202,6 +265,56 @@
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: $lines;
 	overflow: hidden;
+}
+
+// Fluid Typography Mixins
+@mixin fluid-text($size, $weight: normal, $line-height: 1.5) {
+	font-size: font-size($size);
+	font-weight: font-weight($weight);
+	line-height: $line-height;
+}
+
+@mixin static-text($size, $weight: normal, $line-height: 1.5) {
+	font-size: static-font-size($size);
+	font-weight: font-weight($weight);
+	line-height: $line-height;
+}
+
+// Typography presets for common patterns
+@mixin heading-1 {
+	@include fluid-text(4xl, bold, 1.2);
+}
+
+@mixin heading-2 {
+	@include fluid-text(3xl, bold, 1.3);
+}
+
+@mixin heading-3 {
+	@include fluid-text(2xl, semibold, 1.4);
+}
+
+@mixin heading-4 {
+	@include fluid-text(xl, semibold, 1.4);
+}
+
+@mixin heading-5 {
+	@include fluid-text(lg, medium, 1.4);
+}
+
+@mixin body-large {
+	@include fluid-text(lg, normal, 1.6);
+}
+
+@mixin body {
+	@include fluid-text(base, normal, 1.6);
+}
+
+@mixin body-small {
+	@include fluid-text(sm, normal, 1.5);
+}
+
+@mixin caption {
+	@include fluid-text(xs, normal, 1.4);
 }
 
 // Screen reader only (for accessibility)
