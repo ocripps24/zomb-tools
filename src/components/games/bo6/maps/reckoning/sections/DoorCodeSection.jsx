@@ -481,6 +481,16 @@ function DoorCodeSection({ data, onChange }) {
 			{/* Periodic Table */}
 			<div className="periodic-table-reference">
 				<h4>Periodic Table</h4>
+				
+				{/* Rotation message for mobile portrait */}
+				<div className="rotation-message">
+					<div className="rotation-content">
+						<div className="rotation-icon">↻</div>
+						<p>Rotate device to view periodic table</p>
+					</div>
+				</div>
+				
+				{/* Periodic table - hidden in mobile portrait */}
 				<div className="periodic-table-grid">
 					{PERIODIC_TABLE.map((element) => {
 						const isExactMatch = elementSymbol === element.symbol;

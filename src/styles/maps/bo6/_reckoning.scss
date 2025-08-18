@@ -411,16 +411,59 @@
 
 // Periodic table reference
 .periodic-table-reference {
-	padding: space(2xl);
+	// Mobile-first: Start with mobile padding
+	padding: space(lg);
 	border: 1px solid var(--border-color);
 	border-radius: radius(base);
 	background-color: transparent;
 
+	// Tablet and up: More spacious padding
+	@include tmd-up {
+		padding: space(2xl);
+	}
+
 	h4 {
 		margin: 0 0 space(lg) 0;
 		color: var(--text-primary);
-		font-size: font-size(base);
+		@include fluid-text(base, medium, 1.3);
 	}
+}
+
+// Rotation message - shown only in mobile portrait
+.rotation-message {
+	display: none; // Hidden by default
+
+	// Show only on mobile devices in portrait mode
+	@media (max-width: #{breakpoint(tmd) - 1px}) and (orientation: portrait) {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 300px;
+		text-align: center;
+	}
+}
+
+.rotation-content {
+	@include flex-column;
+	align-items: center;
+	gap: space(lg);
+}
+
+.rotation-icon {
+	@include fluid-text(6xl, normal, 1);
+	opacity: 0.8;
+	animation: pulse 2s ease-in-out infinite;
+
+	@keyframes pulse {
+		0%, 100% { transform: scale(1); opacity: 0.8; }
+		50% { transform: scale(1.1); opacity: 1; }
+	}
+}
+
+.rotation-message p {
+	margin: 0;
+	color: var(--text-secondary);
+	@include fluid-text(lg, medium, 1.4);
 }
 
 .periodic-table-grid {
@@ -431,10 +474,15 @@
 		auto
 	); // 7 periods + 2 for lanthanides/actinides
 	gap: 2px;
-	font-size: font-size(xs);
+	@include fluid-text(xs, normal, 1);
 
-	@include mobile {
-		font-size: font-size(xs);
+	// Hide in mobile portrait mode
+	@media (max-width: #{breakpoint(tmd) - 1px}) and (orientation: portrait) {
+		display: none;
+	}
+
+	// Mobile landscape: tighter spacing
+	@media (max-width: #{breakpoint(tmd) - 1px}) and (orientation: landscape) {
 		gap: 1px;
 	}
 }
@@ -443,8 +491,9 @@
 	@include flex-column;
 	align-items: center;
 	justify-content: center;
-	min-height: 40px;
-	padding: space(xs);
+	// Mobile-first: Start with compact mobile size
+	min-height: 32px;
+	padding: 2px;
 	background: transparent;
 	border: 1px solid var(--border-subtle);
 	border-radius: radius(sm);
@@ -452,9 +501,10 @@
 	transition: transition(base);
 	position: relative;
 
-	@include mobile {
-		min-height: 32px;
-		padding: 2px;
+	// Tablet and up: More spacious
+	@include tmd-up {
+		min-height: 40px;
+		padding: space(xs);
 	}
 
 	&:hover {
@@ -484,24 +534,28 @@
 }
 
 .periodic-element .element-number {
-	font-size: font-size(xs);
+	// Mobile-first: Start with very small text
+	font-size: 8px;
 	color: var(--text-secondary);
 	line-height: 1;
-	margin-bottom: 2px;
+	margin-bottom: 1px;
 
-	@include mobile {
-		font-size: 8px;
-		margin-bottom: 1px;
+	// Tablet and up: Slightly larger
+	@include tmd-up {
+		@include fluid-text(xs, normal, 1);
+		margin-bottom: 2px;
 	}
 }
 
 .periodic-element .element-symbol {
 	font-weight: font-weight(bold);
 	color: var(--text-primary);
-	font-size: font-size(xs);
 	line-height: 1;
+	// Mobile-first: Start with small text
+	font-size: 10px;
 
-	@include mobile {
-		font-size: 10px;
+	// Tablet and up: Use fluid typography
+	@include tmd-up {
+		@include fluid-text(xs, bold, 1);
 	}
 }
