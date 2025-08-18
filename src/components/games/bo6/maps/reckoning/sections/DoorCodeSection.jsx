@@ -157,32 +157,44 @@ const SCREEN_1_WORDS = [
 	"LIABILITY",
 	"MALEDICTION",
 	"NETTLESOME",
+	"OBSEQUIOUS",
 	"PERJORATIVE",
 	"RUINOUS",
 	"SCORN",
 	"TRAITOR",
+	"UNDERMINE",
+	"VICTORY",
 	"WRATH",
 	"XENOTROPIC",
+	"YOBBISH",
 	"ZYMOTIC",
 ];
 
 const SCREEN_2_WORDS = [
 	"ABHORRENT",
+	"BELICOSE",
+	"CASTIGATE",
 	"DECEIT",
 	"ENERVATE",
 	"FOREBODING",
 	"GUILE",
 	"HISTERIA",
 	"INHUMANE",
+	"KNAVISH",
 	"LIABILITY",
 	"MALEDICTION",
 	"NETTLESOME",
 	"OBSEQUIOUS",
+	"PERJORATIVE",
 	"RUINOUS",
 	"SCORN",
 	"TRAITOR",
 	"UNDERMINE",
+	"VICTORY",
+	"WRATH",
+	"XENOTROPIC",
 	"YOBBISH",
+	"ZYMOTIC",
 ];
 
 function DoorCodeSection({ data, onChange }) {
@@ -481,7 +493,7 @@ function DoorCodeSection({ data, onChange }) {
 			{/* Periodic Table */}
 			<div className="periodic-table-reference">
 				<h4>Periodic Table</h4>
-				
+
 				{/* Rotation message for mobile portrait */}
 				<div className="rotation-message">
 					<div className="rotation-content">
@@ -489,7 +501,7 @@ function DoorCodeSection({ data, onChange }) {
 						<p>Rotate device to view periodic table</p>
 					</div>
 				</div>
-				
+
 				{/* Periodic table - hidden in mobile portrait */}
 				<div className="periodic-table-grid">
 					{PERIODIC_TABLE.map((element) => {

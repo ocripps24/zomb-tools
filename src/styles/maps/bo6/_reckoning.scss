@@ -149,9 +149,14 @@
 	border-radius: radius(base);
 	border: 2px solid var(--success-color);
 
-	@include mobile {
-		font-size: font-size(2xl);
-		padding: space(sm) space(md);
+	// Mobile-first: Start with mobile styles, then scale up
+	font-size: font-size(2xl);
+	padding: space(sm) space(md);
+
+	// Tablet and up: Larger styles
+	@include tmd-up {
+		font-size: font-size(3xl);
+		padding: space(md) space(lg);
 	}
 }
 
@@ -175,11 +180,13 @@
 
 // Screens input grid
 .screens-grid {
-	@include grid(2, space(lg));
+	// Mobile-first: Single column
+	@include grid(1, space(lg));
 	margin-bottom: space(xl);
 
-	@include mobile {
-		grid-template-columns: 1fr;
+	// Tablet and up: Two columns
+	@include tmd-up {
+		grid-template-columns: repeat(2, 1fr);
 	}
 }
 
@@ -219,10 +226,13 @@
 // Word dictionaries
 .word-dictionaries {
 	margin-bottom: space(xl);
-	padding: space(2xl);
-	border: 1px solid var(--border-color);
-	border-radius: radius(base);
 	background-color: transparent;
+
+	@include tmd-up {
+		padding: space(2xl);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+	}
 
 	h4 {
 		margin: 0 0 space(sm) 0;
@@ -238,9 +248,11 @@
 }
 
 .dictionaries-grid {
+	// Mobile-first: Single column
 	@include grid(1, space(xl));
 
-	@include tablet {
+	// Tablet and up: Two columns
+	@include tmd-up {
 		grid-template-columns: repeat(2, 1fr);
 	}
 }
@@ -262,29 +274,32 @@
 
 .word-buttons {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-	gap: space(xs);
+	// Mobile-first: Smaller buttons, tighter spacing
+	grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+	gap: 2px;
 
-	@include mobile {
-		grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-		gap: 2px;
+	// Tablet and up: Larger buttons, more spacing
+	@include tmd-up {
+		grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+		gap: space(xs);
 	}
 }
 
 .word-btn {
 	@include button-base;
 	@include button-secondary;
-	padding: space(xs) space(sm);
+	// Mobile-first: Compact styling
+	padding: space(xs);
 	font-size: font-size(xs);
 	font-weight: font-weight(medium);
 	text-transform: uppercase;
 	transition: transition(base);
-	min-height: 32px;
+	min-height: 28px;
 
-	@include mobile {
-		padding: space(xs);
-		font-size: font-size(xs);
-		min-height: 28px;
+	// Tablet and up: More spacious
+	@include tmd-up {
+		padding: space(xs) space(sm);
+		min-height: 32px;
 	}
 
 	&:hover:not(&--selected) {
@@ -359,53 +374,61 @@
 
 .possible-codes {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-	gap: space(sm);
+	// Mobile-first: Smaller items, tighter spacing
+	grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+	gap: space(xs);
 
-	@include mobile {
-		grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-		gap: space(xs);
+	// Tablet and up: Larger items, more spacing
+	@include tmd-up {
+		grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+		gap: space(sm);
 	}
 }
 
 .possible-code-item {
 	@include flex-column;
 	align-items: center;
-	padding: space(sm);
+	// Mobile-first: Compact padding
+	padding: space(xs);
 	border: 1px solid var(--border-color);
 	border-radius: radius(sm);
 	background: transparent;
 	text-align: center;
 
-	@include mobile {
-		padding: space(xs);
+	// Tablet and up: More spacious padding
+	@include tmd-up {
+		padding: space(sm);
 	}
 }
 
 .element-display {
 	font-weight: font-weight(bold);
 	color: var(--text-primary);
-	font-size: font-size(base);
+	// Mobile-first: Smaller text
+	font-size: font-size(sm);
 	margin-bottom: space(xs);
 
-	@include mobile {
-		font-size: font-size(sm);
+	// Tablet and up: Larger text
+	@include tmd-up {
+		font-size: font-size(base);
 	}
 }
 
 .code-display-small {
 	font-family: font-family(mono);
 	color: var(--success-color);
-	font-size: font-size(sm);
+	// Mobile-first: Smaller font and padding
+	font-size: font-size(xs);
 	font-weight: font-weight(bold);
-	padding: space(xs) space(sm);
+	padding: 2px space(xs);
 	border: 1px solid var(--success-color);
 	border-radius: radius(sm);
 	background: var(--location-card-completed-bg);
 
-	@include mobile {
-		font-size: font-size(xs);
-		padding: 2px space(xs);
+	// Tablet and up: Larger font and padding
+	@include tmd-up {
+		font-size: font-size(sm);
+		padding: space(xs) space(sm);
 	}
 }
 
@@ -455,8 +478,15 @@
 	animation: pulse 2s ease-in-out infinite;
 
 	@keyframes pulse {
-		0%, 100% { transform: scale(1); opacity: 0.8; }
-		50% { transform: scale(1.1); opacity: 1; }
+		0%,
+		100% {
+			transform: scale(1);
+			opacity: 0.8;
+		}
+		50% {
+			transform: scale(1.1);
+			opacity: 1;
+		}
 	}
 }
 
