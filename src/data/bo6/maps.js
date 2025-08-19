@@ -1,15 +1,5 @@
 export const BO6_MAPS = [
 	{
-		id: "liberty-falls",
-		name: "Liberty Falls",
-		status: "Not planned",
-		route: "/bo6/liberty-falls",
-		component: null,
-		available: false,
-		tools: ["N/A"],
-		difficulty: "easy",
-	},
-	{
 		id: "terminus",
 		name: "Terminus",
 		status: "Available",
@@ -19,6 +9,16 @@ export const BO6_MAPS = [
 		available: true,
 		tools: ["Nathan code", "Code Calculator"],
 		difficulty: "medium",
+	},
+	{
+		id: "liberty-falls",
+		name: "Liberty Falls",
+		status: "Not planned",
+		route: "/bo6/liberty-falls",
+		component: null,
+		available: false,
+		tools: ["N/A"],
+		difficulty: "easy",
 	},
 	{
 		id: "citadelle-des-morts",
