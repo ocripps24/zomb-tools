@@ -77,19 +77,14 @@ function VoyageOfDespair() {
 
 	// Reset function
 	const handleReset = () => {
-		if (
-			window.confirm(
-				"Are you sure you want to reset all data? This cannot be undone."
-			)
-		) {
-			setClockData({});
-			setOutletData({});
-			setPlanetData([]);
-			// Clear localStorage
-			localStorage.removeItem("voyage-clock-data");
-			localStorage.removeItem("voyage-outlet-data");
-			localStorage.removeItem("voyage-planet-data");
-		}
+		// Note: Confirmation already handled by MapNavigation component
+		setClockData({});
+		setOutletData({});
+		setPlanetData([]);
+		// Clear localStorage
+		localStorage.removeItem("voyage-clock-data");
+		localStorage.removeItem("voyage-outlet-data");
+		localStorage.removeItem("voyage-planet-data");
 	};
 
 	const getStepData = (stepId) => {

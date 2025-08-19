@@ -56,17 +56,12 @@ function ShatteredVeil() {
 	}, [currentPath, navigate]);
 
 	const handleReset = () => {
-		if (
-			window.confirm(
-				"Are you sure you want to reset all data? This cannot be undone."
-			)
-		) {
-			setSafeData({});
-			setChalkboardData({});
-			// Clear localStorage
-			localStorage.removeItem("shattered-veil-safe-data");
-			localStorage.removeItem("shattered-veil-chalkboard-data");
-		}
+		// Note: Confirmation already handled by MapNavigation component
+		setSafeData({});
+		setChalkboardData({});
+		// Clear localStorage
+		localStorage.removeItem("shattered-veil-safe-data");
+		localStorage.removeItem("shattered-veil-chalkboard-data");
 	};
 
 	const getStepData = (stepId) => {

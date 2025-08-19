@@ -99,17 +99,12 @@ function Terminus() {
 
 	// Reset function
 	const handleReset = () => {
-		if (
-			window.confirm(
-				"Are you sure you want to reset all data? This cannot be undone."
-			)
-		) {
-			setNathanCodeData({});
-			setBeamCodeData({});
-			// Clear localStorage
-			localStorage.removeItem("terminus-nathan-code-data");
-			localStorage.removeItem("terminus-beam-code-data");
-		}
+		// Note: Confirmation already handled by MapNavigation component
+		setNathanCodeData({});
+		setBeamCodeData({});
+		// Clear localStorage
+		localStorage.removeItem("terminus-nathan-code-data");
+		localStorage.removeItem("terminus-beam-code-data");
 	};
 
 	return (

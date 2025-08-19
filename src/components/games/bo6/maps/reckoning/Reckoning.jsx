@@ -57,17 +57,12 @@ function Reckoning() {
 
 
 	const handleReset = () => {
-		if (
-			window.confirm(
-				"Are you sure you want to reset all data? This cannot be undone."
-			)
-		) {
-			setDocumentsData({});
-			setDoorData({});
-			// Clear localStorage
-			localStorage.removeItem("reckoning-documents-data");
-			localStorage.removeItem("reckoning-door-data");
-		}
+		// Note: Confirmation already handled by MapNavigation component
+		setDocumentsData({});
+		setDoorData({});
+		// Clear localStorage
+		localStorage.removeItem("reckoning-documents-data");
+		localStorage.removeItem("reckoning-door-data");
 	};
 
 	const getStepData = (stepId) => {
