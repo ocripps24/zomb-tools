@@ -5,6 +5,7 @@ import VoyageOfDespair from "./components/games/bo4/maps/voyage-of-despair/Voyag
 import TagDerToten from "./components/games/bo4/maps/tag-der-toten/TagDerToten";
 import Terminus from "./components/games/bo6/maps/terminus/Terminus";
 import Reckoning from "./components/games/bo6/maps/reckoning/Reckoning";
+import ShatteredVeil from "./components/games/bo6/maps/shattered-veil/ShatteredVeil";
 import NotFound from "./components/NotFound";
 import { getGameById } from "./data/games";
 import "./styles/main.scss";
@@ -29,6 +30,9 @@ function App() {
 		}
 		if (path.includes("/reckoning")) {
 			return "Reckoning";
+		}
+		if (path.includes("/shattered-veil")) {
+			return "Shattered Veil";
 		}
 
 		// Handle game selection pages
@@ -68,6 +72,7 @@ function App() {
 					<Route path="/bo6" element={<MapSelection gameId="bo6" />} />
 					<Route path="/bo6/terminus/*" element={<Terminus />} />
 					<Route path="/bo6/reckoning/*" element={<Reckoning />} />
+					<Route path="/bo6/shattered-veil/*" element={<ShatteredVeil />} />
 
 					{/* Legacy route redirect for existing bookmarks */}
 					<Route path="/voyage-of-despair/*" element={<VoyageOfDespair />} />

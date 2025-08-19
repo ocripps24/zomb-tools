@@ -158,6 +158,12 @@
 	font-size: font-size(sm);
 	font-weight: font-weight(medium);
 
+	// Mobile: compact button with short text
+	padding: space(sm) space(xs);
+	gap: space(xs);
+	font-size: font-size(xs);
+	min-height: 40px;
+
 	&:hover:not(:disabled) {
 		border-color: var(--accent-color);
 		color: var(--btn-primary-text);
@@ -170,12 +176,6 @@
 		color: white;
 		font-weight: font-weight(semibold);
 	}
-
-	// Mobile: compact button with short text
-	padding: space(sm) space(xs);
-	gap: space(xs);
-	font-size: font-size(xs);
-	min-height: 40px;
 
 	&__full {
 		display: none; // Hide full text on mobile
@@ -214,6 +214,13 @@
 	min-width: 44px;
 	min-height: 44px;
 
+	// Mobile: compact movement button with short text
+	padding: space(xs);
+	gap: space(xs);
+	font-size: font-size(xs);
+	min-width: 40px;
+	min-height: 40px;
+
 	&:hover:not(:disabled) {
 		border-color: var(--accent-color);
 		color: var(--accent-color);
@@ -238,13 +245,6 @@
 		color: white;
 		font-weight: font-weight(semibold);
 	}
-
-	// Mobile: compact movement button with short text
-	padding: space(xs);
-	gap: space(xs);
-	font-size: font-size(xs);
-	min-width: 40px;
-	min-height: 40px;
 
 	&__full {
 		display: none; // Hide full text on mobile
@@ -282,6 +282,12 @@
 	font-size: font-size(sm);
 	font-weight: font-weight(medium);
 
+	// Mobile: compact preference button with short text
+	padding: space(sm) space(xs);
+	gap: space(xs);
+	font-size: font-size(xs);
+	min-height: 40px;
+
 	&:hover:not(:disabled) {
 		border-color: var(--accent-color);
 		color: var(--accent-color);
@@ -294,12 +300,6 @@
 		color: white;
 		font-weight: font-weight(semibold);
 	}
-
-	// Mobile: compact preference button with short text
-	padding: space(sm) space(xs);
-	gap: space(xs);
-	font-size: font-size(xs);
-	min-height: 40px;
 
 	&__full {
 		display: none; // Hide full text on mobile
@@ -336,6 +336,12 @@
 	font-size: font-size(sm);
 	font-weight: font-weight(medium);
 
+	// Mobile: compact time input button with short text
+	padding: space(sm) space(xs);
+	gap: space(xs);
+	font-size: font-size(xs);
+	min-height: 40px;
+
 	&:hover:not(:disabled) {
 		border-color: var(--accent-color);
 		color: var(--accent-color);
@@ -348,12 +354,6 @@
 		color: white;
 		font-weight: font-weight(semibold);
 	}
-
-	// Mobile: compact time input button with short text
-	padding: space(sm) space(xs);
-	gap: space(xs);
-	font-size: font-size(xs);
-	min-height: 40px;
 
 	&__full {
 		display: none; // Hide full text on mobile

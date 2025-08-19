@@ -43,17 +43,20 @@ export const BO6_MAPS = [
 	{
 		id: "shattered-veil",
 		name: "Shattered Veil",
-		status: "Development in progress",
+		status: "Available",
 		route: "/bo6/shattered-veil",
-		component: null,
-		available: false,
-		tools: ["Chalkboard", "Safe Code"],
+		component: () =>
+			import(
+				"../../components/games/bo6/maps/shattered-veil/ShatteredVeil.jsx"
+			),
+		available: true,
+		tools: ["Chalkboard Code", "Safe Code"],
 		difficulty: "easy",
 	},
 	{
 		id: "reckoning",
 		name: "Reckoning",
-		status: "Development in progress",
+		status: "Available",
 		route: "/bo6/reckoning",
 		component: () =>
 			import("../../components/games/bo6/maps/reckoning/Reckoning.jsx"),
