@@ -5,6 +5,8 @@
 
 // Game selection page styles
 .game-selection {
+	margin-top: space(2xl);
+
 	&__header {
 		text-align: center;
 		margin-bottom: 2rem;
@@ -25,16 +27,16 @@
 
 	&__grid {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: 1fr;
 		gap: 2rem;
 		margin: 2rem 0;
 
-		@media (max-width: 900px) {
+		@include pmd-up {
 			grid-template-columns: repeat(2, 1fr);
 		}
 
-		@media (max-width: 600px) {
-			grid-template-columns: 1fr;
+		@include tmd-up {
+			grid-template-columns: repeat(3, 1fr);
 		}
 	}
 
@@ -69,179 +71,5 @@
 		z-index: 1;
 		border-radius: var(--radius);
 		pointer-events: none;
-	}
-}
-
-// Enhanced Map Selection for Game-Specific Views
-.map-selection {
-	.back-btn {
-		margin-bottom: space(2xl);
-
-		@include mobile {
-			margin-bottom: space(xl);
-		}
-	}
-
-	.map-card {
-		background: var(--card-bg);
-		border: 2px solid var(--border-color);
-		border-radius: var(--radius);
-		padding: space(2xl);
-		margin-bottom: space(2xl);
-		transition: all var(--transition);
-
-		&:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-		}
-
-		&__header {
-			display: flex;
-			justify-content: space-between;
-			align-items: flex-start;
-			margin-bottom: space(sm);
-		}
-
-		&__title {
-			color: var(--text-primary);
-			font-size: 1.25rem;
-			font-weight: 600;
-			margin: 0;
-		}
-
-		&__difficulty {
-			padding: space(xs) space(sm);
-			border-radius: radius(sm);
-			font-size: 0.75rem;
-			font-weight: 500;
-			text-transform: uppercase;
-
-			&.easy {
-				background: var(--success-color);
-				color: white;
-			}
-
-			&.medium {
-				background: var(--warning-color);
-				color: white;
-			}
-
-			&.hard {
-				background: var(--danger-color);
-				color: white;
-			}
-		}
-
-		&__tools {
-			margin-bottom: space(sm);
-
-			.tools-label {
-				color: var(--text-secondary);
-				font-size: 0.875rem;
-				font-weight: 500;
-			}
-
-			.tools-list {
-				color: var(--text-primary);
-				font-size: 0.875rem;
-				margin-left: space(xs);
-			}
-		}
-	}
-}
-
-// Terminus placeholder styles
-.terminus-page {
-	.placeholder-content {
-		max-width: 800px;
-		margin: 0 auto;
-		padding: space(3xl) space(2xl);
-		text-align: center;
-
-		@include mobile {
-			padding: space(2xl) space(xl);
-		}
-
-		h2 {
-			color: var(--text-primary);
-			font-size: 2.5rem;
-			margin-bottom: space(2xl);
-
-			@include mobile {
-				font-size: 2rem;
-			}
-		}
-
-		p {
-			color: var(--text-secondary);
-			font-size: 1.125rem;
-			line-height: 1.6;
-			margin-bottom: space(2xl);
-
-			@include mobile {
-				font-size: 1rem;
-			}
-		}
-
-		.planned-features {
-			background: var(--card-bg);
-			border: 1px solid var(--border-color);
-			border-radius: radius(md);
-			padding: space(2xl);
-			margin: space(2xl) 0;
-			text-align: left;
-
-			@include mobile {
-				padding: space(2xl);
-				margin: space(2xl) 0;
-			}
-
-			h3 {
-				color: var(--text-primary);
-				font-size: 1.25rem;
-				margin-bottom: space(xl);
-				text-align: center;
-			}
-
-			ul {
-				list-style: none;
-				padding: 0;
-				margin: 0;
-
-				li {
-					color: var(--text-secondary);
-					padding: space(sm) 0;
-					border-bottom: 1px solid var(--border-color);
-
-					&:last-child {
-						border-bottom: none;
-					}
-
-					&:before {
-						content: "🔧";
-						margin-right: space(sm);
-					}
-				}
-			}
-		}
-
-		.development-note {
-			background: var(--accent-color);
-			color: white;
-			padding: space(2xl);
-			border-radius: radius(md);
-			margin-top: space(2xl);
-
-			@include mobile {
-				padding: space(xl);
-				margin-top: space(2xl);
-			}
-
-			p {
-				margin: 0;
-				color: white;
-				font-size: 1rem;
-			}
-		}
 	}
 }

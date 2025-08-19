@@ -20,8 +20,6 @@
 @use "components/nav";
 @use "components/step-navigation";
 @use "components/step-navigation-buttons";
-@use "components/settings-panel";
-@use "components/settings-page";
 @use "components/location-card";
 @use "components/section-header";
 @use "components/symbol-picker";
@@ -31,7 +29,6 @@
 
 // 5. Pages - general page-specific styles
 @use "pages/map-selection";
-@use "pages/settings";
 @use "pages/game-selection";
 
 // 6. Maps - map-specific styles
