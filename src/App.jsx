@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import GameSelection from "./components/GameSelection";
 import MapSelection from "./components/MapSelection";
@@ -46,8 +47,47 @@ function App() {
 		}
 
 		// Default
-		return "Call of Duty Zombies Speedrun Helper";
+		return "COD Zombies Tools";
 	};
+
+	// Get SEO-optimized document title
+	const getDocumentTitle = () => {
+		const path = location.pathname;
+		const baseSite = "COD Zombies Tools";
+
+		// Handle specific map pages with easter egg focus
+		if (path.includes("/voyage-of-despair")) {
+			return `Voyage of Despair Easter Eggs - ${baseSite}`;
+		}
+		if (path.includes("/tag-der-toten")) {
+			return `Tag der Toten Easter Eggs - ${baseSite}`;
+		}
+		if (path.includes("/terminus")) {
+			return `Terminus Easter Eggs - ${baseSite}`;
+		}
+		if (path.includes("/reckoning")) {
+			return `Reckoning Easter Eggs - ${baseSite}`;
+		}
+		if (path.includes("/shattered-veil")) {
+			return `Shattered Veil Easter Eggs - ${baseSite}`;
+		}
+
+		// Handle game selection pages
+		if (path.startsWith("/bo4")) {
+			return path === "/bo4" ? `BO4 Maps - ${baseSite}` : `BO4 Tools - ${baseSite}`;
+		}
+		if (path.startsWith("/bo6")) {
+			return path === "/bo6" ? `BO6 Maps - ${baseSite}` : `BO6 Tools - ${baseSite}`;
+		}
+
+		// Default
+		return `${baseSite} - Easter Egg Solver for BO4 & BO6`;
+	};
+
+	// Update document title when route changes
+	useEffect(() => {
+		document.title = getDocumentTitle();
+	}, [location.pathname]);
 
 	return (
 		<div className="app">
