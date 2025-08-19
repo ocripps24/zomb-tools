@@ -5,18 +5,40 @@ import { getGameById } from "../data/games";
 import { BO4_MAPS } from "../data/bo4/maps";
 import { BO6_MAPS } from "../data/bo6/maps";
 
-// Vite dynamic import for all map preview images (e.g., src/assets/maps/bo4/voyage-preview.png)
-const previews = import.meta.glob("../assets/maps/*/*-preview.png", {
+// Vite dynamic import for all map preview images - supports multiple formats
+const previewsWebp = import.meta.glob("../assets/maps/*/*-preview.webp", {
+	eager: true,
+	import: "default",
+});
+
+const previewsJpg = import.meta.glob("../assets/maps/*/*-preview.jpg", {
+	eager: true,
+	import: "default",
+});
+
+const previewsPng = import.meta.glob("../assets/maps/*/*-preview.png", {
 	eager: true,
 	import: "default",
 });
 
 const getPreview = (gameId, mapId) => {
-	// Try to find a preview image for this map
-	const match = Object.entries(previews).find(([path]) =>
-		path.includes(`/${gameId}/${mapId}-preview.png`)
-	);
-	return match ? match[1] : null;
+	// Priority order: WebP > JPG > PNG (WebP is most efficient)
+	const formats = [
+		{ ext: 'webp', previews: previewsWebp },
+		{ ext: 'jpg', previews: previewsJpg },
+		{ ext: 'png', previews: previewsPng }
+	];
+
+	for (const format of formats) {
+		const match = Object.entries(format.previews).find(([path]) =>
+			path.includes(`/${gameId}/${mapId}-preview.${format.ext}`)
+		);
+		if (match) {
+			return match[1];
+		}
+	}
+
+	return null;
 };
 
 const getMapsByGame = (gameId) => {
