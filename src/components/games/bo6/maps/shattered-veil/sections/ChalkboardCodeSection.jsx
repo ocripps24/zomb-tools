@@ -135,8 +135,8 @@ function ChalkboardCodeSection({
 
 	// Get completion status
 	const getCompletionStatus = () => {
-		const hasChalkboard = localData.selectedChalkboard !== null;
-		const hasCodeword = localData.selectedCodeword !== "";
+		const hasChalkboard = Boolean(localData.selectedChalkboard);
+		const hasCodeword = Boolean(localData.selectedCodeword && localData.selectedCodeword.trim());
 		const completed = [hasChalkboard, hasCodeword].filter(Boolean).length;
 
 		return {
