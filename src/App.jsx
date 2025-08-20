@@ -7,6 +7,7 @@ import TagDerToten from "./components/games/bo4/maps/tag-der-toten/TagDerToten";
 import Terminus from "./components/games/bo6/maps/terminus/Terminus";
 import Reckoning from "./components/games/bo6/maps/reckoning/Reckoning";
 import ShatteredVeil from "./components/games/bo6/maps/shattered-veil/ShatteredVeil";
+import LibertyFalls from "./components/games/bo6/maps/liberty-falls/LibertyFalls";
 import NotFound from "./components/NotFound";
 import { getGameById } from "./data/games";
 import "./styles/main.scss";
@@ -34,6 +35,9 @@ function App() {
 		}
 		if (path.includes("/shattered-veil")) {
 			return "Shattered Veil";
+		}
+		if (path.includes("/liberty-falls")) {
+			return "Liberty Falls";
 		}
 
 		// Handle game selection pages
@@ -70,6 +74,9 @@ function App() {
 		}
 		if (path.includes("/shattered-veil")) {
 			return `Shattered Veil Easter Eggs - ${baseSite}`;
+		}
+		if (path.includes("/liberty-falls")) {
+			return `Liberty Falls Easter Eggs - ${baseSite}`;
 		}
 
 		// Handle game selection pages
@@ -113,6 +120,7 @@ function App() {
 					<Route path="/bo6/terminus/*" element={<Terminus />} />
 					<Route path="/bo6/reckoning/*" element={<Reckoning />} />
 					<Route path="/bo6/shattered-veil/*" element={<ShatteredVeil />} />
+					<Route path="/bo6/liberty-falls/*" element={<LibertyFalls />} />
 
 					{/* Legacy route redirect for existing bookmarks */}
 					<Route path="/voyage-of-despair/*" element={<VoyageOfDespair />} />
