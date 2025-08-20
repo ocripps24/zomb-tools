@@ -1,7 +1,5 @@
-import { useState, useCallback, useEffect } from "react";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import { MapNavigation } from "../../../../core/index.js";
-import { StepNavigationButtons } from "../../../../core/index.js";
+// MapContainer component for multi-step map navigation
+import { MapContainer } from "../../../../core/index.js";
 import NathanCodeSection from "./sections/NathanCodeSection";
 import BeamCodeSection from "./sections/BeamCodeSection";
 
@@ -21,175 +19,15 @@ const STEPS = [
 ];
 
 function Terminus() {
-	// State management for each section
-	const [nathanCodeData, setNathanCodeData] = useState({});
-	const [beamCodeData, setBeamCodeData] = useState({});
-
-	const navigate = useNavigate();
-	const location = useLocation();
-
-	// Default to nathan-code step if no specific step
-	const currentPath = location.pathname;
-	const currentStepIndex = STEPS.findIndex((step) => step.path === currentPath);
-
-	useEffect(() => {
-		// Redirect to first step if user visits base terminus URL
-		if (currentPath === "/bo6/terminus" || currentPath === "/bo6/terminus/") {
-			navigate(STEPS[0].path, { replace: true });
-		}
-	}, [currentPath, navigate]);
-
-	// Active step logic
-	const getActiveStepIndex = () => {
-		if (currentStepIndex >= 0) {
-			return currentStepIndex;
-		}
-		// Default to first step if no match
-		return 0;
-	};
-
-	const activeStepIndex = getActiveStepIndex();
-
-	// Navigation functions
-	const goToStep = (stepPath) => {
-		navigate(stepPath);
-	};
-
-	const goToNext = () => {
-		if (activeStepIndex < STEPS.length - 1) {
-			navigate(STEPS[activeStepIndex + 1].path);
-		}
-	};
-
-	const goToPrevious = () => {
-		if (activeStepIndex > 0) {
-			navigate(STEPS[activeStepIndex - 1].path);
-		}
-	};
-
-	// Data management functions
-	const getStepData = (stepId) => {
-		switch (stepId) {
-			case "nathan-code":
-				return nathanCodeData;
-			case "beam-code":
-				return beamCodeData;
-			default:
-				return {};
-		}
-	};
-
-	const handleNathanCodeChange = useCallback(
-		(data) => setNathanCodeData(data),
-		[]
-	);
-
-	const handleBeamCodeChange = useCallback((data) => setBeamCodeData(data), []);
-
-	const getStepOnChange = (stepId) => {
-		switch (stepId) {
-			case "nathan-code":
-				return handleNathanCodeChange;
-			case "beam-code":
-				return handleBeamCodeChange;
-			default:
-				return () => {};
-		}
-	};
-
-	// Reset function
-	const handleReset = () => {
-		// Note: Confirmation already handled by MapNavigation component
-		setNathanCodeData({});
-		setBeamCodeData({});
-		// Clear localStorage
-		localStorage.removeItem("terminus-nathan-code-data");
-		localStorage.removeItem("terminus-beam-code-data");
-	};
-
 	return (
-		<div className="map-page terminus">
-			<div className="map-info">
-				<h1 className="map-title">Terminus</h1>
-			</div>
-
-			<div className="map-header">
-				<MapNavigation
-					backTo="/bo6"
-					onReset={handleReset}
-				/>
-
-				<div className="step-navigation">
-					<div className="step-tabs">
-						{STEPS.map((step, index) => (
-							<button
-								key={step.id}
-								onClick={() => goToStep(step.path)}
-								className={`step-tab ${
-									activeStepIndex === index ? "step-tab--active" : ""
-								}`}
-							>
-								<span className="step-number">{index + 1}</span>
-								<span className="step-name">{step.name}</span>
-							</button>
-						))}
-					</div>
-				</div>
-			</div>
-
-			<div className="map-content">
-				<Routes>
-					{/* Default route - show first available step */}
-					<Route
-						path="/"
-						element={
-							<NathanCodeSection
-								data={getStepData("nathan-code")}
-								onChange={getStepOnChange("nathan-code")}
-								onNext={goToNext}
-								onPrevious={goToPrevious}
-								currentStep={activeStepIndex}
-								totalSteps={STEPS.length}
-							/>
-						}
-					/>
-
-					{/* Individual step routes */}
-					{STEPS.map((step) => (
-						<Route
-							key={step.id}
-							path={step.id}
-							element={
-								step.component ? (
-									<step.component
-										data={getStepData(step.id)}
-										onChange={getStepOnChange(step.id)}
-										onNext={goToNext}
-										onPrevious={goToPrevious}
-										currentStep={activeStepIndex}
-										totalSteps={STEPS.length}
-									/>
-								) : (
-									<div className="placeholder-content">
-										<h2>{step.name} - Coming Soon</h2>
-										<p>This section is still under development.</p>
-									</div>
-								)
-							}
-						/>
-					))}
-				</Routes>
-
-				{/* Step Navigation Buttons */}
-				<StepNavigationButtons
-					currentStepIndex={activeStepIndex}
-					totalSteps={STEPS.length}
-					onPrevious={goToPrevious}
-					onNext={goToNext}
-					stepNames={STEPS.map(step => step.name)}
-				/>
-			</div>
-		</div>
+		<MapContainer
+			steps={STEPS}
+			basePath="/bo6/terminus"
+			storagePrefix="terminus"
+			mapName="Terminus"
+			backTo="/bo6"
+			className="terminus"
+		/>
 	);
 }
 

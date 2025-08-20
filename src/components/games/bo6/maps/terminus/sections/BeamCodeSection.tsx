@@ -1,76 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { SectionHeader } from "../../../../../core/index.js";
 import { SymbolPicker } from "../../../../../content/index.js";
-import { BeamSymbols, SYMBOL_DATA, getSymbolValue } from "./BeamSymbols.tsx";
-
-// TypeScript version of usePersistedState hook (inline for now)
-function usePersistedState<T>({
-	storageKey,
-	defaultValue,
-	onChange,
-	debug = false
-}: {
-	storageKey: string;
-	defaultValue: T;
-	onChange?: (data: T) => void;
-	debug?: boolean;
-}) {
-	const [data, setDataState] = useState<T>(() => {
-		const saved = localStorage.getItem(storageKey);
-		if (saved) {
-			try {
-				return JSON.parse(saved);
-			} catch (e) {
-				console.error(`Failed to parse ${storageKey} data:`, e);
-				return defaultValue;
-			}
-		}
-		return defaultValue;
-	});
-
-	const log = (message: string, ...args: any[]) => {
-		if (debug) console.log(`[usePersistedState:${storageKey}] ${message}`, ...args);
-	};
-
-	// Save to localStorage whenever data changes
-	useEffect(() => {
-		try {
-			localStorage.setItem(storageKey, JSON.stringify(data));
-			log('Saved to localStorage:', data);
-		} catch (e) {
-			console.error(`Failed to save ${storageKey} to localStorage:`, e);
-		}
-		
-		if (onChange) {
-			onChange(data);
-		}
-	}, [data, storageKey, onChange]);
-
-	const setData = (newData: T | ((prev: T) => T)) => {
-		if (typeof newData === 'function') {
-			setDataState(prev => {
-				const result = (newData as (prev: T) => T)(prev);
-				log('Data updated via function:', result);
-				return result;
-			});
-		} else {
-			log('Data updated:', newData);
-			setDataState(newData);
-		}
-	};
-
-	const reset = () => {
-		log('Resetting data to default and clearing localStorage');
-		try {
-			localStorage.removeItem(storageKey);
-		} catch (e) {
-			console.error(`Failed to remove ${storageKey} from localStorage:`, e);
-		}
-		setDataState(defaultValue);
-	};
-
-	return { data, setData, reset };
-}
+import { BeamSymbols, SYMBOL_DATA, getSymbolValue } from "./BeamSymbols";
+import { usePersistedState } from "../../../../../../hooks";
 
 interface SymbolLocation {
 	id: string;
