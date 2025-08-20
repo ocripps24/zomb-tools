@@ -12,6 +12,7 @@ import NotFound from "./components/NotFound";
 import { getGameById } from "./data/games";
 import "./styles/main.scss";
 import NavBar from "./components/common/NavBar";
+import Footer from "./components/common/Footer";
 
 function App() {
 	const location = useLocation();
@@ -129,6 +130,8 @@ function App() {
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</main>
+
+			<Footer />
 		</div>
 	);
 }
