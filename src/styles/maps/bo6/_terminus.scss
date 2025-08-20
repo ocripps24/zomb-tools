@@ -3,167 +3,7 @@
 	// Map-specific overrides can go here if needed
 }
 
-
-
-// Nathan code section styles
-.nathan-code-section {
-	.code-inputs {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		gap: 1.5rem;
-		margin: 2rem 0;
-	}
-	
-	.code-input-group {
-		background: transparent;
-		border: 1px solid var(--border-subtle);
-		border-radius: var(--radius);
-		padding: 1.5rem;
-		transition: all var(--transition);
-		
-		&:hover {
-			border-color: var(--border-focus);
-		}
-		
-		.input-label {
-			margin-bottom: 1rem;
-			
-			h3 {
-				margin: 0 0 0.5rem 0;
-				color: var(--text-primary);
-				font-size: 1.1rem;
-			}
-			
-			.input-description {
-				color: var(--text-secondary);
-				font-size: 0.9rem;
-				margin: 0 0 0.5rem 0;
-			}
-			
-			.input-range {
-				color: var(--text-primary);
-				font-size: 0.8rem;
-				opacity: 0.8;
-			}
-		}
-		
-		.input-container {
-			.code-input {
-				width: 100%;
-				background: var(--input-bg);
-				border: 1px solid var(--border-subtle);
-				border-radius: var(--radius);
-				padding: 0.75rem;
-				color: var(--text-primary);
-				font-size: 1.2rem;
-				text-align: center;
-				transition: all var(--transition);
-				
-				&:focus {
-					outline: none;
-					border-color: var(--border-focus);
-				}
-				
-				&::placeholder {
-					color: var(--text-muted);
-				}
-			}
-		}
-	}
-	
-	.code-summary {
-		margin-top: 2rem;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-		gap: 1.5rem;
-		
-		.completion-status,
-		.final-code {
-			background: transparent;
-			border: 1px solid var(--border-subtle);
-			border-radius: var(--radius);
-			padding: 1.5rem;
-			
-			h3 {
-				margin: 0 0 1rem 0;
-				color: var(--text-primary);
-			}
-		}
-		
-		.progress-bar {
-			width: 100%;
-			height: 8px;
-			background: var(--border-subtle);
-			border-radius: 4px;
-			overflow: hidden;
-			margin-bottom: 0.5rem;
-			
-			.progress-fill {
-				height: 100%;
-				background: var(--success-light-color);
-				transition: width var(--transition);
-			}
-		}
-		
-		.progress-text {
-			color: var(--text-secondary);
-			font-size: 0.9rem;
-		}
-		
-		.code-display {
-			background: var(--input-bg);
-			border: 1px solid var(--success-light-color);
-			border-radius: var(--radius);
-			padding: 1rem;
-			text-align: center;
-			margin-bottom: 1rem;
-			
-			.code-number {
-				font-size: 2rem;
-				font-weight: bold;
-				color: var(--success-light-color);
-				letter-spacing: 0.2em;
-			}
-		}
-		
-		.code-note {
-			color: var(--text-secondary);
-			font-size: 0.9rem;
-			margin: 0;
-		}
-	}
-	
-	.section-tips {
-		margin-top: 2rem;
-		background: transparent;
-		border: 1px solid var(--border-subtle);
-		border-radius: var(--radius);
-		padding: 1.5rem;
-		
-		h3 {
-			margin: 0 0 1rem 0;
-			color: var(--text-primary);
-		}
-		
-		ul {
-			margin: 0;
-			padding-left: 1.2rem;
-			
-			li {
-				color: var(--text-secondary);
-				margin-bottom: 0.5rem;
-				
-				&:last-child {
-					margin-bottom: 0;
-				}
-				
-				strong {
-					color: var(--text-primary);
-				}
-			}
-		}
-	}
-}
+// Nathan code section styles now handled by _code-collection-section.scss component
 
 // Beam code section styles
 .beam-code-section {
@@ -172,27 +12,27 @@
 		grid-template-columns: repeat(3, 1fr);
 		gap: 1rem;
 		margin: 2rem 0;
-		
+
 		// Responsive breakpoint for smaller screens
 		@media (max-width: 768px) {
 			grid-template-columns: 1fr;
 		}
-		
+
 		@media (max-width: 1024px) and (min-width: 769px) {
 			grid-template-columns: repeat(2, 1fr);
 		}
 	}
-	
+
 	.symbol-input-group {
 		background: transparent;
 		border: 1px solid var(--border-subtle);
 		border-radius: var(--radius);
 		padding: 1.5rem;
-		
+
 		.input-label {
 			margin-bottom: 1.5rem;
 			text-align: center;
-			
+
 			h3 {
 				margin: 0;
 				color: var(--text-primary);
@@ -200,34 +40,33 @@
 				font-weight: bold;
 			}
 		}
-		
 	}
-	
+
 	.equation-results {
 		margin-top: 2rem;
 		background: transparent;
 		border: 1px solid var(--border-subtle);
 		border-radius: var(--radius);
 		padding: 1.5rem;
-		
+
 		h3 {
 			margin: 0 0 1.5rem 0;
 			color: var(--text-primary);
 			text-align: center;
 		}
-		
+
 		.results-grid {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 			gap: 1rem;
-			
+
 			.result-item {
 				background: var(--input-bg);
 				border: 1px solid var(--success-light-color);
 				border-radius: var(--radius);
 				padding: 1rem;
 				text-align: center;
-				
+
 				.result-number {
 					display: block;
 					font-size: 1.8rem;
@@ -235,7 +74,7 @@
 					color: var(--success-light-color);
 					margin-bottom: 0.5rem;
 				}
-				
+
 				.result-label {
 					color: var(--text-secondary);
 					font-size: 0.9rem;
@@ -243,36 +82,6 @@
 			}
 		}
 	}
-	
-	.section-tips {
-		margin-top: 2rem;
-		background: transparent;
-		border: 1px solid var(--border-subtle);
-		border-radius: var(--radius);
-		padding: 1.5rem;
-		
-		h3 {
-			margin: 0 0 1rem 0;
-			color: var(--text-primary);
-		}
-		
-		ul {
-			margin: 0;
-			padding-left: 1.2rem;
-			
-			li {
-				color: var(--text-secondary);
-				margin-bottom: 0.5rem;
-				
-				&:last-child {
-					margin-bottom: 0;
-				}
-				
-				strong {
-					color: var(--text-primary);
-				}
-			}
-		}
-	}
-}
 
+	// Section tips styles now handled by _section-tips.scss component
+}

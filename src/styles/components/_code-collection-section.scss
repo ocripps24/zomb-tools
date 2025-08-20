@@ -1,0 +1,228 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+// CodeCollectionSection component styles
+// Used by Liberty Falls Vault, Shattered Veil Safe, Terminus Nathan, etc.
+
+.code-collection-section {
+	// Uses standard section structure with section-header component
+}
+
+// Code Input sections
+.code-inputs {
+	@include flex-column;
+	gap: space(lg);
+	margin-bottom: space(xl);
+
+	// Tablet and up: Horizontal row layout
+	@include tmd-up {
+		flex-direction: row;
+		gap: space(xl);
+	}
+}
+
+.code-input-group {
+	@include flex-column;
+	gap: space(md);
+	padding: space(lg);
+	border: 1px solid var(--border-subtle);
+	border-radius: radius(base);
+	background-color: transparent;
+	text-align: center;
+
+	// Tablet and up: Equal flex distribution, stay vertical but centered
+	@include tmd-up {
+		flex: 1;
+		align-items: center;
+		padding: space(xl);
+	}
+}
+
+.input-label {
+	@include flex-column;
+	gap: space(xs);
+	margin-bottom: space(md);
+
+	h3 {
+		margin: 0;
+		color: var(--text-primary);
+		@include fluid-text(lg, medium, 1.4);
+	}
+
+	.input-description {
+		margin: 0;
+		color: var(--text-secondary);
+		@include fluid-text(sm, normal, 1.4);
+	}
+
+	.input-tertiary {
+		@include fluid-text(xs, medium, 1.3);
+		color: var(--text-muted);
+		font-style: italic;
+	}
+}
+
+.input-container {
+	// Full width for clean input styling
+	width: 100%;
+	max-width: 120px;
+	margin: 0 auto;
+}
+
+.code-input {
+	@include input-base;
+	width: 100%;
+	text-align: center;
+	font-size: font-size(xl);
+	font-weight: font-weight(bold);
+	padding: space(lg);
+
+	// Remove spinner arrows
+	&::-webkit-outer-spin-button,
+	&::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	&[type="number"] {
+		-moz-appearance: textfield;
+	}
+
+	&:focus {
+		border-color: var(--success-color);
+		box-shadow: 0 0 0 1px var(--success-color);
+	}
+}
+
+// Code Summary (shared between sections)
+.code-summary {
+	@include flex-column;
+	gap: space(lg);
+	margin-bottom: space(xl);
+	padding: space(lg);
+	border: 1px solid var(--border-subtle);
+	border-radius: radius(base);
+	background-color: transparent;
+
+	// Tablet and up: More spacious
+	@include tmd-up {
+		padding: space(xl);
+		gap: space(xl);
+	}
+
+	// Reorder: final-code first, then completion-status
+	.final-code {
+		order: 1;
+	}
+
+	.completion-status {
+		order: 2;
+	}
+}
+
+.completion-status {
+	h3 {
+		margin: 0 0 space(md) 0;
+		color: var(--text-primary);
+		@include fluid-text(lg, medium, 1.4);
+	}
+}
+
+.progress-bar {
+	width: 100%;
+	height: 8px;
+	background: var(--border-subtle);
+	border-radius: radius(full);
+	overflow: hidden;
+	margin-bottom: space(sm);
+
+	.progress-fill {
+		height: 100%;
+		background: linear-gradient(
+			90deg,
+			var(--success-color),
+			var(--success-light-color)
+		);
+		border-radius: radius(full);
+		transition: width 0.3s ease;
+	}
+}
+
+.progress-text {
+	@include fluid-text(sm, medium, 1.4);
+	color: var(--text-secondary);
+}
+
+.final-code {
+	text-align: center;
+	padding: space(lg);
+	border: 2px solid var(--success-color);
+	border-radius: radius(base);
+	background: var(--location-card-completed-bg);
+
+	// Tablet and up: More spacious
+	@include tmd-up {
+		padding: space(xl);
+	}
+
+	h3 {
+		margin: 0 0 space(lg) 0;
+		color: var(--success-color);
+		@include fluid-text(xl, semibold, 1.4);
+	}
+}
+
+.code-display {
+	margin-bottom: space(lg);
+
+	.code-number {
+		font-family: font-family(mono);
+		// Mobile-first: Large but manageable size
+		font-size: font-size(4xl);
+		font-weight: font-weight(bold);
+		color: var(--success-color);
+		background: transparent;
+		padding: space(md) space(lg);
+		border-radius: radius(base);
+		border: 2px solid var(--success-color);
+
+		// Tablet and up: Extra large
+		@include tmd-up {
+			font-size: font-size(5xl);
+			padding: space(lg) space(xl);
+		}
+	}
+}
+
+.code-breakdown {
+	margin-bottom: space(lg);
+	@include flex-column;
+	gap: space(xs);
+
+	// Tablet and up: Horizontal layout
+	@include tmd-up {
+		flex-direction: row;
+		justify-content: space-around;
+		gap: space(lg);
+	}
+
+	p {
+		margin: 0;
+		@include fluid-text(sm, normal, 1.4);
+		color: var(--text-secondary);
+
+		strong {
+			color: var(--text-primary);
+		}
+	}
+}
+
+.code-note {
+	margin: 0;
+	@include fluid-text(sm, normal, 1.5);
+	color: var(--text-secondary);
+	font-style: italic;
+}
+
+// Section tips styles now handled by _section-tips.scss component

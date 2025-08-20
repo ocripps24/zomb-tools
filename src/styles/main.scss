@@ -23,6 +23,8 @@
 @use "components/location-card";
 @use "components/section-header";
 @use "components/symbol-picker";
+@use "components/code-collection-section";
+@use "components/section-tips";
 
 // 4. Layout - layout-specific styles
 @use "layout/app";
@@ -37,6 +39,7 @@
 @use "maps/bo6/terminus";
 @use "maps/bo6/reckoning";
 @use "maps/bo6/shattered-veil";
+@use "maps/bo6/liberty-falls";
 
 html,
 body {

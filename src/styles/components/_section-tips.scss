@@ -1,0 +1,54 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+// Section Tips component styles
+// Used across maps for displaying tips and instructions
+
+.section-tips {
+	margin-top: space(xl);
+	padding: space(lg);
+	background: transparent;
+	border: 1px solid var(--border-subtle);
+	border-radius: radius(base);
+
+	// Tablet and up: More spacious
+	@include tmd-up {
+		padding: space(xl);
+	}
+
+	h3 {
+		margin: 0 0 space(md) 0;
+		color: var(--text-primary);
+		@include fluid-text(lg, medium, 1.4);
+	}
+
+	ul {
+		margin: 0;
+		padding-left: 0;
+		list-style: none;
+		color: var(--text-secondary);
+		@include fluid-text(sm, normal, 1.6);
+
+		li {
+			margin-bottom: space(sm);
+			position: relative;
+			padding-left: space(lg);
+
+			&:before {
+				content: "–";
+				position: absolute;
+				left: 0;
+				color: var(--text-secondary);
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+
+			strong {
+				color: var(--text-primary);
+			}
+		}
+	}
+}

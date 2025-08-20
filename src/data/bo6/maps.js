@@ -13,11 +13,12 @@ export const BO6_MAPS = [
 	{
 		id: "liberty-falls",
 		name: "Liberty Falls",
-		status: "Not planned",
+		status: "Available",
 		route: "/bo6/liberty-falls",
-		component: null,
-		available: false,
-		tools: ["N/A"],
+		component: () =>
+			import("../../components/games/bo6/maps/liberty-falls/LibertyFalls.jsx"),
+		available: true,
+		tools: ["Vault"],
 		difficulty: "easy",
 	},
 	{
