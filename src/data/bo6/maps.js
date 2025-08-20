@@ -5,7 +5,7 @@ export const BO6_MAPS = [
 		status: "Available",
 		route: "/bo6/terminus",
 		component: () =>
-			import("../../components/games/bo6/maps/terminus/Terminus.jsx"),
+			import("../../components/games/bo6/maps/terminus/Terminus.tsx"),
 		available: true,
 		tools: ["Nathan code", "Code Calculator"],
 		difficulty: "medium",
@@ -16,7 +16,7 @@ export const BO6_MAPS = [
 		status: "Available",
 		route: "/bo6/liberty-falls",
 		component: () =>
-			import("../../components/games/bo6/maps/liberty-falls/LibertyFalls.jsx"),
+			import("../../components/games/bo6/maps/liberty-falls/LibertyFalls.tsx"),
 		available: true,
 		tools: ["Vault"],
 		difficulty: "easy",
@@ -48,7 +48,7 @@ export const BO6_MAPS = [
 		route: "/bo6/shattered-veil",
 		component: () =>
 			import(
-				"../../components/games/bo6/maps/shattered-veil/ShatteredVeil.jsx"
+				"../../components/games/bo6/maps/shattered-veil/ShatteredVeil.tsx"
 			),
 		available: true,
 		tools: ["Chalkboard Code", "Safe Code"],
@@ -60,7 +60,7 @@ export const BO6_MAPS = [
 		status: "Available",
 		route: "/bo6/reckoning",
 		component: () =>
-			import("../../components/games/bo6/maps/reckoning/Reckoning.jsx"),
+			import("../../components/games/bo6/maps/reckoning/Reckoning.tsx"),
 		available: true,
 		tools: ["Documents Code", "Door Code"],
 		difficulty: "medium",

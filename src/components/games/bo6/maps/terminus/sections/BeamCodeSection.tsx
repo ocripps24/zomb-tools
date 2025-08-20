@@ -1,62 +1,117 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { SectionHeader } from "../../../../../core/index.js";
 import { SymbolPicker } from "../../../../../content/index.js";
-import { BeamSymbols, SYMBOL_DATA, getSymbolValue } from "./BeamSymbols";
+import { BeamSymbols, SYMBOL_DATA, getSymbolValue } from "./BeamSymbols.tsx";
 
-const SYMBOL_LOCATIONS = [
+// TypeScript version of usePersistedState hook (inline for now)
+function usePersistedState<T>({
+	storageKey,
+	defaultValue,
+	onChange,
+	debug = false
+}: {
+	storageKey: string;
+	defaultValue: T;
+	onChange?: (data: T) => void;
+	debug?: boolean;
+}) {
+	const [data, setDataState] = useState<T>(() => {
+		const saved = localStorage.getItem(storageKey);
+		if (saved) {
+			try {
+				return JSON.parse(saved);
+			} catch (e) {
+				console.error(`Failed to parse ${storageKey} data:`, e);
+				return defaultValue;
+			}
+		}
+		return defaultValue;
+	});
+
+	const log = (message: string, ...args: any[]) => {
+		if (debug) console.log(`[usePersistedState:${storageKey}] ${message}`, ...args);
+	};
+
+	// Save to localStorage whenever data changes
+	useEffect(() => {
+		try {
+			localStorage.setItem(storageKey, JSON.stringify(data));
+			log('Saved to localStorage:', data);
+		} catch (e) {
+			console.error(`Failed to save ${storageKey} to localStorage:`, e);
+		}
+		
+		if (onChange) {
+			onChange(data);
+		}
+	}, [data, storageKey, onChange]);
+
+	const setData = (newData: T | ((prev: T) => T)) => {
+		if (typeof newData === 'function') {
+			setDataState(prev => {
+				const result = (newData as (prev: T) => T)(prev);
+				log('Data updated via function:', result);
+				return result;
+			});
+		} else {
+			log('Data updated:', newData);
+			setDataState(newData);
+		}
+	};
+
+	const reset = () => {
+		log('Resetting data to default and clearing localStorage');
+		try {
+			localStorage.removeItem(storageKey);
+		} catch (e) {
+			console.error(`Failed to remove ${storageKey} from localStorage:`, e);
+		}
+		setDataState(defaultValue);
+	};
+
+	return { data, setData, reset };
+}
+
+interface SymbolLocation {
+	id: string;
+	name: string;
+	description: string;
+}
+
+interface BeamCodeData {
+	[key: string]: string;
+}
+
+interface BeamCodeSectionProps {
+	onChange?: (data: BeamCodeData) => void;
+	onNext?: () => void;
+	onPrevious?: () => void;
+	currentStep?: number;
+	totalSteps?: number;
+}
+
+const SYMBOL_LOCATIONS: SymbolLocation[] = [
 	{ id: "x", name: "X", description: "Laptop with X sticker" },
 	{ id: "y", name: "Y", description: "Laptop with Y sticker" },
 	{ id: "z", name: "Z", description: "Laptop with Z sticker" },
 ];
 
 function BeamCodeSection({
-	data,
 	onChange,
 	onNext,
 	onPrevious,
 	currentStep,
 	totalSteps,
-}) {
-	const [localData, setLocalData] = useState(data || {});
-	const isInitializing = useRef(true);
+}: BeamCodeSectionProps) {
+	const { data: localData, setData: setLocalData, reset } = usePersistedState<BeamCodeData>({
+		storageKey: "terminus-beam-code-data",
+		defaultValue: {},
+		onChange,
+		debug: false
+	});
 
-	// Load from localStorage on mount or when parent data changes (reset)
-	useEffect(() => {
-		// Check if parent data is empty (indicating a reset)
-		const isParentDataEmpty = !data || Object.keys(data).length === 0;
-
-		if (isParentDataEmpty) {
-			// Parent has been reset, check localStorage or use initial data
-			const saved = localStorage.getItem("terminus-beam-code-data");
-			if (saved) {
-				try {
-					const parsedData = JSON.parse(saved);
-					setLocalData(parsedData);
-				} catch (e) {
-					console.error("Failed to parse beam code data:", e);
-					setLocalData({});
-				}
-			} else {
-				setLocalData({});
-			}
-		}
-		isInitializing.current = true;
-	}, [data]);
-
-	// Save to localStorage and update parent when data changes
-	useEffect(() => {
-		localStorage.setItem("terminus-beam-code-data", JSON.stringify(localData));
-
-		// Only call onChange after initial load is complete
-		if (!isInitializing.current) {
-			onChange(localData);
-		} else {
-			isInitializing.current = false;
-		}
-	}, [localData]); // Removed onChange from dependencies to prevent infinite loop
-
-	const handleSymbolSelect = (locationId, symbolId) => {
-		setLocalData((prevData) => ({
+	const handleSymbolSelect = (locationId: string, symbolId: string) => {
+		setLocalData((prevData: BeamCodeData) => ({
 			...prevData,
 			[locationId]: symbolId,
 		}));
@@ -108,7 +163,7 @@ function BeamCodeSection({
 
 	// Reset function
 	const resetAll = () => {
-		setLocalData({});
+		reset();
 	};
 
 	const status = getCompletionStatus();

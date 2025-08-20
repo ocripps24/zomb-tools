@@ -6,7 +6,7 @@ export const BO4_MAPS = [
 		route: "/bo4/voyage-of-despair",
 		component: () =>
 			import(
-				"../../components/games/bo4/maps/voyage-of-despair/VoyageOfDespair.jsx"
+				"../../components/games/bo4/maps/voyage-of-despair/VoyageOfDespair.tsx"
 			),
 		available: true,
 		tools: ["clocks", "outlets", "planets"],
@@ -78,7 +78,7 @@ export const BO4_MAPS = [
 		status: "Available",
 		route: "/bo4/tag-der-toten",
 		component: () =>
-			import("../../components/games/bo4/maps/tag-der-toten/TagDerToten.jsx"),
+			import("../../components/games/bo4/maps/tag-der-toten/TagDerToten.tsx"),
 		available: true,
 		tools: ["Totems", "Apothican Offerings", "Seal of Duality", "Orb Locations"],
 		difficulty: "hard",
