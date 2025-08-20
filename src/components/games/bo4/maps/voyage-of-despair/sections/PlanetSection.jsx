@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import SectionHeader from "../../../../../common/SectionHeader";
+import { SectionHeader } from "../../../../../core/index.js";
 import {
 	DndContext,
 	closestCenter,

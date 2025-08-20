@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import FloatingCard from "../../../../../common/FloatingCard";
-import SectionHeader from "../../../../../common/SectionHeader";
-import LocationCard from "../../../../../common/LocationCard";
+import { FloatingCard } from "../../../../../content/index.js";
+import { SectionHeader } from "../../../../../core/index.js";
+import { LocationCard } from "../../../../../content/index.js";
 
 // Game mechanics constants
 const GAME_CONFIG = {
@@ -138,21 +138,28 @@ function ApothicanOfferingsSection({ data, onChange }) {
 	);
 	
 
+	// Load from localStorage on mount or when parent data changes (reset)
 	useEffect(() => {
-		const saved = localStorage.getItem("tag-der-toten-apothican-data");
-		if (saved) {
-			try {
-				const parsedData = JSON.parse(saved);
-				setLocalData(parsedData);
-			} catch (e) {
-				console.error("Failed to parse apothican data:", e);
+		// Check if parent data is empty (indicating a reset)
+		const isParentDataEmpty = !data || Object.keys(data).length === 0;
+
+		if (isParentDataEmpty) {
+			// Parent has been reset, check localStorage or use initial data
+			const saved = localStorage.getItem("tag-der-toten-apothican-data");
+			if (saved) {
+				try {
+					const parsedData = JSON.parse(saved);
+					setLocalData(parsedData);
+				} catch (e) {
+					console.error("Failed to parse apothican data:", e);
+					setLocalData({ quotes: [...QUOTES] });
+				}
+			} else {
+				// Set default data if no saved data exists
 				setLocalData({ quotes: [...QUOTES] });
 			}
-		} else {
-			// Set default data if no saved data exists
-			setLocalData({ quotes: [...QUOTES] });
 		}
-	}, []);
+	}, [data]);
 
 	useEffect(() => {
 		localStorage.setItem("tag-der-toten-apothican-data", JSON.stringify(localData));

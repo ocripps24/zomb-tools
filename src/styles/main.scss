@@ -17,15 +17,21 @@
 @use "components/inputs"; // Renamed from forms.scss, cleaned up symbol styles
 @use "components/not-found";
 @use "components/cards";
-@use "components/nav";
-@use "components/step-navigation";
-@use "components/step-navigation-buttons";
-@use "components/location-card";
-@use "components/section-header";
-@use "components/symbol-picker";
-@use "components/code-collection-section";
-@use "components/section-tips";
-@use "components/footer";
+
+// 3a. Core Components - infrastructure and navigation
+@use "core/step-navigation";
+@use "core/step-navigation-buttons"; 
+@use "core/section-header";
+
+// 3b. Content Components - game content and interaction
+@use "content/location-card";
+@use "content/symbol-picker";
+@use "content/code-collection-section";
+@use "content/section-tips";
+
+// 3c. Layout Components - structural layout elements
+@use "layout/nav";
+@use "layout/footer";
 
 // 4. Layout - layout-specific styles
 @use "layout/app";

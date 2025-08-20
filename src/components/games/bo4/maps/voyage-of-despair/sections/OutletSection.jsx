@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import SectionHeader from "../../../../../common/SectionHeader";
+import { SectionHeader } from "../../../../../core/index.js";
 
 const OUTLET_LOCATIONS = [
 	{ id: "state-rooms", name: "State Rooms" },

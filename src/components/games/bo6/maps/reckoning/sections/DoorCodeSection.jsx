@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import SectionHeader from "../../../../../common/SectionHeader";
+import { SectionHeader } from "../../../../../core/index.js";
 
 // Complete periodic table (118 elements) with grid positions
 const PERIODIC_TABLE = [

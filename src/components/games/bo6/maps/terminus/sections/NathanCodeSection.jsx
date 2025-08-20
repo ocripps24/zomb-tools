@@ -1,4 +1,4 @@
-import CodeCollectionSection from "../../../../../common/CodeCollectionSection";
+import { CodeCollectionSection } from "../../../../../content/index.js";
 
 // Define the three locations and their value ranges
 const CODE_LOCATIONS = [

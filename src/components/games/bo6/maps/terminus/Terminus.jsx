@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import MapNavigation from "../../../../common/MapNavigation";
-import StepNavigationButtons from "../../../../common/StepNavigationButtons";
+import { MapNavigation } from "../../../../core/index.js";
+import { StepNavigationButtons } from "../../../../core/index.js";
 import NathanCodeSection from "./sections/NathanCodeSection";
 import BeamCodeSection from "./sections/BeamCodeSection";
 

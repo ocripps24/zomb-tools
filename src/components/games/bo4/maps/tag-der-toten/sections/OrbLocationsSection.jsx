@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import FloatingCard from "../../../../../common/FloatingCard";
-import SectionHeader from "../../../../../common/SectionHeader";
-import LocationCard from "../../../../../common/LocationCard";
+import { FloatingCard } from "../../../../../content/index.js";
+import { SectionHeader } from "../../../../../core/index.js";
+import { LocationCard } from "../../../../../content/index.js";
 
 // Orb location data - each orb can spawn in one of these locations
 const ORBS_DATA = [
@@ -50,21 +50,28 @@ function OrbLocationsSection({ data, onChange }) {
 		(data && data.orbs) ? data : { orbs: [...ORBS_DATA] }
 	);
 
+	// Load from localStorage on mount or when parent data changes (reset)
 	useEffect(() => {
-		const saved = localStorage.getItem("tag-der-toten-orbs-data");
-		if (saved) {
-			try {
-				const parsedData = JSON.parse(saved);
-				setLocalData(parsedData);
-			} catch (e) {
-				console.error("Failed to parse orbs data:", e);
+		// Check if parent data is empty (indicating a reset)
+		const isParentDataEmpty = !data || Object.keys(data).length === 0;
+
+		if (isParentDataEmpty) {
+			// Parent has been reset, check localStorage or use initial data
+			const saved = localStorage.getItem("tag-der-toten-orbs-data");
+			if (saved) {
+				try {
+					const parsedData = JSON.parse(saved);
+					setLocalData(parsedData);
+				} catch (e) {
+					console.error("Failed to parse orbs data:", e);
+					setLocalData({ orbs: [...ORBS_DATA] });
+				}
+			} else {
+				// Set default data if no saved data exists
 				setLocalData({ orbs: [...ORBS_DATA] });
 			}
-		} else {
-			// Set default data if no saved data exists
-			setLocalData({ orbs: [...ORBS_DATA] });
 		}
-	}, []);
+	}, [data]);
 
 	useEffect(() => {
 		localStorage.setItem("tag-der-toten-orbs-data", JSON.stringify(localData));

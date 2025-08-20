@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import SectionHeader from "../../../../../common/SectionHeader";
+import { SectionHeader } from "../../../../../core/index.js";
 
 // Import chalkboard images - using absolute paths from src
 import chalkboard1 from "/src/assets/maps/bo6/shattered-veil/chalkboard-1.jpg";

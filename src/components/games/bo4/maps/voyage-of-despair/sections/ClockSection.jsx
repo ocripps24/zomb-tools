@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import SymbolPicker from "../../../../../common/SymbolPicker";
-import SectionHeader from "../../../../../common/SectionHeader";
-import MovementSlider from "../../../../../common/MovementSlider";
-import MovementStepper from "../../../../../common/MovementStepper";
-import MovementButtons from "../../../../../common/MovementButtons";
+import { SymbolPicker } from "../../../../../content/index.js";
+import { SectionHeader } from "../../../../../core/index.js";
+import { MovementSlider } from "../../../../../content/index.js";
+import { MovementStepper } from "../../../../../content/index.js";
+import { MovementButtons } from "../../../../../content/index.js";
 import { SYMBOL_ICONS, SYMBOL_NAMES } from "./SymbolIcons";
 
 const CLOCK_LOCATIONS = [

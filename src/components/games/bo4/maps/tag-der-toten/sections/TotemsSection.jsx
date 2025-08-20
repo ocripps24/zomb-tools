@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import FloatingCard from "../../../../../common/FloatingCard";
-import SectionHeader from "../../../../../common/SectionHeader";
-import LocationCard from "../../../../../common/LocationCard";
+import { FloatingCard } from "../../../../../content/index.js";
+import { SectionHeader } from "../../../../../core/index.js";
+import { LocationCard } from "../../../../../content/index.js";
 
 // Real challenge totem data from the documentation
 const CHALLENGE_TOTEMS = [
@@ -71,24 +71,32 @@ function TotemsSection({ data, onChange }) {
 		new Set([CHALLENGE_TOTEMS[0].id])
 	);
 
-	// Load from localStorage on mount
+	// Load from localStorage on mount or when parent data changes (reset)
 	useEffect(() => {
-		const saved = localStorage.getItem("tag-der-toten-totems-data");
-		if (saved) {
-			try {
-				const parsedData = JSON.parse(saved);
-				console.log("Parsed localStorage data:", parsedData);
-				setLocalData(parsedData);
-			} catch (e) {
-				console.error("Failed to parse totems data:", e);
+		// Check if parent data is empty (indicating a reset)
+		const isParentDataEmpty = !data || Object.keys(data).length === 0;
+
+		if (isParentDataEmpty) {
+			// Parent has been reset, check localStorage or use initial data
+			const saved = localStorage.getItem("tag-der-toten-totems-data");
+			if (saved) {
+				try {
+					const parsedData = JSON.parse(saved);
+					console.log("Parsed localStorage data:", parsedData);
+					setLocalData(parsedData);
+				} catch (e) {
+					console.error("Failed to parse totems data:", e);
+					setLocalData({ totems: [...CHALLENGE_TOTEMS] });
+				}
+			} else {
+				console.log("No localStorage data found, using initial data");
+				// Ensure we have initial data if nothing in localStorage
 				setLocalData({ totems: [...CHALLENGE_TOTEMS] });
 			}
-		} else {
-			console.log("No localStorage data found, using initial data");
-			// Ensure we have initial data if nothing in localStorage
-			setLocalData({ totems: [...CHALLENGE_TOTEMS] });
+			// Also reset the selectedTotems state when parent resets
+			setSelectedTotems(new Set([CHALLENGE_TOTEMS[0].id]));
 		}
-	}, []);
+	}, [data]);
 
 	// Save to localStorage and update parent when data changes
 	useEffect(() => {

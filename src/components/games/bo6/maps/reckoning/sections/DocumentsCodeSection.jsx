@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import SectionHeader from "../../../../../common/SectionHeader";
+import { SectionHeader } from "../../../../../core/index.js";
 
 // Document data with predefined order for code calculation
 const DOCUMENTS = [

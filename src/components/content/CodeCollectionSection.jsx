@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import SectionHeader from "./SectionHeader";
+import { SectionHeader } from "../core";
 
 /**
  * Reusable component for collecting multiple numbers/codes from different locations

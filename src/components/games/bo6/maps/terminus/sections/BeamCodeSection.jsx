@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import SectionHeader from "../../../../../common/SectionHeader";
-import SymbolPicker from "../../../../../common/SymbolPicker";
+import { SectionHeader } from "../../../../../core/index.js";
+import { SymbolPicker } from "../../../../../content/index.js";
 import { BeamSymbols, SYMBOL_DATA, getSymbolValue } from "./BeamSymbols";
 
 const SYMBOL_LOCATIONS = [

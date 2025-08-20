@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import MapNavigation from "../../../../common/MapNavigation";
+import { MapNavigation } from "../../../../core/index.js";
 import TotemsSection from "./sections/TotemsSection";
 import ApothicanOfferingsSection from "./sections/ApothicanOfferingsSection";
 import SealOfDualitySection from "./sections/SealOfDualitySection";
@@ -94,7 +94,7 @@ function TagDerToten() {
 		const savedTotemsData = localStorage.getItem("tag-der-toten-totems-data");
 		const savedApothicanData = localStorage.getItem("tag-der-toten-apothican-data");
 		const savedSealData = localStorage.getItem("tag-der-toten-seal-data");
-		const savedOrbData = localStorage.getItem("tag-der-toten-orb-data");
+		const savedOrbData = localStorage.getItem("tag-der-toten-orbs-data");
 
 		if (savedTotemsData) {
 			setTotemsData(JSON.parse(savedTotemsData));
@@ -143,7 +143,7 @@ function TagDerToten() {
 		localStorage.removeItem("tag-der-toten-totems-data");
 		localStorage.removeItem("tag-der-toten-apothican-data");
 		localStorage.removeItem("tag-der-toten-seal-data");
-		localStorage.removeItem("tag-der-toten-orb-data");
+		localStorage.removeItem("tag-der-toten-orbs-data");
 	};
 
 	// Data management functions

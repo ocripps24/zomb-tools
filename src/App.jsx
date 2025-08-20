@@ -1,18 +1,15 @@
 import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import GameSelection from "./components/GameSelection";
-import MapSelection from "./components/MapSelection";
+import { GameSelection, MapSelection, NotFound } from "./components/pages";
 import VoyageOfDespair from "./components/games/bo4/maps/voyage-of-despair/VoyageOfDespair";
 import TagDerToten from "./components/games/bo4/maps/tag-der-toten/TagDerToten";
 import Terminus from "./components/games/bo6/maps/terminus/Terminus";
 import Reckoning from "./components/games/bo6/maps/reckoning/Reckoning";
 import ShatteredVeil from "./components/games/bo6/maps/shattered-veil/ShatteredVeil";
 import LibertyFalls from "./components/games/bo6/maps/liberty-falls/LibertyFalls";
-import NotFound from "./components/NotFound";
 import { getGameById } from "./data/games";
 import "./styles/main.scss";
-import NavBar from "./components/common/NavBar";
-import Footer from "./components/common/Footer";
+import { NavBar, Footer } from "./components/layout/index.js";
 
 function App() {
 	const location = useLocation();

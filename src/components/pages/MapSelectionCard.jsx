@@ -1,5 +1,5 @@
 import React from "react";
-import FloatingCard from "./common/FloatingCard";
+import { FloatingCard } from "../content/index.js";
 
 const MapSelectionCard = ({
 	image,

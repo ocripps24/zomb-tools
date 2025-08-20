@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import MapNavigation from "../../../../common/MapNavigation";
-import StepNavigationButtons from "../../../../common/StepNavigationButtons";
+import { MapNavigation } from "../../../../core/index.js";
+import { StepNavigationButtons } from "../../../../core/index.js";
 import ClockSection from "./sections/ClockSection";
 import OutletSection from "./sections/OutletSection";
 import PlanetSection from "./sections/PlanetSection";
