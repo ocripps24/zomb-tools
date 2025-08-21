@@ -222,12 +222,12 @@ export const SYMBOL_DATA = [
 ];
 
 // Helper function to get symbol by ID
-export const getSymbolById = (id) => {
-	return BeamSymbols[id] || null;
+export const getSymbolById = (id: string) => {
+	return BeamSymbols[id as keyof typeof BeamSymbols] || null;
 };
 
 // Helper function to get symbol value by ID
-export const getSymbolValue = (id) => {
+export const getSymbolValue = (id: string) => {
 	const symbol = SYMBOL_DATA.find((s) => s.id === id);
 	return symbol ? symbol.value : null;
 };

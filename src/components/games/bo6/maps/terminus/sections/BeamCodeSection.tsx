@@ -1,7 +1,7 @@
-import React from "react";
 import { BaseSection } from "../../../../../core/index.js";
 import type { BaseSectionProps } from "../../../../../core/BaseSection.tsx";
 import { SymbolPicker } from "../../../../../content/index.js";
+import type { Symbol } from "../../../../../content/SymbolPicker.tsx";
 import { BeamSymbols, SYMBOL_DATA, getSymbolValue } from "./BeamSymbols";
 
 interface SymbolLocation {
@@ -51,10 +51,10 @@ function BeamCodeSection(props: BaseSectionProps<BeamCodeData>) {
 				};
 
 				// Convert SYMBOL_DATA to format expected by SymbolPicker
-				const getSymbolsForPicker = () => {
+				const getSymbolsForPicker = (): Symbol[] => {
 					return SYMBOL_DATA.map((symbol) => ({
 						id: symbol.id,
-						component: BeamSymbols[symbol.id],
+						component: BeamSymbols[symbol.id as keyof typeof BeamSymbols],
 						name: symbol.name,
 						value: symbol.value,
 					}));
@@ -83,7 +83,7 @@ function BeamCodeSection(props: BaseSectionProps<BeamCodeData>) {
 				};
 
 				const results = calculateEquations();
-				const usedSymbols = Object.values(data).filter(Boolean);
+				const usedSymbols: string[] = Object.values(data).filter(Boolean);
 
 				return (
 					<div className="beam-code-section">

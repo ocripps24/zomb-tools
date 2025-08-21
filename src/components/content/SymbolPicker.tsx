@@ -1,18 +1,29 @@
 import React from "react";
 
-/**
- * Reusable SymbolPicker component for selecting symbols across different maps
- * 
- * @param {Array} symbols - Array of symbol objects with {id, component, name?, value?}
- * @param {string} selectedSymbol - Currently selected symbol ID
- * @param {Function} onSymbolChange - Callback when symbol selection changes
- * @param {Array} usedSymbols - Array of symbol IDs that are used elsewhere (will be disabled)
- * @param {string} locationId - ID of the current location/input group
- * @param {string} className - Additional CSS class name
- * @param {Object} gridConfig - Grid configuration {columns, rows?}
- * @param {boolean} allowDeselect - Whether clicking selected symbol deselects it
- * @param {boolean} greyOutUnselected - Whether to grey out unselected symbols when one is selected
- */
+export interface Symbol {
+	id: string;
+	component: React.ReactNode | React.ComponentType;
+	name?: string;
+	value?: number;
+}
+
+export interface GridConfig {
+	columns: number;
+	rows?: number;
+}
+
+export interface SymbolPickerProps {
+	symbols?: Symbol[];
+	selectedSymbol?: string;
+	onSymbolChange: (locationId: string, symbolId: string) => void;
+	usedSymbols?: string[];
+	locationId: string;
+	className?: string;
+	gridConfig?: GridConfig;
+	allowDeselect?: boolean;
+	greyOutUnselected?: boolean;
+}
+
 function SymbolPicker({
 	symbols = [],
 	selectedSymbol = "",
@@ -23,8 +34,8 @@ function SymbolPicker({
 	gridConfig = { columns: 3, rows: 2 },
 	allowDeselect = false,
 	greyOutUnselected = false,
-}) {
-	const handleSymbolClick = (symbolId) => {
+}: SymbolPickerProps) {
+	const handleSymbolClick = (symbolId: string) => {
 		if (allowDeselect && selectedSymbol === symbolId) {
 			// Deselect if clicking currently selected symbol
 			onSymbolChange(locationId, "");
@@ -33,12 +44,12 @@ function SymbolPicker({
 		}
 	};
 
-	const isSymbolDisabled = (symbolId) => {
+	const isSymbolDisabled = (symbolId: string): boolean => {
 		// Symbol is disabled if:
 		// 1. It's used elsewhere but not selected here, OR
 		// 2. Another symbol is selected in this location (and greyOutUnselected is enabled)
 		const usedElsewhere = usedSymbols.includes(symbolId) && selectedSymbol !== symbolId;
-		const greyedOut = greyOutUnselected && selectedSymbol && selectedSymbol !== symbolId;
+		const greyedOut = greyOutUnselected && Boolean(selectedSymbol) && selectedSymbol !== symbolId;
 		
 		return usedElsewhere || greyedOut;
 	};
@@ -60,8 +71,8 @@ function SymbolPicker({
 				// Determine button classes
 				const buttonClasses = [
 					"symbol-button",
-					isSelected && "symbol-button--selected",
-					isDisabled && "symbol-button--disabled"
+					isSelected ? "symbol-button--selected" : "",
+					isDisabled ? "symbol-button--disabled" : ""
 				].filter(Boolean).join(" ");
 
 				return (
