@@ -5,11 +5,13 @@
 @use "abstracts/variables" as *;
 @use "abstracts/functions" as *;
 @use "abstracts/mixins" as *;
+@use "abstracts/component-mixins" as *;
 
 // 2. Base - reset, typography, utilities, fonts
 @use "base/reset";
 @use "base/typography";
 @use "base/utilities";
+@use "base/layout-utilities";
 @use "base/fonts";
 
 // 3. Components - reusable UI components
@@ -22,6 +24,7 @@
 @use "core/step-navigation";
 @use "core/step-navigation-buttons"; 
 @use "core/section-header";
+@use "core/error-boundary";
 
 // 3b. Content Components - game content and interaction
 @use "content/location-card";

@@ -1,0 +1,108 @@
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+// Error Boundary styles
+.error-boundary {
+  @include flex-center;
+  min-height: 400px;
+  padding: space(2xl);
+  text-align: center;
+}
+
+.error-boundary__content {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.error-boundary__icon {
+  font-size: font-size(6xl);
+  margin-bottom: space(lg);
+  opacity: 0.8;
+}
+
+.error-boundary__title {
+  margin: 0 0 space(md) 0;
+  color: var(--text-primary);
+  @include heading-2;
+}
+
+.error-boundary__message {
+  margin: 0 0 space(xl) 0;
+  color: var(--text-secondary);
+  @include body-large;
+  line-height: 1.6;
+}
+
+.error-boundary__actions {
+  @include flex-center;
+  gap: space(md);
+  margin-bottom: space(xl);
+  
+  @include mobile {
+    flex-direction: column;
+  }
+}
+
+.error-boundary__details {
+  margin-top: space(xl);
+  text-align: left;
+  border: 1px solid var(--border-color);
+  border-radius: radius(base);
+  padding: space(lg);
+  background: var(--bg-tertiary);
+  
+  summary {
+    cursor: pointer;
+    font-weight: font-weight(medium);
+    color: var(--text-primary);
+    margin-bottom: space(md);
+    
+    &:hover {
+      color: var(--accent-color);
+    }
+  }
+}
+
+.error-boundary__error-info {
+  h4 {
+    margin: space(md) 0 space(sm) 0;
+    color: var(--text-primary);
+    font-size: font-size(base);
+  }
+  
+  pre {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-subtle);
+    border-radius: radius(sm);
+    padding: space(md);
+    overflow-x: auto;
+    font-size: font-size(sm);
+    color: var(--text-secondary);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+}
+
+// Section-specific error styles
+.section-error {
+  padding: space(xl);
+  text-align: center;
+  border: 1px solid var(--warning-color);
+  border-radius: radius(base);
+  background: rgba(var(--warning-color-rgb), 0.1);
+  margin: space(lg) 0;
+}
+
+.section-error__content {
+  h3 {
+    margin: 0 0 space(md) 0;
+    color: var(--warning-color);
+    font-size: font-size(lg);
+  }
+  
+  p {
+    margin: 0 0 space(lg) 0;
+    color: var(--text-secondary);
+    font-size: font-size(sm);
+  }
+}

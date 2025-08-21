@@ -1,0 +1,273 @@
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+/**
+ * Layout utility classes for common patterns
+ * These utilities reduce duplication and provide consistent layouts
+ */
+
+// Grid utilities
+.grid-auto-fit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: space(lg);
+}
+
+.grid-auto-fill {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: space(md);
+}
+
+.grid-2-col {
+  @include responsive-grid(1, 2, 2);
+}
+
+.grid-3-col {
+  @include responsive-grid(1, 2, 3);
+}
+
+.grid-4-col {
+  @include responsive-grid(1, 2, 4);
+}
+
+// Specific responsive patterns
+.grid-symbols {
+  // For symbol pickers and similar components
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: space(sm);
+  
+  @include tmd-up {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: space(md);
+  }
+}
+
+.grid-cards {
+  // For card layouts like map selection
+  @include responsive-grid(1, 2, 3, space(lg));
+  
+  @include dsm-up {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+// Flex utilities
+.flex-center {
+  @include flex-center;
+}
+
+.flex-between {
+  @include flex-between;
+}
+
+.flex-column {
+  @include flex-column;
+}
+
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space(md);
+}
+
+.flex-center-gap {
+  @include flex-center;
+  gap: space(md);
+}
+
+.flex-between-gap {
+  @include flex-between;
+  gap: space(md);
+}
+
+// Spacing utilities
+.space-y-sm > * + * {
+  margin-top: space(sm);
+}
+
+.space-y-md > * + * {
+  margin-top: space(md);
+}
+
+.space-y-lg > * + * {
+  margin-top: space(lg);
+}
+
+.space-y-xl > * + * {
+  margin-top: space(xl);
+}
+
+// Container utilities
+.container-sm {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 space(md);
+}
+
+.container-md {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 space(md);
+}
+
+.container-lg {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 space(md);
+}
+
+// Full width utilities
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.min-h-full {
+  min-height: 100%;
+}
+
+// Section content utilities
+.section-content-grid {
+  // For map sections with consistent spacing
+  display: grid;
+  gap: space(xl);
+  
+  @include tmd-up {
+    gap: space(2xl);
+  }
+}
+
+.section-results {
+  // For result displays in sections
+  margin-top: space(xl);
+  padding: space(xl);
+  border: 2px solid var(--success-color);
+  border-radius: radius(base);
+  background: var(--location-card-completed-bg);
+  text-align: center;
+}
+
+// Input group utilities
+.input-group {
+  @include flex-column;
+  gap: space(sm);
+}
+
+.input-row {
+  display: flex;
+  gap: space(md);
+  align-items: end;
+  
+  @include mobile {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+// Button group utilities
+.btn-group {
+  display: flex;
+  gap: space(sm);
+  
+  @include mobile {
+    flex-direction: column;
+  }
+}
+
+.btn-group-center {
+  @extend .btn-group;
+  justify-content: center;
+}
+
+.btn-group-end {
+  @extend .btn-group;
+  justify-content: flex-end;
+}
+
+// Two-column layouts
+.two-col-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space(xl);
+  
+  @include tmd-up {
+    grid-template-columns: 1fr 1fr;
+    gap: space(2xl);
+  }
+}
+
+.two-col-sidebar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space(lg);
+  
+  @include tmd-up {
+    grid-template-columns: 1fr 300px;
+  }
+}
+
+// Common component layouts
+.symbol-grid {
+  // For symbol pickers
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 2px;
+  
+  @include tmd-up {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: space(xs);
+  }
+}
+
+.location-grid {
+  // For location cards
+  @include responsive-grid(1, 2, 3, space(md));
+  
+  @include tmd-up {
+    gap: space(lg);
+  }
+}
+
+.progress-layout {
+  // For progress displays
+  @include flex-column;
+  gap: space(sm);
+  text-align: center;
+}
+
+// Visibility utilities
+.mobile-only {
+  @include tmd-up {
+    display: none !important;
+  }
+}
+
+.desktop-only {
+  @include mobile {
+    display: none !important;
+  }
+}
+
+.tablet-up {
+  @include mobile {
+    display: none !important;
+  }
+}
+
+// Text alignment utilities
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}

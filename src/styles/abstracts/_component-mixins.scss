@@ -1,0 +1,403 @@
+@use "variables" as *;
+@use "functions" as *;
+
+/**
+ * Component-specific mixins to reduce CSS duplication
+ * These mixins encapsulate common component patterns across the app
+ */
+
+// Code display mixins
+@mixin code-display-base {
+  font-family: font-family(mono);
+  font-weight: font-weight(bold);
+  color: var(--success-color);
+  background: var(--location-card-completed-bg);
+  border: 2px solid var(--success-color);
+  border-radius: radius(base);
+  text-align: center;
+  transition: transition(base);
+}
+
+@mixin code-display-large {
+  @include code-display-base;
+  font-size: font-size(4xl);
+  padding: space(lg) space(xl);
+  
+  @include tmd-up {
+    font-size: font-size(5xl);
+    padding: space(xl) space(2xl);
+  }
+}
+
+@mixin code-display-medium {
+  @include code-display-base;
+  font-size: font-size(2xl);
+  padding: space(md) space(lg);
+  
+  @include tmd-up {
+    font-size: font-size(3xl);
+    padding: space(lg) space(xl);
+  }
+}
+
+@mixin code-display-small {
+  @include code-display-base;
+  font-size: font-size(sm);
+  padding: space(xs) space(sm);
+  
+  @include tmd-up {
+    font-size: font-size(base);
+    padding: space(sm) space(md);
+  }
+}
+
+// Result card mixins
+@mixin result-card {
+  margin-bottom: space(xl);
+  padding: space(xl);
+  border: 2px solid var(--success-color);
+  border-radius: radius(base);
+  background: var(--location-card-completed-bg);
+  text-align: center;
+  
+  h3, h4 {
+    margin: 0 0 space(md) 0;
+    color: var(--success-color);
+    font-size: font-size(xl);
+  }
+}
+
+@mixin result-card-warning {
+  @include result-card;
+  border-color: var(--warning-color);
+  background: rgba(var(--warning-color-rgb), 0.1);
+  
+  h3, h4 {
+    color: var(--warning-color);
+  }
+}
+
+@mixin result-card-info {
+  @include result-card;
+  border-color: var(--accent-color);
+  background: rgba(var(--accent-color-rgb), 0.1);
+  
+  h3, h4 {
+    color: var(--accent-color);
+  }
+}
+
+// Input styling mixins
+@mixin code-input {
+  @include input-base;
+  text-align: center;
+  font-size: font-size(xl);
+  font-weight: font-weight(medium);
+  font-family: font-family(mono);
+  
+  &:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 1px var(--accent-color);
+  }
+}
+
+@mixin symbol-input {
+  @include input-base;
+  text-align: center;
+  font-size: font-size(lg);
+  min-height: 44px;
+  
+  &:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 1px var(--accent-color);
+  }
+}
+
+// Button styling mixins
+@mixin symbol-button {
+  @include button-base;
+  @include button-secondary;
+  min-height: 44px;
+  padding: space(xs) space(sm);
+  font-size: font-size(sm);
+  font-weight: font-weight(medium);
+  transition: transition(base);
+  
+  @include tmd-up {
+    padding: space(sm) space(md);
+    font-size: font-size(base);
+  }
+  
+  &:hover:not(&--selected):not(:disabled) {
+    background-color: var(--bg-tertiary);
+    border-color: var(--accent-color);
+  }
+  
+  &--selected {
+    background-color: var(--accent-color);
+    color: var(--btn-primary-text);
+    border-color: var(--accent-color);
+  }
+}
+
+@mixin word-button {
+  @include button-base;
+  @include button-secondary;
+  padding: space(xs);
+  font-size: font-size(xs);
+  font-weight: font-weight(medium);
+  text-transform: uppercase;
+  transition: transition(base);
+  min-height: 28px;
+  
+  @include tmd-up {
+    padding: space(xs) space(sm);
+    min-height: 32px;
+  }
+  
+  &:hover:not(&--selected) {
+    background-color: var(--bg-tertiary);
+    border-color: var(--accent-color);
+  }
+  
+  &--selected {
+    background-color: var(--accent-color);
+    color: var(--btn-primary-text);
+    border-color: var(--accent-color);
+  }
+}
+
+// Card styling mixins
+@mixin location-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "number info status";
+  align-items: center;
+  gap: space(sm);
+  
+  background-color: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: radius(base);
+  padding: space(md) space(sm);
+  cursor: pointer;
+  transition: transition(base);
+  
+  @include tmd-up {
+    padding: space(lg);
+    gap: space(md);
+  }
+  
+  &:hover:not(&--disabled) {
+    border-color: var(--border-color);
+  }
+  
+  &--selected {
+    border-color: var(--success-color);
+    background-color: var(--location-card-completed-bg);
+  }
+  
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin map-card {
+  @include card;
+  cursor: pointer;
+  transition: transition(base);
+  overflow: hidden;
+  
+  &:hover {
+    @include hover-lift;
+  }
+  
+  &--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    
+    &:hover {
+      transform: none;
+      box-shadow: shadow(base);
+    }
+  }
+}
+
+// Progress styling mixins
+@mixin progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--bg-tertiary);
+  border-radius: radius(sm);
+  overflow: hidden;
+  
+  .progress-fill {
+    height: 100%;
+    background-color: var(--success-color);
+    transition: width transition(base);
+    border-radius: radius(sm);
+  }
+}
+
+@mixin progress-circle($size: 40px) {
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--success-color) var(--progress, 0%),
+    var(--bg-tertiary) var(--progress, 0%)
+  );
+  @include flex-center;
+  
+  &::before {
+    content: '';
+    width: calc(#{$size} - 8px);
+    height: calc(#{$size} - 8px);
+    border-radius: 50%;
+    background: var(--bg-primary);
+  }
+}
+
+// Section layout mixins
+@mixin section-grid {
+  display: grid;
+  gap: space(xl);
+  
+  @include tmd-up {
+    gap: space(2xl);
+  }
+}
+
+@mixin two-column-result {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space(xl);
+  margin-bottom: space(lg);
+  
+  @include tmd-up {
+    grid-template-columns: 1fr 1fr;
+    gap: space(2xl);
+  }
+}
+
+// Symbol display mixins
+@mixin symbol-display-large {
+  font-family: font-family(mono);
+  font-size: font-size(4xl);
+  font-weight: font-weight(bold);
+  color: var(--success-color);
+  background: var(--location-card-completed-bg);
+  padding: space(md) space(lg);
+  border-radius: radius(base);
+  border: 2px solid var(--success-color);
+  position: relative;
+  display: inline-block;
+  
+  @include tmd-up {
+    font-size: font-size(5xl);
+    padding: space(lg) space(xl);
+  }
+}
+
+@mixin symbol-overlay {
+  position: absolute;
+  top: space(xs);
+  right: space(xs);
+  font-size: font-size(sm);
+  font-weight: font-weight(bold);
+  color: var(--success-color);
+  background: var(--bg-primary);
+  padding: 2px space(xs);
+  border-radius: radius(sm);
+  border: 1px solid var(--success-color);
+  line-height: 1;
+  
+  @include tmd-up {
+    top: space(sm);
+    right: space(sm);
+    font-size: font-size(base);
+    padding: space(xs) space(sm);
+  }
+}
+
+// Periodic table mixins
+@mixin periodic-element {
+  @include flex-column;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 2px;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: radius(sm);
+  text-align: center;
+  transition: transition(base);
+  position: relative;
+  
+  @include tmd-up {
+    min-height: 40px;
+    padding: space(xs);
+  }
+  
+  &:hover {
+    background: transparent;
+    border-color: var(--border-color);
+  }
+  
+  &--highlighted {
+    border-color: var(--location-card-completed-border);
+    background: var(--location-card-completed-bg);
+    
+    .element-number,
+    .element-symbol {
+      color: var(--text-primary);
+    }
+  }
+  
+  &--possible {
+    border-color: var(--accent-color);
+    background: rgba(var(--accent-color-rgb), 0.1);
+    
+    .element-number,
+    .element-symbol {
+      color: var(--accent-color);
+    }
+  }
+}
+
+// Tips section mixins
+@mixin tips-section {
+  padding: space(lg);
+  border: 1px solid var(--border-color);
+  border-radius: radius(base);
+  background-color: transparent;
+  
+  @include tmd-up {
+    padding: space(2xl);
+  }
+  
+  h3, h4 {
+    margin: 0 0 space(lg) 0;
+    color: var(--text-primary);
+    @include fluid-text(base, medium, 1.3);
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      padding: space(sm) 0;
+      border-bottom: 1px solid var(--border-subtle);
+      
+      &:last-child {
+        border-bottom: none;
+      }
+      
+      strong {
+        color: var(--text-primary);
+      }
+    }
+  }
+}

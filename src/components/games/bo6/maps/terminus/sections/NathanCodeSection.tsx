@@ -1,4 +1,6 @@
-import { CodeCollectionSection } from "@/components/content";
+import { NumberCodeSection } from "@/components/content";
+import type { BaseSectionProps } from "@/components/core/BaseSection";
+import type { NumberCodeData } from "@/components/content/NumberCodeSection";
 
 // Define the three locations and their value ranges
 const CODE_LOCATIONS = [
@@ -50,31 +52,19 @@ const TIPS_CONFIG = {
 	]
 };
 
-function NathanCodeSection({
-	data,
-	onChange,
-	onNext,
-	onPrevious,
-	currentStep,
-	totalSteps,
-}) {
+function NathanCodeSection(props: BaseSectionProps<NumberCodeData>) {
 	return (
-		<CodeCollectionSection
+		<NumberCodeSection
 			title="Nathan Code"
 			description="Collect three numbers from around the map to form the Nathan Code."
 			locations={CODE_LOCATIONS}
 			storageKey="terminus-nathan-code-data"
-			data={data}
-			onChange={onChange}
 			codeFormat="concatenated"
 			className="nathan-code-section"
 			resetButtonText="Reset Nathan Code"
 			finalCodeNote="Enter this code when prompted during the main quest."
 			tipsConfig={TIPS_CONFIG}
-			onNext={onNext}
-			onPrevious={onPrevious}
-			currentStep={currentStep}
-			totalSteps={totalSteps}
+			{...props}
 		/>
 	);
 }

@@ -1,4 +1,6 @@
-import { CodeCollectionSection } from "@/components/content";
+import { NumberCodeSection } from "@/components/content";
+import type { BaseSectionProps } from "@/components/core/BaseSection";
+import type { NumberCodeData } from "@/components/content/NumberCodeSection";
 
 // Define the three locations and their value ranges
 const CODE_LOCATIONS = [
@@ -47,31 +49,19 @@ const TIPS_CONFIG = {
 	]
 };
 
-function SafeCodeSection({
-	data,
-	onChange,
-	onNext,
-	onPrevious,
-	currentStep,
-	totalSteps,
-}) {
+function SafeCodeSection(props: BaseSectionProps<NumberCodeData>) {
 	return (
-		<CodeCollectionSection
+		<NumberCodeSection
 			title="Safe Code"
 			description="Collect three numbers from the walls around the lift to open the safe."
 			locations={CODE_LOCATIONS}
 			storageKey="shattered-veil-safe-data"
-			data={data}
-			onChange={onChange}
 			codeFormat="spaced"
 			className="safe-code-section"
 			resetButtonText="Reset Safe Code"
 			finalCodeNote="Enter these numbers into the safe's three dials: Left - Back - Right"
 			tipsConfig={TIPS_CONFIG}
-			onNext={onNext}
-			onPrevious={onPrevious}
-			currentStep={currentStep}
-			totalSteps={totalSteps}
+			{...props}
 		/>
 	);
 }

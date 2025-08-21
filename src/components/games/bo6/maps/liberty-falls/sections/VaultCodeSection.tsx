@@ -1,4 +1,6 @@
-import { CodeCollectionSection } from "@/components/content";
+import { NumberCodeSection } from "@/components/content";
+import type { BaseSectionProps } from "@/components/core/BaseSection";
+import type { NumberCodeData } from "@/components/content/NumberCodeSection";
 
 // Define the three locations and their value ranges
 const CODE_LOCATIONS = [
@@ -47,31 +49,19 @@ const TIPS_CONFIG = {
 	],
 };
 
-function VaultCodeSection({
-	data,
-	onChange,
-	onNext,
-	onPrevious,
-	currentStep,
-	totalSteps,
-}) {
+function VaultCodeSection(props: BaseSectionProps<NumberCodeData>) {
 	return (
-		<CodeCollectionSection
+		<NumberCodeSection
 			title="Vault Code"
 			description="Collect three numbers from different locations around Liberty Falls to open the vault."
 			locations={CODE_LOCATIONS}
 			storageKey="liberty-falls-vault-data"
-			data={data}
-			onChange={onChange}
 			codeFormat="spaced"
-			className="safe-code-section"
+			className="vault-code-section"
 			resetButtonText="Reset Vault Code"
 			finalCodeNote="Enter these numbers into the vault: 1st - 2nd - 3rd"
 			tipsConfig={TIPS_CONFIG}
-			onNext={onNext}
-			onPrevious={onPrevious}
-			currentStep={currentStep}
-			totalSteps={totalSteps}
+			{...props}
 		/>
 	);
 }
