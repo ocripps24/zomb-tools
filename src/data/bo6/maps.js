@@ -1,9 +1,11 @@
+import { ROUTES } from "../../routes";
+
 export const BO6_MAPS = [
 	{
 		id: "terminus",
 		name: "Terminus",
 		status: "Available",
-		route: "/bo6/terminus",
+		route: ROUTES.games.bo6.maps.terminus,
 		component: () =>
 			import("../../components/games/bo6/maps/terminus/Terminus.tsx"),
 		available: true,
@@ -14,7 +16,7 @@ export const BO6_MAPS = [
 		id: "liberty-falls",
 		name: "Liberty Falls",
 		status: "Available",
-		route: "/bo6/liberty-falls",
+		route: ROUTES.games.bo6.maps.libertyFalls,
 		component: () =>
 			import("../../components/games/bo6/maps/liberty-falls/LibertyFalls.tsx"),
 		available: true,
@@ -25,7 +27,7 @@ export const BO6_MAPS = [
 		id: "citadelle-des-morts",
 		name: "Citadelle des Morts",
 		status: "Development in progress",
-		route: "/bo6/citadelle-des-morts",
+		route: ROUTES.games.bo6.maps.citadelleDesMorts,
 		component: null,
 		available: false,
 		tools: ["Pages/Traps"],
@@ -35,7 +37,7 @@ export const BO6_MAPS = [
 		id: "the-tomb",
 		name: "The Tomb",
 		status: "Coming later",
-		route: "/bo6/the-tomb",
+		route: ROUTES.games.bo6.maps.theTomb,
 		component: null,
 		available: false,
 		tools: ["Upgrade symbols"],
@@ -45,7 +47,7 @@ export const BO6_MAPS = [
 		id: "shattered-veil",
 		name: "Shattered Veil",
 		status: "Available",
-		route: "/bo6/shattered-veil",
+		route: ROUTES.games.bo6.maps.shatteredVeil,
 		component: () =>
 			import(
 				"../../components/games/bo6/maps/shattered-veil/ShatteredVeil.tsx"
@@ -58,7 +60,7 @@ export const BO6_MAPS = [
 		id: "reckoning",
 		name: "Reckoning",
 		status: "Available",
-		route: "/bo6/reckoning",
+		route: ROUTES.games.bo6.maps.reckoning,
 		component: () =>
 			import("../../components/games/bo6/maps/reckoning/Reckoning.tsx"),
 		available: true,

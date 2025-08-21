@@ -1,9 +1,11 @@
+import { ROUTES } from "../../routes";
+
 export const BO4_MAPS = [
 	{
 		id: "voyage-of-despair",
 		name: "Voyage of Despair",
 		status: "Available",
-		route: "/bo4/voyage-of-despair",
+		route: ROUTES.games.bo4.maps.voyageOfDespair,
 		component: () =>
 			import(
 				"../../components/games/bo4/maps/voyage-of-despair/VoyageOfDespair.tsx"
@@ -16,7 +18,7 @@ export const BO4_MAPS = [
 		id: "blood-of-the-dead",
 		name: "Blood of the Dead",
 		status: "Coming soon",
-		route: "/bo4/blood-of-the-dead",
+		route: "/bo4/blood-of-the-dead", // Not in centralized routes yet
 		component: null,
 		available: false,
 		tools: ["TBC"],
@@ -26,7 +28,7 @@ export const BO4_MAPS = [
 		id: "ix",
 		name: "IX",
 		status: "Coming later",
-		route: "/bo4/ix",
+		route: "/bo4/ix", // Not in centralized routes yet
 		component: null,
 		available: false,
 		tools: ["TBC"],
@@ -36,7 +38,7 @@ export const BO4_MAPS = [
 		id: "classified",
 		name: "Classified",
 		status: "Coming soon",
-		route: "/bo4/classified",
+		route: "/bo4/classified", // Not in centralized routes yet
 		component: null,
 		available: false,
 		tools: ["Codes"],
@@ -46,7 +48,7 @@ export const BO4_MAPS = [
 		id: "dead-of-the-night",
 		name: "Dead of the Night",
 		status: "Under review",
-		route: "/bo4/dead-of-the-night",
+		route: "/bo4/dead-of-the-night", // Not in centralized routes yet
 		component: null,
 		available: false,
 		tools: ["TBC"],
@@ -56,7 +58,7 @@ export const BO4_MAPS = [
 		id: "alpha-omega",
 		name: "Alpha Omega",
 		status: "Coming soon",
-		route: "/bo4/alpha-omega",
+		route: "/bo4/alpha-omega", // Not in centralized routes yet
 		component: null,
 		available: false,
 		tools: ["Codes"],
@@ -66,7 +68,7 @@ export const BO4_MAPS = [
 		id: "ancient-evil",
 		name: "Ancient Evil",
 		status: "Under review",
-		route: "/bo4/ancient-evil",
+		route: "/bo4/ancient-evil", // Not in centralized routes yet
 		component: null,
 		available: false,
 		tools: ["TBC"],
@@ -76,7 +78,7 @@ export const BO4_MAPS = [
 		id: "tag-der-toten",
 		name: "Tag der Toten",
 		status: "Available",
-		route: "/bo4/tag-der-toten",
+		route: ROUTES.games.bo4.maps.tagDerToten,
 		component: () =>
 			import("../../components/games/bo4/maps/tag-der-toten/TagDerToten.tsx"),
 		available: true,

@@ -1,3 +1,5 @@
+import { ROUTES } from "../routes";
+
 export const GAMES = {
 	bo4: {
 		id: "bo4",
@@ -6,7 +8,7 @@ export const GAMES = {
 		description: "Zombies mode speedrun tools and guides",
 		available: true,
 		releaseYear: 2018,
-		route: "/bo4",
+		route: ROUTES.games.bo4.base,
 	},
 	bo6: {
 		id: "bo6",
@@ -15,7 +17,7 @@ export const GAMES = {
 		description: "Zombies mode speedrun tools and guides",
 		available: true,
 		releaseYear: 2024,
-		route: "/bo6",
+		route: ROUTES.games.bo6.base,
 	},
 };
 

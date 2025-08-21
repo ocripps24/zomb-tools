@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getTheme, toggleTheme, THEMES } from "@/utils/theme";
+import { ROUTES, getGameRoute } from "@/routes";
 
 const games = [
 	{ id: "bo4", name: "BO4" },
@@ -37,7 +38,7 @@ const NavBar: React.FC<{ title?: string }> = ({ title }) => {
 		<nav className="nav nav--bubble" aria-label="Global Navigation">
 			<button
 				className={`nav__brand nav__link${isHome ? " nav__link--active" : ""}`}
-				onClick={() => navigate("/")}
+				onClick={() => navigate(ROUTES.home)}
 				aria-label="Home"
 			>
 				ZomB Tools
@@ -52,7 +53,7 @@ const NavBar: React.FC<{ title?: string }> = ({ title }) => {
 								? " nav__link--active"
 								: ""
 						}`}
-						onClick={() => navigate(`/${game.id}`)}
+						onClick={() => navigate(getGameRoute(game.id as 'bo4' | 'bo6'))}
 						aria-label={game.name}
 					>
 						{game.name}

@@ -4,6 +4,7 @@ import MapSelectionCard from "./MapSelectionCard";
 import { getGameById } from "@/data/games";
 import { BO4_MAPS } from "@/data/bo4/maps";
 import { BO6_MAPS } from "@/data/bo6/maps";
+import { ROUTES } from "@/routes";
 
 // Vite dynamic import for all map preview images - supports multiple formats
 const previewsWebp = import.meta.glob("@/assets/maps/*/*-preview.webp", {
@@ -71,7 +72,7 @@ function MapSelection({ gameId }) {
 		<div className="map-selection">
 			<button
 				className="btn btn--secondary"
-				onClick={() => navigate("/")}
+				onClick={() => navigate(ROUTES.home)}
 				style={{ marginBottom: "2rem" }}
 			>
 				← Back to Games

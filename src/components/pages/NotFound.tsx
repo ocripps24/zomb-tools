@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ROUTES } from "@/routes";
 
 function NotFound() {
 	return (
@@ -9,7 +10,7 @@ function NotFound() {
 				<div className="description">
 					The page you're looking for doesn't exist.
 				</div>
-				<Link to="/" className="home-link">
+				<Link to={ROUTES.home} className="home-link">
 					Go to Homepage
 				</Link>
 			</div>

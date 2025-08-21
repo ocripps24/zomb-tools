@@ -8,85 +8,22 @@ import Reckoning from "./components/games/bo6/maps/reckoning/Reckoning";
 import ShatteredVeil from "./components/games/bo6/maps/shattered-veil/ShatteredVeil";
 import LibertyFalls from "./components/games/bo6/maps/liberty-falls/LibertyFalls";
 import { getGameById } from "./data/games";
+import { ROUTES, ROUTE_PATTERNS, getRouteMetadata } from "./routes";
 import "./styles/main.scss";
 import { NavBar, Footer } from "./components/layout/index.js";
 
 function App() {
 	const location = useLocation();
 
-	// Determine the current page title based on the route
+	// Get page title and document title from centralized route metadata
 	const getPageTitle = () => {
-		const path = location.pathname;
-
-		// Handle specific map pages
-		if (path.includes("/voyage-of-despair")) {
-			return "Voyage of Despair";
-		}
-		if (path.includes("/tag-der-toten")) {
-			return "Tag der Toten";
-		}
-		if (path.includes("/terminus")) {
-			return "Terminus";
-		}
-		if (path.includes("/reckoning")) {
-			return "Reckoning";
-		}
-		if (path.includes("/shattered-veil")) {
-			return "Shattered Veil";
-		}
-		if (path.includes("/liberty-falls")) {
-			return "Liberty Falls";
-		}
-
-		// Handle game selection pages
-		if (path.startsWith("/bo4")) {
-			const game = getGameById("bo4");
-			return path === "/bo4" ? `${game.name} - Select Map` : game.name;
-		}
-		if (path.startsWith("/bo6")) {
-			const game = getGameById("bo6");
-			return path === "/bo6" ? `${game.name} - Select Map` : game.name;
-		}
-
-		// Default
-		return "COD Zombies Tools";
+		const metadata = getRouteMetadata(location.pathname);
+		return metadata.title;
 	};
 
-	// Get SEO-optimized document title
 	const getDocumentTitle = () => {
-		const path = location.pathname;
-		const baseSite = "COD Zombies Tools";
-
-		// Handle specific map pages with easter egg focus
-		if (path.includes("/voyage-of-despair")) {
-			return `Voyage of Despair Easter Eggs - ${baseSite}`;
-		}
-		if (path.includes("/tag-der-toten")) {
-			return `Tag der Toten Easter Eggs - ${baseSite}`;
-		}
-		if (path.includes("/terminus")) {
-			return `Terminus Easter Eggs - ${baseSite}`;
-		}
-		if (path.includes("/reckoning")) {
-			return `Reckoning Easter Eggs - ${baseSite}`;
-		}
-		if (path.includes("/shattered-veil")) {
-			return `Shattered Veil Easter Eggs - ${baseSite}`;
-		}
-		if (path.includes("/liberty-falls")) {
-			return `Liberty Falls Easter Eggs - ${baseSite}`;
-		}
-
-		// Handle game selection pages
-		if (path.startsWith("/bo4")) {
-			return path === "/bo4" ? `BO4 Maps - ${baseSite}` : `BO4 Tools - ${baseSite}`;
-		}
-		if (path.startsWith("/bo6")) {
-			return path === "/bo6" ? `BO6 Maps - ${baseSite}` : `BO6 Tools - ${baseSite}`;
-		}
-
-		// Default
-		return `${baseSite} - Easter Egg Solver for BO4 & BO6`;
+		const metadata = getRouteMetadata(location.pathname);
+		return metadata.documentTitle;
 	};
 
 	// Update document title when route changes
@@ -103,25 +40,25 @@ function App() {
 			<main className="app-main">
 				<Routes>
 					{/* Root - Game Selection */}
-					<Route path="/" element={<GameSelection />} />
+					<Route path={ROUTES.home} element={<GameSelection />} />
 
 					{/* BO4 Routes */}
-					<Route path="/bo4" element={<MapSelection gameId="bo4" />} />
+					<Route path={ROUTES.games.bo4.base} element={<MapSelection gameId="bo4" />} />
 					<Route
-						path="/bo4/voyage-of-despair/*"
+						path={ROUTE_PATTERNS.games.bo4.maps.voyageOfDespair}
 						element={<VoyageOfDespair />}
 					/>
-					<Route path="/bo4/tag-der-toten/*" element={<TagDerToten />} />
+					<Route path={ROUTE_PATTERNS.games.bo4.maps.tagDerToten} element={<TagDerToten />} />
 
 					{/* BO6 Routes */}
-					<Route path="/bo6" element={<MapSelection gameId="bo6" />} />
-					<Route path="/bo6/terminus/*" element={<Terminus />} />
-					<Route path="/bo6/reckoning/*" element={<Reckoning />} />
-					<Route path="/bo6/shattered-veil/*" element={<ShatteredVeil />} />
-					<Route path="/bo6/liberty-falls/*" element={<LibertyFalls />} />
+					<Route path={ROUTES.games.bo6.base} element={<MapSelection gameId="bo6" />} />
+					<Route path={ROUTE_PATTERNS.games.bo6.maps.terminus} element={<Terminus />} />
+					<Route path={ROUTE_PATTERNS.games.bo6.maps.reckoning} element={<Reckoning />} />
+					<Route path={ROUTE_PATTERNS.games.bo6.maps.shatteredVeil} element={<ShatteredVeil />} />
+					<Route path={ROUTE_PATTERNS.games.bo6.maps.libertyFalls} element={<LibertyFalls />} />
 
 					{/* Legacy route redirect for existing bookmarks */}
-					<Route path="/voyage-of-despair/*" element={<VoyageOfDespair />} />
+					<Route path={ROUTE_PATTERNS.legacy.voyageOfDespair} element={<VoyageOfDespair />} />
 
 					{/* 404 */}
 					<Route path="*" element={<NotFound />} />

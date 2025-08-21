@@ -1,0 +1,172 @@
+/**
+ * Centralized route configuration for the application.
+ * This file defines all routes in a single location to improve maintainability
+ * and provide type safety for navigation.
+ */
+
+// Base route configuration
+export const ROUTES = {
+  // Root routes
+  home: '/',
+  
+  // Game routes
+  games: {
+    bo4: {
+      base: '/bo4',
+      maps: {
+        voyageOfDespair: '/bo4/voyage-of-despair',
+        tagDerToten: '/bo4/tag-der-toten'
+      }
+    },
+    bo6: {
+      base: '/bo6',
+      maps: {
+        terminus: '/bo6/terminus',
+        libertyFalls: '/bo6/liberty-falls',
+        citadelleDesMorts: '/bo6/citadelle-des-morts',
+        theTomb: '/bo6/the-tomb',
+        shatteredVeil: '/bo6/shattered-veil',
+        reckoning: '/bo6/reckoning'
+      }
+    }
+  },
+
+  // Legacy routes (for backwards compatibility)
+  legacy: {
+    voyageOfDespair: '/voyage-of-despair'
+  }
+} as const;
+
+// Map step routes configuration
+export const MAP_STEPS = {
+  bo4: {
+    voyageOfDespair: {
+      base: '/bo4/voyage-of-despair',
+      steps: {
+        clock: '/bo4/voyage-of-despair/clock',
+        outlet: '/bo4/voyage-of-despair/outlet', 
+        planet: '/bo4/voyage-of-despair/planet'
+      }
+    },
+    tagDerToten: {
+      base: '/bo4/tag-der-toten',
+      steps: {
+        totems: '/bo4/tag-der-toten/totems',
+        apothican: '/bo4/tag-der-toten/apothican',
+        orbs: '/bo4/tag-der-toten/orbs',
+        seal: '/bo4/tag-der-toten/seal'
+      }
+    }
+  },
+  bo6: {
+    terminus: {
+      base: '/bo6/terminus',
+      steps: {
+        nathan: '/bo6/terminus/nathan',
+        beam: '/bo6/terminus/beam'
+      }
+    },
+    libertyFalls: {
+      base: '/bo6/liberty-falls',
+      steps: {
+        vault: '/bo6/liberty-falls/vault'
+      }
+    },
+    shatteredVeil: {
+      base: '/bo6/shattered-veil',
+      steps: {
+        chalkboard: '/bo6/shattered-veil/chalkboard',
+        safe: '/bo6/shattered-veil/safe'
+      }
+    },
+    reckoning: {
+      base: '/bo6/reckoning',
+      steps: {
+        documents: '/bo6/reckoning/documents',
+        door: '/bo6/reckoning/door'
+      }
+    }
+  }
+} as const;
+
+// Route patterns for React Router (with wildcards)
+export const ROUTE_PATTERNS = {
+  games: {
+    bo4: {
+      base: '/bo4',
+      maps: {
+        voyageOfDespair: '/bo4/voyage-of-despair/*',
+        tagDerToten: '/bo4/tag-der-toten/*'
+      }
+    },
+    bo6: {
+      base: '/bo6', 
+      maps: {
+        terminus: '/bo6/terminus/*',
+        libertyFalls: '/bo6/liberty-falls/*',
+        citadelleDesMorts: '/bo6/citadelle-des-morts/*',
+        theTomb: '/bo6/the-tomb/*',
+        shatteredVeil: '/bo6/shattered-veil/*',
+        reckoning: '/bo6/reckoning/*'
+      }
+    }
+  },
+  legacy: {
+    voyageOfDespair: '/voyage-of-despair/*'
+  }
+} as const;
+
+// Map metadata that corresponds to routes
+export const ROUTE_METADATA = {
+  '/': {
+    title: 'COD Zombies Tools',
+    documentTitle: 'COD Zombies Tools - Easter Egg Solver for BO4 & BO6'
+  },
+  '/bo4': {
+    title: 'Black Ops 4 - Select Map',
+    documentTitle: 'BO4 Maps - COD Zombies Tools'
+  },
+  '/bo6': {
+    title: 'Black Ops 6 - Select Map', 
+    documentTitle: 'BO6 Maps - COD Zombies Tools'
+  },
+  [ROUTES.games.bo4.maps.voyageOfDespair]: {
+    title: 'Voyage of Despair',
+    documentTitle: 'Voyage of Despair Easter Eggs - COD Zombies Tools'
+  },
+  [ROUTES.games.bo4.maps.tagDerToten]: {
+    title: 'Tag der Toten',
+    documentTitle: 'Tag der Toten Easter Eggs - COD Zombies Tools'
+  },
+  [ROUTES.games.bo6.maps.terminus]: {
+    title: 'Terminus',
+    documentTitle: 'Terminus Easter Eggs - COD Zombies Tools'
+  },
+  [ROUTES.games.bo6.maps.libertyFalls]: {
+    title: 'Liberty Falls',
+    documentTitle: 'Liberty Falls Easter Eggs - COD Zombies Tools'
+  },
+  [ROUTES.games.bo6.maps.shatteredVeil]: {
+    title: 'Shattered Veil',
+    documentTitle: 'Shattered Veil Easter Eggs - COD Zombies Tools'
+  },
+  [ROUTES.games.bo6.maps.reckoning]: {
+    title: 'Reckoning',
+    documentTitle: 'Reckoning Easter Eggs - COD Zombies Tools'
+  }
+} as const;
+
+// Type exports for TypeScript support
+export type RouteConfig = typeof ROUTES;
+export type MapStepsConfig = typeof MAP_STEPS;
+export type RoutePatterns = typeof ROUTE_PATTERNS;
+export type RouteMetadata = typeof ROUTE_METADATA;
+
+// Helper type for extracting route paths
+export type RoutePaths = 
+  | typeof ROUTES.home
+  | typeof ROUTES.games.bo4.base
+  | typeof ROUTES.games.bo6.base
+  | typeof ROUTES.games.bo4.maps[keyof typeof ROUTES.games.bo4.maps]
+  | typeof ROUTES.games.bo6.maps[keyof typeof ROUTES.games.bo6.maps]
+  | typeof ROUTES.legacy[keyof typeof ROUTES.legacy];
