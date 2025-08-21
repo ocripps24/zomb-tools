@@ -1,6 +1,6 @@
 import React from "react";
-import { BaseSection } from "../../../../../core/index.js";
-import type { BaseSectionProps } from "../../../../../core/BaseSection.tsx";
+import { BaseSection } from "@/components/core";
+import type { BaseSectionProps } from "@/components/core/BaseSection";
 
 const OUTLET_LOCATIONS = [
 	{ id: "state-rooms", name: "State Rooms" },

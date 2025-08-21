@@ -1,17 +1,17 @@
 // MapContainer component for multi-step map navigation
-import { MapContainer } from "../../../../core/index.js";
+import { MapContainer } from "@/components/core";
 import SafeCodeSection from "./sections/SafeCodeSection";
 import ChalkboardCodeSection from "./sections/ChalkboardCodeSection";
 
 const STEPS = [
 	{
-		id: "chalkboard-code", 
+		id: "chalkboard", 
 		name: "Chalkboard Code",
 		path: "/bo6/shattered-veil/chalkboard-code",
 		component: ChalkboardCodeSection,
 	},
 	{
-		id: "safe-code",
+		id: "safe",
 		name: "Safe Code",
 		path: "/bo6/shattered-veil/safe-code",
 		component: SafeCodeSection,

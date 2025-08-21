@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { FloatingCard, LocationCard } from "../../../../../content/index.js";
-import { BaseSection } from "../../../../../core/index.js";
-import type { BaseSectionProps } from "../../../../../core/BaseSection.tsx";
+import { FloatingCard, LocationCard } from "@/components/content";
+import { BaseSection } from "@/components/core";
+import type { BaseSectionProps } from "@/components/core/BaseSection";
 
 // Real challenge totem data from the documentation
 const CHALLENGE_TOTEMS = [

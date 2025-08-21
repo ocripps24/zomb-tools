@@ -1,8 +1,8 @@
 import React from "react";
-import { FloatingCard } from "../../../../../content/index.js";
-import { BaseSection } from "../../../../../core/index.js";
-import { LocationCard } from "../../../../../content/index.js";
-import type { BaseSectionProps } from "../../../../../core/BaseSection.tsx";
+import { FloatingCard } from "@/components/content";
+import { BaseSection } from "@/components/core";
+import { LocationCard } from "@/components/content";
+import type { BaseSectionProps } from "@/components/core/BaseSection";
 
 // Game mechanics constants
 const GAME_CONFIG = {

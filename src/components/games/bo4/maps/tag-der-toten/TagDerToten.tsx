@@ -1,5 +1,5 @@
 // MapContainer component for multi-step map navigation
-import { MapContainer } from "../../../../core/index.js";
+import { MapContainer } from "@/components/core";
 import TotemsSection from "./sections/TotemsSection";
 import ApothicanOfferingsSection from "./sections/ApothicanOfferingsSection";
 import SealOfDualitySection from "./sections/SealOfDualitySection";

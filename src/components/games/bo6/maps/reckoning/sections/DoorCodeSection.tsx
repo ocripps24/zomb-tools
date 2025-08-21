@@ -1,6 +1,6 @@
 import React from "react";
-import { BaseSection } from "../../../../../core/index.js";
-import type { BaseSectionProps } from "../../../../../core/BaseSection.tsx";
+import { BaseSection } from "@/components/core";
+import type { BaseSectionProps } from "@/components/core/BaseSection";
 
 // Complete periodic table (118 elements) with grid positions
 const PERIODIC_TABLE = [
@@ -143,35 +143,8 @@ PERIODIC_TABLE.forEach((element) => {
 	ELEMENT_LOOKUP[element.symbol] = element;
 });
 
-// Common words dictionaries for each screen
-const SCREEN_1_WORDS = [
-	"ABHORRENT",
-	"BELICOSE",
-	"CASTIGATE",
-	"DECEIT",
-	"ENERVATE",
-	"FOREBODING",
-	"GUILE",
-	"HISTERIA",
-	"INHUMANE",
-	"KNAVISH",
-	"LIABILITY",
-	"MALEDICTION",
-	"NETTLESOME",
-	"OBSEQUIOUS",
-	"PERJORATIVE",
-	"RUINOUS",
-	"SCORN",
-	"TRAITOR",
-	"UNDERMINE",
-	"VICTORY",
-	"WRATH",
-	"XENOTROPIC",
-	"YOBBISH",
-	"ZYMOTIC",
-];
-
-const SCREEN_2_WORDS = [
+// Common words dictionary used for both screens
+const SCREEN_WORDS = [
 	"ABHORRENT",
 	"BELICOSE",
 	"CASTIGATE",
@@ -267,13 +240,11 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 					const word1 = data.screen1?.trim();
 					const word2 = data.screen2?.trim();
 
-					if (!word1) return { singleScreen: [], twoScreen: [] };
-
-					const firstLetter = word1.charAt(0).toUpperCase();
-
 					// If we have both words, try to find exact match
 					if (word1 && word2) {
-						const symbol = firstLetter + word2.charAt(0).toLowerCase();
+						const firstLetter = word1.charAt(0).toUpperCase();
+						const secondLetter = word2.charAt(0).toLowerCase();
+						const symbol = firstLetter + secondLetter;
 						const element = ELEMENT_LOOKUP[symbol];
 						return {
 							singleScreen: [],
@@ -281,20 +252,36 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 						};
 					}
 
-					// If we only have first word, find possible elements based on available Screen 2 words
+					// If we only have first word, find possible elements based on dictionary words
 					if (word1 && !word2) {
+						const firstLetter = word1.charAt(0).toUpperCase();
+						
 						// Single letter element (if exists)
 						const singleLetterElement = ELEMENT_LOOKUP[firstLetter];
 						const singleScreen = singleLetterElement ? [singleLetterElement] : [];
 
-						// Two letter elements based on Screen 2 dictionary
-						const twoScreen = SCREEN_2_WORDS.map((word) => {
+						// Two letter elements based on dictionary words as second letters
+						const twoScreen = SCREEN_WORDS.map((word) => {
 							const secondLetter = word.charAt(0).toLowerCase();
 							const symbol = firstLetter + secondLetter;
 							return ELEMENT_LOOKUP[symbol];
 						}).filter((element) => element !== undefined);
 
 						return { singleScreen, twoScreen };
+					}
+
+					// If we only have second word, find possible elements based on dictionary words
+					if (!word1 && word2) {
+						const secondLetter = word2.charAt(0).toLowerCase();
+						
+						// Two letter elements based on dictionary words as first letters
+						const twoScreen = SCREEN_WORDS.map((word) => {
+							const firstLetter = word.charAt(0).toUpperCase();
+							const symbol = firstLetter + secondLetter;
+							return ELEMENT_LOOKUP[symbol];
+						}).filter((element) => element !== undefined);
+
+						return { singleScreen: [], twoScreen };
 					}
 
 					return { singleScreen: [], twoScreen: [] };
@@ -366,7 +353,7 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 								<div className="dictionary-column">
 									<h5>Screen 1 Words</h5>
 									<div className="word-buttons">
-										{SCREEN_1_WORDS.map((word) => (
+										{SCREEN_WORDS.map((word) => (
 											<button
 												key={word}
 												onClick={() => handleWordSelect("screen1", word)}
@@ -383,7 +370,7 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 								<div className="dictionary-column">
 									<h5>Screen 2 Words</h5>
 									<div className="word-buttons">
-										{SCREEN_2_WORDS.map((word) => (
+										{SCREEN_WORDS.map((word) => (
 											<button
 												key={word}
 												onClick={() => handleWordSelect("screen2", word)}
@@ -399,46 +386,83 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 							</div>
 						</div>
 
-						{/* Element Symbol & Door Code Display */}
-						{elementSymbol && (
-							<div className="element-display">
-								<h4>Element Information</h4>
-								<div className="element-info">
-									<div className="element-symbol-display">
-										<span className="large-symbol">{elementSymbol}</span>
-										{elementData && (
-											<span className="atomic-number">
-												Atomic Number: {elementData.atomicNumber}
-											</span>
-										)}
+						{/* Door Code Results */}
+						{doorCode && (
+							<div className="door-code-result">
+								<div className="door-code-single-layout">
+									<div className="door-code-section">
+										<h4>Door Code</h4>
+										<div className="code-display">
+											<span className="door-code-formatted door-code-large">{doorCode}</span>
+										</div>
 									</div>
-
-									{doorCode && (
-										<div className="door-code-result">
-											<h5>Door Code</h5>
-											<div className="code-display">
-												<span className="code-number">{doorCode}</span>
-											</div>
-											<p className="code-instruction">
-												Enter this 3-digit code into the T1 Bioweapons Lab door panel.
-											</p>
+									<div className="element-section">
+										<h4>Element</h4>
+										<div className="element-symbol-display">
+											<span className="large-symbol">
+												{elementSymbol}
+												{elementData && (
+													<span className="atomic-number-overlay">
+														{elementData.atomicNumber}
+													</span>
+												)}
+											</span>
 										</div>
-									)}
-
-									{hasMultiplePossibilities && !doorCode && (
-										<div className="multiple-possibilities">
-											<p>
-												Multiple elements are possible. Enter both screen words to
-												determine the exact element.
-											</p>
-										</div>
-									)}
+									</div>
 								</div>
+								<p className="code-instruction">
+									Enter this code to access the T1 Bioweapons lab.
+								</p>
+							</div>
+						)}
+
+						{hasMultiplePossibilities && !doorCode && (
+										<div className="door-code-result door-code-result--multiple">
+											<h4>Possible Door Codes</h4>
+											<p className="code-instruction">
+												Multiple elements possible with "{data.screen1 || data.screen2}". 
+												{!data.screen1 || !data.screen2 ? 
+													" Enter a word on the other screen to determine the exact code." :
+													" Check your word selections above."
+												}
+											</p>
+
+											{singleScreen.length > 0 && (
+												<div className="possible-category">
+													<h5>1 Screen Only</h5>
+													<div className="possible-codes">
+														{singleScreen.map((element) => (
+															<div key={element.symbol} className="possible-code-item">
+																<div className="element-display">{element.symbol}</div>
+																<div className="code-display-small">
+																	{element.atomicNumber.toString().padStart(3, "0")}
+																</div>
+															</div>
+														))}
+													</div>
+												</div>
+											)}
+
+											{twoScreen.length > 0 && (
+												<div className="possible-category">
+													<h5>2 Screen Options</h5>
+													<div className="possible-codes">
+														{twoScreen.map((element) => (
+															<div key={element.symbol} className="possible-code-item">
+																<div className="element-display">{element.symbol}</div>
+																<div className="code-display-small">
+																	{element.atomicNumber.toString().padStart(3, "0")}
+																</div>
+															</div>
+														))}
+													</div>
+												</div>
+											)}
 							</div>
 						)}
 
 						{/* Periodic Table */}
-						<div className="periodic-table-section">
+						<div className="periodic-table-reference">
 							<h4>Periodic Table Reference</h4>
 							<p className="table-description">
 								The highlighted element(s) show possible matches based on your
@@ -446,9 +470,11 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 							</p>
 
 							{/* Mobile rotation message */}
-							<div className="mobile-rotation-message">
-								<div className="rotation-icon">↻</div>
-								<p>Rotate device to view periodic table</p>
+							<div className="rotation-message">
+								<div className="rotation-content">
+									<div className="rotation-icon">↻</div>
+									<p>Rotate device to view periodic table</p>
+								</div>
 							</div>
 
 							{/* Periodic table - hidden in mobile portrait */}

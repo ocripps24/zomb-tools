@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { BaseSection } from "../../../../../core/index.js";
-import type { BaseSectionProps } from "../../../../../core/BaseSection.tsx";
-import { SymbolPicker } from "../../../../../content/index.js";
-import { MovementSlider } from "../../../../../content/index.js";
-import { MovementStepper } from "../../../../../content/index.js";
-import { MovementButtons } from "../../../../../content/index.js";
+import { BaseSection } from "@/components/core";
+import type { BaseSectionProps } from "@/components/core/BaseSection";
+import { SymbolPicker } from "@/components/content";
+import { MovementSlider } from "@/components/content";
+import { MovementStepper } from "@/components/content";
+import { MovementButtons } from "@/components/content";
 import { SYMBOL_ICONS, SYMBOL_NAMES } from "./SymbolIcons";
 
 const CLOCK_LOCATIONS = [

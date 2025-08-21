@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import GameSelectionCard from "./GameSelectionCard";
-import { getAvailableGames } from "../../data/games";
+import { getAvailableGames } from "@/data/games";
 
 // Vite dynamic import for all game logos
-const logos = import.meta.glob("../../assets/games/*-logo.png", {
+const logos = import.meta.glob("@/assets/games/*-logo.png", {
 	eager: true,
 	import: "default",
 });

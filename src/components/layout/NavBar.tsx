@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getTheme, toggleTheme, THEMES } from "../../utils/theme";
+import { getTheme, toggleTheme, THEMES } from "@/utils/theme";
 
 const games = [
 	{ id: "bo4", name: "BO4" },

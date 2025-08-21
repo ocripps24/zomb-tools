@@ -1,24 +1,24 @@
 // MapContainer component for multi-step map navigation
-import { MapContainer } from "../../../../core/index.js";
+import { MapContainer } from "@/components/core";
 import ClockSection from "./sections/ClockSection";
 import OutletSection from "./sections/OutletSection";
 import PlanetSection from "./sections/PlanetSection";
 
 const STEPS = [
 	{
-		id: "clocks",
+		id: "clock",
 		name: "Clocks",
 		path: "/bo4/voyage-of-despair/clocks",
 		component: ClockSection,
 	},
 	{
-		id: "outlets",
+		id: "outlet",
 		name: "Outlets",
 		path: "/bo4/voyage-of-despair/outlets",
 		component: OutletSection,
 	},
 	{
-		id: "planets",
+		id: "planet",
 		name: "Planets",
 		path: "/bo4/voyage-of-despair/planets",
 		component: PlanetSection,

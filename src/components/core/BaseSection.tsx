@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import SectionHeader from './SectionHeader';
-import { usePersistedState } from '../../hooks';
+import { usePersistedState } from '@/hooks';
 
 // Standard props interface that all sections should accept
 export interface BaseSectionProps<T = any> {

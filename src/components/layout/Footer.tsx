@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { GAMES } from "../../data/games";
-import { BO4_MAPS } from "../../data/bo4/maps";
-import { BO6_MAPS } from "../../data/bo6/maps";
+import { GAMES } from "@/data/games";
+import { BO4_MAPS } from "@/data/bo4/maps";
+import { BO6_MAPS } from "@/data/bo6/maps";
 
 function Footer() {
 	// Get available maps for each game

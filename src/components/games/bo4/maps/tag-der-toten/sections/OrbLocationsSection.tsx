@@ -1,7 +1,7 @@
 import React from "react";
-import { FloatingCard, LocationCard } from "../../../../../content/index.js";
-import { BaseSection } from "../../../../../core/index.js";
-import type { BaseSectionProps } from "../../../../../core/BaseSection.tsx";
+import { FloatingCard, LocationCard } from "@/components/content";
+import { BaseSection } from "@/components/core";
+import type { BaseSectionProps } from "@/components/core/BaseSection";
 
 // Orb location data - each orb can spawn in one of these locations
 const ORBS_DATA = [

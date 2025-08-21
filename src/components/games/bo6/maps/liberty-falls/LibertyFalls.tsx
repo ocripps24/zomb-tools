@@ -1,10 +1,10 @@
 // MapContainer component for multi-step map navigation
-import { MapContainer } from "../../../../core/index.js";
+import { MapContainer } from "@/components/core";
 import VaultCodeSection from "./sections/VaultCodeSection";
 
 const STEPS = [
 	{
-		id: "vault-code",
+		id: "vault",
 		name: "Vault Code",
 		path: "/bo6/liberty-falls/vault-code",
 		component: VaultCodeSection,

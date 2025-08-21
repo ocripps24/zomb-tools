@@ -1,12 +1,12 @@
 import React from "react";
-import { BaseSection } from "../../../../../core/index.js";
-import type { BaseSectionProps } from "../../../../../core/BaseSection.tsx";
+import { BaseSection } from "@/components/core";
+import type { BaseSectionProps } from "@/components/core/BaseSection";
 
 // Import chalkboard images - using absolute paths from src
-import chalkboard1 from "/src/assets/maps/bo6/shattered-veil/chalkboard-1.jpg";
-import chalkboard2 from "/src/assets/maps/bo6/shattered-veil/chalkboard-2.jpg";
-import chalkboard3 from "/src/assets/maps/bo6/shattered-veil/chalkboard-3.jpg";
-import chalkboard4 from "/src/assets/maps/bo6/shattered-veil/chalkboard-4.jpg";
+import chalkboard1 from "@/assets/maps/bo6/shattered-veil/chalkboard-1.jpg";
+import chalkboard2 from "@/assets/maps/bo6/shattered-veil/chalkboard-2.jpg";
+import chalkboard3 from "@/assets/maps/bo6/shattered-veil/chalkboard-3.jpg";
+import chalkboard4 from "@/assets/maps/bo6/shattered-veil/chalkboard-4.jpg";
 
 // Chalkboard solutions data
 const CHALKBOARD_SOLUTIONS = {

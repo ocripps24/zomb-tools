@@ -1,17 +1,17 @@
 // MapContainer component for multi-step map navigation
-import { MapContainer } from "../../../../core/index.js";
+import { MapContainer } from "@/components/core";
 import DocumentsCodeSection from "./sections/DocumentsCodeSection";
 import DoorCodeSection from "./sections/DoorCodeSection";
 
 const STEPS = [
 	{
-		id: "documents-code",
+		id: "documents",
 		name: "Documents Code",
 		path: "/bo6/reckoning/documents-code",
 		component: DocumentsCodeSection,
 	},
 	{
-		id: "door-code",
+		id: "door",
 		name: "Door Code",
 		path: "/bo6/reckoning/door-code",
 		component: DoorCodeSection,

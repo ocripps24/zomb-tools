@@ -1,7 +1,7 @@
-import { BaseSection } from "../../../../../core/index.js";
-import type { BaseSectionProps } from "../../../../../core/BaseSection.tsx";
-import { SymbolPicker } from "../../../../../content/index.js";
-import type { Symbol } from "../../../../../content/SymbolPicker.tsx";
+import { BaseSection } from "@/components/core";
+import type { BaseSectionProps } from "@/components/core/BaseSection";
+import { SymbolPicker } from "@/components/content";
+import type { Symbol } from "@/components/content/SymbolPicker";
 import { BeamSymbols, SYMBOL_DATA, getSymbolValue } from "./BeamSymbols";
 
 interface SymbolLocation {

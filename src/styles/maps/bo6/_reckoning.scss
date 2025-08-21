@@ -137,6 +137,7 @@
 	@include flex-column;
 	gap: space(sm);
 	text-align: center;
+	margin-bottom: 0;
 }
 
 .code-value {
@@ -328,12 +329,37 @@
 		font-size: font-size(xl);
 	}
 
-	.element-info {
-		margin: space(sm) 0 0 0;
-		color: var(--text-secondary);
-		font-size: font-size(sm);
-		font-style: italic;
+	// Left align content when showing multiple possibilities
+	&--multiple {
+		text-align: left;
+
+		h4,
+		.code-instruction {
+			text-align: left;
+		}
 	}
+}
+
+// Single match layout - door code and element side by side
+.door-code-single-layout {
+	display: grid;
+	// Mobile-first: single column
+	grid-template-columns: 1fr;
+	gap: space(xl);
+	margin-bottom: space(lg);
+
+	// Tablet and up: two columns
+	@include tmd-up {
+		grid-template-columns: 1fr 1fr;
+		gap: space(2xl);
+	}
+}
+
+.door-code-single-layout .door-code-section,
+.door-code-single-layout .element-section {
+	@include flex-column;
+	align-items: center;
+	gap: space(md);
 }
 
 .element-not-found {
@@ -356,8 +382,18 @@
 	font-family: font-family(mono);
 	background: var(--location-card-completed-bg);
 	padding: space(xs) space(sm);
-	border-radius: radius(sm);
-	border: 1px solid var(--success-color);
+	border-radius: radius(base);
+	border: 2px solid var(--success-color);
+
+	&.door-code-large {
+		font-size: font-size(4xl);
+		padding: space(sm) space(lg);
+
+		@include tmd-up {
+			font-size: font-size(5xl);
+			padding: space(md) space(xl);
+		}
+	}
 }
 
 // Possible elements display
@@ -407,10 +443,15 @@
 	// Mobile-first: Smaller text
 	font-size: font-size(sm);
 	margin-bottom: space(xs);
+	padding: space(xs) space(sm);
+	border: 1px solid var(--border-color);
+	border-radius: radius(sm);
+	background-color: transparent;
 
 	// Tablet and up: Larger text
 	@include tmd-up {
 		font-size: font-size(base);
+		padding: space(sm);
 	}
 }
 
@@ -429,6 +470,73 @@
 	@include tmd-up {
 		font-size: font-size(sm);
 		padding: space(xs) space(sm);
+	}
+}
+
+// Element symbol display
+.element-symbol-display {
+	@include flex-column;
+	align-items: center;
+	gap: space(sm);
+	margin-bottom: space(lg);
+}
+
+.large-symbol {
+	font-family: font-family(mono);
+	font-size: font-size(4xl);
+	font-weight: font-weight(bold);
+	color: var(--success-color);
+	background: var(--location-card-completed-bg);
+	padding: space(md);
+	border-radius: radius(base);
+	border: 2px solid var(--success-color);
+	position: relative;
+	display: inline-block;
+
+	@include tmd-up {
+		font-size: font-size(5xl);
+		padding: space(md) space(2xl);
+	}
+}
+
+.atomic-number-overlay {
+	position: absolute;
+	top: space(xs);
+	right: space(xs);
+	font-size: font-size(sm);
+	font-weight: font-weight(bold);
+	color: var(--success-color);
+	padding: 2px space(xs);
+	// border-radius: radius(sm);
+	// border: 1px solid var(--success-color);
+	line-height: 1;
+
+	@include tmd-up {
+		top: space(sm);
+		right: space(sm);
+		font-size: font-size(base);
+		padding: space(xs) space(sm);
+	}
+}
+
+.atomic-number {
+	color: var(--text-secondary);
+	font-size: font-size(sm);
+	font-weight: font-weight(medium);
+}
+
+.multiple-possibilities {
+	padding: space(lg);
+	border: 1px solid var(--warning-color);
+	border-radius: radius(base);
+	background: rgba(var(--warning-color-rgb), 0.1);
+	text-align: center;
+
+	p {
+		margin: 0;
+		color: var(--warning-color);
+		font-size: font-size(sm);
+		font-weight: font-weight(medium);
 	}
 }
 

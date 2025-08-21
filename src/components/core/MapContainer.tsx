@@ -2,7 +2,7 @@ import React from 'react';
 import MapNavigation from './MapNavigation';
 import StepNavigation from './StepNavigation';
 import StepNavigationButtons from './StepNavigationButtons';
-import { useMapState, MapStep } from '../../hooks';
+import { useMapState, MapStep } from '@/hooks';
 
 export interface MapContainerProps {
   /** Array of steps for this map */
@@ -83,16 +83,16 @@ export function MapContainer({
             />
           );
         })()}
-      </div>
 
-      <StepNavigationButtons
-        currentStepIndex={activeStepIndex}
-        totalSteps={steps.length}
-        onNext={goToNext}
-        onPrevious={goToPrevious}
-        stepNames={steps.map(step => step.name)}
-        onGoToStep={(stepIndex: number) => goToStep(steps[stepIndex].path)}
-      />
+        <StepNavigationButtons
+          currentStepIndex={activeStepIndex}
+          totalSteps={steps.length}
+          onNext={goToNext}
+          onPrevious={goToPrevious}
+          stepNames={steps.map(step => step.name)}
+          onGoToStep={(stepIndex: number) => goToStep(steps[stepIndex].path)}
+        />
+      </div>
     </div>
   );
 }

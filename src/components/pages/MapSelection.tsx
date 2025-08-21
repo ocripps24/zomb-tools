@@ -1,17 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import MapSelectionCard from "./MapSelectionCard";
-import { getGameById } from "../../data/games";
-import { BO4_MAPS } from "../../data/bo4/maps";
-import { BO6_MAPS } from "../../data/bo6/maps";
+import { getGameById } from "@/data/games";
+import { BO4_MAPS } from "@/data/bo4/maps";
+import { BO6_MAPS } from "@/data/bo6/maps";
 
 // Vite dynamic import for all map preview images - supports multiple formats
-const previewsWebp = import.meta.glob("../../assets/maps/*/*-preview.webp", {
+const previewsWebp = import.meta.glob("@/assets/maps/*/*-preview.webp", {
 	eager: true,
 	import: "default",
 });
 
-const previewsJpg = import.meta.glob("../../assets/maps/*/*-preview.jpg", {
+const previewsJpg = import.meta.glob("@/assets/maps/*/*-preview.jpg", {
 	eager: true,
 	import: "default",
 });

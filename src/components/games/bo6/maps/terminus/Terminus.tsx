@@ -1,5 +1,5 @@
 // MapContainer component for multi-step map navigation
-import { MapContainer } from "../../../../core/index.js";
+import { MapContainer } from "@/components/core";
 import NathanCodeSection from "./sections/NathanCodeSection";
 import BeamCodeSection from "./sections/BeamCodeSection";
 
