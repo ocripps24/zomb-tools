@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import React from "react";
 import { FloatingCard } from "../../../../../content/index.js";
-import { SectionHeader } from "../../../../../core/index.js";
+import { BaseSection } from "../../../../../core/index.js";
 import { LocationCard } from "../../../../../content/index.js";
+import type { BaseSectionProps } from "../../../../../core/BaseSection.tsx";
 
 // Game mechanics constants
 const GAME_CONFIG = {
@@ -132,98 +133,84 @@ const QUOTES = [
 	},
 ];
 
-function ApothicanOfferingsSection({ data, onChange }) {
-	const [localData, setLocalData] = useState(
-		(data && data.quotes) ? data : { quotes: [...QUOTES] }
-	);
-	
+// Data interface for this section
+interface ApothicanData {
+	quotes: Array<{
+		id: string;
+		text: string;
+		location: string;
+		found: boolean;
+	}>;
+}
 
-	// Load from localStorage on mount or when parent data changes (reset)
-	useEffect(() => {
-		// Check if parent data is empty (indicating a reset)
-		const isParentDataEmpty = !data || Object.keys(data).length === 0;
-
-		if (isParentDataEmpty) {
-			// Parent has been reset, check localStorage or use initial data
-			const saved = localStorage.getItem("tag-der-toten-apothican-data");
-			if (saved) {
-				try {
-					const parsedData = JSON.parse(saved);
-					setLocalData(parsedData);
-				} catch (e) {
-					console.error("Failed to parse apothican data:", e);
-					setLocalData({ quotes: [...QUOTES] });
-				}
-			} else {
-				// Set default data if no saved data exists
-				setLocalData({ quotes: [...QUOTES] });
-			}
-		}
-	}, [data]);
-
-	useEffect(() => {
-		localStorage.setItem("tag-der-toten-apothican-data", JSON.stringify(localData));
-		onChange?.(localData);
-	}, [localData, onChange]);
-
-	const toggleQuoteFound = (quoteId) => {
-		setLocalData((prev) => ({
-			...prev,
-			quotes: prev.quotes.map((quote) =>
-				quote.id === quoteId ? { ...quote, found: !quote.found } : quote
-			),
-		}));
-	};
-
-	const resetAll = () => {
-		setLocalData({ quotes: [...QUOTES] });
-	};
-
-	const foundCount =
-		localData.quotes?.filter((quote) => quote.found).length || 0;
-	const totalCount = localData.quotes?.length || 0;
-
+function ApothicanOfferingsSection(props: BaseSectionProps<ApothicanData>) {
 	return (
-		<div className="apothican-section">
-			<SectionHeader
-				title="Apothican Offerings"
-				progress={`${foundCount}/${GAME_CONFIG.maxQuotesInGame}`}
-				description="Listen for the quote in-game, then click on the matching quote below to reveal its location. You will receive 3 quotes during the game."
-				onReset={resetAll}
-				resetButtonText="Reset All"
-			/>
+		<BaseSection
+			config={{
+				storageKey: "tag-der-toten-apothican-offerings-data",
+				defaultValue: { quotes: [...QUOTES] },
+				title: "Apothican Offerings",
+				description: "Listen for the quote in-game, then click on the matching quote below to reveal its location. You will receive 3 quotes during the game.",
+				resetButtonText: "Reset All Quotes"
+			}}
+			getProgress={(data: ApothicanData) => {
+				const foundCount = data.quotes?.filter((quote) => quote.found).length || 0;
+				return {
+					completed: foundCount,
+					total: GAME_CONFIG.maxQuotesInGame,
+					isComplete: foundCount === GAME_CONFIG.maxQuotesInGame
+				};
+			}}
+			{...props}
+		>
+			{({ data, setData, progress }) => {
+				const foundCount = progress.completed;
 
-			<div className="location-grid location-grid--quotes">
-				{localData.quotes?.map((quote, index) => {
-					// Disable quotes if max quotes are already found and this one isn't found
-					const isDisabled = foundCount >= GAME_CONFIG.maxQuotesInGame && !quote.found;
-					
-					return (
-						<LocationCard
-							key={quote.id}
-							primaryText={quote.text}
-							secondaryText={quote.location}
-							isCompleted={quote.found}
-							onToggle={() => toggleQuoteFound(quote.id)}
-							showSecondaryOnlyWhenCompleted={true}
-							disabled={isDisabled}
-							variant="quote"
-						/>
-					);
-				})}
-			</div>
+				const toggleQuoteFound = (quoteId: string) => {
+					setData((prev: ApothicanData) => ({
+						...prev,
+						quotes: prev.quotes.map((quote) =>
+							quote.id === quoteId ? { ...quote, found: !quote.found } : quote
+						),
+					}));
+				};
 
-			{foundCount === totalCount && (
-				<div className="section-completion">
-					<FloatingCard className="completion-card">
-						<h4>🎉 All Quotes Found!</h4>
-						<p>
-							You've completed the Apothican Offerings step. You can now proceed to the Seal of Duality.
-						</p>
-					</FloatingCard>
-				</div>
-			)}
-		</div>
+				return (
+					<div className="apothican-section-content">
+						<div className="location-grid location-grid--quotes">
+							{data.quotes?.map((quote) => {
+								// Disable quotes if max quotes are already found and this one isn't found
+								const isDisabled = foundCount >= GAME_CONFIG.maxQuotesInGame && !quote.found;
+								
+								return (
+									<LocationCard
+										key={quote.id}
+										primaryText={quote.text}
+										secondaryText={quote.location}
+										isCompleted={quote.found}
+										onToggle={() => toggleQuoteFound(quote.id)}
+										showSecondaryOnlyWhenCompleted={true}
+										disabled={isDisabled}
+										variant="quote"
+									/>
+								);
+							})}
+						</div>
+
+						{progress.isComplete && (
+							<div className="section-completion">
+								<FloatingCard className="completion-card">
+									<h4>🎉 All Quotes Found!</h4>
+									<p>
+										You've completed the Apothican Offerings step. You can now proceed to the Seal of Duality.
+									</p>
+								</FloatingCard>
+							</div>
+						)}
+					</div>
+				);
+			}}
+		</BaseSection>
 	);
 }
 

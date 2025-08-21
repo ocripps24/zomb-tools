@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { SectionHeader } from './SectionHeader';
+import SectionHeader from './SectionHeader';
 import { usePersistedState } from '../../hooks';
 
 // Standard props interface that all sections should accept

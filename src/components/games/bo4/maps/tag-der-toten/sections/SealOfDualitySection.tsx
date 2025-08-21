@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import React from "react";
 import { FloatingCard } from "../../../../../content/index.js";
-import { SectionHeader } from "../../../../../core/index.js";
+import { BaseSection } from "../../../../../core/index.js";
 import { LocationCard } from "../../../../../content/index.js";
+import type { BaseSectionProps } from "../../../../../core/BaseSection.tsx";
 
 // Game mechanics constants
 const GAME_CONFIG = {
@@ -36,97 +37,84 @@ const QUOTES = [
 	},
 ];
 
-function SealOfDualitySection({ data, onChange }) {
-	const [localData, setLocalData] = useState(
-		(data && data.quotes) ? data : { quotes: [...QUOTES] }
-	);
+// Data interface for this section
+interface SealData {
+	quotes: Array<{
+		id: string;
+		text: string;
+		location: string;
+		found: boolean;
+	}>;
+}
 
-	// Load from localStorage on mount or when parent data changes (reset)
-	useEffect(() => {
-		// Check if parent data is empty (indicating a reset)
-		const isParentDataEmpty = !data || Object.keys(data).length === 0;
-
-		if (isParentDataEmpty) {
-			// Parent has been reset, check localStorage or use initial data
-			const saved = localStorage.getItem("tag-der-toten-seal-data");
-			if (saved) {
-				try {
-					const parsedData = JSON.parse(saved);
-					setLocalData(parsedData);
-				} catch (e) {
-					console.error("Failed to parse seal data:", e);
-					setLocalData({ quotes: [...QUOTES] });
-				}
-			} else {
-				// Set default data if no saved data exists
-				setLocalData({ quotes: [...QUOTES] });
-			}
-		}
-	}, [data]);
-
-	useEffect(() => {
-		localStorage.setItem("tag-der-toten-seal-data", JSON.stringify(localData));
-		onChange?.(localData);
-	}, [localData, onChange]);
-
-	const toggleQuoteFound = (quoteId) => {
-		setLocalData((prev) => ({
-			...prev,
-			quotes: prev.quotes.map((quote) =>
-				quote.id === quoteId ? { ...quote, found: !quote.found } : quote
-			),
-		}));
-	};
-
-	const resetAll = () => {
-		setLocalData({ quotes: [...QUOTES] });
-	};
-
-	const foundCount =
-		localData.quotes?.filter((quote) => quote.found).length || 0;
-	const totalCount = localData.quotes?.length || 0;
-
+function SealOfDualitySection(props: BaseSectionProps<SealData>) {
 	return (
-		<div className="seal-section">
-			<SectionHeader
-				title="Seal of Duality"
-				progress={`${foundCount}/${GAME_CONFIG.maxQuotesInGame}`}
-				description="Listen for the quote in-game, then click on the matching quote below to reveal its location."
-				onReset={resetAll}
-				resetButtonText="Reset All"
-			/>
+		<BaseSection
+			config={{
+				storageKey: "tag-der-toten-seal-of-duality-data",
+				defaultValue: { quotes: [...QUOTES] },
+				title: "Seal of Duality",
+				description: "Listen for the quote in-game, then click on the matching quote below to reveal its location.",
+				resetButtonText: "Reset All Quotes"
+			}}
+			getProgress={(data: SealData) => {
+				const foundCount = data.quotes?.filter((quote) => quote.found).length || 0;
+				return {
+					completed: foundCount,
+					total: GAME_CONFIG.maxQuotesInGame,
+					isComplete: foundCount === GAME_CONFIG.maxQuotesInGame
+				};
+			}}
+			{...props}
+		>
+			{({ data, setData, progress }) => {
+				const foundCount = progress.completed;
 
-			<div className="location-grid location-grid--quotes">
-				{localData.quotes?.map((quote, index) => {
-					// Disable quotes if max quotes are already found and this one isn't found
-					const isDisabled = foundCount >= GAME_CONFIG.maxQuotesInGame && !quote.found;
-					
-					return (
-						<LocationCard
-							key={quote.id}
-							primaryText={quote.text}
-							secondaryText={quote.location}
-							isCompleted={quote.found}
-							onToggle={() => toggleQuoteFound(quote.id)}
-							showSecondaryOnlyWhenCompleted={true}
-							disabled={isDisabled}
-							variant="quote"
-						/>
-					);
-				})}
-			</div>
+				const toggleQuoteFound = (quoteId: string) => {
+					setData((prev: SealData) => ({
+						...prev,
+						quotes: prev.quotes.map((quote) =>
+							quote.id === quoteId ? { ...quote, found: !quote.found } : quote
+						),
+					}));
+				};
 
-			{foundCount === totalCount && (
-				<div className="section-completion">
-					<FloatingCard className="completion-card">
-						<h4>🎉 All Quotes Found!</h4>
-						<p>
-							You've completed the Seal of Duality step. You can now proceed to the next step.
-						</p>
-					</FloatingCard>
-				</div>
-			)}
-		</div>
+				return (
+					<div className="seal-section-content">
+						<div className="location-grid location-grid--quotes">
+							{data.quotes?.map((quote) => {
+								// Disable quotes if max quotes are already found and this one isn't found
+								const isDisabled = foundCount >= GAME_CONFIG.maxQuotesInGame && !quote.found;
+								
+								return (
+									<LocationCard
+										key={quote.id}
+										primaryText={quote.text}
+										secondaryText={quote.location}
+										isCompleted={quote.found}
+										onToggle={() => toggleQuoteFound(quote.id)}
+										showSecondaryOnlyWhenCompleted={true}
+										disabled={isDisabled}
+										variant="quote"
+									/>
+								);
+							})}
+						</div>
+
+						{progress.isComplete && (
+							<div className="section-completion">
+								<FloatingCard className="completion-card">
+									<h4>🎉 All Quotes Found!</h4>
+									<p>
+										You've completed the Seal of Duality step. You can now proceed to the Orb Locations.
+									</p>
+								</FloatingCard>
+							</div>
+						)}
+					</div>
+				);
+			}}
+		</BaseSection>
 	);
 }
 

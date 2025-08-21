@@ -4,3 +4,4 @@ export { default as SectionHeader } from './SectionHeader.tsx';
 export { default as StepNavigation } from './StepNavigation.tsx';
 export { default as StepNavigationButtons } from './StepNavigationButtons.tsx';
 export { MapContainer } from './MapContainer.tsx';
+export { BaseSection, createSection } from './BaseSection.tsx';

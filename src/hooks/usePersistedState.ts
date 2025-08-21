@@ -67,7 +67,24 @@ export function usePersistedState<T>({
     if (onChange) {
       onChange(data);
     }
-  }, [data, storageKey, onChange]);
+  }, [data, storageKey]); // Removed onChange from dependencies to prevent infinite loop
+
+  // Check for external localStorage clearing (like from MapContainer reset)
+  useEffect(() => {
+    const checkForExternalReset = () => {
+      const stored = localStorage.getItem(storageKey);
+      // If localStorage is empty but our state isn't at default, reset
+      if (!stored && JSON.stringify(data) !== JSON.stringify(defaultValue)) {
+        console.log(`[usePersistedState] Detected external reset for ${storageKey}, resetting to default`);
+        setDataState(defaultValue);
+      }
+    };
+
+    // Check immediately and set up interval to check periodically
+    checkForExternalReset();
+    const interval = setInterval(checkForExternalReset, 100);
+    return () => clearInterval(interval);
+  }, [storageKey, data, defaultValue]);
 
   const setData = (newData: T | ((prev: T) => T)) => {
     if (typeof newData === 'function') {
@@ -83,6 +100,7 @@ export function usePersistedState<T>({
   };
 
   const reset = () => {
+    console.log(`[usePersistedState] Resetting ${storageKey} to default and clearing localStorage`);
     log('Resetting data to default and clearing localStorage');
     try {
       localStorage.removeItem(storageKey);

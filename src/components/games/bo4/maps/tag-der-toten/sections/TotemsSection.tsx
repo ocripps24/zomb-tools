@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { FloatingCard } from "../../../../../content/index.js";
-import { SectionHeader } from "../../../../../core/index.js";
-import { LocationCard } from "../../../../../content/index.js";
+import React, { useState, useEffect } from "react";
+import { FloatingCard, LocationCard } from "../../../../../content/index.js";
+import { BaseSection } from "../../../../../core/index.js";
+import type { BaseSectionProps } from "../../../../../core/BaseSection.tsx";
 
 // Real challenge totem data from the documentation
 const CHALLENGE_TOTEMS = [
@@ -62,181 +62,175 @@ const CHALLENGE_TOTEMS = [
 	},
 ];
 
-function TotemsSection({ data, onChange }) {
-	// Ensure we always have the correct data structure
-	const initialData =
-		data && data.totems ? data : { totems: [...CHALLENGE_TOTEMS] };
-	const [localData, setLocalData] = useState(initialData);
-	const [selectedTotems, setSelectedTotems] = useState(
-		new Set([CHALLENGE_TOTEMS[0].id])
-	);
+// Data interface for this section
+interface TotemsData {
+	totems: Array<{
+		id: string;
+		name: string;
+		reward: string;
+		challenges: string[];
+		completed: boolean;
+	}>;
+}
 
-	// Load from localStorage on mount or when parent data changes (reset)
-	useEffect(() => {
-		// Check if parent data is empty (indicating a reset)
-		const isParentDataEmpty = !data || Object.keys(data).length === 0;
-
-		if (isParentDataEmpty) {
-			// Parent has been reset, check localStorage or use initial data
-			const saved = localStorage.getItem("tag-der-toten-totems-data");
-			if (saved) {
-				try {
-					const parsedData = JSON.parse(saved);
-					console.log("Parsed localStorage data:", parsedData);
-					setLocalData(parsedData);
-				} catch (e) {
-					console.error("Failed to parse totems data:", e);
-					setLocalData({ totems: [...CHALLENGE_TOTEMS] });
-				}
-			} else {
-				console.log("No localStorage data found, using initial data");
-				// Ensure we have initial data if nothing in localStorage
-				setLocalData({ totems: [...CHALLENGE_TOTEMS] });
-			}
-			// Also reset the selectedTotems state when parent resets
-			setSelectedTotems(new Set([CHALLENGE_TOTEMS[0].id]));
-		}
-	}, [data]);
-
-	// Save to localStorage and update parent when data changes
-	useEffect(() => {
-		localStorage.setItem(
-			"tag-der-toten-totems-data",
-			JSON.stringify(localData)
-		);
-		onChange?.(localData);
-	}, [localData, onChange]);
-
-	const toggleTotemCompleted = (totemId) => {
-		setLocalData((prev) => {
-			const updatedTotems = prev.totems.map((totem) =>
-				totem.id === totemId ? { ...totem, completed: !totem.completed } : totem
-			);
-
-			// If marking as completed, ensure it's selected
-			const updatedTotem = updatedTotems.find((t) => t.id === totemId);
-			if (updatedTotem?.completed) {
-				setSelectedTotems(
-					(prevSelected) => new Set([...prevSelected, totemId])
-				);
-			}
-
-			return {
-				...prev,
-				totems: updatedTotems,
-			};
-		});
-	};
-
-	const resetAll = () => {
-		setLocalData({ totems: [...CHALLENGE_TOTEMS] });
-		setSelectedTotems(new Set([CHALLENGE_TOTEMS[0].id]));
-	};
-
-	const completedCount =
-		localData.totems?.filter((totem) => totem.completed).length || 0;
-	const totalCount = localData.totems?.length || 0;
-	const toggleTotemSelection = (totemId) => {
-		// Check if the totem is completed
-		const totem = localData.totems?.find((t) => t.id === totemId);
-		if (totem?.completed) {
-			// Don't allow unselecting completed totems
-			return;
-		}
-
-		setSelectedTotems((prev) => {
-			const newSet = new Set(prev);
-			if (newSet.has(totemId)) {
-				newSet.delete(totemId);
-			} else {
-				newSet.add(totemId);
-			}
-			// Ensure at least one totem is always selected
-			return newSet.size === 0 ? new Set([CHALLENGE_TOTEMS[0].id]) : newSet;
-		});
-	};
-
+function TotemsSection(props: BaseSectionProps<TotemsData>) {
 	return (
-		<div className="totems-section">
-			<SectionHeader
-				title="Challenge Totems"
-				progress={{ completed: completedCount, total: totalCount }}
-				description="Complete 2 challenge totems to progress the Easter Egg or 5 to access the Tundra Wonder Weapon. Each location has 3 challenges to complete."
-				onReset={resetAll}
-				resetButtonText="Reset All Totems"
-			/>
+		<BaseSection
+			config={{
+				storageKey: "tag-der-toten-totems-data",
+				defaultValue: { totems: [...CHALLENGE_TOTEMS] },
+				title: "Challenge Totems",
+				description: "Complete 2 challenge totems to progress the Easter Egg or 5 to access the Tundra Wonder Weapon. Each location has 3 challenges to complete.",
+				resetButtonText: "Reset All Totems"
+			}}
+			getProgress={(data: TotemsData) => {
+				const completedCount = data.totems?.filter((totem) => totem.completed).length || 0;
+				const totalCount = data.totems?.length || 0;
+				return {
+					completed: completedCount,
+					total: totalCount,
+					isComplete: completedCount === totalCount && completedCount > 0
+				};
+			}}
+			{...props}
+		>
+			{({ data, setData, progress, reset }) => {
+				// Local state for totem selection (doesn't persist)
+				const [selectedTotems, setSelectedTotems] = useState(
+					new Set([CHALLENGE_TOTEMS[0].id])
+				);
 
-			{/* Totems Locations */}
-			<div className="totems-locations">
-				<h4>Select Totem Locations (click to add/remove):</h4>
-				<div className="location-grid location-grid--totems">
-					{localData.totems && localData.totems.length > 0 ? (
-						localData.totems.map((totem) => (
-							<LocationCard
-								key={totem.id}
-								primaryText={totem.name}
-								secondaryText={totem.reward}
-								isCompleted={totem.completed}
-								selectable={true}
-								isSelected={selectedTotems.has(totem.id)}
-								onSelect={() => toggleTotemSelection(totem.id)}
-								onToggleComplete={() => toggleTotemCompleted(totem.id)}
-								showSecondaryAlways={true}
-								variant="totem"
-							/>
-						))
-					) : (
-						<div>No totems found</div>
-					)}
-				</div>
-			</div>
+				// Reset selectedTotems when data gets reset externally
+				useEffect(() => {
+					// Check if all totems have been reset to their default state
+					const allTotemsReset = data.totems.every(totem => !totem.completed);
+					if (allTotemsReset) {
+						setSelectedTotems(new Set([CHALLENGE_TOTEMS[0].id]));
+					}
+				}, [data]);
 
-			{/* Totems Challenges */}
-			<div className="totems-challenges">
-				{localData.totems && localData.totems.length > 0 ? (
-					localData.totems
-						.filter((totem) => selectedTotems.has(totem.id))
-						.map((totem) => (
-							<div
-								key={totem.id}
-								className="totem-challenge-section"
-								style={{ marginBottom: "2rem" }}
-							>
-								{totem.completed ? (
-									<div className="completion-message">
-										<h4>{totem.name} - Complete! 🎉</h4>
-										<p>All challenges for this totem have been completed.</p>
-									</div>
+				const toggleTotemCompleted = (totemId: string) => {
+					setData((prev: TotemsData) => {
+						const updatedTotems = prev.totems.map((totem) =>
+							totem.id === totemId ? { ...totem, completed: !totem.completed } : totem
+						);
+
+						// If marking as completed, ensure it's selected
+						const updatedTotem = updatedTotems.find((t) => t.id === totemId);
+						if (updatedTotem?.completed) {
+							setSelectedTotems(
+								(prevSelected) => new Set([...prevSelected, totemId])
+							);
+						}
+
+						return {
+							...prev,
+							totems: updatedTotems,
+						};
+					});
+				};
+
+				const handleReset = () => {
+					reset();
+					setSelectedTotems(new Set([CHALLENGE_TOTEMS[0].id]));
+				};
+
+				const toggleTotemSelection = (totemId: string) => {
+					// Check if the totem is completed
+					const totem = data.totems?.find((t) => t.id === totemId);
+					if (totem?.completed) {
+						// Don't allow unselecting completed totems
+						return;
+					}
+
+					setSelectedTotems((prev) => {
+						const newSet = new Set(prev);
+						if (newSet.has(totemId)) {
+							newSet.delete(totemId);
+						} else {
+							newSet.add(totemId);
+						}
+						// Ensure at least one totem is always selected
+						return newSet.size === 0 ? new Set([CHALLENGE_TOTEMS[0].id]) : newSet;
+					});
+				};
+
+				return (
+					<div className="totems-section-content">
+						{/* Totems Locations */}
+						<div className="totems-locations">
+							<h4>Select Totem Locations (click to add/remove):</h4>
+							<div className="location-grid location-grid--totems">
+								{data.totems && data.totems.length > 0 ? (
+									data.totems.map((totem) => (
+										<LocationCard
+											key={totem.id}
+											primaryText={totem.name}
+											secondaryText={totem.reward}
+											isCompleted={totem.completed}
+											selectable={true}
+											isSelected={selectedTotems.has(totem.id)}
+											onSelect={() => toggleTotemSelection(totem.id)}
+											onToggleComplete={() => toggleTotemCompleted(totem.id)}
+											showSecondaryAlways={true}
+											variant="totem"
+										/>
+									))
 								) : (
-									<>
-										<h4>Challenges for {totem.name}:</h4>
-										<div className="challenges-list">
-											{totem.challenges?.map((challenge, index) => (
-												<div key={index} className="challenge-item">
-													<span className="challenge-number">{index + 1}.</span>
-													<span className="challenge-text">{challenge}</span>
-												</div>
-											))}
-										</div>
-									</>
+									<div>No totems found</div>
 								)}
 							</div>
-						))
-				) : (
-					<div>No totems selected</div>
-				)}
-			</div>
+						</div>
 
-			{/* Overall Completion - Only show when all totems are complete */}
-			{completedCount === totalCount && completedCount > 0 && (
-				<div className="totems-completion">
-					<div className="completion-card">
-						<h4>🎉 All Challenge Totems Complete!</h4>
-						<p>You can now proceed to the next step of the Easter Egg.</p>
+						{/* Totems Challenges */}
+						<div className="totems-challenges">
+							{data.totems && data.totems.length > 0 ? (
+								data.totems
+									.filter((totem) => selectedTotems.has(totem.id))
+									.map((totem) => (
+										<div
+											key={totem.id}
+											className="totem-challenge-section"
+											style={{ marginBottom: "2rem" }}
+										>
+											{totem.completed ? (
+												<div className="completion-message">
+													<h4>{totem.name} - Complete! 🎉</h4>
+													<p>All challenges for this totem have been completed.</p>
+												</div>
+											) : (
+												<>
+													<h4>Challenges for {totem.name}:</h4>
+													<div className="challenges-list">
+														{totem.challenges?.map((challenge, index) => (
+															<div key={index} className="challenge-item">
+																<span className="challenge-number">{index + 1}.</span>
+																<span className="challenge-text">{challenge}</span>
+															</div>
+														))}
+													</div>
+												</>
+											)}
+										</div>
+									))
+							) : (
+								<div>No totems selected</div>
+							)}
+						</div>
+
+						{/* Overall Completion - Only show when all totems are complete */}
+						{progress.isComplete && (
+							<div className="totems-completion">
+								<FloatingCard className="completion-card">
+									<h4>🎉 All Challenge Totems Complete!</h4>
+									<p>You can now proceed to the next step of the Easter Egg.</p>
+								</FloatingCard>
+							</div>
+						)}
 					</div>
-				</div>
-			)}
-		</div>
+				);
+			}}
+		</BaseSection>
 	);
 }
 

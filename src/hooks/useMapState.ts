@@ -120,6 +120,7 @@ export function useMapState({ steps, basePath, storagePrefix }: UseMapStateOptio
     // Clear localStorage for all steps
     steps.forEach(step => {
       const storageKey = `${storagePrefix}-${step.id.replace(/-/g, '-')}-data`;
+      console.log(`Removing localStorage key: ${storageKey}`);
       localStorage.removeItem(storageKey);
     });
   }, [steps, storagePrefix]);
