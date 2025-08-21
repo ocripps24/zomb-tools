@@ -26,11 +26,12 @@ export const BO6_MAPS = [
 	{
 		id: "citadelle-des-morts",
 		name: "Citadelle des Morts",
-		status: "Development in progress",
+		status: "Available",
 		route: ROUTES.games.bo6.maps.citadelleDesMorts,
-		component: null,
-		available: false,
-		tools: ["Pages/Traps"],
+		component: () =>
+			import("../../components/games/bo6/maps/citadelle-des-morts/CitadelleDesMorts.tsx"),
+		available: true,
+		tools: ["Raven Sword", "Traps"],
 		difficulty: "medium",
 	},
 	{

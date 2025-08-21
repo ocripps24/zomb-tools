@@ -29,7 +29,7 @@
 // 3b. Content Components - game content and interaction
 @use "content/location-card";
 @use "content/symbol-picker";
-@use "content/code-collection-section";
+@use "content/number-code-section";
 @use "content/section-tips";
 
 // 3c. Layout Components - structural layout elements
@@ -50,6 +50,7 @@
 @use "maps/bo6/reckoning";
 @use "maps/bo6/shattered-veil";
 @use "maps/bo6/liberty-falls";
+@use "maps/bo6/citadelle-des-morts";
 
 html,
 body {

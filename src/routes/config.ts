@@ -15,7 +15,13 @@ export const ROUTES = {
       base: '/bo4',
       maps: {
         voyageOfDespair: '/bo4/voyage-of-despair',
-        tagDerToten: '/bo4/tag-der-toten'
+        tagDerToten: '/bo4/tag-der-toten',
+        bloodOfTheDead: '/bo4/blood-of-the-dead',
+        ix: '/bo4/ix',
+        classified: '/bo4/classified',
+        deadOfTheNight: '/bo4/dead-of-the-night',
+        alphaOmega: '/bo4/alpha-omega',
+        ancientEvil: '/bo4/ancient-evil'
       }
     },
     bo6: {
@@ -79,6 +85,13 @@ export const MAP_STEPS = {
         safe: '/bo6/shattered-veil/safe'
       }
     },
+    citadelleDesMorts: {
+      base: '/bo6/citadelle-des-morts',
+      steps: {
+        ravenSword: '/bo6/citadelle-des-morts/raven-sword',
+        traps: '/bo6/citadelle-des-morts/traps'
+      }
+    },
     reckoning: {
       base: '/bo6/reckoning',
       steps: {
@@ -96,7 +109,13 @@ export const ROUTE_PATTERNS = {
       base: '/bo4',
       maps: {
         voyageOfDespair: '/bo4/voyage-of-despair/*',
-        tagDerToten: '/bo4/tag-der-toten/*'
+        tagDerToten: '/bo4/tag-der-toten/*',
+        bloodOfTheDead: '/bo4/blood-of-the-dead/*',
+        ix: '/bo4/ix/*',
+        classified: '/bo4/classified/*',
+        deadOfTheNight: '/bo4/dead-of-the-night/*',
+        alphaOmega: '/bo4/alpha-omega/*',
+        ancientEvil: '/bo4/ancient-evil/*'
       }
     },
     bo6: {
@@ -145,6 +164,10 @@ export const ROUTE_METADATA = {
   [ROUTES.games.bo6.maps.libertyFalls]: {
     title: 'Liberty Falls',
     documentTitle: 'Liberty Falls Easter Eggs - COD Zombies Tools'
+  },
+  [ROUTES.games.bo6.maps.citadelleDesMorts]: {
+    title: 'Citadelle des Morts',
+    documentTitle: 'Citadelle des Morts Easter Eggs - COD Zombies Tools'
   },
   [ROUTES.games.bo6.maps.shatteredVeil]: {
     title: 'Shattered Veil',

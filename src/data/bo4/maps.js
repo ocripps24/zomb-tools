@@ -18,7 +18,7 @@ export const BO4_MAPS = [
 		id: "blood-of-the-dead",
 		name: "Blood of the Dead",
 		status: "Coming soon",
-		route: "/bo4/blood-of-the-dead", // Not in centralized routes yet
+		route: ROUTES.games.bo4.maps.bloodOfTheDead,
 		component: null,
 		available: false,
 		tools: ["TBC"],
@@ -28,7 +28,7 @@ export const BO4_MAPS = [
 		id: "ix",
 		name: "IX",
 		status: "Coming later",
-		route: "/bo4/ix", // Not in centralized routes yet
+		route: ROUTES.games.bo4.maps.ix,
 		component: null,
 		available: false,
 		tools: ["TBC"],
@@ -38,7 +38,7 @@ export const BO4_MAPS = [
 		id: "classified",
 		name: "Classified",
 		status: "Coming soon",
-		route: "/bo4/classified", // Not in centralized routes yet
+		route: ROUTES.games.bo4.maps.classified,
 		component: null,
 		available: false,
 		tools: ["Codes"],
@@ -48,7 +48,7 @@ export const BO4_MAPS = [
 		id: "dead-of-the-night",
 		name: "Dead of the Night",
 		status: "Under review",
-		route: "/bo4/dead-of-the-night", // Not in centralized routes yet
+		route: ROUTES.games.bo4.maps.deadOfTheNight,
 		component: null,
 		available: false,
 		tools: ["TBC"],
@@ -58,7 +58,7 @@ export const BO4_MAPS = [
 		id: "alpha-omega",
 		name: "Alpha Omega",
 		status: "Coming soon",
-		route: "/bo4/alpha-omega", // Not in centralized routes yet
+		route: ROUTES.games.bo4.maps.alphaOmega,
 		component: null,
 		available: false,
 		tools: ["Codes"],
@@ -68,7 +68,7 @@ export const BO4_MAPS = [
 		id: "ancient-evil",
 		name: "Ancient Evil",
 		status: "Under review",
-		route: "/bo4/ancient-evil", // Not in centralized routes yet
+		route: ROUTES.games.bo4.maps.ancientEvil,
 		component: null,
 		available: false,
 		tools: ["TBC"],

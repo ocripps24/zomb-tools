@@ -1,0 +1,226 @@
+import React from "react";
+import { BaseSection } from "@/components/core";
+import type { BaseSectionProps } from "@/components/core/BaseSection";
+
+// Import symbols
+import triangleUpIcon from "@/assets/symbols/triangle-up.svg";
+import triangleDownIcon from "@/assets/symbols/triangle-down.svg";
+import triangleUpDashIcon from "@/assets/symbols/triangle-up-dash.svg";
+import triangleDownDashIcon from "@/assets/symbols/triangle-down-dash.svg";
+
+import ariesIcon from "@/assets/symbols/aries.svg";
+import geminiIcon from "@/assets/symbols/gemini.svg";
+import leoIcon from "@/assets/symbols/leo.svg";
+import scorpioIcon from "@/assets/symbols/scorpio.svg";
+import piscesIcon from "@/assets/symbols/pisces.svg";
+
+// Antiquity data with their corresponding symbol combinations
+const ANTIQUITIES = [
+	{
+		id: "horn",
+		name: "Horn",
+		description: "Goat horn containing ancient remains",
+		innerSymbol: "fire",
+		outerSymbol: "aries",
+	},
+	{
+		id: "raven-skulls",
+		name: "Raven Skulls",
+		description: "Bird skulls with mystical properties",
+		innerSymbol: "air",
+		outerSymbol: "gemini",
+	},
+	{
+		id: "jaw",
+		name: "Jaw",
+		description: "Jaw bone from an ancient creature",
+		innerSymbol: "fire",
+		outerSymbol: "leo",
+	},
+	{
+		id: "scorpion",
+		name: "Scorpion",
+		description: "Preserved scorpion remains",
+		innerSymbol: "water",
+		outerSymbol: "scorpio",
+	},
+	{
+		id: "fish",
+		name: "Fish",
+		description: "Fish bones from ancient waters",
+		innerSymbol: "water",
+		outerSymbol: "pisces",
+	},
+];
+
+// Symbol mappings
+const ELEMENTAL_SYMBOLS = {
+	fire: {
+		name: "Fire",
+		icon: triangleUpIcon,
+		description: "Triangle (Fire)",
+	},
+	air: {
+		name: "Air",
+		icon: triangleUpDashIcon,
+		description: "Triangle with Line (Air)",
+	},
+	water: {
+		name: "Water",
+		icon: triangleDownIcon,
+		description: "Upside-Down Triangle (Water)",
+	},
+	earth: {
+		name: "Earth",
+		icon: triangleDownDashIcon,
+		description: "Upside-Down Triangle with Line (Earth)",
+	},
+};
+
+const ZODIAC_SYMBOLS = {
+	aries: { name: "Aries", icon: ariesIcon },
+	gemini: { name: "Gemini", icon: geminiIcon },
+	leo: { name: "Leo", icon: leoIcon },
+	scorpio: { name: "Scorpio", icon: scorpioIcon },
+	pisces: { name: "Pisces", icon: piscesIcon },
+};
+
+// Data interface for this section
+interface RavenSwordData {
+	selectedAntiquity: string;
+}
+
+function RavenSwordSection(props: BaseSectionProps<RavenSwordData>) {
+	return (
+		<BaseSection
+			config={{
+				storageKey: "citadelle-des-morts-raven-sword-data",
+				defaultValue: {
+					selectedAntiquity: "",
+				},
+				title: "Raven Sword",
+				description: "Select the antiquity you picked up in-game to see the correct dial combination.",
+				resetButtonText: "Reset Raven Sword"
+			}}
+			getProgress={(data: RavenSwordData) => {
+				const hasSelection = Boolean(data.selectedAntiquity);
+				return {
+					completed: hasSelection ? 1 : 0,
+					total: 1,
+					isComplete: hasSelection,
+				};
+			}}
+			{...props}
+		>
+			{({ data, setData, progress }) => {
+				const handleAntiquitySelect = (antiquityId: string) => {
+					setData((prev: RavenSwordData) => ({
+						...prev,
+						selectedAntiquity: antiquityId,
+					}));
+				};
+
+				const selectedAntiquity = ANTIQUITIES.find(a => a.id === data.selectedAntiquity);
+
+				return (
+					<div className="raven-sword-section">
+						{/* Antiquity Selection */}
+						<div className="antiquity-selection">
+							<h3>Select Your Antiquity</h3>
+							<p className="selection-description">
+								Choose the antiquity you picked up from the pedestal in-game.
+							</p>
+
+							<div className="antiquity-grid">
+								{ANTIQUITIES.map((antiquity) => (
+									<div
+										key={antiquity.id}
+										className={`antiquity-option ${
+											data.selectedAntiquity === antiquity.id
+												? "antiquity-option--selected"
+												: ""
+										}`}
+										onClick={() => handleAntiquitySelect(antiquity.id)}
+									>
+										<div className="antiquity-info">
+											<h4>{antiquity.name}</h4>
+											<p>{antiquity.description}</p>
+										</div>
+									</div>
+								))}
+							</div>
+						</div>
+
+						{/* Dial Combination Display */}
+						{selectedAntiquity && (
+							<div className="dial-combination">
+								<h3>Dial Combination</h3>
+								<p className="combination-description">
+									Set the dial rings to these symbols to activate the Raven Sword.
+								</p>
+
+								<div className="dial-rings">
+									<div className="dial-ring inner-ring">
+										<h4>Inner Ring (Elemental)</h4>
+										<div className="symbol-display">
+											<img 
+												src={ELEMENTAL_SYMBOLS[selectedAntiquity.innerSymbol as keyof typeof ELEMENTAL_SYMBOLS].icon} 
+												alt={ELEMENTAL_SYMBOLS[selectedAntiquity.innerSymbol as keyof typeof ELEMENTAL_SYMBOLS].name}
+												className="symbol-icon"
+											/>
+											<span className="symbol-name">
+												{ELEMENTAL_SYMBOLS[selectedAntiquity.innerSymbol as keyof typeof ELEMENTAL_SYMBOLS].description}
+											</span>
+										</div>
+									</div>
+
+									<div className="dial-ring outer-ring">
+										<h4>Outer Ring (Zodiac)</h4>
+										<div className="symbol-display">
+											<img 
+												src={ZODIAC_SYMBOLS[selectedAntiquity.outerSymbol as keyof typeof ZODIAC_SYMBOLS].icon} 
+												alt={ZODIAC_SYMBOLS[selectedAntiquity.outerSymbol as keyof typeof ZODIAC_SYMBOLS].name}
+												className="symbol-icon"
+											/>
+											<span className="symbol-name">
+												{ZODIAC_SYMBOLS[selectedAntiquity.outerSymbol as keyof typeof ZODIAC_SYMBOLS].name}
+											</span>
+										</div>
+									</div>
+								</div>
+
+								<div className="combination-note">
+									<p>
+										<strong>Instructions:</strong> Face the dial and rotate the inner ring to the {ELEMENTAL_SYMBOLS[selectedAntiquity.innerSymbol as keyof typeof ELEMENTAL_SYMBOLS].name} symbol, 
+										then rotate the outer ring to the {ZODIAC_SYMBOLS[selectedAntiquity.outerSymbol as keyof typeof ZODIAC_SYMBOLS].name} symbol.
+									</p>
+								</div>
+							</div>
+						)}
+
+						{/* Section Tips */}
+						<div className="section-tips">
+							<h3>Tips</h3>
+							<ul>
+								<li>
+									<strong>Antiquity Location:</strong> The antiquity is found on a pedestal in the ritual room
+								</li>
+								<li>
+									<strong>Dial Location:</strong> The dual-ring dial is located on the wall near the Raven Sword
+								</li>
+								<li>
+									<strong>Ring Rotation:</strong> Each ring can be rotated independently - inner ring first, then outer ring
+								</li>
+								<li>
+									<strong>Confirmation:</strong> When set correctly, the dial will emit a sound and the Raven Sword will activate
+								</li>
+							</ul>
+						</div>
+					</div>
+				);
+			}}
+		</BaseSection>
+	);
+}
+
+export default RavenSwordSection;
