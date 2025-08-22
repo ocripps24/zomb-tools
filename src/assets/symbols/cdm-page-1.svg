@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242.49 242.49">
+  <g id="b" data-name="eye">
+    <path d="M118.24,87.1c5.36-.43,10.78.41,15.75,2.45,4.75,1.95,9.03,4.96,12.47,8.78,23.85,26.5-4.07,67.49-37.45,55.01-33.56-12.55-27.44-62.12,8.17-66.13.35-.04.71-.08,1.06-.11Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <path d="M204.07,121.38c-17.72-21.56-42.09-42.71-70.28-47.99-37.96-7.11-72.91,19.71-95.37,47.74,19.27,25.01,50.07,49.3,83.05,49.13,33.16-.17,62.33-24.69,82.59-48.88Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+  </g>
+  <g id="c" data-name="lashes">
+    <line x1="48.25" y1="109.86" x2="41.51" y2="102.29" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <line x1="56.95" y1="101.31" x2="49.98" y2="93.26" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <line x1="64.05" y1="95.24" x2="58.45" y2="84.79" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <line x1="75.51" y1="86.99" x2="68.62" y2="76.03" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <line x1="86.87" y1="80.62" x2="80.76" y2="68.13" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <line x1="98.23" y1="76.03" x2="94.31" y2="62.2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <line x1="108.71" y1="72.23" x2="106.74" y2="58.81" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <line x1="121.12" y1="72.23" x2="121.12" y2="56.55" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <line x1="133.79" y1="73.39" x2="138.08" y2="58.81" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <line x1="147.96" y1="77.45" x2="153.76" y2="65.52" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <line x1="159.63" y1="82.86" x2="167.44" y2="72.23" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <line x1="172.24" y1="90.01" x2="179.87" y2="80.62" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <line x1="182.08" y1="98.63" x2="189.75" y2="88.74" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <line x1="192.41" y1="108.36" x2="199.07" y2="97.28" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+  </g>
+</svg>

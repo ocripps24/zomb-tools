@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252.86 242.49">
+  <g id="b" data-name="eye">
+    <path d="M123.46,87.1c5.36-.43,10.78.41,15.75,2.45,4.75,1.95,9.03,4.96,12.47,8.78,23.85,26.5-4.07,67.49-37.45,55.01-33.56-12.55-27.44-62.12,8.17-66.13.35-.04.71-.08,1.06-.11Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <path d="M209.29,121.38c-17.72-21.56-42.09-42.71-70.28-47.99-37.96-7.11-72.91,19.71-95.37,47.74,19.27,25.01,50.07,49.3,83.05,49.13,33.16-.17,62.33-24.69,82.59-48.88Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+  </g>
+  <polyline id="c" data-name="spoke-n" points="118.56 51.01 114.81 60.66 116.68 72.23 136.25 72.23 138.12 60.66 134.37 51.01 134.37 32.91 126.47 7.16 118.56 32.91 118.56 51.01" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <polyline id="d" data-name="spoke-s" points="134.25 191.48 138.01 181.83 136.13 170.26 116.56 170.26 114.69 181.83 118.44 191.48 118.44 209.58 126.35 235.33 134.25 209.58 134.25 191.48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <polyline id="e" data-name="spoke-w" points="49.65 113.76 44.85 113.76 26.75 113.76 1 121.66 26.75 129.57 44.85 129.57 49.65 129.57" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <polyline id="f" data-name="spoke-e" points="203.21 129.57 208.01 129.57 226.11 129.57 251.86 121.66 226.11 113.76 208.01 113.76 203.21 113.76" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <polygon id="g" data-name="spoke-nw" points="49.65 45.01 81.11 85.82 76.01 89.29 49.65 45.01" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <polygon id="h" data-name="spoke-ne" points="202.53 45.01 176.06 89.22 170.97 85.74 202.53 45.01" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <polygon id="i" data-name="spoke-se" points="202.42 197.87 170.97 157.06 176.07 153.59 202.42 197.87" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <polygon id="j" data-name="spoke-sw" points="49.65 197.8 76.12 153.59 81.21 157.07 49.65 197.8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+</svg>

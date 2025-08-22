@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242.49 242.49">
+  <g id="b" data-name="eye">
+    <path d="M118.24,87.1c5.36-.43,10.78.41,15.75,2.45,4.75,1.95,9.03,4.96,12.47,8.78,23.85,26.5-4.07,67.49-37.45,55.01-33.56-12.55-27.44-62.12,8.17-66.13.35-.04.71-.08,1.06-.11Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <path d="M204.07,121.38c-17.72-21.56-42.09-42.71-70.28-47.99-37.96-7.11-72.91,19.71-95.37,47.74,19.27,25.01,50.07,49.3,83.05,49.13,33.16-.17,62.33-24.69,82.59-48.88Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+  </g>
+  <g id="c" data-name="outer-circles">
+    <circle cx="121.24" cy="121.24" r="100" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2"/>
+    <circle cx="121.24" cy="121.24" r="120.24" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2"/>
+  </g>
+</svg>
