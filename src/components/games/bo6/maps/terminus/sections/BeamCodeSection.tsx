@@ -27,8 +27,9 @@ function BeamCodeSection(props: BaseSectionProps<BeamCodeData>) {
 				storageKey: "terminus-beam-code-data",
 				defaultValue: {},
 				title: "Beam Code",
-				description: "Find the 3 laptops with X, Y, Z stickers and record the symbols they display.",
-				resetButtonText: "Reset Beam Code"
+				description:
+					"Find the 3 laptops with X, Y, Z stickers and record the symbols they display.",
+				resetButtonText: "Reset Beam Code",
 			}}
 			getProgress={(data: BeamCodeData) => {
 				const completedCount = SYMBOL_LOCATIONS.filter(
@@ -42,7 +43,7 @@ function BeamCodeSection(props: BaseSectionProps<BeamCodeData>) {
 			}}
 			{...props}
 		>
-			{({ data, setData, progress }) => {
+			{({ data, setData }) => {
 				const handleSymbolSelect = (locationId: string, symbolId: string) => {
 					setData((prevData: BeamCodeData) => ({
 						...prevData,
@@ -133,15 +134,16 @@ function BeamCodeSection(props: BaseSectionProps<BeamCodeData>) {
 							<h3>How to Use</h3>
 							<ul>
 								<li>
-									<strong>Step 1:</strong> Find 3 laptops around the map with X, Y, Z
-									stickers
+									<strong>Step 1:</strong> Find 3 laptops around the map with X,
+									Y, Z stickers
 								</li>
 								<li>
-									<strong>Step 2:</strong> Turn on each laptop to reveal a symbol
+									<strong>Step 2:</strong> Turn on each laptop to reveal a
+									symbol
 								</li>
 								<li>
-									<strong>Step 3:</strong> Click the matching symbol above for each
-									laptop
+									<strong>Step 3:</strong> Click the matching symbol above for
+									each laptop
 								</li>
 								<li>
 									<strong>Step 4:</strong> Enter the calculated numbers into the
