@@ -19,6 +19,15 @@ export const GAMES = {
 		releaseYear: 2024,
 		route: ROUTES.games.bo6.base,
 	},
+	bo7: {
+		id: "bo7",
+		name: "Black Ops 7",
+		fullName: "Call of Duty: Black Ops 7",
+		description: "Coming 2025 - Zombies mode tools (Pre-release)",
+		available: false,
+		releaseYear: 2025,
+		route: null,
+	},
 };
 
 export const getGameById = (gameId) => {

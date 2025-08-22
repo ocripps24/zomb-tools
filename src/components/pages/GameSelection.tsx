@@ -1,23 +1,54 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import GameSelectionCard from "./GameSelectionCard";
-import { getAvailableGames } from "@/data/games";
+import { GAMES } from "@/data/games";
 
-// Vite dynamic import for all game logos
-const logos = import.meta.glob("@/assets/games/*-logo.png", {
+// Vite dynamic import for all game logos - supports multiple formats
+const logosWebp = import.meta.glob("@/assets/games/*-logo.webp", {
+	eager: true,
+	import: "default",
+});
+
+const logosJpg = import.meta.glob("@/assets/games/*-logo.jpg", {
+	eager: true,
+	import: "default",
+});
+
+const logosPng = import.meta.glob("@/assets/games/*-logo.png", {
 	eager: true,
 	import: "default",
 });
 
 const getLogo = (id) => {
-	const match = Object.entries(logos).find(([path]) =>
-		path.includes(`/${id}-logo.png`)
-	);
-	return match ? match[1] : null;
+	// Priority order: WebP > JPG > PNG (WebP is most efficient)
+	const formats = [
+		{ ext: 'webp', logos: logosWebp },
+		{ ext: 'jpg', logos: logosJpg },
+		{ ext: 'png', logos: logosPng }
+	];
+
+	for (const format of formats) {
+		const match = Object.entries(format.logos).find(([path]) =>
+			path.includes(`/${id}-logo.${format.ext}`)
+		);
+		if (match) {
+			return match[1];
+		}
+	}
+
+	return null;
 };
 
 function GameSelection() {
-	const availableGames = getAvailableGames();
+	const allGames = Object.values(GAMES) as Array<{
+		id: string;
+		name: string;
+		fullName: string;
+		description: string;
+		available: boolean;
+		releaseYear: number;
+		route: string | null;
+	}>;
 	const navigate = useNavigate();
 
 	return (
@@ -28,12 +59,13 @@ function GameSelection() {
 				for.
 			</p>
 			<div className="game-selection__grid">
-				{availableGames.map((game) => (
+				{allGames.map((game) => (
 					<GameSelectionCard
 						key={game.id}
 						image={getLogo(game.id)}
 						label={game.name}
-						onClick={() => navigate(game.route)}
+						onClick={game.available && game.route ? () => navigate(game.route!) : undefined}
+						disabled={!game.available}
 					/>
 				))}
 			</div>

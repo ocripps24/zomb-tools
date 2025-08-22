@@ -18,16 +18,16 @@ const SYMBOLS = [
 
 // Page data
 const PAGES = [
-	{ id: "page1", name: "Page 1", position: "Top Left" },
-	{ id: "page2", name: "Page 2", position: "Top Right" },
-	{ id: "page3", name: "Page 3", position: "Bottom Left" },
-	{ id: "page4", name: "Page 4", position: "Bottom Right" },
+	{ id: "page1", name: "Page 1", position: "Near Left Corner" },
+	{ id: "page2", name: "Page 2", position: "TV Corner" },
+	{ id: "page3", name: "Page 3", position: "Sofa" },
+	{ id: "page4", name: "Page 4", position: "Right Corner" },
 ];
 
 // Trap locations (excluding Stamina Up which is always the 4th trap)
 const TRAP_LOCATIONS = [
 	"Quick Revive",
-	"Pack-a-Punch", 
+	"Pack-a-Punch",
 	"Courtyard",
 	"Speed Cola",
 	"Deadshot",
@@ -67,14 +67,19 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 					},
 				},
 				title: "Traps",
-				description: "Record the symbols from the 4 pages, then assign trap locations.",
-				resetButtonText: "Reset Traps"
+				description:
+					"Record the symbols from the 4 pages, then assign trap locations.",
+				resetButtonText: "Reset Traps",
 			}}
 			getProgress={(data: TrapsData) => {
-				const pagesCompleted = Object.values(data.pageSymbols).filter(Boolean).length;
-				const locationsCompleted = Object.values(data.trapLocations).filter(Boolean).length;
+				const pagesCompleted = Object.values(data.pageSymbols).filter(
+					Boolean
+				).length;
+				const locationsCompleted = Object.values(data.trapLocations).filter(
+					Boolean
+				).length;
 				const totalCompleted = pagesCompleted + locationsCompleted;
-				
+
 				return {
 					completed: totalCompleted,
 					total: 7, // 4 pages + 3 locations (4th is auto-assigned)
@@ -86,17 +91,19 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 			{({ data, setData, progress }) => {
 				// Get used symbols to grey them out
 				const usedSymbols = Object.values(data.pageSymbols).filter(Boolean);
-				
+
 				// Auto-assign the 4th symbol when 3 are selected
 				const assignedSymbols = [...usedSymbols];
 				if (usedSymbols.length === 3) {
-					const remainingSymbol = SYMBOLS.find(s => !usedSymbols.includes(s.id))?.id;
+					const remainingSymbol = SYMBOLS.find(
+						(s) => !usedSymbols.includes(s.id)
+					)?.id;
 					if (remainingSymbol) {
 						// Find which page is empty and assign the remaining symbol
 						const emptyPageKey = Object.keys(data.pageSymbols).find(
-							key => !data.pageSymbols[key as keyof typeof data.pageSymbols]
+							(key) => !data.pageSymbols[key as keyof typeof data.pageSymbols]
 						) as keyof typeof data.pageSymbols;
-						
+
 						if (emptyPageKey && data.pageSymbols[emptyPageKey] === "") {
 							// Auto-assign the remaining symbol
 							setData((prev: TrapsData) => ({
@@ -113,7 +120,10 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 				const handlePageSymbolSelect = (pageId: string, symbolId: string) => {
 					setData((prev: TrapsData) => {
 						// If symbol is already selected for this page, deselect it
-						if (prev.pageSymbols[pageId as keyof typeof prev.pageSymbols] === symbolId) {
+						if (
+							prev.pageSymbols[pageId as keyof typeof prev.pageSymbols] ===
+							symbolId
+						) {
 							return {
 								...prev,
 								pageSymbols: {
@@ -122,7 +132,7 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 								},
 							};
 						}
-						
+
 						// Otherwise, select the symbol
 						return {
 							...prev,
@@ -134,7 +144,10 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 					});
 				};
 
-				const handleTrapLocationSelect = (trapNumber: number, location: string) => {
+				const handleTrapLocationSelect = (
+					trapNumber: number,
+					location: string
+				) => {
 					setData((prev: TrapsData) => ({
 						...prev,
 						trapLocations: {
@@ -146,21 +159,29 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 
 				// Get available locations (excluding already selected ones)
 				const getAvailableLocations = (currentTrap: number) => {
-					const selectedLocations = Object.values(data.trapLocations).filter(Boolean);
-					return TRAP_LOCATIONS.filter(location => 
-						!selectedLocations.includes(location) || 
-						data.trapLocations[`trap${currentTrap}` as keyof typeof data.trapLocations] === location
+					const selectedLocations = Object.values(data.trapLocations).filter(
+						Boolean
+					);
+					return TRAP_LOCATIONS.filter(
+						(location) =>
+							!selectedLocations.includes(location) ||
+							data.trapLocations[
+								`trap${currentTrap}` as keyof typeof data.trapLocations
+							] === location
 					);
 				};
 
 				// Check if all pages are completed
-				const allPagesCompleted = Object.values(data.pageSymbols).every(Boolean);
+				const allPagesCompleted = Object.values(data.pageSymbols).every(
+					Boolean
+				);
 
 				// Get the symbols in the order they were selected
 				const getSymbolOrder = () => {
-					return PAGES.map(page => {
-						const symbolId = data.pageSymbols[page.id as keyof typeof data.pageSymbols];
-						return SYMBOLS.find(s => s.id === symbolId);
+					return PAGES.map((page) => {
+						const symbolId =
+							data.pageSymbols[page.id as keyof typeof data.pageSymbols];
+						return SYMBOLS.find((s) => s.id === symbolId);
 					}).filter(Boolean);
 				};
 
@@ -170,25 +191,28 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 						<div className="pages-section">
 							<h3>Pages - All 4 pages</h3>
 							<p className="pages-description">
-								Record the symbols shown on each page in the room. Each symbol can only be used once.
+								Record the symbols shown on each page in the room. Each symbol
+								can only be used once.
 							</p>
 
 							<div className="pages-grid">
 								{PAGES.map((page) => {
-									const selectedSymbol = data.pageSymbols[page.id as keyof typeof data.pageSymbols];
-									
+									const selectedSymbol =
+										data.pageSymbols[page.id as keyof typeof data.pageSymbols];
+
 									return (
 										<div key={page.id} className="page-card">
 											<div className="page-header">
 												<h4>{page.name}</h4>
 												<span className="page-position">{page.position}</span>
 											</div>
-											
+
 											<div className="symbol-selection">
 												{SYMBOLS.map((symbol) => {
 													const isSelected = selectedSymbol === symbol.id;
-													const isUsedElsewhere = usedSymbols.includes(symbol.id) && !isSelected;
-													
+													const isUsedElsewhere =
+														usedSymbols.includes(symbol.id) && !isSelected;
+
 													return (
 														<button
 															key={symbol.id}
@@ -197,12 +221,19 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 															} ${
 																isUsedElsewhere ? "symbol-option--disabled" : ""
 															}`}
-															onClick={() => handlePageSymbolSelect(page.id, symbol.id)}
+															onClick={() =>
+																handlePageSymbolSelect(page.id, symbol.id)
+															}
 															disabled={isUsedElsewhere}
 														>
 															{(() => {
-																const IconComponent = symbol.icon as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>>;
-																return <IconComponent className="symbol-icon" />;
+																const IconComponent =
+																	symbol.icon as unknown as React.ComponentType<
+																		React.SVGProps<SVGSVGElement>
+																	>;
+																return (
+																	<IconComponent className="symbol-icon" />
+																);
 															})()}
 														</button>
 													);
@@ -219,57 +250,78 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 							<div className="traps-assignment">
 								<h3>Traps</h3>
 								<p className="traps-description">
-									Assign locations to the first 3 traps based on the symbol order from the pages. 
-									The 4th trap is always at Stamina Up.
+									Assign locations to the first 3 traps based on the symbol
+									order from the pages. The 4th trap is always at Stamina Up.
 								</p>
 
 								<div className="traps-grid">
-									{getSymbolOrder().slice(0, 3).map((symbol, index) => {
-										const trapNumber = index + 1;
-										const selectedLocation = data.trapLocations[`trap${trapNumber}` as keyof typeof data.trapLocations];
-										
-										return (
-											<div key={`trap${trapNumber}`} className="trap-card">
-												<div className="trap-header">
-													<h4>Trap {trapNumber}</h4>
-													<div className="trap-symbol">
-														{(() => {
-															const IconComponent = symbol!.icon as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>>;
-															return <IconComponent className="symbol-icon" />;
-														})()}
+									{getSymbolOrder()
+										.slice(0, 3)
+										.map((symbol, index) => {
+											const trapNumber = index + 1;
+											const selectedLocation =
+												data.trapLocations[
+													`trap${trapNumber}` as keyof typeof data.trapLocations
+												];
+
+											return (
+												<div key={`trap${trapNumber}`} className="trap-card">
+													<div className="trap-header">
+														<h4>Trap {trapNumber}</h4>
+														<div className="trap-symbol">
+															{(() => {
+																const IconComponent = symbol!
+																	.icon as unknown as React.ComponentType<
+																	React.SVGProps<SVGSVGElement>
+																>;
+																return (
+																	<IconComponent className="symbol-icon" />
+																);
+															})()}
+														</div>
+													</div>
+
+													<div className="location-selection">
+														<select
+															value={selectedLocation}
+															onChange={(e) =>
+																handleTrapLocationSelect(
+																	trapNumber,
+																	e.target.value
+																)
+															}
+															className="location-select"
+														>
+															<option value="">Select location...</option>
+															{getAvailableLocations(trapNumber).map(
+																(location) => (
+																	<option key={location} value={location}>
+																		{location}
+																	</option>
+																)
+															)}
+														</select>
 													</div>
 												</div>
-												
-												<div className="location-selection">
-													<select
-														value={selectedLocation}
-														onChange={(e) => handleTrapLocationSelect(trapNumber, e.target.value)}
-														className="location-select"
-													>
-														<option value="">Select location...</option>
-														{getAvailableLocations(trapNumber).map((location) => (
-															<option key={location} value={location}>
-																{location}
-															</option>
-														))}
-													</select>
-												</div>
-											</div>
-										);
-									})}
-									
+											);
+										})}
+
 									{/* 4th trap - always Stamina Up */}
 									<div className="trap-card trap-card--fixed">
 										<div className="trap-header">
 											<h4>Trap 4</h4>
 											<div className="trap-symbol">
-												{getSymbolOrder()[3] && (() => {
-													const IconComponent = getSymbolOrder()[3]!.icon as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>>;
-													return <IconComponent className="symbol-icon" />;
-												})()}
+												{getSymbolOrder()[3] &&
+													(() => {
+														const IconComponent = getSymbolOrder()[3]!
+															.icon as unknown as React.ComponentType<
+															React.SVGProps<SVGSVGElement>
+														>;
+														return <IconComponent className="symbol-icon" />;
+													})()}
 											</div>
 										</div>
-										
+
 										<div className="location-fixed">
 											<span className="fixed-location">Stamina Up</span>
 											<small>(Always fixed)</small>
@@ -284,19 +336,24 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 							<h3>Tips</h3>
 							<ul>
 								<li>
-									<strong>Page Location:</strong> All 4 pages are in the same room with fixed positions
+									<strong>Page Location:</strong> All 4 pages are in the same
+									room with fixed positions
 								</li>
 								<li>
-									<strong>Symbol Selection:</strong> Each symbol (0, 1, 4, 8) can only be used once across all pages
+									<strong>Symbol Selection:</strong> Each symbol (0, 1, 4, 8)
+									can only be used once across all pages
 								</li>
 								<li>
-									<strong>Auto-Assignment:</strong> When you select 3 symbols, the 4th will be automatically assigned
+									<strong>Auto-Assignment:</strong> When you select 3 symbols,
+									the 4th will be automatically assigned
 								</li>
 								<li>
-									<strong>Trap Order:</strong> Traps must be activated in the same order as the page symbols
+									<strong>Trap Order:</strong> Traps must be activated in the
+									same order as the page symbols
 								</li>
 								<li>
-									<strong>Final Trap:</strong> The 4th trap location is always Stamina Up and cannot be changed
+									<strong>Final Trap:</strong> The 4th trap location is always
+									Stamina Up and cannot be changed
 								</li>
 							</ul>
 						</div>
