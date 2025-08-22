@@ -2,18 +2,18 @@ import React from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 
-// Import symbol icons
-import number0Icon from "@/assets/symbols/number-0.svg";
-import number1Icon from "@/assets/symbols/number-1.svg";
-import number4Icon from "@/assets/symbols/number-4.svg";
-import number8Icon from "@/assets/symbols/number-8.svg";
+// Import CDM page symbols as React components
+import CdmPage0Icon from "@/assets/symbols/cdm-page-0.svg";
+import CdmPage1Icon from "@/assets/symbols/cdm-page-1.svg";
+import CdmPage4Icon from "@/assets/symbols/cdm-page-4.svg";
+import CdmPage8Icon from "@/assets/symbols/cdm-page-8.svg";
 
 // Symbol data
 const SYMBOLS = [
-	{ id: "0", name: "Symbol 0", icon: number0Icon },
-	{ id: "1", name: "Symbol 1", icon: number1Icon },
-	{ id: "4", name: "Symbol 4", icon: number4Icon },
-	{ id: "8", name: "Symbol 8", icon: number8Icon },
+	{ id: "0", name: "CDM Page 0", icon: CdmPage0Icon },
+	{ id: "1", name: "CDM Page 1", icon: CdmPage1Icon },
+	{ id: "4", name: "CDM Page 4", icon: CdmPage4Icon },
+	{ id: "8", name: "CDM Page 8", icon: CdmPage8Icon },
 ];
 
 // Page data
@@ -200,11 +200,10 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 															onClick={() => handlePageSymbolSelect(page.id, symbol.id)}
 															disabled={isUsedElsewhere}
 														>
-															<img 
-																src={symbol.icon} 
-																alt={symbol.name}
-																className="symbol-icon"
-															/>
+															{(() => {
+																const IconComponent = symbol.icon as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+																return <IconComponent className="symbol-icon" />;
+															})()}
 														</button>
 													);
 												})}
@@ -234,11 +233,10 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 												<div className="trap-header">
 													<h4>Trap {trapNumber}</h4>
 													<div className="trap-symbol">
-														<img 
-															src={symbol!.icon} 
-															alt={symbol!.name}
-															className="symbol-icon"
-														/>
+														{(() => {
+															const IconComponent = symbol!.icon as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+															return <IconComponent className="symbol-icon" />;
+														})()}
 													</div>
 												</div>
 												
@@ -265,13 +263,10 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 										<div className="trap-header">
 											<h4>Trap 4</h4>
 											<div className="trap-symbol">
-												{getSymbolOrder()[3] && (
-													<img 
-														src={getSymbolOrder()[3]!.icon} 
-														alt={getSymbolOrder()[3]!.name}
-														className="symbol-icon"
-													/>
-												)}
+												{getSymbolOrder()[3] && (() => {
+													const IconComponent = getSymbolOrder()[3]!.icon as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+													return <IconComponent className="symbol-icon" />;
+												})()}
 											</div>
 										</div>
 										

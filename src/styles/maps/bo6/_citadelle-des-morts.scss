@@ -13,187 +13,200 @@
 
 .raven-sword-section {
 	// Uses standard section structure with section-header component
-}
 
-// Antiquity Selection
-.antiquity-selection {
-	margin-bottom: space(xl);
+	// Antiquity Selection
+	.antiquity-selection {
+		margin-bottom: space(xl);
 
-	h3 {
-		margin: 0 0 space(sm) 0;
-		color: var(--text-primary);
-		@include fluid-text(xl, semibold, 1.4);
+		h3 {
+			margin: 0 0 space(sm) 0;
+			color: var(--text-primary);
+			@include fluid-text(xl, semibold, 1.4);
+		}
+
+		.selection-description {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-secondary);
+			@include fluid-text(sm, normal, 1.5);
+		}
 	}
 
-	.selection-description {
-		margin: 0 0 space(lg) 0;
-		color: var(--text-secondary);
-		@include fluid-text(sm, normal, 1.5);
-	}
-}
+	.antiquity-grid {
+		// Mobile-first: Single column
+		@include grid(1, space(lg));
 
-.antiquity-grid {
-	// Mobile-first: Single column
-	@include grid(1, space(lg));
+		// Tablet and up: Two columns
+		@include tmd-up {
+			@include grid(2, space(lg));
+		}
 
-	// Tablet and up: Two columns
-	@include tmd-up {
-		@include grid(2, space(lg));
-	}
-
-	// Large screens: Three columns for better spacing
-	@include tlg-up {
-		@include grid(3, space(xl));
-	}
-}
-
-.antiquity-option {
-	@include flex-column;
-	gap: space(md);
-	padding: space(lg);
-	border: 1px solid var(--border-subtle);
-	border-radius: radius(base);
-	background: transparent;
-	cursor: pointer;
-	transition: all 0.2s ease;
-	text-align: center;
-
-	&:hover {
-		border-color: var(--border-color);
-		background: var(--location-card-hover-bg);
-		transform: translateY(-2px);
+		// Large screens: Three columns for better spacing
+		@include tlg-up {
+			@include grid(3, space(xl));
+		}
 	}
 
-	&--selected {
-		border-color: var(--success-color);
+	.antiquity-option {
+		@include flex-column;
+		gap: space(md);
+		padding: space(lg);
+		border: 1px solid var(--border-subtle);
+		border-radius: radius(base);
+		background: transparent;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		text-align: center;
+
+		&:hover {
+			border-color: var(--border-color);
+			background: var(--location-card-hover-bg);
+			transform: translateY(-2px);
+		}
+
+		&--selected {
+			border-color: var(--success-color);
+			background: var(--location-card-completed-bg);
+
+			.antiquity-info h4 {
+				color: var(--success-color);
+			}
+		}
+
+		// Tablet and up: More spacious
+		@include tmd-up {
+			padding: space(xl);
+		}
+	}
+
+	.antiquity-info {
+		h4 {
+			margin: 0 0 space(xs) 0;
+			color: var(--text-primary);
+			@include fluid-text(lg, medium, 1.4);
+			transition: color 0.2s ease;
+		}
+
+		p {
+			margin: 0;
+			color: var(--text-secondary);
+			@include fluid-text(sm, normal, 1.4);
+		}
+	}
+
+	// Dial Combination Display
+	.dial-combination {
+		margin-bottom: space(xl);
+		padding: space(lg);
+		border: 1px solid var(--success-color);
+		border-radius: radius(base);
 		background: var(--location-card-completed-bg);
 
-		.antiquity-info h4 {
+		h3 {
+			margin: 0 0 space(sm) 0;
 			color: var(--success-color);
+			@include fluid-text(xl, semibold, 1.4);
 		}
-	}
 
-	// Tablet and up: More spacious
-	@include tmd-up {
-		padding: space(xl);
-	}
-}
+		.combination-description {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-secondary);
+			@include fluid-text(sm, normal, 1.5);
+		}
 
-.antiquity-info {
-	h4 {
-		margin: 0 0 space(xs) 0;
-		color: var(--text-primary);
-		@include fluid-text(lg, medium, 1.4);
-		transition: color 0.2s ease;
-	}
-
-	p {
-		margin: 0;
-		color: var(--text-secondary);
-		@include fluid-text(sm, normal, 1.4);
-	}
-}
-
-// Dial Combination Display
-.dial-combination {
-	margin-bottom: space(xl);
-	padding: space(lg);
-	border: 1px solid var(--success-color);
-	border-radius: radius(base);
-	background: var(--location-card-completed-bg);
-
-	h3 {
-		margin: 0 0 space(sm) 0;
-		color: var(--success-color);
-		@include fluid-text(xl, semibold, 1.4);
-	}
-
-	.combination-description {
-		margin: 0 0 space(lg) 0;
-		color: var(--text-secondary);
-		@include fluid-text(sm, normal, 1.5);
-	}
-
-	// Tablet and up: More spacious
-	@include tmd-up {
-		padding: space(xl);
-	}
-}
-
-.dial-rings {
-	@include flex-column;
-	gap: space(lg);
-	margin-bottom: space(lg);
-
-	// Tablet and up: Horizontal layout
-	@include tmd-up {
-		flex-direction: row;
-		gap: space(xl);
-	}
-}
-
-.dial-ring {
-	@include flex-column;
-	gap: space(md);
-	padding: space(lg);
-	border: 1px solid var(--border-subtle);
-	border-radius: radius(base);
-	background: transparent;
-	text-align: center;
-
-	// Tablet and up: Equal distribution
-	@include tmd-up {
-		flex: 1;
-		padding: space(xl);
-	}
-
-	h4 {
-		margin: 0;
-		color: var(--text-primary);
-		@include fluid-text(lg, medium, 1.4);
-	}
-
-	&.inner-ring {
-		border-left: 4px solid var(--primary-color);
-	}
-
-	&.outer-ring {
-		border-left: 4px solid var(--accent-color);
-	}
-}
-
-.symbol-display {
-	@include flex-column;
-	align-items: center;
-	gap: space(sm);
-
-	.symbol-icon {
-		width: 48px;
-		height: 48px;
-		filter: invert(0);
-
-		// Larger on tablets and up
+		// Tablet and up: More spacious
 		@include tmd-up {
-			width: 64px;
-			height: 64px;
+			padding: space(xl);
 		}
 	}
 
-	.symbol-name {
-		@include fluid-text(sm, medium, 1.4);
-		color: var(--text-primary);
+	.dial-rings {
+		@include flex-column;
+		gap: space(lg);
+		margin-bottom: space(lg);
+
+		// Tablet and up: Horizontal layout
+		@include tmd-up {
+			flex-direction: row;
+			gap: space(xl);
+		}
 	}
-}
 
-.combination-note {
-	p {
-		margin: 0;
-		@include fluid-text(sm, normal, 1.5);
-		color: var(--text-secondary);
-		font-style: italic;
+	.dial-ring {
+		@include flex-column;
+		gap: space(md);
+		padding: space(lg);
+		border: 1px solid var(--border-subtle);
+		border-radius: radius(base);
+		background: transparent;
+		text-align: center;
 
-		strong {
+		// Tablet and up: Equal distribution
+		@include tmd-up {
+			flex: 1;
+			padding: space(xl);
+		}
+
+		h4 {
+			margin: 0;
 			color: var(--text-primary);
+			@include fluid-text(lg, medium, 1.4);
+		}
+
+		&.inner-ring {
+			// Example: Color the inner ring symbols differently
+			.symbol-icon {
+				color: var(--primary-color);
+			}
+		}
+
+		&.outer-ring {
+			// Example: Color the outer ring symbols differently  
+			.symbol-icon {
+				color: var(--accent-color);
+			}
+		}
+	}
+
+	.symbol-display {
+		@include flex-column;
+		align-items: center;
+		gap: space(sm);
+
+		.symbol-icon {
+			width: 48px;
+			height: 48px;
+			color: var(--text-primary);
+
+			// Larger on tablets and up
+			@include tmd-up {
+				width: 64px;
+				height: 64px;
+			}
+
+			// SVGs will use currentColor for stroke and fill
+			// This allows CSS color manipulation
+			svg {
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		.symbol-name {
+			@include fluid-text(sm, medium, 1.4);
+			color: var(--text-primary);
+		}
+	}
+
+	.combination-note {
+		p {
+			margin: 0;
+			@include fluid-text(sm, normal, 1.5);
+			color: var(--text-secondary);
+			font-style: italic;
+
+			strong {
+				color: var(--text-primary);
+			}
 		}
 	}
 }
@@ -204,234 +217,224 @@
 
 .traps-section {
 	// Uses standard section structure with section-header component
-}
 
-// Pages Section
-.pages-section {
-	margin-bottom: space(xl);
+	// Pages Section
+	.pages-section {
+		margin-bottom: space(xl);
 
-	h3 {
-		margin: 0 0 space(sm) 0;
-		color: var(--text-primary);
-		@include fluid-text(xl, semibold, 1.4);
+		h3 {
+			margin: 0 0 space(sm) 0;
+			color: var(--text-primary);
+			@include fluid-text(xl, semibold, 1.4);
+		}
+
+		.pages-description {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-secondary);
+			@include fluid-text(sm, normal, 1.5);
+		}
 	}
 
-	.pages-description {
-		margin: 0 0 space(lg) 0;
-		color: var(--text-secondary);
-		@include fluid-text(sm, normal, 1.5);
-	}
-}
+	.pages-grid {
+		// Mobile-first: Single column
+		@include grid(1, space(lg));
 
-.pages-grid {
-	// Mobile-first: Single column
-	@include grid(1, space(lg));
+		// Tablet and up: Two columns
+		@include tmd-up {
+			@include grid(2, space(lg));
+		}
 
-	// Tablet and up: Two columns
-	@include tmd-up {
-		@include grid(2, space(lg));
-	}
-
-	// Large screens: Four columns (one per page)
-	@include tlg-up {
-		@include grid(4, space(lg));
-	}
-}
-
-.page-card {
-	@include flex-column;
-	gap: space(md);
-	padding: space(lg);
-	border: 1px solid var(--border-subtle);
-	border-radius: radius(base);
-	background: transparent;
-
-	// Tablet and up: More spacious
-	@include tmd-up {
-		padding: space(xl);
-	}
-}
-
-.page-header {
-	text-align: center;
-	margin-bottom: space(md);
-
-	h4 {
-		margin: 0 0 space(xs) 0;
-		color: var(--text-primary);
-		@include fluid-text(lg, medium, 1.4);
+		// Large screens: Four columns (one per page)
+		@include tlg-up {
+			@include grid(4, space(lg));
+		}
 	}
 
-	.page-position {
-		@include fluid-text(xs, normal, 1.3);
-		color: var(--text-muted);
-		font-style: italic;
-	}
-}
-
-.symbol-selection {
-	@include grid(2, space(sm));
-
-	// Mobile adjustment: Ensure symbols aren't too small
-	@include tmd-up {
-		@include grid(2, space(md));
-	}
-}
-
-.symbol-option {
-	@include flex-center;
-	aspect-ratio: 1;
-	padding: space(sm);
-	border: 1px solid var(--border-subtle);
-	border-radius: radius(sm);
-	background: transparent;
-	cursor: pointer;
-	transition: all 0.2s ease;
-
-	&:hover:not(:disabled) {
-		border-color: var(--border-color);
-		background: var(--location-card-hover-bg);
-		transform: scale(1.05);
-	}
-
-	&--selected {
-		border-color: var(--success-color);
-		background: var(--location-card-completed-bg);
-	}
-
-	&--disabled {
-		opacity: 0.4;
-		cursor: not-allowed;
+	.page-card {
+		@include flex-column;
+		gap: space(md);
+		padding: space(lg);
+		border: 1px solid var(--border-subtle);
+		border-radius: radius(base);
 		background: transparent;
 
-		&:hover {
-			transform: none;
-			border-color: var(--border-subtle);
-			background: transparent;
-		}
-	}
-
-	.symbol-icon {
-		width: 32px;
-		height: 32px;
-		filter: invert(0);
-
-		// Larger on tablets
+		// Tablet and up: More spacious
 		@include tmd-up {
-			width: 40px;
-			height: 40px;
+			padding: space(xl);
 		}
 	}
-}
 
-// Traps Assignment Section
-.traps-assignment {
-	margin-bottom: space(xl);
-	padding: space(lg);
-	border: 1px solid var(--border-color);
-	border-radius: radius(base);
-	background: transparent;
-	animation: fadeInUp 0.3s ease;
-
-	h3 {
-		margin: 0 0 space(sm) 0;
-		color: var(--primary-color);
-		@include fluid-text(xl, semibold, 1.4);
-	}
-
-	.traps-description {
-		margin: 0 0 space(lg) 0;
-		color: var(--text-secondary);
-		@include fluid-text(sm, normal, 1.5);
-	}
-
-	// Tablet and up: More spacious
-	@include tmd-up {
-		padding: space(xl);
-	}
-}
-
-.traps-grid {
-	// Mobile-first: Single column
-	@include grid(1, space(lg));
-
-	// Tablet and up: Two columns
-	@include tmd-up {
-		@include grid(2, space(lg));
-	}
-
-	// Large screens: Four columns (one per trap)
-	@include tlg-up {
-		@include grid(4, space(lg));
-	}
-}
-
-.trap-card {
-	@include flex-column;
-	gap: space(md);
-	padding: space(lg);
-	border: 1px solid var(--border-subtle);
-	border-radius: radius(base);
-	background: transparent;
-
-	&--fixed {
-		border-color: var(--accent-color);
-		background: var(--location-card-completed-bg);
-	}
-
-	// Tablet and up: More spacious
-	@include tmd-up {
-		padding: space(xl);
-	}
-}
-
-.trap-header {
-	@include flex-column;
-	align-items: center;
-	gap: space(sm);
-	margin-bottom: space(md);
-
-	h4 {
-		margin: 0;
-		color: var(--text-primary);
-		@include fluid-text(lg, medium, 1.4);
-	}
-
-	.trap-symbol .symbol-icon {
-		width: 40px;
-		height: 40px;
-		filter: invert(0);
-
-		@include tmd-up {
-			width: 48px;
-			height: 48px;
-		}
-	}
-}
-
-.location-selection {
-	.location-select {
-		@include input-base;
-		width: 100%;
+	.page-header {
 		text-align: center;
-		@include fluid-text(sm, normal, 1.4);
+		margin-bottom: space(md);
+
+		h4 {
+			margin: 0 0 space(xs) 0;
+			color: var(--text-primary);
+			@include fluid-text(lg, medium, 1.4);
+		}
+
+		.page-position {
+			@include fluid-text(xs, normal, 1.3);
+			color: var(--text-muted);
+			font-style: italic;
+		}
 	}
-}
 
-.location-fixed {
-	text-align: center;
+	.symbol-selection {
+		@include grid(2, space(sm));
 
-	.fixed-location {
-		display: block;
-		@include fluid-text(lg, medium, 1.4);
-		color: var(--accent-color);
-		margin-bottom: space(xs);
+		// Mobile adjustment: Ensure symbols aren't too small
+		@include tmd-up {
+			@include grid(2, space(md));
+		}
 	}
 
-	small {
-		@include fluid-text(xs, normal, 1.3);
-		color: var(--text-muted);
-		font-style: italic;
+	.symbol-option {
+		@include flex-center;
+		aspect-ratio: 1;
+		padding: space(sm);
+		border: 1px solid var(--border-subtle);
+		border-radius: radius(sm);
+		background: transparent;
+		cursor: pointer;
+		transition: all 0.2s ease;
+
+		&:hover:not(:disabled) {
+			border-color: var(--border-color);
+			background: var(--location-card-hover-bg);
+			transform: scale(1.05);
+		}
+
+		&--selected {
+			border-color: var(--success-color);
+			background: var(--location-card-completed-bg);
+		}
+
+		&--disabled {
+			opacity: 0.4;
+			cursor: not-allowed;
+			background: transparent;
+
+			&:hover {
+				transform: none;
+				border-color: var(--border-subtle);
+				background: transparent;
+			}
+		}
+
+		.symbol-icon {
+			width: 100%;
+			height: 100%;
+			color: white;
+		}
+	}
+
+	// Traps Assignment Section
+	.traps-assignment {
+		margin-bottom: space(xl);
+		padding: space(lg);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		background: transparent;
+		animation: fadeInUp 0.3s ease;
+
+		h3 {
+			margin: 0 0 space(sm) 0;
+			color: var(--primary-color);
+			@include fluid-text(xl, semibold, 1.4);
+		}
+
+		.traps-description {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-secondary);
+			@include fluid-text(sm, normal, 1.5);
+		}
+
+		// Tablet and up: More spacious
+		@include tmd-up {
+			padding: space(xl);
+		}
+	}
+
+	.traps-grid {
+		// Mobile-first: Single column
+		@include grid(1, space(lg));
+
+		// Tablet and up: Two columns
+		@include tmd-up {
+			@include grid(2, space(lg));
+		}
+
+		// Large screens: Four columns (one per trap)
+		@include tlg-up {
+			@include grid(4, space(lg));
+		}
+	}
+
+	.trap-card {
+		@include flex-column;
+		gap: space(md);
+		padding: space(lg);
+		border: 1px solid var(--border-subtle);
+		border-radius: radius(base);
+		background: transparent;
+
+		&--fixed {
+			border-color: var(--accent-color);
+			background: var(--location-card-completed-bg);
+		}
+
+		// Tablet and up: More spacious
+		@include tmd-up {
+			padding: space(xl);
+		}
+	}
+
+	.trap-header {
+		@include flex-column;
+		align-items: center;
+		gap: space(sm);
+		margin-bottom: space(md);
+
+		h4 {
+			margin: 0;
+			color: var(--text-primary);
+			@include fluid-text(lg, medium, 1.4);
+		}
+
+		.trap-symbol .symbol-icon {
+			width: 100%;
+			height: 100%;
+			max-width: 80px;
+			max-height: 80px;
+		}
+	}
+
+	.location-selection {
+		.location-select {
+			@include input-base;
+			width: 100%;
+			text-align: center;
+			@include fluid-text(sm, normal, 1.4);
+		}
+	}
+
+	.location-fixed {
+		text-align: center;
+
+		.fixed-location {
+			display: block;
+			@include fluid-text(lg, medium, 1.4);
+			color: var(--accent-color);
+			margin-bottom: space(xs);
+		}
+
+		small {
+			@include fluid-text(xs, normal, 1.3);
+			color: var(--text-muted);
+			font-style: italic;
+		}
 	}
 }
 
