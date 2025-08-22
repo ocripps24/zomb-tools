@@ -88,12 +88,11 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 			}}
 			{...props}
 		>
-			{({ data, setData, progress }) => {
+			{({ data, setData }) => {
 				// Get used symbols to grey them out
 				const usedSymbols = Object.values(data.pageSymbols).filter(Boolean);
 
 				// Auto-assign the 4th symbol when 3 are selected
-				const assignedSymbols = [...usedSymbols];
 				if (usedSymbols.length === 3) {
 					const remainingSymbol = SYMBOLS.find(
 						(s) => !usedSymbols.includes(s.id)
