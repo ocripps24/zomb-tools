@@ -8,692 +8,692 @@
 // Documents section layout
 .documents-section {
 	// Uses standard section structure with section-header component
-}
 
-// Documents grid layout
-.documents-grid {
-	margin-bottom: space(xl);
-	// Mobile-first: Start with smaller gap
-	@include responsive-grid(1, 2, 3, space(md));
+	// Documents grid layout
+	.documents-grid {
+		margin-bottom: space(xl);
+		// Mobile-first: Start with smaller gap
+		@include responsive-grid(1, 2, 3, space(md));
 
-	// Tablet and up: Larger gap
-	@include tmd-up {
-		gap: space(lg);
-	}
-}
-
-.document-card {
-	// Use CSS Grid for consistent layout across devices
-	display: grid;
-	grid-template-columns: auto 1fr auto;
-	grid-template-areas: "number info status";
-	align-items: center;
-	gap: space(sm);
-
-	// Mobile-first: Start with mobile styles
-	background-color: transparent;
-	border: 1px solid var(--border-subtle);
-	border-radius: radius(base);
-	padding: space(md) space(sm);
-	cursor: pointer;
-	transition: transition(base);
-
-	// Tablet and up: Enhanced desktop styles
-	@include tmd-up {
-		padding: space(lg);
-		gap: space(md);
-	}
-
-	&:hover:not(&--disabled) {
-		border-color: var(--border-color);
-	}
-
-	&--selected {
-		// Mobile-first: Start with mobile selected state
-		border-color: var(--success-color);
-		background-color: var(--location-card-completed-bg);
-
-		// Tablet and up: Full border selected state
+		// Tablet and up: Larger gap
 		@include tmd-up {
-			border-color: var(--success-color);
+			gap: space(lg);
 		}
 	}
 
-	&--disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-}
+	.document-card {
+		// Use CSS Grid for consistent layout across devices
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		grid-template-areas: "number info status";
+		align-items: center;
+		gap: space(sm);
 
-.document-number {
-	grid-area: number;
-	font-weight: font-weight(bold);
-	color: var(--text-primary);
-	@include fluid-text(2xl, bold, 1.2);
-	flex-shrink: 0;
-	padding-right: space(sm);
+		// Mobile-first: Start with mobile styles
+		background-color: transparent;
+		border: 1px solid var(--border-subtle);
+		border-radius: radius(base);
+		padding: space(md) space(sm);
+		cursor: pointer;
+		transition: transition(base);
 
-	@include tsm-up {
-		// padding-right: 0;
-	}
-}
+		// Tablet and up: Enhanced desktop styles
+		@include tmd-up {
+			padding: space(lg);
+			gap: space(md);
+		}
 
-.document-status {
-	grid-area: status;
-	@include flex-center;
-	@include touch-target(24px);
-	font-size: font-size(lg);
-	font-weight: font-weight(bold);
-	color: var(--text-primary);
-	min-width: 24px;
+		&:hover:not(&--disabled) {
+			border-color: var(--border-color);
+		}
 
-	.document-card--selected & {
-		color: var(--success-color);
-	}
-}
+		&--selected {
+			// Mobile-first: Start with mobile selected state
+			border-color: var(--success-color);
+			background-color: var(--location-card-completed-bg);
 
-.document-info {
-	grid-area: info;
-	@include flex-column;
-	gap: space(xs);
-}
+			// Tablet and up: Full border selected state
+			@include tmd-up {
+				border-color: var(--success-color);
+			}
+		}
 
-.document-name {
-	margin: 0;
-	color: var(--text-primary);
-	// Fluid typography: automatically scales from mobile to desktop
-	@include fluid-text(base, medium, 1.4);
-}
-
-.document-date {
-	margin: 0;
-	color: var(--text-secondary);
-	// Fluid typography: automatically scales from mobile to desktop
-	@include fluid-text(sm, normal, 1.3);
-}
-
-// Code preview section
-.code-preview {
-	margin-bottom: space(xl);
-	padding: space(lg);
-	border: 1px solid var(--border-color);
-	border-radius: radius(base);
-	background-color: transparent;
-
-	@include tmd-up {
-		padding: space(2xl);
+		&--disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
 	}
 
-	h4 {
-		margin: 0 0 space(lg) 0;
+	.document-number {
+		grid-area: number;
+		font-weight: font-weight(bold);
 		color: var(--text-primary);
-		// Fluid heading: scales smoothly across devices
-		@include heading-4;
+		@include fluid-text(2xl, bold, 1.2);
+		flex-shrink: 0;
+		padding-right: space(sm);
+
+		@include tsm-up {
+			// padding-right: 0;
+		}
 	}
-}
 
-.code-display {
-	@include flex-center;
-	@include flex-column;
-	gap: space(sm);
-	text-align: center;
-	// margin-bottom: 0;
-}
+	.document-status {
+		grid-area: status;
+		@include flex-center;
+		@include touch-target(24px);
+		font-size: font-size(lg);
+		font-weight: font-weight(bold);
+		color: var(--text-primary);
+		min-width: 24px;
 
-.code-value {
-	font-family: font-family(mono);
-	font-size: font-size(3xl);
-	font-weight: font-weight(bold);
-	color: var(--success-color);
-	background: transparent;
-	padding: space(md) space(lg);
-	border-radius: radius(base);
-	border: 2px solid var(--success-color);
+		.document-card--selected & {
+			color: var(--success-color);
+		}
+	}
 
-	// Mobile-first: Start with mobile styles, then scale up
-	font-size: font-size(2xl);
-	padding: space(sm) space(md);
+	.document-info {
+		grid-area: info;
+		@include flex-column;
+		gap: space(xs);
+	}
 
-	// Tablet and up: Larger styles
-	@include tmd-up {
+	.document-name {
+		margin: 0;
+		color: var(--text-primary);
+		// Fluid typography: automatically scales from mobile to desktop
+		@include fluid-text(base, medium, 1.4);
+	}
+
+	.document-date {
+		margin: 0;
+		color: var(--text-secondary);
+		// Fluid typography: automatically scales from mobile to desktop
+		@include fluid-text(sm, normal, 1.3);
+	}
+
+	// Code preview section
+	.code-preview {
+		margin-bottom: space(xl);
+		padding: space(lg);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		background-color: transparent;
+
+		@include tmd-up {
+			padding: space(2xl);
+		}
+
+		h4 {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-primary);
+			// Fluid heading: scales smoothly across devices
+			@include heading-4;
+		}
+	}
+
+	.code-display {
+		@include flex-center;
+		@include flex-column;
+		gap: space(sm);
+		text-align: center;
+		// margin-bottom: 0;
+	}
+
+	.code-value {
+		font-family: font-family(mono);
 		font-size: font-size(3xl);
+		font-weight: font-weight(bold);
+		color: var(--success-color);
+		background: transparent;
 		padding: space(md) space(lg);
+		border-radius: radius(base);
+		border: 2px solid var(--success-color);
+
+		// Mobile-first: Start with mobile styles, then scale up
+		font-size: font-size(2xl);
+		padding: space(sm) space(md);
+
+		// Tablet and up: Larger styles
+		@include tmd-up {
+			font-size: font-size(3xl);
+			padding: space(md) space(lg);
+		}
 	}
-}
 
-.code-note {
-	color: var(--text-secondary);
-	font-size: font-size(sm);
-	font-style: italic;
-}
+	.code-note {
+		color: var(--text-secondary);
+		font-size: font-size(sm);
+		font-style: italic;
+	}
 
-.code-instruction {
-	margin-top: space(md);
-	color: var(--text-primary);
-	font-size: font-size(sm);
-	text-align: center;
+	.code-instruction {
+		margin-top: space(md);
+		color: var(--text-primary);
+		font-size: font-size(sm);
+		text-align: center;
+	}
 }
 
 // Door code section styles
 .door-code-section {
 	// Uses standard section structure with section-header component
-}
 
-// Screens input grid
-.screens-grid {
-	// Mobile-first: Single column
-	@include grid(1, space(lg));
-	margin-bottom: space(xl);
+	// Screens input grid
+	.screens-grid {
+		// Mobile-first: Single column
+		@include grid(1, space(lg));
+		margin-bottom: space(xl);
 
-	// Tablet and up: Two columns
-	@include tmd-up {
-		grid-template-columns: repeat(2, 1fr);
-	}
-}
-
-.screen-input {
-	@include flex-column;
-	gap: space(sm);
-}
-
-.screen-label {
-	@include flex-column;
-	gap: space(xs);
-	font-size: font-size(sm);
-	font-weight: font-weight(medium);
-	color: var(--text-primary);
-}
-
-.screen-note {
-	font-size: font-size(xs);
-	font-weight: font-weight(normal);
-	color: var(--text-secondary);
-	font-style: italic;
-}
-
-.screen-word-input {
-	@include input-base;
-	padding: space(md);
-	font-size: font-size(base);
-	text-align: center;
-	text-transform: uppercase;
-
-	&:focus {
-		border-color: var(--accent-color);
-		box-shadow: 0 0 0 1px var(--accent-color);
-	}
-}
-
-// Word dictionaries
-.word-dictionaries {
-	margin-bottom: space(xl);
-	background-color: transparent;
-
-	@include tmd-up {
-		padding: space(2xl);
-		border: 1px solid var(--border-color);
-		border-radius: radius(base);
-	}
-
-	h4 {
-		margin: 0 0 space(sm) 0;
-		color: var(--text-primary);
-		font-size: font-size(xl);
-	}
-
-	.dictionaries-description {
-		margin: 0 0 space(xl) 0;
-		color: var(--text-secondary);
-		font-size: font-size(sm);
-	}
-}
-
-.dictionaries-grid {
-	// Mobile-first: Single column
-	@include grid(1, space(xl));
-
-	// Tablet and up: Two columns
-	@include tmd-up {
-		grid-template-columns: repeat(2, 1fr);
-	}
-}
-
-.dictionary-column {
-	@include flex-column;
-	gap: space(md);
-
-	h5 {
-		margin: 0;
-		color: var(--text-primary);
-		font-size: font-size(base);
-		font-weight: font-weight(semibold);
-		text-align: center;
-		padding-bottom: space(sm);
-		border-bottom: 1px solid var(--border-subtle);
-	}
-}
-
-.word-buttons {
-	display: grid;
-	// Mobile-first: Smaller buttons, tighter spacing
-	grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-	gap: 2px;
-
-	// Tablet and up: Larger buttons, more spacing
-	@include tmd-up {
-		grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-		gap: space(xs);
-	}
-}
-
-.word-btn {
-	@include button-base;
-	@include button-secondary;
-	// Mobile-first: Compact styling
-	padding: space(xs);
-	font-size: font-size(xs);
-	font-weight: font-weight(medium);
-	text-transform: uppercase;
-	transition: transition(base);
-	min-height: 28px;
-
-	// Tablet and up: More spacious
-	@include tmd-up {
-		padding: space(xs) space(sm);
-		min-height: 32px;
-	}
-
-	&:hover:not(&--selected) {
-		background-color: var(--bg-tertiary);
-		border-color: var(--accent-color);
-	}
-
-	&--selected {
-		background-color: var(--accent-color);
-		color: var(--btn-primary-text);
-		border-color: var(--accent-color);
-	}
-}
-
-.door-code-result {
-	margin-bottom: space(xl);
-	padding: space(xl);
-	border: 2px solid var(--success-color);
-	border-radius: radius(base);
-	background: var(--location-card-completed-bg);
-	text-align: center;
-
-	h4 {
-		margin: 0 0 space(md) 0;
-		color: var(--success-color);
-		font-size: font-size(xl);
-	}
-
-	// Left align content when showing multiple possibilities
-	&--multiple {
-		text-align: left;
-
-		h4,
-		.code-instruction {
-			text-align: left;
+		// Tablet and up: Two columns
+		@include tmd-up {
+			grid-template-columns: repeat(2, 1fr);
 		}
 	}
-}
 
-// Single match layout - door code and element side by side
-.door-code-single-layout {
-	display: grid;
-	// Mobile-first: single column
-	grid-template-columns: 1fr;
-	gap: space(xl);
-	margin-bottom: space(lg);
-
-	// Tablet and up: two columns
-	@include tmd-up {
-		grid-template-columns: 1fr 1fr;
-		gap: space(2xl);
+	.screen-input {
+		@include flex-column;
+		gap: space(sm);
 	}
-}
 
-.door-code-single-layout .door-code-section,
-.door-code-single-layout .element-section {
-	@include flex-column;
-	align-items: center;
-	gap: space(md);
-}
-
-.element-not-found {
-	padding: space(lg);
-	border: 1px solid var(--danger-color);
-	border-radius: radius(base);
-	background: rgba(220, 38, 38, 0.1);
-
-	p {
-		margin: 0;
-		color: var(--danger-color);
+	.screen-label {
+		@include flex-column;
+		gap: space(xs);
 		font-size: font-size(sm);
-		text-align: center;
+		font-weight: font-weight(medium);
+		color: var(--text-primary);
 	}
-}
 
-.door-code-formatted {
-	color: var(--success-color);
-	font-size: font-size(xl);
-	font-family: font-family(mono);
-	background: var(--location-card-completed-bg);
-	padding: space(xs) space(sm);
-	border-radius: radius(base);
-	border: 2px solid var(--success-color);
+	.screen-note {
+		font-size: font-size(xs);
+		font-weight: font-weight(normal);
+		color: var(--text-secondary);
+		font-style: italic;
+	}
 
-	&.door-code-large {
+	.screen-word-input {
+		@include input-base;
+		padding: space(md);
+		font-size: font-size(base);
+		text-align: center;
+		text-transform: uppercase;
+
+		&:focus {
+			border-color: var(--accent-color);
+			box-shadow: 0 0 0 1px var(--accent-color);
+		}
+	}
+
+	// Word dictionaries
+	.word-dictionaries {
+		margin-bottom: space(xl);
+		background-color: transparent;
+
+		@include tmd-up {
+			padding: space(2xl);
+			border: 1px solid var(--border-color);
+			border-radius: radius(base);
+		}
+
+		h4 {
+			margin: 0 0 space(sm) 0;
+			color: var(--text-primary);
+			font-size: font-size(xl);
+		}
+
+		.dictionaries-description {
+			margin: 0 0 space(xl) 0;
+			color: var(--text-secondary);
+			font-size: font-size(sm);
+		}
+	}
+
+	.dictionaries-grid {
+		// Mobile-first: Single column
+		@include grid(1, space(xl));
+
+		// Tablet and up: Two columns
+		@include tmd-up {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	.dictionary-column {
+		@include flex-column;
+		gap: space(md);
+
+		h5 {
+			margin: 0;
+			color: var(--text-primary);
+			font-size: font-size(base);
+			font-weight: font-weight(semibold);
+			text-align: center;
+			padding-bottom: space(sm);
+			border-bottom: 1px solid var(--border-subtle);
+		}
+	}
+
+	.word-buttons {
+		display: grid;
+		// Mobile-first: Smaller buttons, tighter spacing
+		grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+		gap: 2px;
+
+		// Tablet and up: Larger buttons, more spacing
+		@include tmd-up {
+			grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+			gap: space(xs);
+		}
+	}
+
+	.word-btn {
+		@include button-base;
+		@include button-secondary;
+		// Mobile-first: Compact styling
+		padding: space(xs);
+		font-size: font-size(xs);
+		font-weight: font-weight(medium);
+		text-transform: uppercase;
+		transition: transition(base);
+		min-height: 28px;
+
+		// Tablet and up: More spacious
+		@include tmd-up {
+			padding: space(xs) space(sm);
+			min-height: 32px;
+		}
+
+		&:hover:not(&--selected) {
+			background-color: var(--bg-tertiary);
+			border-color: var(--accent-color);
+		}
+
+		&--selected {
+			background-color: var(--accent-color);
+			color: var(--btn-primary-text);
+			border-color: var(--accent-color);
+		}
+	}
+
+	.door-code-result {
+		margin-bottom: space(xl);
+		padding: space(xl);
+		border: 2px solid var(--success-color);
+		border-radius: radius(base);
+		background: var(--location-card-completed-bg);
+		text-align: center;
+
+		h4 {
+			margin: 0 0 space(md) 0;
+			color: var(--success-color);
+			font-size: font-size(xl);
+		}
+
+		// Left align content when showing multiple possibilities
+		&--multiple {
+			text-align: left;
+
+			h4,
+			.code-instruction {
+				text-align: left;
+			}
+		}
+	}
+
+	// Single match layout - door code and element side by side
+	.door-code-single-layout {
+		display: grid;
+		// Mobile-first: single column
+		grid-template-columns: 1fr;
+		gap: space(xl);
+		margin-bottom: space(lg);
+
+		// Tablet and up: two columns
+		@include tmd-up {
+			grid-template-columns: 1fr 1fr;
+			gap: space(2xl);
+		}
+	}
+
+	.door-code-single-layout .door-code-section,
+	.door-code-single-layout .element-section {
+		@include flex-column;
+		align-items: center;
+		gap: space(md);
+	}
+
+	.element-not-found {
+		padding: space(lg);
+		border: 1px solid var(--danger-color);
+		border-radius: radius(base);
+		background: rgba(220, 38, 38, 0.1);
+
+		p {
+			margin: 0;
+			color: var(--danger-color);
+			font-size: font-size(sm);
+			text-align: center;
+		}
+	}
+
+	.door-code-formatted {
+		color: var(--success-color);
+		font-size: font-size(xl);
+		font-family: font-family(mono);
+		background: var(--location-card-completed-bg);
+		padding: space(xs) space(sm);
+		border-radius: radius(base);
+		border: 2px solid var(--success-color);
+
+		&.door-code-large {
+			font-size: font-size(4xl);
+			padding: space(sm) space(lg);
+
+			@include tmd-up {
+				font-size: font-size(5xl);
+				padding: space(md) space(xl);
+			}
+		}
+	}
+
+	// Possible elements display
+	.possible-category {
+		margin-top: space(lg);
+
+		h5 {
+			margin: 0 0 space(md) 0;
+			color: var(--text-primary);
+			font-size: font-size(sm);
+			font-weight: font-weight(semibold);
+		}
+	}
+
+	.possible-codes {
+		display: grid;
+		// Mobile-first: Smaller items, tighter spacing
+		grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+		gap: space(xs);
+
+		// Tablet and up: Larger items, more spacing
+		@include tmd-up {
+			grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+			gap: space(sm);
+		}
+	}
+
+	.possible-code-item {
+		@include flex-column;
+		align-items: center;
+		// Mobile-first: Compact padding
+		padding: space(xs);
+		border: 1px solid var(--border-color);
+		border-radius: radius(sm);
+		background: transparent;
+		text-align: center;
+
+		// Tablet and up: More spacious padding
+		@include tmd-up {
+			padding: space(sm);
+		}
+	}
+
+	.element-display {
+		font-weight: font-weight(bold);
+		color: var(--text-primary);
+		// Mobile-first: Smaller text
+		font-size: font-size(sm);
+		margin-bottom: space(xs);
+		padding: space(xs) space(sm);
+		border: 1px solid var(--border-color);
+		border-radius: radius(sm);
+		background-color: transparent;
+
+		// Tablet and up: Larger text
+		@include tmd-up {
+			font-size: font-size(base);
+			padding: space(sm);
+		}
+	}
+
+	.code-display-small {
+		font-family: font-family(mono);
+		color: var(--success-color);
+		// Mobile-first: Smaller font and padding
+		font-size: font-size(xs);
+		font-weight: font-weight(bold);
+		padding: 2px space(xs);
+		border: 1px solid var(--success-color);
+		border-radius: radius(sm);
+		background: var(--location-card-completed-bg);
+
+		// Tablet and up: Larger font and padding
+		@include tmd-up {
+			font-size: font-size(sm);
+			padding: space(xs) space(sm);
+		}
+	}
+
+	// Element symbol display
+	.element-symbol-display {
+		@include flex-column;
+		align-items: center;
+		gap: space(sm);
+		margin-bottom: space(lg);
+	}
+
+	.large-symbol {
+		font-family: font-family(mono);
 		font-size: font-size(4xl);
-		padding: space(sm) space(lg);
+		font-weight: font-weight(bold);
+		color: var(--success-color);
+		background: var(--location-card-completed-bg);
+		padding: space(md);
+		border-radius: radius(base);
+		border: 2px solid var(--success-color);
+		position: relative;
+		display: inline-block;
 
 		@include tmd-up {
 			font-size: font-size(5xl);
-			padding: space(md) space(xl);
+			padding: space(md) space(2xl);
 		}
 	}
-}
 
-// Possible elements display
-.possible-category {
-	margin-top: space(lg);
-
-	h5 {
-		margin: 0 0 space(md) 0;
-		color: var(--text-primary);
+	.atomic-number-overlay {
+		position: absolute;
+		top: space(xs);
+		right: space(xs);
 		font-size: font-size(sm);
-		font-weight: font-weight(semibold);
+		font-weight: font-weight(bold);
+		color: var(--success-color);
+		padding: 2px space(xs);
+		// border-radius: radius(sm);
+		// border: 1px solid var(--success-color);
+		line-height: 1;
+
+		@include tmd-up {
+			top: space(sm);
+			right: space(sm);
+			font-size: font-size(base);
+			padding: space(xs) space(sm);
+		}
 	}
-}
 
-.possible-codes {
-	display: grid;
-	// Mobile-first: Smaller items, tighter spacing
-	grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-	gap: space(xs);
-
-	// Tablet and up: Larger items, more spacing
-	@include tmd-up {
-		grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-		gap: space(sm);
-	}
-}
-
-.possible-code-item {
-	@include flex-column;
-	align-items: center;
-	// Mobile-first: Compact padding
-	padding: space(xs);
-	border: 1px solid var(--border-color);
-	border-radius: radius(sm);
-	background: transparent;
-	text-align: center;
-
-	// Tablet and up: More spacious padding
-	@include tmd-up {
-		padding: space(sm);
-	}
-}
-
-.element-display {
-	font-weight: font-weight(bold);
-	color: var(--text-primary);
-	// Mobile-first: Smaller text
-	font-size: font-size(sm);
-	margin-bottom: space(xs);
-	padding: space(xs) space(sm);
-	border: 1px solid var(--border-color);
-	border-radius: radius(sm);
-	background-color: transparent;
-
-	// Tablet and up: Larger text
-	@include tmd-up {
-		font-size: font-size(base);
-		padding: space(sm);
-	}
-}
-
-.code-display-small {
-	font-family: font-family(mono);
-	color: var(--success-color);
-	// Mobile-first: Smaller font and padding
-	font-size: font-size(xs);
-	font-weight: font-weight(bold);
-	padding: 2px space(xs);
-	border: 1px solid var(--success-color);
-	border-radius: radius(sm);
-	background: var(--location-card-completed-bg);
-
-	// Tablet and up: Larger font and padding
-	@include tmd-up {
-		font-size: font-size(sm);
-		padding: space(xs) space(sm);
-	}
-}
-
-// Element symbol display
-.element-symbol-display {
-	@include flex-column;
-	align-items: center;
-	gap: space(sm);
-	margin-bottom: space(lg);
-}
-
-.large-symbol {
-	font-family: font-family(mono);
-	font-size: font-size(4xl);
-	font-weight: font-weight(bold);
-	color: var(--success-color);
-	background: var(--location-card-completed-bg);
-	padding: space(md);
-	border-radius: radius(base);
-	border: 2px solid var(--success-color);
-	position: relative;
-	display: inline-block;
-
-	@include tmd-up {
-		font-size: font-size(5xl);
-		padding: space(md) space(2xl);
-	}
-}
-
-.atomic-number-overlay {
-	position: absolute;
-	top: space(xs);
-	right: space(xs);
-	font-size: font-size(sm);
-	font-weight: font-weight(bold);
-	color: var(--success-color);
-	padding: 2px space(xs);
-	// border-radius: radius(sm);
-	// border: 1px solid var(--success-color);
-	line-height: 1;
-
-	@include tmd-up {
-		top: space(sm);
-		right: space(sm);
-		font-size: font-size(base);
-		padding: space(xs) space(sm);
-	}
-}
-
-.atomic-number {
-	color: var(--text-secondary);
-	font-size: font-size(sm);
-	font-weight: font-weight(medium);
-}
-
-.multiple-possibilities {
-	padding: space(lg);
-	border: 1px solid var(--warning-color);
-	border-radius: radius(base);
-	background: rgba(var(--warning-color-rgb), 0.1);
-	text-align: center;
-
-	p {
-		margin: 0;
-		color: var(--warning-color);
+	.atomic-number {
+		color: var(--text-secondary);
 		font-size: font-size(sm);
 		font-weight: font-weight(medium);
 	}
-}
 
-// Periodic table reference
-.periodic-table-reference {
-	// Mobile-first: Start with mobile padding
-	padding: space(lg);
-	border: 1px solid var(--border-color);
-	border-radius: radius(base);
-	background-color: transparent;
-
-	// Tablet and up: More spacious padding
-	@include tmd-up {
-		padding: space(2xl);
-	}
-
-	h4 {
-		margin: 0 0 space(lg) 0;
-		color: var(--text-primary);
-		@include fluid-text(base, medium, 1.3);
-	}
-}
-
-// Rotation message - shown only in mobile portrait
-.rotation-message {
-	display: none; // Hidden by default
-
-	// Show only on mobile devices in portrait mode
-	@media (max-width: #{breakpoint(tmd) - 1px}) and (orientation: portrait) {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		min-height: 300px;
+	.multiple-possibilities {
+		padding: space(lg);
+		border: 1px solid var(--warning-color);
+		border-radius: radius(base);
+		background: rgba(var(--warning-color-rgb), 0.1);
 		text-align: center;
-	}
-}
 
-.rotation-content {
-	@include flex-column;
-	align-items: center;
-	gap: space(lg);
-}
-
-.rotation-icon {
-	@include fluid-text(6xl, normal, 1);
-	opacity: 0.8;
-	animation: pulse 2s ease-in-out infinite;
-
-	@keyframes pulse {
-		0%,
-		100% {
-			transform: scale(1);
-			opacity: 0.8;
-		}
-		50% {
-			transform: scale(1.1);
-			opacity: 1;
+		p {
+			margin: 0;
+			color: var(--warning-color);
+			font-size: font-size(sm);
+			font-weight: font-weight(medium);
 		}
 	}
-}
 
-.rotation-message p {
-	margin: 0;
-	color: var(--text-secondary);
-	@include fluid-text(lg, medium, 1.4);
-}
+	// Periodic table reference
+	.periodic-table-reference {
+		// Mobile-first: Start with mobile padding
+		padding: space(lg);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		background-color: transparent;
 
-.periodic-table-grid {
-	display: grid;
-	grid-template-columns: repeat(18, 1fr);
-	grid-template-rows: repeat(
-		9,
-		auto
-	); // 7 periods + 2 for lanthanides/actinides
-	gap: 2px;
-	@include fluid-text(xs, normal, 1);
+		// Tablet and up: More spacious padding
+		@include tmd-up {
+			padding: space(2xl);
+		}
 
-	// Hide in mobile portrait mode
-	@media (max-width: #{breakpoint(tmd) - 1px}) and (orientation: portrait) {
-		display: none;
-	}
-
-	// Mobile landscape: tighter spacing
-	@media (max-width: #{breakpoint(tmd) - 1px}) and (orientation: landscape) {
-		gap: 1px;
-	}
-}
-
-.periodic-element {
-	@include flex-column;
-	align-items: center;
-	justify-content: center;
-	// Mobile-first: Start with compact mobile size
-	min-height: 32px;
-	padding: 2px;
-	background: transparent;
-	border: 1px solid var(--border-subtle);
-	border-radius: radius(sm);
-	text-align: center;
-	transition: transition(base);
-	position: relative;
-
-	// Tablet and up: More spacious
-	@include tmd-up {
-		min-height: 40px;
-		padding: space(xs);
-	}
-
-	&:hover {
-		background: transparent;
-		border-color: var(--border-color);
-	}
-
-	&--highlighted {
-		border-color: var(--location-card-completed-border);
-		background: var(--location-card-completed-bg);
-
-		.element-number,
-		.element-symbol {
+		h4 {
+			margin: 0 0 space(lg) 0;
 			color: var(--text-primary);
+			@include fluid-text(base, medium, 1.3);
 		}
 	}
 
-	&--possible {
-		border-color: var(--accent-color);
-		background: rgba(var(--accent-color-rgb), 0.1);
+	// Rotation message - shown only in mobile portrait
+	.rotation-message {
+		display: none; // Hidden by default
 
-		.element-number,
-		.element-symbol {
-			color: var(--accent-color);
+		// Show only on mobile devices in portrait mode
+		@media (max-width: #{breakpoint(tmd) - 1px}) and (orientation: portrait) {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 300px;
+			text-align: center;
 		}
 	}
-}
 
-.periodic-element .element-number {
-	// Mobile-first: Start with very small text
-	font-size: 8px;
-	color: var(--text-secondary);
-	line-height: 1;
-	margin-bottom: 1px;
+	.rotation-content {
+		@include flex-column;
+		align-items: center;
+		gap: space(lg);
+	}
 
-	// Tablet and up: Slightly larger
-	@include tmd-up {
+	.rotation-icon {
+		@include fluid-text(6xl, normal, 1);
+		opacity: 0.8;
+		animation: pulse 2s ease-in-out infinite;
+
+		@keyframes pulse {
+			0%,
+			100% {
+				transform: scale(1);
+				opacity: 0.8;
+			}
+			50% {
+				transform: scale(1.1);
+				opacity: 1;
+			}
+		}
+	}
+
+	.rotation-message p {
+		margin: 0;
+		color: var(--text-secondary);
+		@include fluid-text(lg, medium, 1.4);
+	}
+
+	.periodic-table-grid {
+		display: grid;
+		grid-template-columns: repeat(18, 1fr);
+		grid-template-rows: repeat(
+			9,
+			auto
+		); // 7 periods + 2 for lanthanides/actinides
+		gap: 2px;
 		@include fluid-text(xs, normal, 1);
-		margin-bottom: 2px;
+
+		// Hide in mobile portrait mode
+		@media (max-width: #{breakpoint(tmd) - 1px}) and (orientation: portrait) {
+			display: none;
+		}
+
+		// Mobile landscape: tighter spacing
+		@media (max-width: #{breakpoint(tmd) - 1px}) and (orientation: landscape) {
+			gap: 1px;
+		}
 	}
-}
 
-.periodic-element .element-symbol {
-	font-weight: font-weight(bold);
-	color: var(--text-primary);
-	line-height: 1;
-	// Mobile-first: Start with small text
-	font-size: 10px;
+	.periodic-element {
+		@include flex-column;
+		align-items: center;
+		justify-content: center;
+		// Mobile-first: Start with compact mobile size
+		min-height: 32px;
+		padding: 2px;
+		background: transparent;
+		border: 1px solid var(--border-subtle);
+		border-radius: radius(sm);
+		text-align: center;
+		transition: transition(base);
+		position: relative;
 
-	// Tablet and up: Use fluid typography
-	@include tmd-up {
-		@include fluid-text(xs, bold, 1);
+		// Tablet and up: More spacious
+		@include tmd-up {
+			min-height: 40px;
+			padding: space(xs);
+		}
+
+		&:hover {
+			background: transparent;
+			border-color: var(--border-color);
+		}
+
+		&--highlighted {
+			border-color: var(--location-card-completed-border);
+			background: var(--location-card-completed-bg);
+
+			.element-number,
+			.element-symbol {
+				color: var(--text-primary);
+			}
+		}
+
+		&--possible {
+			border-color: var(--accent-color);
+			background: rgba(var(--accent-color-rgb), 0.1);
+
+			.element-number,
+			.element-symbol {
+				color: var(--accent-color);
+			}
+		}
+	}
+
+	.periodic-element .element-number {
+		// Mobile-first: Start with very small text
+		font-size: 8px;
+		color: var(--text-secondary);
+		line-height: 1;
+		margin-bottom: 1px;
+
+		// Tablet and up: Slightly larger
+		@include tmd-up {
+			@include fluid-text(xs, normal, 1);
+			margin-bottom: 2px;
+		}
+	}
+
+	.periodic-element .element-symbol {
+		font-weight: font-weight(bold);
+		color: var(--text-primary);
+		line-height: 1;
+		// Mobile-first: Start with small text
+		font-size: 10px;
+
+		// Tablet and up: Use fluid typography
+		@include tmd-up {
+			@include fluid-text(xs, bold, 1);
+		}
 	}
 }

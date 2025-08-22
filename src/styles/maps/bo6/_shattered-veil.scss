@@ -13,180 +13,180 @@
 // Chalkboard Code Section
 .chalkboard-code-section {
 	// Uses standard section structure with section-header component
-}
 
-// Chalkboard Selection Grid
-.chalkboard-selection {
-	margin-bottom: space(xl);
+	// Chalkboard Selection Grid
+	.chalkboard-selection {
+		margin-bottom: space(xl);
 
-	h3 {
-		margin: 0 0 space(sm) 0;
-		color: var(--text-primary);
-		@include fluid-text(xl, semibold, 1.4);
-	}
+		h3 {
+			margin: 0 0 space(sm) 0;
+			color: var(--text-primary);
+			@include fluid-text(xl, semibold, 1.4);
+		}
 
-	.selection-description {
-		margin: 0 0 space(lg) 0;
-		color: var(--text-secondary);
-		@include fluid-text(sm, normal, 1.5);
-	}
-}
-
-.chalkboard-grid {
-	// Mobile-first: Single column
-	@include grid(1, space(lg));
-
-	// Tablet and up: Two columns
-	@include tmd-up {
-		grid-template-columns: repeat(2, 1fr);
-		gap: space(xl);
-	}
-
-	// Desktop: Four columns in one row
-	@include dsm-up {
-		grid-template-columns: repeat(4, 1fr);
-		gap: space(xl);
-	}
-}
-
-.chalkboard-option {
-	@include flex-column;
-	background-color: transparent;
-	border: 2px solid var(--border-subtle);
-	border-radius: radius(base);
-	padding: space(md);
-	cursor: pointer;
-	transition: transition(base);
-
-	// Mobile-first: Compact padding
-	padding: space(sm);
-
-	// Tablet and up: More spacious
-	@include tmd-up {
-		padding: space(lg);
-	}
-
-	&:hover {
-		border-color: var(--border-color);
-		background-color: var(--location-card-hover-bg);
-	}
-
-	&--selected {
-		border-color: var(--success-color);
-		background-color: var(--location-card-selected-bg);
-
-		.chalkboard-info h4 {
-			color: var(--success-color);
+		.selection-description {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-secondary);
+			@include fluid-text(sm, normal, 1.5);
 		}
 	}
-}
 
-.chalkboard-image {
-	width: 100%;
-	margin-bottom: space(md);
-	border-radius: radius(sm);
-	overflow: hidden;
-	background: var(--bg-tertiary);
+	.chalkboard-grid {
+		// Mobile-first: Single column
+		@include grid(1, space(lg));
 
-	img {
-		width: 100%;
-		height: auto;
-		display: block;
-		border-radius: radius(sm);
+		// Tablet and up: Two columns
+		@include tmd-up {
+			grid-template-columns: repeat(2, 1fr);
+			gap: space(xl);
+		}
+
+		// Desktop: Four columns in one row
+		@include dsm-up {
+			grid-template-columns: repeat(4, 1fr);
+			gap: space(xl);
+		}
+	}
+
+	.chalkboard-option {
+		@include flex-column;
+		background-color: transparent;
+		border: 2px solid var(--border-subtle);
+		border-radius: radius(base);
+		padding: space(md);
+		cursor: pointer;
 		transition: transition(base);
 
-		// Mobile-first: Smaller max height
-		max-height: 200px;
-		object-fit: contain;
+		// Mobile-first: Compact padding
+		padding: space(sm);
 
-		// Tablet and up: Larger max height
+		// Tablet and up: More spacious
 		@include tmd-up {
-			max-height: 250px;
+			padding: space(lg);
+		}
+
+		&:hover {
+			border-color: var(--border-color);
+			background-color: var(--location-card-hover-bg);
+		}
+
+		&--selected {
+			border-color: var(--success-color);
+			background-color: var(--location-card-selected-bg);
+
+			.chalkboard-info h4 {
+				color: var(--success-color);
+			}
 		}
 	}
 
-	.chalkboard-option:hover & img {
-		transform: scale(1.02);
+	.chalkboard-image {
+		width: 100%;
+		margin-bottom: space(md);
+		border-radius: radius(sm);
+		overflow: hidden;
+		background: var(--bg-tertiary);
+
+		img {
+			width: 100%;
+			height: auto;
+			display: block;
+			border-radius: radius(sm);
+			transition: transition(base);
+
+			// Mobile-first: Smaller max height
+			max-height: 200px;
+			object-fit: contain;
+
+			// Tablet and up: Larger max height
+			@include tmd-up {
+				max-height: 250px;
+			}
+		}
+
+		.chalkboard-option:hover & img {
+			transform: scale(1.02);
+		}
 	}
-}
 
-.chalkboard-info {
-	text-align: center;
+	.chalkboard-info {
+		text-align: center;
 
-	h4 {
-		margin: 0 0 space(xs) 0;
-		color: var(--text-primary);
-		@include fluid-text(base, medium, 1.4);
-		transition: color transition(base);
-	}
-
-	.identifier {
-		margin: 0;
-		color: var(--text-secondary);
-		@include fluid-text(sm, normal, 1.3);
-
-		strong {
+		h4 {
+			margin: 0 0 space(xs) 0;
 			color: var(--text-primary);
-			font-weight: font-weight(semibold);
+			@include fluid-text(base, medium, 1.4);
+			transition: color transition(base);
+		}
+
+		.identifier {
+			margin: 0;
+			color: var(--text-secondary);
+			@include fluid-text(sm, normal, 1.3);
+
+			strong {
+				color: var(--text-primary);
+				font-weight: font-weight(semibold);
+			}
 		}
 	}
-}
 
-// Codeword Selection
-.codeword-selection {
-	margin-bottom: space(xl);
+	// Codeword Selection
+	.codeword-selection {
+		margin-bottom: space(xl);
 
-	h3 {
-		margin: 0 0 space(sm) 0;
-		color: var(--text-primary);
-		@include fluid-text(xl, semibold, 1.4);
+		h3 {
+			margin: 0 0 space(sm) 0;
+			color: var(--text-primary);
+			@include fluid-text(xl, semibold, 1.4);
+		}
+
+		.selection-description {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-secondary);
+			@include fluid-text(sm, normal, 1.5);
+		}
 	}
 
-	.selection-description {
-		margin: 0 0 space(lg) 0;
-		color: var(--text-secondary);
-		@include fluid-text(sm, normal, 1.5);
-	}
-}
+	.codeword-buttons {
+		display: grid;
+		// Mobile-first: Two columns
+		grid-template-columns: repeat(2, 1fr);
+		gap: space(md);
 
-.codeword-buttons {
-	display: grid;
-	// Mobile-first: Two columns
-	grid-template-columns: repeat(2, 1fr);
-	gap: space(md);
-
-	// Tablet and up: Four columns
-	@include tmd-up {
-		grid-template-columns: repeat(4, 1fr);
-		gap: space(lg);
-	}
-}
-
-.codeword-btn {
-	@include button-base;
-	@include button-secondary;
-	// Mobile-first: Compact styling
-	padding: space(md);
-	font-size: font-size(base);
-	font-weight: font-weight(semibold);
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-
-	// Tablet and up: More spacious
-	@include tmd-up {
-		padding: space(lg) space(xl);
-		font-size: font-size(lg);
+		// Tablet and up: Four columns
+		@include tmd-up {
+			grid-template-columns: repeat(4, 1fr);
+			gap: space(lg);
+		}
 	}
 
-	&--selected {
-		background-color: var(--success-color);
-		color: var(--btn-primary-text);
-		border-color: var(--success-color);
-	}
+	.codeword-btn {
+		@include button-base;
+		@include button-secondary;
+		// Mobile-first: Compact styling
+		padding: space(md);
+		font-size: font-size(base);
+		font-weight: font-weight(semibold);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
 
-	&:hover:not(&--selected) {
-		background-color: var(--bg-tertiary);
-		border-color: var(--accent-color);
+		// Tablet and up: More spacious
+		@include tmd-up {
+			padding: space(lg) space(xl);
+			font-size: font-size(lg);
+		}
+
+		&--selected {
+			background-color: var(--success-color);
+			color: var(--btn-primary-text);
+			border-color: var(--success-color);
+		}
+
+		&:hover:not(&--selected) {
+			background-color: var(--bg-tertiary);
+			border-color: var(--accent-color);
+		}
 	}
 }
 
