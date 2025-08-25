@@ -164,7 +164,7 @@ const SCREEN_WORDS = [
 	"SCORN",
 	"TRAITOR",
 	"UNDERMINE",
-	"VICTORY",
+	"VITIATE",
 	"WRATH",
 	"XENOTROPIC",
 	"YOBBISH",
@@ -184,8 +184,9 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 				storageKey: "reckoning-door-data",
 				defaultValue: { screen1: "", screen2: "" },
 				title: "T1 Bioweapons Lab Door Code",
-				description: "Enter the words displayed on the screens in the T1 Mutant Research Lab area.",
-				resetButtonText: "Reset Door Code"
+				description:
+					"Enter the words displayed on the screens in the T1 Mutant Research Lab area.",
+				resetButtonText: "Reset Door Code",
 			}}
 			getProgress={(data: DoorData) => {
 				const hasScreen1 = Boolean(data.screen1?.trim());
@@ -194,7 +195,7 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 				return {
 					completed,
 					total: 2,
-					isComplete: completed === 2
+					isComplete: completed === 2,
 				};
 			}}
 			{...props}
@@ -255,10 +256,12 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 					// If we only have first word, find possible elements based on dictionary words
 					if (word1 && !word2) {
 						const firstLetter = word1.charAt(0).toUpperCase();
-						
+
 						// Single letter element (if exists)
 						const singleLetterElement = ELEMENT_LOOKUP[firstLetter];
-						const singleScreen = singleLetterElement ? [singleLetterElement] : [];
+						const singleScreen = singleLetterElement
+							? [singleLetterElement]
+							: [];
 
 						// Two letter elements based on dictionary words as second letters
 						const twoScreen = SCREEN_WORDS.map((word) => {
@@ -273,7 +276,7 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 					// If we only have second word, find possible elements based on dictionary words
 					if (!word1 && word2) {
 						const secondLetter = word2.charAt(0).toLowerCase();
-						
+
 						// Two letter elements based on dictionary words as first letters
 						const twoScreen = SCREEN_WORDS.map((word) => {
 							const firstLetter = word.charAt(0).toUpperCase();
@@ -321,7 +324,9 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 								<input
 									type="text"
 									value={data.screen1 || ""}
-									onChange={(e) => handleScreenChange("screen1", e.target.value)}
+									onChange={(e) =>
+										handleScreenChange("screen1", e.target.value)
+									}
 									placeholder="Enter word from screen 1"
 									className="screen-word-input"
 								/>
@@ -330,12 +335,16 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 							<div className="screen-input">
 								<label className="screen-label">
 									Screen 2 (near PHD Flopper)
-									<span className="screen-note">May not always show a word</span>
+									<span className="screen-note">
+										May not always show a word
+									</span>
 								</label>
 								<input
 									type="text"
 									value={data.screen2 || ""}
-									onChange={(e) => handleScreenChange("screen2", e.target.value)}
+									onChange={(e) =>
+										handleScreenChange("screen2", e.target.value)
+									}
 									placeholder="Enter word from screen 2 (if any)"
 									className="screen-word-input"
 								/>
@@ -346,7 +355,8 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 						<div className="word-dictionaries">
 							<h4>Common Screen Words</h4>
 							<p className="dictionaries-description">
-								Click on a word to quickly select it for the corresponding screen.
+								Click on a word to quickly select it for the corresponding
+								screen.
 							</p>
 
 							<div className="dictionaries-grid">
@@ -393,7 +403,9 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 									<div className="door-code-section">
 										<h4>Door Code</h4>
 										<div className="code-display">
-											<span className="door-code-formatted door-code-large">{doorCode}</span>
+											<span className="door-code-formatted door-code-large">
+												{doorCode}
+											</span>
 										</div>
 									</div>
 									<div className="element-section">
@@ -417,47 +429,57 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 						)}
 
 						{hasMultiplePossibilities && !doorCode && (
-										<div className="door-code-result door-code-result--multiple">
-											<h4>Possible Door Codes</h4>
-											<p className="code-instruction">
-												Multiple elements possible with "{data.screen1 || data.screen2}". 
-												{!data.screen1 || !data.screen2 ? 
-													" Enter a word on the other screen to determine the exact code." :
-													" Check your word selections above."
-												}
-											</p>
+							<div className="door-code-result door-code-result--multiple">
+								<h4>Possible Door Codes</h4>
+								<p className="code-instruction">
+									Multiple elements possible with "
+									{data.screen1 || data.screen2}".
+									{!data.screen1 || !data.screen2
+										? " Enter a word on the other screen to determine the exact code."
+										: " Check your word selections above."}
+								</p>
 
-											{singleScreen.length > 0 && (
-												<div className="possible-category">
-													<h5>1 Screen Only</h5>
-													<div className="possible-codes">
-														{singleScreen.map((element) => (
-															<div key={element.symbol} className="possible-code-item">
-																<div className="element-display">{element.symbol}</div>
-																<div className="code-display-small">
-																	{element.atomicNumber.toString().padStart(3, "0")}
-																</div>
-															</div>
-														))}
+								{singleScreen.length > 0 && (
+									<div className="possible-category">
+										<h5>1 Screen Only</h5>
+										<div className="possible-codes">
+											{singleScreen.map((element) => (
+												<div
+													key={element.symbol}
+													className="possible-code-item"
+												>
+													<div className="element-display">
+														{element.symbol}
+													</div>
+													<div className="code-display-small">
+														{element.atomicNumber.toString().padStart(3, "0")}
 													</div>
 												</div>
-											)}
+											))}
+										</div>
+									</div>
+								)}
 
-											{twoScreen.length > 0 && (
-												<div className="possible-category">
-													<h5>2 Screen Options</h5>
-													<div className="possible-codes">
-														{twoScreen.map((element) => (
-															<div key={element.symbol} className="possible-code-item">
-																<div className="element-display">{element.symbol}</div>
-																<div className="code-display-small">
-																	{element.atomicNumber.toString().padStart(3, "0")}
-																</div>
-															</div>
-														))}
+								{twoScreen.length > 0 && (
+									<div className="possible-category">
+										<h5>2 Screen Options</h5>
+										<div className="possible-codes">
+											{twoScreen.map((element) => (
+												<div
+													key={element.symbol}
+													className="possible-code-item"
+												>
+													<div className="element-display">
+														{element.symbol}
+													</div>
+													<div className="code-display-small">
+														{element.atomicNumber.toString().padStart(3, "0")}
 													</div>
 												</div>
-											)}
+											))}
+										</div>
+									</div>
+								)}
 							</div>
 						)}
 
@@ -500,7 +522,9 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 												gridColumn: element.group,
 											}}
 										>
-											<span className="element-number">{element.atomicNumber}</span>
+											<span className="element-number">
+												{element.atomicNumber}
+											</span>
 											<span className="element-symbol">{element.symbol}</span>
 										</div>
 									);
