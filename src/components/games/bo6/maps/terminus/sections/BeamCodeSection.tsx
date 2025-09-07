@@ -30,6 +30,27 @@ function BeamCodeSection(props: BaseSectionProps<BeamCodeData>) {
 				description:
 					"Find the 3 laptops with X, Y, Z stickers and record the symbols they display.",
 				resetButtonText: "Reset Beam Code",
+				tipsConfig: {
+					show: true,
+					items: [
+						{
+							label: "Step 1",
+							text: "Find 3 laptops around the map with X, Y, Z stickers"
+						},
+						{
+							label: "Step 2",
+							text: "Turn on each laptop to reveal a symbol"
+						},
+						{
+							label: "Step 3",
+							text: "Click the matching symbol above for each laptop"
+						},
+						{
+							label: "Step 4",
+							text: "Enter the calculated numbers into the terminal in order"
+						}
+					]
+				}
 			}}
 			getProgress={(data: BeamCodeData) => {
 				const completedCount = SYMBOL_LOCATIONS.filter(
@@ -130,27 +151,6 @@ function BeamCodeSection(props: BaseSectionProps<BeamCodeData>) {
 							</div>
 						)}
 
-						<div className="section-tips">
-							<h3>How to Use</h3>
-							<ul>
-								<li>
-									<strong>Step 1:</strong> Find 3 laptops around the map with X,
-									Y, Z stickers
-								</li>
-								<li>
-									<strong>Step 2:</strong> Turn on each laptop to reveal a
-									symbol
-								</li>
-								<li>
-									<strong>Step 3:</strong> Click the matching symbol above for
-									each laptop
-								</li>
-								<li>
-									<strong>Step 4:</strong> Enter the calculated numbers into the
-									terminal in order
-								</li>
-							</ul>
-						</div>
 					</div>
 				);
 			}}

@@ -219,29 +219,6 @@ function ChalkboardCodeSection(props: BaseSectionProps<ChalkboardData>) {
 							)}
 						</div>
 
-						<div className="section-tips">
-							<h3>Tips</h3>
-							<ul>
-								<li>
-									<strong>Chalkboard Identification:</strong> Look at the top-left
-									group of letters on your chalkboard to identify which one you have
-								</li>
-								<li>
-									<strong>Getting the Codeword:</strong> Insert the floppy disk into
-									the computer in the East Hallway, then check the dot-matrix printer
-									for your codeword
-								</li>
-								<li>
-									<strong>Code Generation:</strong> Each chalkboard has 6 letter
-									groups, and the code is determined by counting letters in groups
-									that contain each letter of your codeword
-								</li>
-								<li>
-									<strong>Order:</strong> The 4-digit code corresponds to each letter
-									of your codeword in sequence (1st letter → 1st digit, etc.)
-								</li>
-							</ul>
-						</div>
 					</div>
 				);
 			}}

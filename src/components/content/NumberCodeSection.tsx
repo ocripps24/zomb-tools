@@ -74,7 +74,8 @@ function NumberCodeSection({
         defaultValue: getDefaultValue(),
         title,
         description,
-        resetButtonText: resetButtonText || `Reset ${title}`
+        resetButtonText: resetButtonText || `Reset ${title}`,
+        tipsConfig: tipsConfig
       }}
       getProgress={(data: NumberCodeData) => {
         const completedCount = locations.filter(
@@ -185,19 +186,6 @@ function NumberCodeSection({
               )}
             </div>
 
-            {/* Tips Section */}
-            {tipsConfig?.show && tipsConfig?.items && (
-              <div className="section-tips">
-                <h3>Tips</h3>
-                <ul>
-                  {tipsConfig.items.map((tip, index) => (
-                    <li key={index}>
-                      <strong>{tip.label}:</strong> {tip.text}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
         );
       }}

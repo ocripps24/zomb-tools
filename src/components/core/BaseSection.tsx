@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react';
 import SectionHeader from './SectionHeader';
+import TipsSection from '@/components/content/TipsSection';
+import type { TipsConfig } from '@/components/content/TipsSection';
 import { usePersistedState } from '@/hooks';
 
 // Standard props interface that all sections should accept
@@ -39,6 +41,10 @@ export interface BaseSectionConfig<T = any> {
   resetButtonText?: string;
   /** Enable debug mode for localStorage operations */
   debug?: boolean;
+  /** Tips configuration for displaying help/instructions */
+  tipsConfig?: TipsConfig;
+  /** Custom title for tips section */
+  tipsTitle?: string;
 }
 
 // Props for BaseSection component
@@ -129,6 +135,14 @@ export function BaseSection<T = any>({
 
       <div className="section-content">
         {children({ data, setData, reset: handleReset, progress })}
+        
+        {/* Render tips section if configured */}
+        {config.tipsConfig && (
+          <TipsSection
+            config={config.tipsConfig}
+            title={config.tipsTitle}
+          />
+        )}
       </div>
     </div>
   );

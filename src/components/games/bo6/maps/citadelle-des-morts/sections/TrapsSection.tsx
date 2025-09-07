@@ -70,6 +70,31 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 				description:
 					"Record the symbols from the 4 pages, then assign trap locations.",
 				resetButtonText: "Reset Traps",
+				tipsConfig: {
+					show: true,
+					items: [
+						{
+							label: "Page Location",
+							text: "All 4 pages are in the same room with fixed positions"
+						},
+						{
+							label: "Symbol Selection",
+							text: "Each symbol (0, 1, 4, 8) can only be used once across all pages"
+						},
+						{
+							label: "Auto-Assignment",
+							text: "When you select 3 symbols, the 4th will be automatically assigned"
+						},
+						{
+							label: "Trap Order",
+							text: "Traps must be activated in the same order as the page symbols"
+						},
+						{
+							label: "Final Trap",
+							text: "The 4th trap location is always Stamina Up and cannot be changed"
+						}
+					]
+				}
 			}}
 			getProgress={(data: TrapsData) => {
 				const pagesCompleted = Object.values(data.pageSymbols).filter(
@@ -330,32 +355,6 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 							</div>
 						)}
 
-						{/* Section Tips */}
-						<div className="section-tips">
-							<h3>Tips</h3>
-							<ul>
-								<li>
-									<strong>Page Location:</strong> All 4 pages are in the same
-									room with fixed positions
-								</li>
-								<li>
-									<strong>Symbol Selection:</strong> Each symbol (0, 1, 4, 8)
-									can only be used once across all pages
-								</li>
-								<li>
-									<strong>Auto-Assignment:</strong> When you select 3 symbols,
-									the 4th will be automatically assigned
-								</li>
-								<li>
-									<strong>Trap Order:</strong> Traps must be activated in the
-									same order as the page symbols
-								</li>
-								<li>
-									<strong>Final Trap:</strong> The 4th trap location is always
-									Stamina Up and cannot be changed
-								</li>
-							</ul>
-						</div>
 					</div>
 				);
 			}}

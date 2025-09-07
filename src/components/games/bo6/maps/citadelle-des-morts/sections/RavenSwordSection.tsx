@@ -101,6 +101,27 @@ function RavenSwordSection(props: BaseSectionProps<RavenSwordData>) {
 				description:
 					"Select the antiquity you picked up in-game to see the correct dial combination.",
 				resetButtonText: "Reset Raven Sword",
+				tipsConfig: {
+					show: true,
+					items: [
+						{
+							label: "Antiquity Location",
+							text: "The antiquity is found on a pedestal in the ritual room"
+						},
+						{
+							label: "Dial Location",
+							text: "The dual-ring dial is located on the wall near the Raven Sword"
+						},
+						{
+							label: "Ring Rotation",
+							text: "Each ring can be rotated independently - inner ring first, then outer ring"
+						},
+						{
+							label: "Confirmation",
+							text: "When set correctly, the dial will emit a sound and the Raven Sword will activate"
+						}
+					]
+				}
 			}}
 			getProgress={(data: RavenSwordData) => {
 				const hasSelection = Boolean(data.selectedAntiquity);
@@ -225,28 +246,6 @@ function RavenSwordSection(props: BaseSectionProps<RavenSwordData>) {
 							</div>
 						)}
 
-						{/* Section Tips */}
-						<div className="section-tips">
-							<h3>Tips</h3>
-							<ul>
-								<li>
-									<strong>Antiquity Location:</strong> The antiquity is found on
-									a pedestal in the ritual room
-								</li>
-								<li>
-									<strong>Dial Location:</strong> The dual-ring dial is located
-									on the wall near the Raven Sword
-								</li>
-								<li>
-									<strong>Ring Rotation:</strong> Each ring can be rotated
-									independently - inner ring first, then outer ring
-								</li>
-								<li>
-									<strong>Confirmation:</strong> When set correctly, the dial
-									will emit a sound and the Raven Sword will activate
-								</li>
-							</ul>
-						</div>
 					</div>
 				);
 			}}
