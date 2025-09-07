@@ -311,6 +311,13 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 					: null;
 				const hasMultiplePossibilities =
 					singleScreen.length > 0 || twoScreen.length > 0;
+				
+				// Check for incompatible word pairing (both screens selected but no valid element)
+				const hasIncompatiblePairing = 
+					data.screen1?.trim() && 
+					data.screen2?.trim() && 
+					!doorCode && 
+					!hasMultiplePossibilities;
 
 				return (
 					<div className="door-code-section">
@@ -480,6 +487,22 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 										</div>
 									</div>
 								)}
+							</div>
+						)}
+
+						{/* Error Message for Incompatible Pairing */}
+						{hasIncompatiblePairing && (
+							<div className="door-code-error">
+								<h4>Incompatible Word Pairing</h4>
+								<p className="error-message">
+									The combination of "<strong>{data.screen1}</strong>" and "<strong>{data.screen2}</strong>" 
+									does not form a valid periodic table element symbol. 
+									Please check your screen words and try a different combination.
+								</p>
+								<p className="error-suggestion">
+									<strong>Tip:</strong> The first letter of Screen 1 + first letter of Screen 2 
+									must match an existing element symbol (e.g., "H" + "e" = Helium).
+								</p>
 							</div>
 						)}
 
