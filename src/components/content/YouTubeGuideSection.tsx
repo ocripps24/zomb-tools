@@ -1,0 +1,37 @@
+import React from 'react';
+
+interface YouTubeGuideSectionProps {
+	guideUrl: string;
+	mapName: string;
+}
+
+/**
+ * YouTube guide section component that embeds video guides at the bottom of map pages.
+ * Uses responsive iframe embed for optimal viewing experience.
+ */
+function YouTubeGuideSection({ guideUrl, mapName }: YouTubeGuideSectionProps) {
+	return (
+		<div id="youtube-guide-section" className="youtube-guide-section">
+			<h4>📺 Easter Egg Guide for {mapName}</h4>
+			<p className="guide-description">
+				Watch this complete walkthrough to learn how to complete the Easter Egg step by step.
+			</p>
+			<div className="youtube-embed-container">
+				<iframe
+					src={guideUrl}
+					title={`${mapName} Easter Egg Guide`}
+					frameBorder="0"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+					referrerPolicy="strict-origin-when-cross-origin"
+					allowFullScreen
+					className="youtube-iframe"
+				></iframe>
+			</div>
+			<p className="guide-note">
+				This guide complements the interactive tools above. Use both together for the best experience!
+			</p>
+		</div>
+	);
+}
+
+export default YouTubeGuideSection;

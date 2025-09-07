@@ -1,5 +1,6 @@
 // MapContainer component for multi-step map navigation
 import { MapContainer } from "@/components/core";
+import { getBO6MapById } from "@/data/bo6/maps";
 import NathanCodeSection from "./sections/NathanCodeSection";
 import BeamCodeSection from "./sections/BeamCodeSection";
 
@@ -19,6 +20,8 @@ const STEPS = [
 ];
 
 function Terminus() {
+	const mapData = getBO6MapById("terminus");
+	
 	return (
 		<MapContainer
 			steps={STEPS}
@@ -27,6 +30,7 @@ function Terminus() {
 			mapName="Terminus"
 			backTo="/bo6"
 			className="terminus"
+			guideUrl={mapData?.guideUrl}
 		/>
 	);
 }

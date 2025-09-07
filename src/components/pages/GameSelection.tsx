@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import GameSelectionCard from "./GameSelectionCard";
+import SettingsInfoPanel from "@/components/content/SettingsInfoPanel";
 import { GAMES } from "@/data/games";
 
 // Vite dynamic import for all game logos - supports multiple formats
@@ -22,9 +23,9 @@ const logosPng = import.meta.glob("@/assets/games/*-logo.png", {
 const getLogo = (id) => {
 	// Priority order: WebP > JPG > PNG (WebP is most efficient)
 	const formats = [
-		{ ext: 'webp', logos: logosWebp },
-		{ ext: 'jpg', logos: logosJpg },
-		{ ext: 'png', logos: logosPng }
+		{ ext: "webp", logos: logosWebp },
+		{ ext: "jpg", logos: logosJpg },
+		{ ext: "png", logos: logosPng },
 	];
 
 	for (const format of formats) {
@@ -54,21 +55,28 @@ function GameSelection() {
 	return (
 		<div className="game-selection">
 			<h2 className="game-selection__title">Select a Game</h2>
-			<p className="game-selection__subtitle">
+			{/* <p className="game-selection__subtitle">
 				Choose which Call of Duty Zombies game you want to access speedrun tools
 				for.
-			</p>
+			</p> */}
 			<div className="game-selection__grid">
 				{allGames.map((game) => (
 					<GameSelectionCard
 						key={game.id}
 						image={getLogo(game.id)}
 						label={game.name}
-						onClick={game.available && game.route ? () => navigate(game.route!) : undefined}
+						onClick={
+							game.available && game.route
+								? () => navigate(game.route!)
+								: undefined
+						}
 						disabled={!game.available}
 					/>
 				))}
 			</div>
+
+			{/* Settings Information Section */}
+			<SettingsInfoPanel />
 		</div>
 	);
 }

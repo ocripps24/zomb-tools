@@ -1,5 +1,6 @@
 // MapContainer component for multi-step map navigation
 import { MapContainer } from "@/components/core";
+import { getBO6MapById } from "@/data/bo6/maps";
 import SafeCodeSection from "./sections/SafeCodeSection";
 import ChalkboardCodeSection from "./sections/ChalkboardCodeSection";
 
@@ -19,6 +20,8 @@ const STEPS = [
 ];
 
 function ShatteredVeil() {
+	const mapData = getBO6MapById("shattered-veil");
+	
 	return (
 		<MapContainer
 			steps={STEPS}
@@ -27,6 +30,7 @@ function ShatteredVeil() {
 			mapName="Shattered Veil"
 			backTo="/bo6"
 			className="shattered-veil"
+			guideUrl={mapData?.guideUrl}
 		/>
 	);
 }

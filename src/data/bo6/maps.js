@@ -11,6 +11,7 @@ export const BO6_MAPS = [
 		available: true,
 		tools: ["Nathan code", "Code Calculator"],
 		difficulty: "medium",
+		guideUrl: "https://www.youtube.com/embed/gSB646HNfgs",
 	},
 	{
 		id: "liberty-falls",
@@ -56,6 +57,7 @@ export const BO6_MAPS = [
 		available: true,
 		tools: ["Chalkboard Code", "Safe Code"],
 		difficulty: "easy",
+		guideUrl: "https://www.youtube.com/embed/8hRISolznmE",
 	},
 	{
 		id: "reckoning",
@@ -67,6 +69,7 @@ export const BO6_MAPS = [
 		available: true,
 		tools: ["Documents Code", "Door Code"],
 		difficulty: "medium",
+		guideUrl: "https://www.youtube.com/embed/ABA6bHB5q6s",
 	},
 ];
 

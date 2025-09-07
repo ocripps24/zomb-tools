@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import MapSelectionCard from "./MapSelectionCard";
+import SettingsInfoPanel from "@/components/content/SettingsInfoPanel";
 import { getGameById } from "@/data/games";
 import { BO4_MAPS } from "@/data/bo4/maps";
 import { BO6_MAPS } from "@/data/bo6/maps";
@@ -25,9 +26,9 @@ const previewsPng = import.meta.glob("../../assets/maps/*/*-preview.png", {
 const getPreview = (gameId, mapId) => {
 	// Priority order: WebP > JPG > PNG (WebP is most efficient)
 	const formats = [
-		{ ext: 'webp', previews: previewsWebp },
-		{ ext: 'jpg', previews: previewsJpg },
-		{ ext: 'png', previews: previewsPng }
+		{ ext: "webp", previews: previewsWebp },
+		{ ext: "jpg", previews: previewsJpg },
+		{ ext: "png", previews: previewsPng },
 	];
 
 	for (const format of formats) {
@@ -78,10 +79,10 @@ function MapSelection({ gameId }) {
 				← Back to Games
 			</button>
 			<h2 className="map-selection__title">Select a {game.name} Map</h2>
-			<p className="map-selection__subtitle">
+			{/* <p className="map-selection__subtitle">
 				Choose which {game.name} Zombies map you want to access speedrun tools
 				for.
-			</p>
+			</p> */}
 			<div className="map-selection__grid">
 				{maps.map((map) => (
 					<MapSelectionCard
@@ -112,6 +113,9 @@ function MapSelection({ gameId }) {
 					</MapSelectionCard>
 				))}
 			</div>
+
+			{/* Settings Information Section */}
+			<SettingsInfoPanel />
 		</div>
 	);
 }

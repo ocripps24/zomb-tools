@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 interface MapNavigationProps {
 	backTo: string;
 	onReset: () => void;
+	guideUrl?: string; // Optional YouTube guide URL
 }
 
 const MapNavigation: React.FC<MapNavigationProps> = ({
 	backTo,
 	onReset,
+	guideUrl,
 }) => {
 	const handleReset = () => {
 		if (
@@ -17,6 +19,13 @@ const MapNavigation: React.FC<MapNavigationProps> = ({
 			)
 		) {
 			onReset();
+		}
+	};
+
+	const scrollToGuide = () => {
+		const guideElement = document.getElementById('youtube-guide-section');
+		if (guideElement) {
+			guideElement.scrollIntoView({ behavior: 'smooth' });
 		}
 	};
 
@@ -56,6 +65,12 @@ const MapNavigation: React.FC<MapNavigationProps> = ({
 				<span className="btn-text">← {getGameName(backTo)} Maps</span>
 			</Link>
 			<div className="nav-right">
+				{guideUrl && (
+					<button onClick={scrollToGuide} className="btn btn-secondary guide-btn">
+						<span className="btn-icon">📺</span>
+						<span className="btn-text">Guide Available</span>
+					</button>
+				)}
 				<button onClick={handleReset} className="btn btn-secondary reset-btn">
 					<span className="btn-icon">🗑️</span>
 					<span className="btn-text">Reset All Data</span>

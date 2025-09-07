@@ -1,5 +1,6 @@
 // MapContainer component for multi-step map navigation
 import { MapContainer } from "@/components/core";
+import { getBO6MapById } from "@/data/bo6/maps";
 import DocumentsCodeSection from "./sections/DocumentsCodeSection";
 import DoorCodeSection from "./sections/DoorCodeSection";
 
@@ -19,6 +20,8 @@ const STEPS = [
 ];
 
 function Reckoning() {
+	const mapData = getBO6MapById("reckoning");
+	
 	return (
 		<MapContainer
 			steps={STEPS}
@@ -27,6 +30,7 @@ function Reckoning() {
 			mapName="Reckoning"
 			backTo="/bo6"
 			className="reckoning"
+			guideUrl={mapData?.guideUrl}
 		/>
 	);
 }
