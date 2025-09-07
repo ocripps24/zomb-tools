@@ -1,8 +1,11 @@
 import React, { ReactNode } from 'react';
 import SectionHeader from './SectionHeader';
 import TipsSection from '@/components/content/TipsSection';
+import SettingsSection from '@/components/content/SettingsSection';
 import type { TipsConfig } from '@/components/content/TipsSection';
+import type { SettingsConfig } from '@/components/content/SettingsSection';
 import { usePersistedState } from '@/hooks';
+import { useGlobalSettings } from '@/hooks/useGlobalSettings';
 
 // Standard props interface that all sections should accept
 export interface BaseSectionProps<T = any> {
@@ -45,6 +48,8 @@ export interface BaseSectionConfig<T = any> {
   tipsConfig?: TipsConfig;
   /** Custom title for tips section */
   tipsTitle?: string;
+  /** Settings configuration for section-specific preferences */
+  settingsConfig?: SettingsConfig;
 }
 
 // Props for BaseSection component
@@ -101,6 +106,8 @@ export function BaseSection<T = any>({
   children,
   ...props
 }: BaseSectionWrapperProps<T>) {
+  // Get global settings for compact mode
+  const { getCompactClass } = useGlobalSettings();
   const { 
     data, 
     setData, 
@@ -124,7 +131,7 @@ export function BaseSection<T = any>({
   };
 
   return (
-    <div className="base-section">
+    <div className={`base-section ${getCompactClass()}`.trim()}>
       <SectionHeader
         title={config.title}
         progress={progress}
@@ -142,6 +149,11 @@ export function BaseSection<T = any>({
             config={config.tipsConfig}
             title={config.tipsTitle}
           />
+        )}
+        
+        {/* Render settings section if configured */}
+        {config.settingsConfig && (
+          <SettingsSection config={config.settingsConfig} />
         )}
       </div>
     </div>

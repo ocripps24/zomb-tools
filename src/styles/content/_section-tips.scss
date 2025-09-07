@@ -52,3 +52,30 @@
 		}
 	}
 }
+
+// Compact mode styles - reduce spacing
+.compact {
+	.section-tips {
+		margin-top: space(lg);
+		padding: space(md);
+		
+		@include tmd-up {
+			padding: space(lg);
+		}
+		
+		h3 {
+			margin-bottom: space(sm);
+		}
+		
+		ul {
+			li {
+				margin-bottom: space(xs);
+				padding-left: space(md);
+				
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+}

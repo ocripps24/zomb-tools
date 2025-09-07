@@ -7,3 +7,4 @@ export { default as SymbolPicker } from './SymbolPicker.tsx';
 export { default as NumberCodeSection } from './NumberCodeSection.tsx';
 export { default as NumberPad } from './NumberPad.tsx';
 export { default as TipsSection } from './TipsSection.tsx';
+export { default as SettingsSection } from './SettingsSection.tsx';

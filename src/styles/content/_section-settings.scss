@@ -1,0 +1,95 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+// Section Settings component styles
+// Used across maps for displaying section-specific preferences
+
+.section-settings {
+	margin-top: space(xl);
+	padding: space(xl);
+	border: 1px solid var(--border-color);
+	border-radius: radius(base);
+	background-color: transparent;
+
+	h4 {
+		margin-bottom: space(md);
+		color: var(--text-primary);
+		font-size: font-size(base);
+	}
+
+	.settings-description {
+		margin-bottom: space(lg);
+		color: var(--text-secondary);
+		font-size: font-size(sm);
+	}
+}
+
+.settings-grid {
+	@include grid(2, space(xl));
+
+	@include mobile {
+		grid-template-columns: 1fr;
+		gap: space(lg);
+	}
+}
+
+.setting-group {
+	@include flex-column;
+	gap: space(sm);
+
+	label {
+		font-size: font-size(sm);
+		font-weight: font-weight(medium);
+		color: var(--text-primary);
+	}
+
+	.setting-select {
+		@include input-base;
+		padding: space(sm);
+		appearance: none;
+		background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+		background-position: right space(sm) center;
+		background-repeat: no-repeat;
+		background-size: 1.5em 1.5em;
+		padding-right: space(2xl);
+	}
+
+	.setting-note {
+		font-size: font-size(xs);
+		color: var(--text-muted);
+		line-height: 1.4;
+	}
+}
+
+// Compact mode styles - reduce spacing
+.compact {
+	.section-settings {
+		margin-top: space(xl);
+		padding: space(lg);
+
+		h4 {
+			margin-bottom: space(sm);
+		}
+
+		.settings-description {
+			margin-bottom: space(lg);
+		}
+	}
+
+	.settings-grid {
+		gap: space(lg);
+
+		@include mobile {
+			gap: space(md);
+		}
+	}
+
+	.setting-group {
+		gap: space(xs);
+
+		.setting-select {
+			padding: space(xs) space(sm);
+		}
+	}
+}

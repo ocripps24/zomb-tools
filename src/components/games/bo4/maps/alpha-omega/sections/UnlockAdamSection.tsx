@@ -48,6 +48,8 @@ const CODE_INFO = [
 ];
 
 function UnlockAdamSection(props: BaseSectionProps<UnlockAdamData>) {
+	const [inputMethod, setInputMethod] = useState<"keypad" | "text">("keypad");
+
 	return (
 		<BaseSection
 			config={{
@@ -86,6 +88,24 @@ function UnlockAdamSection(props: BaseSectionProps<UnlockAdamData>) {
 							text: "Enter each code into Rushmore's keypad in order"
 						}
 					]
+				},
+				settingsConfig: {
+					show: true,
+					title: "Code Entry Preferences",
+					description: "Customize how you input the 4-digit codes for Rushmore.",
+					settings: [
+						{
+							id: "input-method",
+							label: "Entry Format",
+							value: inputMethod,
+							options: [
+								{ value: "keypad", label: "Keypad (touch buttons)" },
+								{ value: "text", label: "Text Entry (keyboard input)" }
+							],
+							note: "Choose your preferred method for entering codes",
+							onChange: (value) => setInputMethod(value as "keypad" | "text")
+						}
+					]
 				}
 			}}
 			getProgress={(data: UnlockAdamData) => {
@@ -107,9 +127,6 @@ function UnlockAdamSection(props: BaseSectionProps<UnlockAdamData>) {
 			{...props}
 		>
 			{({ data, setData, progress }) => {
-				const [inputMethod, setInputMethod] = useState<"keypad" | "text">(
-					"keypad"
-				);
 
 				const handleCodeChange = (
 					codeId: keyof UnlockAdamData,
@@ -187,33 +204,6 @@ function UnlockAdamSection(props: BaseSectionProps<UnlockAdamData>) {
 						)}
 
 
-						{/* Code Entry Settings */}
-						<div className="section-settings">
-							<h4>Code Entry Preferences</h4>
-							<p className="settings-description">
-								Customize how you input the 4-digit codes for Rushmore.
-							</p>
-
-							<div className="settings-grid">
-								<div className="setting-group">
-									<label htmlFor="input-method">Entry Format:</label>
-									<select
-										id="input-method"
-										value={inputMethod}
-										onChange={(e) =>
-											setInputMethod(e.target.value as "keypad" | "text")
-										}
-										className="setting-select"
-									>
-										<option value="keypad">Keypad (touch buttons)</option>
-										<option value="text">Text Entry (keyboard input)</option>
-									</select>
-									<span className="setting-note">
-										Choose your preferred method for entering codes
-									</span>
-								</div>
-							</div>
-						</div>
 					</div>
 				);
 			}}

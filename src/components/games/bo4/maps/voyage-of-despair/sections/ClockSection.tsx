@@ -97,6 +97,34 @@ interface ClocksData {
 }
 
 function ClockSection(props: BaseSectionProps<ClocksData>) {
+	// Load initial UI preferences from localStorage
+	const getInitialSettings = () => {
+		try {
+			const saved = localStorage.getItem("voyage-clocks-settings");
+			if (saved) {
+				const settings = JSON.parse(saved);
+				return {
+					displayFormat: settings.displayFormat || "time",
+					inputMethod: settings.inputMethod || "sliders"
+				};
+			}
+		} catch (e) {
+			console.error("Failed to parse clock settings:", e);
+		}
+		return { displayFormat: "time", inputMethod: "sliders" };
+	};
+
+	// UI preference states
+	const initialSettings = getInitialSettings();
+	const [displayFormat, setDisplayFormat] = useState(initialSettings.displayFormat);
+	const [inputMethod, setInputMethod] = useState(initialSettings.inputMethod);
+
+	// Save UI preferences to localStorage when they change
+	useEffect(() => {
+		const settings = { displayFormat, inputMethod };
+		localStorage.setItem("voyage-clocks-settings", JSON.stringify(settings));
+	}, [displayFormat, inputMethod]);
+
 	return (
 		<BaseSection
 			config={{
@@ -104,7 +132,38 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 				defaultValue: { clocks: getInitialData() },
 				title: "Clock Locations & Times",
 				description: "Record times and symbols for active clocks. Enter hour and minute separately. Each symbol can only be used once.",
-				resetButtonText: "Reset Clocks"
+				resetButtonText: "Reset Clocks",
+				settingsConfig: {
+					show: true,
+					title: "Clock Input Preferences",
+					description: "Customize how you input clock times and how they are displayed.",
+					settings: [
+						{
+							id: "display-format",
+							label: "Display Format",
+							value: displayFormat,
+							options: [
+								{ value: "time", label: "Time Format (01:45)" },
+								{ value: "movements", label: "Movement Format (+1/-3)" }
+							],
+							note: "How times are displayed throughout the interface",
+							onChange: (value) => setDisplayFormat(value)
+						},
+						{
+							id: "input-method",
+							label: "Input Method",
+							value: inputMethod,
+							options: [
+								{ value: "sliders", label: "Sliders (range controls)" },
+								{ value: "steppers", label: "Steppers (+/- buttons)" },
+								{ value: "buttons", label: "Button Grid" },
+								{ value: "text", label: "Text Fields" }
+							],
+							note: "How you input time values for each clock location",
+							onChange: (value) => setInputMethod(value)
+						}
+					]
+				}
 			}}
 			getProgress={(data: ClocksData) => {
 				const completeClocks = Object.values(data.clocks || {}).filter(
@@ -119,33 +178,6 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 			{...props}
 		>
 			{({ data, setData, progress }) => {
-				// Load initial UI preferences from localStorage
-				const getInitialSettings = () => {
-					try {
-						const saved = localStorage.getItem("voyage-clocks-settings");
-						if (saved) {
-							const settings = JSON.parse(saved);
-							return {
-								displayFormat: settings.displayFormat || "time",
-								inputMethod: settings.inputMethod || "sliders"
-							};
-						}
-					} catch (e) {
-						console.error("Failed to parse clock settings:", e);
-					}
-					return { displayFormat: "time", inputMethod: "sliders" };
-				};
-
-				// UI preference states
-				const initialSettings = getInitialSettings();
-				const [displayFormat, setDisplayFormat] = useState(initialSettings.displayFormat);
-				const [inputMethod, setInputMethod] = useState(initialSettings.inputMethod);
-
-				// Save UI preferences to localStorage when they change
-				useEffect(() => {
-					const settings = { displayFormat, inputMethod };
-					localStorage.setItem("voyage-clocks-settings", JSON.stringify(settings));
-				}, [displayFormat, inputMethod]);
 
 				// Validation functions
 				const isMovementValid = (movement: number, symbol: string) => {
@@ -518,49 +550,6 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 							})}
 						</div>
 
-						{/* Clock Input Settings */}
-						<div className="section-settings">
-							<h4>Clock Input Preferences</h4>
-							<p className="settings-description">
-								Customize how you input clock times and how they are displayed.
-							</p>
-
-							<div className="settings-grid">
-								<div className="setting-group">
-									<label htmlFor="display-format">Display Format:</label>
-									<select
-										id="display-format"
-										value={displayFormat}
-										onChange={(e) => setDisplayFormat(e.target.value)}
-										className="setting-select"
-									>
-										<option value="time">Time Format (01:45)</option>
-										<option value="movements">Movement Format (+1/-3)</option>
-									</select>
-									<span className="setting-note">
-										How times are displayed throughout the interface
-									</span>
-								</div>
-
-								<div className="setting-group">
-									<label htmlFor="input-method">Input Method:</label>
-									<select
-										id="input-method"
-										value={inputMethod}
-										onChange={(e) => setInputMethod(e.target.value)}
-										className="setting-select"
-									>
-										<option value="sliders">Sliders (range controls)</option>
-										<option value="steppers">Steppers (+/- buttons)</option>
-										<option value="buttons">Button Grid</option>
-										<option value="text">Text Fields</option>
-									</select>
-									<span className="setting-note">
-										How you input time values for each clock location
-									</span>
-								</div>
-							</div>
-						</div>
 
 						{/* Helper Section */}
 						{completeClocks.length > 0 && (
