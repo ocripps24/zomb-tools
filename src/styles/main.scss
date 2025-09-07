@@ -30,6 +30,7 @@
 @use "content/location-card";
 @use "content/symbol-picker";
 @use "content/number-code-section";
+@use "content/number-pad";
 @use "content/section-tips";
 
 // 3c. Layout Components - structural layout elements
@@ -46,6 +47,7 @@
 // 6. Maps - map-specific styles
 @use "maps/bo4/voyage";
 @use "maps/bo4/tag-der-toten";
+@use "maps/bo4/alpha-omega";
 @use "maps/bo6/terminus";
 @use "maps/bo6/reckoning";
 @use "maps/bo6/shattered-veil";

@@ -123,6 +123,13 @@ Use `BaseSection` wrapper with required props:
 - **Always** define TypeScript interfaces for data structures
 - Follow existing naming conventions for CSS classes
 
+### Background Color Guidelines
+- **Primary content background:** Always use `var(--bg-tertiary)` for component backgrounds (this matches map-content)
+- **Transparent backgrounds:** Use `transparent` for overlays and display elements that should inherit parent background
+- **Never use bright backgrounds:** Avoid `white`, `var(--bg-secondary)`, or other bright colors as primary backgrounds
+- **Card containers:** Use `var(--bg-tertiary)` to maintain consistency with the dark theme while supporting light mode
+- **Input displays:** Use `transparent` with borders to avoid harsh contrast
+
 ### Code Style
 - Use functional components with hooks
 - Prefer const assertions for configuration objects (`as const`)

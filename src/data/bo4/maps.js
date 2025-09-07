@@ -57,11 +57,12 @@ export const BO4_MAPS = [
 	{
 		id: "alpha-omega",
 		name: "Alpha Omega",
-		status: "Coming soon",
+		status: "Available",
 		route: ROUTES.games.bo4.maps.alphaOmega,
-		component: null,
-		available: false,
-		tools: ["Codes"],
+		component: () =>
+			import("../../components/games/bo4/maps/alpha-omega/AlphaOmega.tsx"),
+		available: true,
+		tools: ["Unlock A.D.A.M", "Clocks", "Core Value 3", "Core Value 4"],
 		difficulty: "medium",
 	},
 	{

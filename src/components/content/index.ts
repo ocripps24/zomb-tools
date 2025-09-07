@@ -5,3 +5,4 @@ export { default as MovementSlider } from './MovementSlider.tsx';
 export { default as MovementStepper } from './MovementStepper.tsx';
 export { default as SymbolPicker } from './SymbolPicker.tsx';
 export { default as NumberCodeSection } from './NumberCodeSection.tsx';
+export { default as NumberPad } from './NumberPad.tsx';

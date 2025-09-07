@@ -1,0 +1,258 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+.number-pad {
+	@include flex-column;
+	gap: space(lg);
+	padding: space(lg);
+	background: var(--bg-tertiary);
+	border-radius: var(--radius);
+	border: 1px solid var(--border-subtle);
+	width: 100%;
+
+	.number-pad-title {
+		text-align: center;
+
+		h4 {
+			margin: 0;
+			color: var(--text-primary);
+			font-size: 1rem;
+			font-weight: 600;
+		}
+	}
+
+	.number-pad-header {
+		display: flex;
+		justify-content: center;
+
+		.mode-toggle {
+			@include button-secondary;
+			padding: space(sm) space(lg);
+			border-radius: var(--radius);
+			font-size: 0.875rem;
+			font-weight: 500;
+			transition: all 0.2s ease;
+
+			&.active {
+				background: var(--btn-primary-bg);
+				color: var(--btn-primary-text);
+				border-color: var(--btn-primary-bg);
+			}
+
+			&:hover:not(:disabled) {
+				transform: translateY(-1px);
+				box-shadow: shadow(md);
+			}
+
+			&:disabled {
+				opacity: 0.5;
+				cursor: not-allowed;
+			}
+		}
+	}
+
+	.number-pad-display {
+		background: transparent;
+		border: 2px solid var(--border-subtle);
+		border-radius: var(--radius);
+		padding: space(lg);
+		text-align: center;
+		min-height: 60px;
+		@include flex-center;
+
+		.display-value {
+			font-size: 1.25rem;
+			font-weight: 600;
+			color: var(--text-primary);
+			font-family: monospace;
+			letter-spacing: 0.1em;
+
+			&:empty::before {
+				content: attr(data-placeholder);
+				color: var(--text-muted);
+				font-style: italic;
+			}
+		}
+	}
+
+	.keypad-container {
+		.keypad-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: space(md);
+			margin: 0 auto;
+
+			.keypad-button {
+				@include button-base;
+				background: var(--bg-tertiary);
+				color: var(--btn-secondary-text);
+				border: 2px solid var(--border-subtle);
+				border-radius: var(--radius);
+				padding: space(sm) space(md);
+				font-size: 1.125rem;
+				font-weight: 600;
+				min-height: 45px;
+				min-width: 60px;
+				transition: all var(--transition);
+				cursor: pointer;
+
+				&:hover:not(:disabled) {
+					background: var(--btn-primary-bg);
+					color: var(--btn-primary-text);
+					border-color: var(--border-focus);
+					transform: translateY(-2px);
+					box-shadow: shadow(md);
+				}
+
+				&:active:not(:disabled) {
+					transform: translateY(0);
+					box-shadow: shadow(sm);
+				}
+
+				&:disabled {
+					opacity: 0.5;
+					cursor: not-allowed;
+					transform: none;
+				}
+
+				// Special styling for action buttons
+				&--clear {
+					background: var(--warning-color);
+					color: var(--text-primary);
+					border-color: var(--warning-color);
+
+					&:hover:not(:disabled) {
+						background: var(--warning-color);
+						color: var(--text-primary);
+						border-color: var(--warning-color);
+						opacity: 0.8;
+					}
+				}
+
+				&--backspace {
+					background: var(--danger-color);
+					color: var(--text-primary);
+					border-color: var(--danger-color);
+					font-size: 1rem;
+
+					&:hover:not(:disabled) {
+						background: var(--danger-color);
+						color: var(--text-primary);
+						border-color: var(--danger-color);
+						opacity: 0.8;
+					}
+				}
+			}
+		}
+	}
+
+	.text-input-container {
+		@include flex-column;
+		gap: space(md);
+
+		.text-input-display {
+			background: transparent;
+			border: 2px solid var(--border-subtle);
+			border-radius: var(--radius);
+			padding: space(lg);
+			text-align: center;
+			min-height: 60px;
+			@include flex-center;
+			font-size: 1.25rem;
+			font-weight: 600;
+			color: var(--text-primary);
+			font-family: monospace;
+			letter-spacing: 0.1em;
+			width: 100%;
+
+			&:focus {
+				border-color: var(--border-focus);
+				box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+			}
+
+			&::placeholder {
+				color: var(--text-muted);
+				font-style: normal;
+			}
+		}
+
+		.text-input {
+			@include input-base;
+			font-size: 1.125rem;
+			font-weight: 600;
+			text-align: center;
+			font-family: monospace;
+			letter-spacing: 0.1em;
+			padding: space(lg);
+
+			&:focus {
+				border-color: var(--border-focus);
+				box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+			}
+		}
+
+		.clear-button {
+			@include button-secondary;
+			align-self: center;
+			padding: space(sm) space(lg);
+			font-size: 0.875rem;
+
+			&:hover:not(:disabled) {
+				background: var(--danger-color);
+				color: var(--text-primary);
+				border-color: var(--danger-color);
+			}
+		}
+	}
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+	.number-pad {
+		.number-pad-display {
+			background: var(--color-input-background-dark, #2d3748);
+			border-color: var(--color-border-dark, #4a5568);
+		}
+
+		.keypad-container .keypad-grid .keypad-button {
+			background: var(--color-secondary-dark, #4a5568);
+			color: var(--color-secondary-text-dark, #e2e8f0);
+			border-color: var(--color-border-dark, #4a5568);
+
+			&:hover:not(:disabled) {
+				background: var(--color-primary-dark, #3182ce);
+				color: var(--color-primary-text-dark, #ffffff);
+				border-color: var(--color-primary-dark, #3182ce);
+			}
+		}
+	}
+}
+
+// Responsive design
+@media (max-width: 480px) {
+	.number-pad {
+		padding: var(--spacing-md);
+
+		.keypad-container .keypad-grid {
+			gap: var(--spacing-sm);
+			max-width: 240px;
+
+			.keypad-button {
+				min-height: 50px;
+				min-width: 50px;
+				padding: var(--spacing-md);
+				font-size: var(--font-size-md);
+			}
+		}
+
+		.number-pad-display {
+			padding: var(--spacing-md);
+			min-height: 50px;
+
+			.display-value {
+				font-size: var(--font-size-lg);
+			}
+		}
+	}
+}

@@ -62,6 +62,15 @@ export const MAP_STEPS = {
         orbs: '/bo4/tag-der-toten/orbs',
         seal: '/bo4/tag-der-toten/seal'
       }
+    },
+    alphaOmega: {
+      base: '/bo4/alpha-omega',
+      steps: {
+        unlockAdam: '/bo4/alpha-omega/unlock-adam',
+        clocks: '/bo4/alpha-omega/clocks',
+        coreValue3: '/bo4/alpha-omega/core-value-3',
+        coreValue4: '/bo4/alpha-omega/core-value-4'
+      }
     }
   },
   bo6: {
@@ -156,6 +165,10 @@ export const ROUTE_METADATA = {
   [ROUTES.games.bo4.maps.tagDerToten]: {
     title: 'Tag der Toten',
     documentTitle: 'Tag der Toten Easter Eggs - COD Zombies Tools'
+  },
+  [ROUTES.games.bo4.maps.alphaOmega]: {
+    title: 'Alpha Omega',
+    documentTitle: 'Alpha Omega Easter Eggs - COD Zombies Tools'
   },
   [ROUTES.games.bo6.maps.terminus]: {
     title: 'Terminus',
