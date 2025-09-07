@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export interface UsePersistedStateOptions<T> {
   /** The localStorage key to use for persistence */
@@ -51,15 +51,61 @@ export function usePersistedState<T>({
     return defaultValue;
   });
 
+  // Track if we're currently updating to prevent infinite loops
+  const isUpdatingRef = useRef(false);
+
+  // Listen for localStorage changes from other instances of this hook
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === storageKey && e.newValue !== null && !isUpdatingRef.current) {
+        try {
+          const newData = JSON.parse(e.newValue);
+          log('Syncing from localStorage change:', newData);
+          setDataState(newData);
+        } catch (error) {
+          console.error(`Failed to parse updated ${storageKey} data:`, error);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, [storageKey]);
+
+  // Also listen for custom events for same-tab synchronization
+  useEffect(() => {
+    const handleCustomStorageChange = (e: CustomEvent) => {
+      if (e.detail.key === storageKey && !isUpdatingRef.current) {
+        try {
+          const newData = JSON.parse(e.detail.newValue);
+          log('Syncing from custom storage event:', newData);
+          setDataState(newData);
+        } catch (error) {
+          console.error(`Failed to parse updated ${storageKey} data:`, error);
+        }
+      }
+    };
+
+    window.addEventListener('customStorageChange', handleCustomStorageChange as EventListener);
+    return () => window.removeEventListener('customStorageChange', handleCustomStorageChange as EventListener);
+  }, [storageKey]);
+
   const log = (message: string, ...args: any[]) => {
     if (debug) console.log(`[usePersistedState:${storageKey}] ${message}`, ...args);
   };
 
   // Save to localStorage whenever data changes
   useEffect(() => {
+    isUpdatingRef.current = true;
     try {
-      localStorage.setItem(storageKey, JSON.stringify(data));
+      const jsonData = JSON.stringify(data);
+      localStorage.setItem(storageKey, jsonData);
       log('Saved to localStorage:', data);
+      
+      // Dispatch custom event for same-tab synchronization
+      window.dispatchEvent(new CustomEvent('customStorageChange', {
+        detail: { key: storageKey, newValue: jsonData }
+      }));
     } catch (e) {
       console.error(`Failed to save ${storageKey} to localStorage:`, e);
     }
@@ -67,6 +113,11 @@ export function usePersistedState<T>({
     if (onChange) {
       onChange(data);
     }
+    
+    // Reset flag after a brief timeout to allow other instances to sync
+    setTimeout(() => {
+      isUpdatingRef.current = false;
+    }, 10);
   }, [data, storageKey]); // Removed onChange from dependencies to prevent infinite loop
 
   // Check for external localStorage clearing (like from MapContainer reset)

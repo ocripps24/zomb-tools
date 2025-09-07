@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
+import { createUiSizeSetting } from "@/utils/settingsHelpers";
 
 // Complete periodic table (118 elements) with grid positions
 const PERIODIC_TABLE = [
@@ -178,6 +179,9 @@ interface DoorData {
 }
 
 function DoorCodeSection(props: BaseSectionProps<DoorData>) {
+	const [inputMethod, setInputMethod] = useState<"text" | "buttons">("buttons");
+	const uiSizeSetting = createUiSizeSetting();
+
 	return (
 		<BaseSection
 			config={{
@@ -187,6 +191,25 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 				description:
 					"Enter the words displayed on the screens in the T1 Mutant Research Lab area.",
 				resetButtonText: "Reset Door Code",
+				settingsConfig: {
+					show: true,
+					title: "Input Preferences",
+					description: "Customize how you enter the screen words and adjust UI density.",
+					settings: [
+						{
+							id: "input-method",
+							label: "Screen Input Format",
+							value: inputMethod,
+							options: [
+								{ value: "buttons", label: "Buttons" },
+								{ value: "text", label: "Text Input" },
+							],
+							note: "Choose your preferred method for entering screen words",
+							onChange: (value) => setInputMethod(value as "text" | "buttons"),
+						},
+						uiSizeSetting,
+					],
+				},
 			}}
 			getProgress={(data: DoorData) => {
 				const hasScreen1 = Boolean(data.screen1?.trim());
@@ -311,97 +334,101 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 					: null;
 				const hasMultiplePossibilities =
 					singleScreen.length > 0 || twoScreen.length > 0;
-				
+
 				// Check for incompatible word pairing (both screens selected but no valid element)
-				const hasIncompatiblePairing = 
-					data.screen1?.trim() && 
-					data.screen2?.trim() && 
-					!doorCode && 
+				const hasIncompatiblePairing =
+					data.screen1?.trim() &&
+					data.screen2?.trim() &&
+					!doorCode &&
 					!hasMultiplePossibilities;
 
 				return (
 					<div className="door-code-section">
-						{/* Screen Inputs */}
-						<div className="screens-grid">
-							<div className="screen-input">
-								<label className="screen-label">
-									Screen 1 (near Deadshot Daiquiri)
-									<span className="screen-note">Always shows a word</span>
-								</label>
-								<input
-									type="text"
-									value={data.screen1 || ""}
-									onChange={(e) =>
-										handleScreenChange("screen1", e.target.value)
-									}
-									placeholder="Enter word from screen 1"
-									className="screen-word-input"
-								/>
-							</div>
-
-							<div className="screen-input">
-								<label className="screen-label">
-									Screen 2 (near PHD Flopper)
-									<span className="screen-note">
-										May not always show a word
-									</span>
-								</label>
-								<input
-									type="text"
-									value={data.screen2 || ""}
-									onChange={(e) =>
-										handleScreenChange("screen2", e.target.value)
-									}
-									placeholder="Enter word from screen 2 (if any)"
-									className="screen-word-input"
-								/>
-							</div>
-						</div>
-
-						{/* Word Dictionaries */}
-						<div className="word-dictionaries">
-							<h4>Common Screen Words</h4>
-							<p className="dictionaries-description">
-								Click on a word to quickly select it for the corresponding
-								screen.
-							</p>
-
-							<div className="dictionaries-grid">
-								<div className="dictionary-column">
-									<h5>Screen 1 Words</h5>
-									<div className="word-buttons">
-										{SCREEN_WORDS.map((word) => (
-											<button
-												key={word}
-												onClick={() => handleWordSelect("screen1", word)}
-												className={`word-btn ${
-													data.screen1 === word ? "word-btn--selected" : ""
-												}`}
-											>
-												{word}
-											</button>
-										))}
-									</div>
+						{/* Conditional Input Methods */}
+						{inputMethod === "text" ? (
+							/* Text Input Method */
+							<div className="screens-grid">
+								<div className="screen-input">
+									<label className="screen-label">
+										Screen 1 (Deadshot Daiquiri)
+										<span className="screen-note">Always shows a word</span>
+									</label>
+									<input
+										type="text"
+										value={data.screen1 || ""}
+										onChange={(e) =>
+											handleScreenChange("screen1", e.target.value)
+										}
+										placeholder="Enter word from screen 1"
+										className="screen-word-input"
+									/>
 								</div>
 
-								<div className="dictionary-column">
-									<h5>Screen 2 Words</h5>
-									<div className="word-buttons">
-										{SCREEN_WORDS.map((word) => (
-											<button
-												key={word}
-												onClick={() => handleWordSelect("screen2", word)}
-												className={`word-btn ${
-													data.screen2 === word ? "word-btn--selected" : ""
-												}`}
-											>
-												{word}
-											</button>
-										))}
+								<div className="screen-input">
+									<label className="screen-label">
+										Screen 2 (PHD Flopper)
+										<span className="screen-note">
+											May not always show a word
+										</span>
+									</label>
+									<input
+										type="text"
+										value={data.screen2 || ""}
+										onChange={(e) =>
+											handleScreenChange("screen2", e.target.value)
+										}
+										placeholder="Enter word from screen 2 (if any)"
+										className="screen-word-input"
+									/>
+								</div>
+							</div>
+						) : (
+							/* Button Input Method */
+							<div className="word-dictionaries">
+								<h4>Screen Words</h4>
+								<p className="dictionaries-description">
+									Click on a word to select it for the corresponding screen.
+								</p>
+
+								<div className="dictionaries-grid">
+									<div className="dictionary-column">
+										<h5>Screen 1 (Deadshot Daiquiri)</h5>
+										<p className="screen-note">Always shows a word</p>
+										<div className="word-buttons">
+											{SCREEN_WORDS.map((word) => (
+												<button
+													key={word}
+													onClick={() => handleWordSelect("screen1", word)}
+													className={`word-btn ${
+														data.screen1 === word ? "word-btn--selected" : ""
+													}`}
+												>
+													{word}
+												</button>
+											))}
+										</div>
+									</div>
+
+									<div className="dictionary-column">
+										<h5>Screen 2 (PHD Flopper)</h5>
+										<p className="screen-note">May not always show a word</p>
+										<div className="word-buttons">
+											{SCREEN_WORDS.map((word) => (
+												<button
+													key={word}
+													onClick={() => handleWordSelect("screen2", word)}
+													className={`word-btn ${
+														data.screen2 === word ? "word-btn--selected" : ""
+													}`}
+												>
+													{word}
+												</button>
+											))}
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
+						)}
 
 						{/* Door Code Results */}
 						{doorCode && (
@@ -495,13 +522,15 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 							<div className="door-code-error">
 								<h4>Incompatible Word Pairing</h4>
 								<p className="error-message">
-									The combination of "<strong>{data.screen1}</strong>" and "<strong>{data.screen2}</strong>" 
-									does not form a valid periodic table element symbol. 
-									Please check your screen words and try a different combination.
+									The combination of "<strong>{data.screen1}</strong>" and "
+									<strong>{data.screen2}</strong>" does not form a valid
+									periodic table element symbol. Please check your screen words
+									and try a different combination.
 								</p>
 								<p className="error-suggestion">
-									<strong>Tip:</strong> The first letter of Screen 1 + first letter of Screen 2 
-									must match an existing element symbol (e.g., "H" + "e" = Helium).
+									<strong>Tip:</strong> The first letter of Screen 1 + first
+									letter of Screen 2 must match an existing element symbol
+									(e.g., "H" + "e" = Helium).
 								</p>
 							</div>
 						)}

@@ -741,4 +741,101 @@
 			}
 		}
 	}
+
+}
+
+// Compact mode styles for door code section
+.base-section.compact .door-code-section {
+	.screens-grid {
+		margin-bottom: space(lg);
+		gap: space(md);
+	}
+
+	.screen-input {
+		gap: space(xs);
+	}
+
+	.screen-word-input {
+		padding: space(sm);
+	}
+
+	.word-dictionaries {
+		margin-bottom: space(lg);
+
+		h4 {
+			margin-bottom: space(sm);
+			@include fluid-text(base, medium, 1.2);
+		}
+
+		.dictionaries-description {
+			margin-bottom: space(sm);
+		}
+	}
+
+	.dictionaries-grid {
+		gap: space(md);
+	}
+
+	.dictionary-column {
+		h5 {
+			margin-bottom: space(xs);
+			@include fluid-text(sm, medium, 1.2);
+		}
+
+		.screen-note {
+			margin-bottom: space(sm);
+		}
+	}
+
+	.word-buttons {
+		gap: space(xs);
+	}
+
+	.word-btn {
+		padding: space(xs) space(sm);
+		@include fluid-text(xs, normal, 1);
+	}
+
+	.door-code-result {
+		margin-top: space(lg);
+		padding: space(md);
+
+		.door-code-single-layout {
+			gap: space(md);
+		}
+
+		.code-instruction {
+			margin-top: space(sm);
+		}
+	}
+
+	.door-code-error {
+		margin: space(lg) 0;
+		padding: space(md);
+
+		h4 {
+			margin-bottom: space(xs);
+			@include fluid-text(base, medium, 1.2);
+		}
+
+		.error-message {
+			margin-bottom: space(sm);
+		}
+
+		.error-suggestion {
+			padding-top: space(xs);
+		}
+	}
+
+	.periodic-table-reference {
+		margin-top: space(lg);
+
+		h4 {
+			margin-bottom: space(sm);
+		}
+
+		.table-description {
+			margin-bottom: space(sm);
+		}
+	}
 }

@@ -106,8 +106,8 @@ export function BaseSection<T = any>({
   children,
   ...props
 }: BaseSectionWrapperProps<T>) {
-  // Get global settings for compact mode
-  const { getCompactClass } = useGlobalSettings();
+  // Get global settings for compact mode - subscribe to isCompact to trigger re-renders
+  const { getCompactClass, isCompact } = useGlobalSettings();
   const { 
     data, 
     setData, 
