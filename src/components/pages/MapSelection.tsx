@@ -1,10 +1,9 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import MapSelectionCard from "./MapSelectionCard";
 import SettingsInfoPanel from "@/components/content/SettingsInfoPanel";
 import { getGameById } from "@/data/games";
-import { BO4_MAPS } from "@/data/bo4/maps";
-import { BO6_MAPS } from "@/data/bo6/maps";
+import { BO4_MAPS, type BO4Map } from "@/data/bo4/maps";
+import { BO6_MAPS, type BO6Map } from "@/data/bo6/maps";
 import { ROUTES } from "@/routes";
 
 // Vite dynamic import for all map preview images - supports multiple formats
@@ -23,7 +22,7 @@ const previewsPng = import.meta.glob("../../assets/maps/*/*-preview.png", {
 	import: "default",
 });
 
-const getPreview = (gameId, mapId) => {
+const getPreview = (gameId: string, mapId: string): string | null => {
 	// Priority order: WebP > JPG > PNG (WebP is most efficient)
 	const formats = [
 		{ ext: "webp", previews: previewsWebp },
@@ -36,14 +35,14 @@ const getPreview = (gameId, mapId) => {
 			path.includes(`/${gameId}/${mapId}-preview.${format.ext}`)
 		);
 		if (match) {
-			return match[1];
+			return match[1] as string;
 		}
 	}
 
 	return null;
 };
 
-const getMapsByGame = (gameId) => {
+const getMapsByGame = (gameId: string): (BO4Map | BO6Map)[] => {
 	switch (gameId) {
 		case "bo4":
 			return BO4_MAPS;
@@ -54,14 +53,23 @@ const getMapsByGame = (gameId) => {
 	}
 };
 
-function MapSelection({ gameId }) {
+interface MapSelectionProps {
+	gameId: string;
+}
+
+function MapSelection({ gameId }: MapSelectionProps) {
 	const game = getGameById(gameId);
 	const maps = getMapsByGame(gameId);
 	const navigate = useNavigate();
 
 	if (!game) {
 		return (
-			<MapSelectionCard label="Game Not Found">
+			<MapSelectionCard 
+				label="Game Not Found"
+				image={null}
+				onClick={() => {}}
+				style={{}}
+			>
 				<div className="card__content">
 					The requested game could not be found.
 				</div>

@@ -1,6 +1,16 @@
 import { ROUTES } from "../routes";
 
-export const GAMES = {
+export interface Game {
+	id: string;
+	name: string;
+	fullName: string;
+	description: string;
+	available: boolean;
+	releaseYear: number;
+	route: string | null;
+}
+
+export const GAMES: Record<string, Game> = {
 	bo4: {
 		id: "bo4",
 		name: "Black Ops 4",
@@ -30,10 +40,10 @@ export const GAMES = {
 	},
 };
 
-export const getGameById = (gameId) => {
+export const getGameById = (gameId: string): Game | null => {
 	return GAMES[gameId] || null;
 };
 
-export const getAvailableGames = () => {
+export const getAvailableGames = (): Game[] => {
 	return Object.values(GAMES).filter((game) => game.available);
 };

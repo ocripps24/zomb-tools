@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import GameSelectionCard from "./GameSelectionCard";
 import SettingsInfoPanel from "@/components/content/SettingsInfoPanel";
@@ -20,7 +19,7 @@ const logosPng = import.meta.glob("@/assets/games/*-logo.png", {
 	import: "default",
 });
 
-const getLogo = (id) => {
+const getLogo = (id: string): string | null => {
 	// Priority order: WebP > JPG > PNG (WebP is most efficient)
 	const formats = [
 		{ ext: "webp", logos: logosWebp },
@@ -33,7 +32,7 @@ const getLogo = (id) => {
 			path.includes(`/${id}-logo.${format.ext}`)
 		);
 		if (match) {
-			return match[1];
+			return match[1] as string;
 		}
 	}
 

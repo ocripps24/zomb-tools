@@ -1,6 +1,17 @@
 import { ROUTES } from "../../routes";
 
-export const BO4_MAPS = [
+export interface BO4Map {
+	id: string;
+	name: string;
+	status: string;
+	route: string;
+	component: (() => Promise<any>) | null;
+	available: boolean;
+	tools: string[];
+	difficulty: "easy" | "medium" | "hard";
+}
+
+export const BO4_MAPS: BO4Map[] = [
 	{
 		id: "voyage-of-despair",
 		name: "Voyage of Despair",
@@ -88,10 +99,10 @@ export const BO4_MAPS = [
 	},
 ];
 
-export const getBO4MapById = (mapId) => {
+export const getBO4MapById = (mapId: string): BO4Map | null => {
 	return BO4_MAPS.find((map) => map.id === mapId) || null;
 };
 
-export const getAvailableBO4Maps = () => {
+export const getAvailableBO4Maps = (): BO4Map[] => {
 	return BO4_MAPS.filter((map) => map.available);
 };

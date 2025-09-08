@@ -1,6 +1,18 @@
 import { ROUTES } from "../../routes";
 
-export const BO6_MAPS = [
+export interface BO6Map {
+	id: string;
+	name: string;
+	status: string;
+	route: string;
+	component: (() => Promise<any>) | null;
+	available: boolean;
+	tools: string[];
+	difficulty: "easy" | "medium" | "hard";
+	guideUrl?: string;
+}
+
+export const BO6_MAPS: BO6Map[] = [
 	{
 		id: "terminus",
 		name: "Terminus",
@@ -73,10 +85,10 @@ export const BO6_MAPS = [
 	},
 ];
 
-export const getBO6MapById = (mapId) => {
+export const getBO6MapById = (mapId: string): BO6Map | null => {
 	return BO6_MAPS.find((map) => map.id === mapId) || null;
 };
 
-export const getAvailableBO6Maps = () => {
+export const getAvailableBO6Maps = (): BO6Map[] => {
 	return BO6_MAPS.filter((map) => map.available);
 };

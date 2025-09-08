@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import { createUiSizeSetting } from "@/utils/settingsHelpers";
@@ -223,7 +223,7 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 			}}
 			{...props}
 		>
-			{({ data, setData, progress }) => {
+			{({ data, setData }) => {
 				const handleScreenChange = (screen: keyof DoorData, value: string) => {
 					setData((prev: DoorData) => ({
 						...prev,
