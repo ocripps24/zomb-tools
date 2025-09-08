@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { GameSelection, MapSelection, NotFound } from "./components/pages";
+import PrivacyPolicy from "./components/pages/PrivacyPolicy";
+import TermsAndConditions from "./components/pages/TermsAndConditions";
 import VoyageOfDespair from "./components/games/bo4/maps/voyage-of-despair/VoyageOfDespair";
 import TagDerToten from "./components/games/bo4/maps/tag-der-toten/TagDerToten";
 import AlphaOmega from "./components/games/bo4/maps/alpha-omega/AlphaOmega";
@@ -9,6 +11,8 @@ import Reckoning from "./components/games/bo6/maps/reckoning/Reckoning";
 import ShatteredVeil from "./components/games/bo6/maps/shattered-veil/ShatteredVeil";
 import LibertyFalls from "./components/games/bo6/maps/liberty-falls/LibertyFalls";
 import CitadelleDesMorts from "./components/games/bo6/maps/citadelle-des-morts/CitadelleDesMorts";
+import CookieConsentBanner from "./components/content/CookieConsentBanner";
+import { useConsent } from "./contexts/ConsentContext";
 import { getGameById } from "./data/games";
 import { ROUTES, ROUTE_PATTERNS, getRouteMetadata } from "./routes";
 import "./styles/main.scss";
@@ -16,6 +20,7 @@ import { NavBar, Footer } from "./components/layout/index.js";
 
 function App() {
 	const location = useLocation();
+	const { resetConsent } = useConsent();
 
 	// Get page title and document title from centralized route metadata
 	const getPageTitle = () => {
@@ -44,6 +49,10 @@ function App() {
 					{/* Root - Game Selection */}
 					<Route path={ROUTES.home} element={<GameSelection />} />
 
+					{/* Legal Routes */}
+					<Route path={ROUTES.privacyPolicy} element={<PrivacyPolicy />} />
+					<Route path={ROUTES.termsAndConditions} element={<TermsAndConditions />} />
+
 					{/* BO4 Routes */}
 					<Route path={ROUTES.games.bo4.base} element={<MapSelection gameId="bo4" />} />
 					<Route
@@ -69,7 +78,9 @@ function App() {
 				</Routes>
 			</main>
 
-			<Footer />
+			<Footer onResetConsent={resetConsent} />
+			
+			<CookieConsentBanner />
 		</div>
 	);
 }

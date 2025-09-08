@@ -30,14 +30,14 @@
 		<meta name="twitter:title" content="COD Zombies Tools - Easter Egg Solver" />
 		<meta name="twitter:description" content="Interactive tools to solve easter egg steps and codes across Call of Duty Zombies maps." />
 
-		<!-- Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-9YZ3JRRW37"></script>
+		<!-- Google Analytics - Loaded conditionally based on consent -->
 		<script>
+		  // Initialize with denied consent by default
 		  window.dataLayer = window.dataLayer || [];
 		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
-
-		  gtag('config', 'G-9YZ3JRRW37');
+		  gtag('consent', 'default', {
+		    'analytics_storage': 'denied'
+		  });
 		</script>
 
 		<!-- Structured Data (Schema.org) -->

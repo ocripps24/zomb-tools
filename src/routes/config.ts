@@ -9,6 +9,10 @@ export const ROUTES = {
   // Root routes
   home: '/',
   
+  // Legal routes
+  privacyPolicy: '/privacy-policy',
+  termsAndConditions: '/terms-and-conditions',
+  
   // Game routes
   games: {
     bo4: {
@@ -149,6 +153,14 @@ export const ROUTE_METADATA = {
   '/': {
     title: 'COD Zombies Tools',
     documentTitle: 'COD Zombies Tools - Easter Egg Solver for BO4 & BO6'
+  },
+  [ROUTES.privacyPolicy]: {
+    title: 'Privacy Policy',
+    documentTitle: 'Privacy Policy - COD Zombies Tools'
+  },
+  [ROUTES.termsAndConditions]: {
+    title: 'Terms and Conditions',
+    documentTitle: 'Terms and Conditions - COD Zombies Tools'
   },
   '/bo4': {
     title: 'Black Ops 4 - Select Map',

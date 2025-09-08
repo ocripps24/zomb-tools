@@ -104,9 +104,40 @@
 
 	.copyright {
 		p {
-			margin: 0;
+			margin: 0 0 space(xs) 0;
 			color: var(--text-primary);
 			@include fluid-text(sm, medium, 1.4);
+		}
+		
+		.legal-links {
+			display: flex;
+			align-items: center;
+			gap: space(sm);
+			margin-top: space(xs);
+			
+			.legal-link {
+				color: var(--text-secondary);
+				text-decoration: none;
+				@include fluid-text(xs, normal, 1.4);
+				transition: color var(--transition);
+				
+				&:hover {
+					color: var(--accent-primary);
+				}
+			}
+			
+			.consent-link {
+				background: none;
+				border: none;
+				padding: 0;
+				cursor: pointer;
+				font-family: inherit;
+			}
+			
+			.separator {
+				color: var(--text-tertiary);
+				font-size: text-size(xs);
+			}
 		}
 	}
 

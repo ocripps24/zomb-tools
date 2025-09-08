@@ -1,0 +1,141 @@
+// Legal pages (Privacy Policy, Terms & Conditions) styles
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+.legal-page {
+	padding: space(xl) space(md);
+	max-width: 1200px;
+	margin: 0 auto;
+
+	@include tmd-up {
+		padding: space(3xl) space(lg);
+	}
+}
+
+.legal-content {
+	background: var(--bg-tertiary);
+	padding: space(xl);
+	border-radius: radius(md);
+	border: 1px solid var(--border-primary);
+
+	h1 {
+		color: var(--accent-primary);
+		margin-bottom: space(sm);
+		font-size: text-size(xxl);
+		border-bottom: 2px solid var(--accent-primary);
+		padding-bottom: space(sm);
+	}
+
+	.last-updated {
+		color: var(--text-secondary);
+		font-style: italic;
+		margin-bottom: space(xl);
+		font-size: text-size(sm);
+	}
+
+	section {
+		margin-bottom: space(xl);
+
+		&:last-of-type {
+			margin-bottom: space(lg);
+		}
+	}
+
+	h2 {
+		color: var(--text-primary);
+		font-size: text-size(xl);
+		margin: space(lg) 0 space(md) 0;
+		border-left: 4px solid var(--accent-primary);
+
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+
+	h3 {
+		color: var(--text-primary);
+		font-size: text-size(lg);
+		margin: space(md) 0 space(sm) 0;
+	}
+
+	h4 {
+		color: var(--text-secondary);
+		font-size: text-size(md);
+		margin: space(sm) 0 space(xs) 0;
+		font-weight: weight(semibold);
+	}
+
+	p {
+		line-height: 1.6;
+		margin-bottom: space(md);
+		color: var(--text-primary);
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	ul {
+		margin: space(sm) 0 space(md) 0;
+		padding-left: 0;
+		list-style: none;
+
+		li {
+			margin-bottom: space(xs);
+			line-height: 1.5;
+			color: var(--text-primary);
+			position: relative;
+			padding-left: space(lg);
+
+			&::before {
+				content: "–";
+				position: absolute;
+				left: 0;
+				color: var(--accent-primary);
+				font-weight: bold;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	a {
+		color: var(--accent-primary);
+		text-decoration: none;
+		border-bottom: 1px solid var(--border-color);
+		transition: all var(--transition);
+
+		&:hover {
+			color: var(--accent-secondary);
+		}
+
+		&[target="_blank"] {
+			&::after {
+				content: " ↗";
+				font-size: text-size(xs);
+				opacity: 0.7;
+			}
+		}
+	}
+
+	strong {
+		color: var(--text-primary);
+		font-weight: weight(bold);
+	}
+}
+
+.legal-footer {
+	margin-top: space(xl);
+	padding: space(lg) 0;
+	border-top: 1px solid var(--border-secondary);
+	text-align: center;
+
+	a {
+		&:hover {
+			color: black;
+		}
+	}
+}

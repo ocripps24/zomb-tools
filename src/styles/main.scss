@@ -35,6 +35,7 @@
 @use "content/section-settings";
 @use "content/settings-info-panel";
 @use "content/youtube-guide-section";
+@use "content/cookie-consent-banner";
 
 // 3c. Layout Components - structural layout elements
 @use "layout/nav";
@@ -46,6 +47,7 @@
 // 5. Pages - general page-specific styles
 @use "pages/map-selection";
 @use "pages/game-selection";
+@use "pages/legal-pages";
 
 // 6. Maps - map-specific styles
 @use "maps/bo4/voyage";

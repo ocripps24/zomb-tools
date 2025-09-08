@@ -3,7 +3,11 @@ import { GAMES } from "@/data/games";
 import { BO4_MAPS } from "@/data/bo4/maps";
 import { BO6_MAPS } from "@/data/bo6/maps";
 
-function Footer() {
+interface FooterProps {
+	onResetConsent: () => void;
+}
+
+function Footer({ onResetConsent }: FooterProps) {
 	// Get available maps for each game
 	const getGameMaps = (gameId) => {
 		switch (gameId) {
@@ -55,6 +59,19 @@ function Footer() {
 				<div className="footer-legal">
 					<div className="copyright">
 						<p>&copy; 2025 Call of Duty: Zomb Tools</p>
+						<div className="legal-links">
+							<Link to="/privacy-policy" className="legal-link">Privacy Policy</Link>
+							<span className="separator">•</span>
+							<Link to="/terms-and-conditions" className="legal-link">Terms & Conditions</Link>
+							<span className="separator">•</span>
+							<button 
+								onClick={onResetConsent}
+								className="legal-link consent-link"
+								type="button"
+							>
+								Manage Consent
+							</button>
+						</div>
 					</div>
 					<div className="disclaimer">
 						<p>
