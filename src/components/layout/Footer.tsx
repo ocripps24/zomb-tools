@@ -9,7 +9,7 @@ interface FooterProps {
 
 function Footer({ onResetConsent }: FooterProps) {
 	// Get available maps for each game
-	const getGameMaps = (gameId) => {
+	const getGameMaps = (gameId: string) => {
 		switch (gameId) {
 			case "bo4":
 				return BO4_MAPS.filter((map) => map.available);
@@ -34,7 +34,7 @@ function Footer({ onResetConsent }: FooterProps) {
 							return (
 								<div key={game.id} className="nav-column">
 									<h4>
-										<Link to={game.route} className="game-link">
+										<Link to={game.route!} className="game-link">
 											{game.name}
 										</Link>
 									</h4>
@@ -58,13 +58,17 @@ function Footer({ onResetConsent }: FooterProps) {
 				{/* Copyright Section */}
 				<div className="footer-legal">
 					<div className="copyright">
-						<p>&copy; 2025 Call of Duty: Zomb Tools</p>
+						<p>&copy; 2025 Zomb Tools</p>
 						<div className="legal-links">
-							<Link to="/privacy-policy" className="legal-link">Privacy Policy</Link>
+							<Link to="/privacy-policy" className="legal-link">
+								Privacy Policy
+							</Link>
 							<span className="separator">•</span>
-							<Link to="/terms-and-conditions" className="legal-link">Terms & Conditions</Link>
+							<Link to="/terms-and-conditions" className="legal-link">
+								Terms & Conditions
+							</Link>
 							<span className="separator">•</span>
-							<button 
+							<button
 								onClick={onResetConsent}
 								className="legal-link consent-link"
 								type="button"
@@ -75,7 +79,7 @@ function Footer({ onResetConsent }: FooterProps) {
 					</div>
 					<div className="disclaimer">
 						<p>
-							This website is an independent, unofficial Call of Duty: Zombies
+							This website is an independent, unofficial Call of Duty Zombies
 							fan site. It is not affiliated with or endorsed by Activision
 							Blizzard. All trademarks, service marks, trade names, trade dress,
 							product names, and logos appearing on this site are the property
