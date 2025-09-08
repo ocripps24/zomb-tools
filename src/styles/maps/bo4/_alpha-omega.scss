@@ -104,6 +104,85 @@
 			}
 		}
 	}
+
+	// Core Value 3 Section Styles
+	.core-value-3-section-content {
+		@include flex-column;
+		gap: space(xl);
+
+		.codes-input-section {
+			h3 {
+				margin-bottom: space(lg);
+				color: var(--text-primary);
+			}
+
+			.codes-grid {
+				display: grid;
+				grid-template-columns: 1fr;
+				gap: space(lg);
+
+				// Tablet and up: Show 3 columns
+				@include tmd-up {
+					grid-template-columns: repeat(3, 1fr);
+					gap: space(xl);
+				}
+
+				.painting-code-numberpad {
+					max-width: 100%;
+				}
+			}
+		}
+
+		.codes-results-section {
+			h3 {
+				margin-bottom: space(lg);
+				color: var(--text-primary);
+			}
+
+			p {
+				margin-bottom: space(lg);
+				color: var(--text-secondary);
+			}
+
+			.results-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+				gap: space(md);
+
+				.result-item {
+					text-align: center;
+					padding: space(lg);
+					background: var(--bg-tertiary);
+					border: 2px solid var(--border-subtle);
+					border-radius: var(--radius);
+
+					&.complete {
+						border-color: var(--success-color);
+						background: var(--bg-tertiary);
+					}
+
+					&.incomplete {
+						opacity: 0.6;
+					}
+
+					.result-number {
+						font-size: 1.5rem;
+						font-weight: 600;
+						color: var(--text-primary);
+						font-family: monospace;
+						letter-spacing: 0.1em;
+						margin-bottom: space(sm);
+					}
+
+					.result-label {
+						color: var(--text-secondary);
+						font-size: 0.875rem;
+						margin-bottom: space(xs);
+					}
+				}
+			}
+		}
+	}
 }
 
 // Clocks Section Styles
