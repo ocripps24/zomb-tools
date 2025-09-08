@@ -11,9 +11,10 @@
 	position: relative;
 	padding: space(sm) space(md);
 	background: var(--bg-tertiary);
-	border: 2px solid var(--border-color);
-	border-radius: var(--radius);
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	// border: 2px solid var(--border-color);
+	border-bottom: 1px solid var(--border-subtle);
+	// border-radius: var(--radius);
+	// box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
 	// Tablet and up: More spacious
 	@include tmd-up {

@@ -10,7 +10,7 @@
 }
 
 .app-header {
-	padding: 1rem 2rem;
+	// padding: 1rem 2rem;
 	background: transparent;
 }
 
@@ -32,7 +32,7 @@
 // Standardized Map Structure
 .map-info {
 	text-align: center;
-	margin-bottom: 2rem;
+	margin-top: space(md);
 	padding: 1rem 0;
 }
 
@@ -94,7 +94,7 @@
 
 		.btn-icon {
 			font-size: 1.1rem;
-			
+
 			// Hide icons on mobile using new breakpoint system
 			@media (max-width: #{breakpoint(tmd) - 1px}) {
 				display: none;
