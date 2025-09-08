@@ -69,11 +69,8 @@ function MapSelection({ gameId }: MapSelectionProps) {
 				image={null}
 				onClick={() => {}}
 				style={{}}
-			>
-				<div className="card__content">
-					The requested game could not be found.
-				</div>
-			</MapSelectionCard>
+				status="The requested game could not be found."
+			/>
 		);
 	}
 
@@ -99,26 +96,10 @@ function MapSelection({ gameId }: MapSelectionProps) {
 						label={map.name}
 						onClick={map.available ? () => navigate(map.route) : undefined}
 						style={{ opacity: map.available ? 1 : 0.5 }}
-					>
-						<div className="card__content">{map.status}</div>
-						{map.tools && map.tools.length > 0 && (
-							<div
-								className="card__content"
-								style={{ fontSize: "0.9em", marginTop: "0.5em" }}
-							>
-								<strong>Tools:</strong> {map.tools.join(", ")}
-							</div>
-						)}
-						{!map.available && (
-							<button
-								className="btn btn--secondary"
-								disabled
-								style={{ marginTop: "1.5rem", width: "100%" }}
-							>
-								Coming Soon
-							</button>
-						)}
-					</MapSelectionCard>
+						tools={map.tools}
+						status={map.status}
+						available={map.available}
+					/>
 				))}
 			</div>
 

@@ -1,0 +1,42 @@
+// FloatingCard component styles
+.card {
+	background: var(--card-bg);
+	border: 2px solid var(--border-color);
+	border-radius: var(--radius);
+	padding: 1.5rem;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	transition: all var(--transition);
+
+	&--interactive {
+		cursor: pointer;
+
+		&:hover,
+		&:focus {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+			border-color: var(--border-focus);
+		}
+
+		&:active {
+			transform: translateY(0);
+		}
+	}
+
+	&__header {
+		margin-bottom: 1rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid var(--border-subtle);
+	}
+
+	&__title {
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: var(--text-primary);
+		margin: 0 0 0.5rem 0;
+	}
+
+	&__content {
+		color: var(--text-secondary);
+		line-height: 1.6;
+	}
+}

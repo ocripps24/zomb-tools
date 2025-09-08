@@ -18,7 +18,8 @@
 @use "components/buttons";
 @use "components/inputs"; // Renamed from forms.scss, cleaned up symbol styles
 @use "components/not-found";
-@use "components/cards";
+@use "components/floating-card";
+@use "components/selection-cards";
 
 // 3a. Core Components - infrastructure and navigation
 @use "core/step-navigation";

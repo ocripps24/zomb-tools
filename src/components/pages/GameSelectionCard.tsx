@@ -1,5 +1,4 @@
 import React from "react";
-import { FloatingCard } from "../content/index.js";
 
 const GameSelectionCard = ({ image, label, onClick, disabled }: {
 	image: any;
@@ -7,12 +6,11 @@ const GameSelectionCard = ({ image, label, onClick, disabled }: {
 	onClick: any;
 	disabled?: boolean;
 }) => (
-	<FloatingCard
-		interactive={!disabled}
-		onClick={disabled ? undefined : onClick}
-		className={`game-selection__card ${disabled ? "game-selection__card--disabled" : ""}`}
+	<div
+		className={`game-selection-card ${disabled ? "selection-card--disabled" : ""}`}
 		role="button"
 		tabIndex={disabled ? -1 : 0}
+		onClick={disabled ? undefined : onClick}
 		onKeyDown={(e) => {
 			if (onClick && !disabled && (e.key === "Enter" || e.key === " ")) {
 				e.preventDefault();
@@ -20,12 +18,18 @@ const GameSelectionCard = ({ image, label, onClick, disabled }: {
 			}
 		}}
 	>
-		<div
-			className="game-selection__card-bg"
-			style={image ? { backgroundImage: `url(${image})` } : undefined}
-		/>
-		<div className="game-selection__card-label-bubble">{label}</div>
-	</FloatingCard>
+		<div className="selection-card__image">
+			{image && (
+				<img 
+					src={image} 
+					alt={label}
+				/>
+			)}
+		</div>
+		<div className="selection-card__meta">
+			<h3 className="selection-card__title">{label}</h3>
+		</div>
+	</div>
 );
 
 export default GameSelectionCard;
