@@ -1,7 +1,7 @@
 import React from "react";
-import { FloatingCard } from "@/components/content";
+import { FloatingCard } from "@/components/ui";
 import { BaseSection } from "@/components/core";
-import { LocationCard } from "@/components/content";
+import { LocationCard } from "@/components/ui";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 
 // Game mechanics constants

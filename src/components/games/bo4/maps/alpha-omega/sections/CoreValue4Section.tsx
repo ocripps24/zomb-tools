@@ -1,4 +1,4 @@
-import { FloatingCard, LocationCard } from "@/components/content";
+import { FloatingCard, LocationCard } from "@/components/ui";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 

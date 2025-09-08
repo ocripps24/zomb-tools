@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import GameSelectionCard from "./GameSelectionCard";
-import SettingsInfoPanel from "@/components/content/SettingsInfoPanel";
+import SettingsInfoPanel from "@/components/ui/SettingsInfoPanel";
 import { GAMES } from "@/data/games";
 
 // Vite dynamic import for all game logos - supports multiple formats

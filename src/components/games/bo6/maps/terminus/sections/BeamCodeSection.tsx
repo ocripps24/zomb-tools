@@ -1,7 +1,7 @@
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
-import { SymbolPicker } from "@/components/content";
-import type { Symbol } from "@/components/content/SymbolPicker";
+import { SymbolPicker } from "@/components/ui";
+import type { Symbol } from "@/components/ui/SymbolPicker";
 import { BeamSymbols, SYMBOL_DATA, getSymbolValue } from "./BeamSymbols";
 
 interface SymbolLocation {

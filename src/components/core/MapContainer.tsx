@@ -2,7 +2,7 @@ import React from 'react';
 import MapNavigation from './MapNavigation';
 import StepNavigation from './StepNavigation';
 import StepNavigationButtons from './StepNavigationButtons';
-import YouTubeGuideSection from '@/components/content/YouTubeGuideSection';
+import YouTubeGuideSection from '@/components/ui/YouTubeGuideSection';
 import { useMapState, MapStep } from '@/hooks';
 
 export interface MapContainerProps {

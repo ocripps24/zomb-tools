@@ -11,7 +11,7 @@ import Reckoning from "./components/games/bo6/maps/reckoning/Reckoning";
 import ShatteredVeil from "./components/games/bo6/maps/shattered-veil/ShatteredVeil";
 import LibertyFalls from "./components/games/bo6/maps/liberty-falls/LibertyFalls";
 import CitadelleDesMorts from "./components/games/bo6/maps/citadelle-des-morts/CitadelleDesMorts";
-import CookieConsentBanner from "./components/content/CookieConsentBanner";
+import CookieConsentBanner from "./components/ui/CookieConsentBanner";
 import { useConsent } from "./contexts/ConsentContext";
 import { getGameById } from "./data/games";
 import { ROUTES, ROUTE_PATTERNS, getRouteMetadata } from "./routes";

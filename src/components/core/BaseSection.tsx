@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
 import SectionHeader from './SectionHeader';
-import TipsSection from '@/components/content/TipsSection';
-import SettingsSection from '@/components/content/SettingsSection';
-import type { TipsConfig } from '@/components/content/TipsSection';
-import type { SettingsConfig } from '@/components/content/SettingsSection';
+import TipsSection from '@/components/ui/TipsSection';
+import SettingsSection from '@/components/ui/SettingsSection';
+import type { TipsConfig } from '@/components/ui/TipsSection';
+import type { SettingsConfig } from '@/components/ui/SettingsSection';
 import { usePersistedState } from '@/hooks';
 import { useGlobalSettings } from '@/hooks/useGlobalSettings';
 

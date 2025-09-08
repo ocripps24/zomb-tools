@@ -1,6 +1,6 @@
-import { NumberCodeSection } from "@/components/content";
+import { NumberCodeSection } from "@/components/ui";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
-import type { NumberCodeData } from "@/components/content/NumberCodeSection";
+import type { NumberCodeData } from "@/components/ui/NumberCodeSection";
 
 // Define the three locations and their value ranges
 const CODE_LOCATIONS = [

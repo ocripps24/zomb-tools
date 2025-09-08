@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NumberPad } from "@/components/content";
+import { NumberPad } from "@/components/ui";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 

@@ -14,43 +14,41 @@
 @use "base/layout-utilities";
 @use "base/fonts";
 
-// 3. Components - reusable UI components
-@use "components/buttons";
-@use "components/inputs"; // Renamed from forms.scss, cleaned up symbol styles
-@use "components/not-found";
-@use "components/floating-card";
-@use "components/selection-cards";
-
-// 3a. Core Components - infrastructure and navigation
+// 3. Core Components - infrastructure and navigation
 @use "core/step-navigation";
-@use "core/step-navigation-buttons"; 
+@use "core/step-navigation-buttons";
 @use "core/section-header";
 @use "core/error-boundary";
 
-// 3b. Content Components - game content and interaction
-@use "content/location-card";
-@use "content/symbol-picker";
-@use "content/number-code-section";
-@use "content/number-pad";
-@use "content/section-tips";
-@use "content/section-settings";
-@use "content/settings-info-panel";
-@use "content/youtube-guide-section";
-@use "content/cookie-consent-banner";
+// 4. UI Components - reusable component styles
+@use "components/buttons";
+@use "components/inputs";
+@use "components/not-found";
+@use "components/floating-card";
+@use "components/selection-cards";
+@use "components/location-card";
+@use "components/symbol-picker";
+@use "components/number-code-section";
+@use "components/number-pad";
+@use "components/section-tips";
+@use "components/section-settings";
+@use "components/settings-info-panel";
+@use "components/youtube-guide-section";
+@use "components/cookie-consent-banner";
 
-// 3c. Layout Components - structural layout elements
+// 5. Layout Components - structural layout elements
 @use "layout/nav";
 @use "layout/footer";
 
-// 4. Layout - layout-specific styles
+// 6. Layout - layout-specific styles
 @use "layout/app";
 
-// 5. Pages - general page-specific styles
+// 7. Pages - general page-specific styles
 @use "pages/map-selection";
 @use "pages/game-selection";
 @use "pages/legal-pages";
 
-// 6. Maps - map-specific styles
+// 8. Maps - map-specific styles
 @use "maps/bo4/voyage";
 @use "maps/bo4/tag-der-toten";
 @use "maps/bo4/alpha-omega";

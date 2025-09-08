@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import MapSelectionCard from "./MapSelectionCard";
-import SettingsInfoPanel from "@/components/content/SettingsInfoPanel";
+import SettingsInfoPanel from "@/components/ui/SettingsInfoPanel";
 import { getGameById } from "@/data/games";
 import { BO4_MAPS, type BO4Map } from "@/data/bo4/maps";
 import { BO6_MAPS, type BO6Map } from "@/data/bo6/maps";

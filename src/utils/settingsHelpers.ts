@@ -1,4 +1,4 @@
-import type { Setting } from "@/components/content/SettingsSection";
+import type { Setting } from "@/components/ui/SettingsSection";
 import { useGlobalSettings } from "@/hooks/useGlobalSettings";
 
 /**
