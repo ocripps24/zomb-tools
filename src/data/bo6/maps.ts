@@ -21,7 +21,7 @@ export const BO6_MAPS: BO6Map[] = [
 		component: () =>
 			import("../../components/games/bo6/maps/terminus/Terminus.tsx"),
 		available: true,
-		tools: ["Nathan code", "Code Calculator"],
+		tools: ["Nathan code", "Beam Code"],
 		difficulty: "medium",
 		guideUrl: "https://www.youtube.com/embed/gSB646HNfgs",
 	},
@@ -42,7 +42,9 @@ export const BO6_MAPS: BO6Map[] = [
 		status: "Available",
 		route: ROUTES.games.bo6.maps.citadelleDesMorts,
 		component: () =>
-			import("../../components/games/bo6/maps/citadelle-des-morts/CitadelleDesMorts.tsx"),
+			import(
+				"../../components/games/bo6/maps/citadelle-des-morts/CitadelleDesMorts.tsx"
+			),
 		available: true,
 		tools: ["Raven Sword", "Traps"],
 		difficulty: "medium",

@@ -6,6 +6,7 @@ import TermsAndConditions from "./components/pages/TermsAndConditions";
 import VoyageOfDespair from "./components/games/bo4/maps/voyage-of-despair/VoyageOfDespair";
 import TagDerToten from "./components/games/bo4/maps/tag-der-toten/TagDerToten";
 import AlphaOmega from "./components/games/bo4/maps/alpha-omega/AlphaOmega";
+import Classified from "./components/games/bo4/maps/classified/Classified";
 import Terminus from "./components/games/bo6/maps/terminus/Terminus";
 import Reckoning from "./components/games/bo6/maps/reckoning/Reckoning";
 import ShatteredVeil from "./components/games/bo6/maps/shattered-veil/ShatteredVeil";
@@ -61,6 +62,7 @@ function App() {
 					/>
 					<Route path={ROUTE_PATTERNS.games.bo4.maps.tagDerToten} element={<TagDerToten />} />
 					<Route path={ROUTE_PATTERNS.games.bo4.maps.alphaOmega} element={<AlphaOmega />} />
+					<Route path={ROUTE_PATTERNS.games.bo4.maps.classified} element={<Classified />} />
 
 					{/* BO6 Routes */}
 					<Route path={ROUTES.games.bo6.base} element={<MapSelection gameId="bo6" />} />

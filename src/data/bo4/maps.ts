@@ -9,6 +9,7 @@ export interface BO4Map {
 	available: boolean;
 	tools: string[];
 	difficulty: "easy" | "medium" | "hard";
+	guideUrl?: string;
 }
 
 export const BO4_MAPS: BO4Map[] = [
@@ -48,12 +49,14 @@ export const BO4_MAPS: BO4Map[] = [
 	{
 		id: "classified",
 		name: "Classified",
-		status: "Coming soon",
+		status: "Available",
 		route: ROUTES.games.bo4.maps.classified,
-		component: null,
-		available: false,
+		component: () =>
+			import("../../components/games/bo4/maps/classified/Classified.tsx"),
+		available: true,
 		tools: ["Codes"],
 		difficulty: "easy",
+		guideUrl: "https://www.youtube.com/embed/LnNDzHcv4Yw",
 	},
 	{
 		id: "dead-of-the-night",
@@ -94,7 +97,12 @@ export const BO4_MAPS: BO4Map[] = [
 		component: () =>
 			import("../../components/games/bo4/maps/tag-der-toten/TagDerToten.tsx"),
 		available: true,
-		tools: ["Totems", "Apothican Offerings", "Seal of Duality", "Orb Locations"],
+		tools: [
+			"Totems",
+			"Apothican Offerings",
+			"Seal of Duality",
+			"Orb Locations",
+		],
 		difficulty: "hard",
 	},
 ];

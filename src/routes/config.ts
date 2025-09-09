@@ -75,6 +75,12 @@ export const MAP_STEPS = {
         coreValue3: '/bo4/alpha-omega/core-value-3',
         coreValue4: '/bo4/alpha-omega/core-value-4'
       }
+    },
+    classified: {
+      base: '/bo4/classified',
+      steps: {
+        codes: '/bo4/classified/codes'
+      }
     }
   },
   bo6: {
