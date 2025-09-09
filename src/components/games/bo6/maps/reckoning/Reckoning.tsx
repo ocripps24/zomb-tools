@@ -21,7 +21,7 @@ const STEPS = [
 
 function Reckoning() {
 	const mapData = getBO6MapById("reckoning");
-	
+
 	return (
 		<MapContainer
 			steps={STEPS}
@@ -30,7 +30,7 @@ function Reckoning() {
 			mapName="Reckoning"
 			backTo="/bo6"
 			className="reckoning"
-			guideUrl={mapData?.guideUrl}
+			guide={mapData?.guide}
 		/>
 	);
 }

@@ -21,7 +21,7 @@ const STEPS = [
 
 function Terminus() {
 	const mapData = getBO6MapById("terminus");
-	
+
 	return (
 		<MapContainer
 			steps={STEPS}
@@ -30,7 +30,7 @@ function Terminus() {
 			mapName="Terminus"
 			backTo="/bo6"
 			className="terminus"
-			guideUrl={mapData?.guideUrl}
+			guide={mapData?.guide}
 		/>
 	);
 }

@@ -6,7 +6,7 @@ import ChalkboardCodeSection from "./sections/ChalkboardCodeSection";
 
 const STEPS = [
 	{
-		id: "chalkboard", 
+		id: "chalkboard",
 		name: "Chalkboard Code",
 		path: "/bo6/shattered-veil/chalkboard-code",
 		component: ChalkboardCodeSection,
@@ -21,7 +21,7 @@ const STEPS = [
 
 function ShatteredVeil() {
 	const mapData = getBO6MapById("shattered-veil");
-	
+
 	return (
 		<MapContainer
 			steps={STEPS}
@@ -30,7 +30,7 @@ function ShatteredVeil() {
 			mapName="Shattered Veil"
 			backTo="/bo6"
 			className="shattered-veil"
-			guideUrl={mapData?.guideUrl}
+			guide={mapData?.guide}
 		/>
 	);
 }
