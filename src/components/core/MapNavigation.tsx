@@ -1,16 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import YouTubeIcon from "@/assets/icons/youtube-icon.svg";
+
+interface Guide {
+	url: string;
+	type: "internal" | "external";
+	channelName?: string;
+}
 
 interface MapNavigationProps {
 	backTo: string;
 	onReset: () => void;
-	guideUrl?: string; // Optional YouTube guide URL
+	guide?: Guide; // Optional YouTube guide configuration
 }
 
 const MapNavigation: React.FC<MapNavigationProps> = ({
 	backTo,
 	onReset,
-	guideUrl,
+	guide,
 }) => {
 	const handleReset = () => {
 		if (
@@ -23,9 +30,9 @@ const MapNavigation: React.FC<MapNavigationProps> = ({
 	};
 
 	const scrollToGuide = () => {
-		const guideElement = document.getElementById('youtube-guide-section');
+		const guideElement = document.getElementById("youtube-guide-section");
 		if (guideElement) {
-			guideElement.scrollIntoView({ behavior: 'smooth' });
+			guideElement.scrollIntoView({ behavior: "smooth" });
 		}
 	};
 
@@ -65,10 +72,14 @@ const MapNavigation: React.FC<MapNavigationProps> = ({
 				<span className="btn-text">← {getGameName(backTo)} Maps</span>
 			</Link>
 			<div className="nav-right">
-				{guideUrl && (
-					<button onClick={scrollToGuide} className="btn btn-secondary guide-btn">
-						<span className="btn-icon">📺</span>
-						<span className="btn-text">Guide Available</span>
+				{guide && (
+					<button
+						onClick={scrollToGuide}
+						className="btn btn-secondary guide-btn"
+					>
+						<span className="btn-icon">
+							<YouTubeIcon />
+						</span>
 					</button>
 				)}
 				<button onClick={handleReset} className="btn btn-secondary reset-btn">

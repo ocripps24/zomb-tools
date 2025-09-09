@@ -1,5 +1,6 @@
 // MapContainer component for Alpha Omega multi-step map navigation
 import { MapContainer } from "@/components/core";
+import { getBO4MapById } from "@/data/bo4/maps";
 import UnlockAdamSection from "./sections/UnlockAdamSection";
 import ClocksSection from "./sections/ClocksSection";
 import CoreValue3Section from "./sections/CoreValue3Section";
@@ -33,6 +34,7 @@ const STEPS = [
 ];
 
 function AlphaOmega() {
+	const mapData = getBO4MapById("alpha-omega");
 	return (
 		<MapContainer
 			steps={STEPS}
@@ -41,6 +43,7 @@ function AlphaOmega() {
 			mapName="Alpha Omega"
 			backTo="/bo4"
 			className="alpha-omega"
+			guide={mapData?.guide}
 		/>
 	);
 }

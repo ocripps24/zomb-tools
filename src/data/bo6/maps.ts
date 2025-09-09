@@ -9,7 +9,11 @@ export interface BO6Map {
 	available: boolean;
 	tools: string[];
 	difficulty: "easy" | "medium" | "hard";
-	guideUrl?: string;
+	guide?: {
+		url: string;
+		type: "internal" | "external";
+		channelName?: string; // Only for external guides
+	};
 }
 
 export const BO6_MAPS: BO6Map[] = [
@@ -23,7 +27,10 @@ export const BO6_MAPS: BO6Map[] = [
 		available: true,
 		tools: ["Nathan code", "Beam Code"],
 		difficulty: "medium",
-		guideUrl: "https://www.youtube.com/embed/gSB646HNfgs",
+		guide: {
+			url: "https://www.youtube.com/embed/gSB646HNfgs",
+			type: "internal"
+		},
 	},
 	{
 		id: "liberty-falls",
@@ -71,7 +78,10 @@ export const BO6_MAPS: BO6Map[] = [
 		available: true,
 		tools: ["Chalkboard Code", "Safe Code"],
 		difficulty: "easy",
-		guideUrl: "https://www.youtube.com/embed/8hRISolznmE",
+		guide: {
+			url: "https://www.youtube.com/embed/8hRISolznmE",
+			type: "internal"
+		},
 	},
 	{
 		id: "reckoning",
@@ -83,7 +93,10 @@ export const BO6_MAPS: BO6Map[] = [
 		available: true,
 		tools: ["Documents Code", "Door Code"],
 		difficulty: "medium",
-		guideUrl: "https://www.youtube.com/embed/ABA6bHB5q6s",
+		guide: {
+			url: "https://www.youtube.com/embed/ABA6bHB5q6s",
+			type: "internal"
+		},
 	},
 ];
 

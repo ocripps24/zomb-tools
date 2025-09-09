@@ -1,5 +1,6 @@
 // MapContainer component for multi-step map navigation
 import { MapContainer } from "@/components/core";
+import { getBO4MapById } from "@/data/bo4/maps";
 import TotemsSection from "./sections/TotemsSection";
 import ApothicanOfferingsSection from "./sections/ApothicanOfferingsSection";
 import SealOfDualitySection from "./sections/SealOfDualitySection";
@@ -33,6 +34,7 @@ const STEPS = [
 ];
 
 function TagDerToten() {
+	const mapData = getBO4MapById("tag-der-toten");
 	return (
 		<MapContainer
 			steps={STEPS}
@@ -41,6 +43,7 @@ function TagDerToten() {
 			mapName="Tag der Toten"
 			backTo="/bo4"
 			className="tag-der-toten"
+			guide={mapData?.guide}
 		/>
 	);
 }

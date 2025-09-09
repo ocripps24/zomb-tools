@@ -100,6 +100,44 @@
 				display: none;
 			}
 		}
+
+		// Special styling for guide button (YouTube icon only)
+		&.guide-btn {
+			// Match the height of text buttons by matching their padding
+			min-height: auto; // Reset any min-height
+			// The padding from .btn will determine the height naturally
+
+			.btn-icon {
+				display: flex; // Always show the icon
+				align-items: center;
+				justify-content: center;
+
+				// Style the YouTube SVG
+				svg {
+					width: 1.8rem;
+					height: 1.8rem;
+					fill: #ff0000; // YouTube red
+					transition: fill var(--transition);
+				}
+
+				@media (max-width: #{breakpoint(tmd) - 1px}) {
+					display: flex; // Override the hide behavior for guide button
+				}
+			}
+
+			// No text for this button, just icon
+			.btn-text {
+				display: none;
+			}
+
+			// Hover state - make icon white when background becomes primary
+			&:hover,
+			&:focus {
+				.btn-icon svg {
+					// fill: var(--btn-primary-text); // White when hovered
+				}
+			}
+		}
 	}
 }
 

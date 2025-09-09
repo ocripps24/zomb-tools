@@ -1,5 +1,6 @@
 // MapContainer component for multi-step map navigation
 import { MapContainer } from "@/components/core";
+import { getBO4MapById } from "@/data/bo4/maps";
 import ClockSection from "./sections/ClockSection";
 import OutletSection from "./sections/OutletSection";
 import PlanetSection from "./sections/PlanetSection";
@@ -26,6 +27,7 @@ const STEPS = [
 ];
 
 function VoyageOfDespair() {
+	const mapData = getBO4MapById("voyage-of-despair");
 	return (
 		<MapContainer
 			steps={STEPS}
@@ -34,6 +36,7 @@ function VoyageOfDespair() {
 			mapName="Voyage of Despair"
 			backTo="/bo4"
 			className="voyage-of-despair"
+			guide={mapData?.guide}
 		/>
 	);
 }

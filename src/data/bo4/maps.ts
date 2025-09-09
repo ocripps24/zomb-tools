@@ -9,7 +9,11 @@ export interface BO4Map {
 	available: boolean;
 	tools: string[];
 	difficulty: "easy" | "medium" | "hard";
-	guideUrl?: string;
+	guide?: {
+		url: string;
+		type: "internal" | "external";
+		channelName?: string; // Only for external guides
+	};
 }
 
 export const BO4_MAPS: BO4Map[] = [
@@ -25,6 +29,11 @@ export const BO4_MAPS: BO4Map[] = [
 		available: true,
 		tools: ["clocks", "outlets", "planets"],
 		difficulty: "medium",
+		guide: {
+			url: "https://www.youtube.com/embed/2uWcP083T0g",
+			type: "external",
+			channelName: "Joltz",
+		},
 	},
 	{
 		id: "blood-of-the-dead",
@@ -56,7 +65,11 @@ export const BO4_MAPS: BO4Map[] = [
 		available: true,
 		tools: ["Project Skadi"],
 		difficulty: "easy",
-		guideUrl: "https://www.youtube.com/embed/LnNDzHcv4Yw",
+		guide: {
+			url: "https://www.youtube.com/embed/LnNDzHcv4Yw",
+			type: "external",
+			channelName: "Glitch",
+		},
 	},
 	{
 		id: "dead-of-the-night",
@@ -78,6 +91,11 @@ export const BO4_MAPS: BO4Map[] = [
 		available: true,
 		tools: ["Unlock A.D.A.M", "Clocks", "Core Value 3", "Core Value 4"],
 		difficulty: "medium",
+		guide: {
+			url: "https://www.youtube.com/embed/6Uls6HaBoV8",
+			type: "external",
+			channelName: "Joltz",
+		},
 	},
 	{
 		id: "ancient-evil",
@@ -104,6 +122,11 @@ export const BO4_MAPS: BO4Map[] = [
 			"Orb Locations",
 		],
 		difficulty: "hard",
+		guide: {
+			url: "https://www.youtube.com/embed/eqyw5Pi5-4c",
+			type: "external",
+			channelName: "Joltz",
+		},
 	},
 ];
 

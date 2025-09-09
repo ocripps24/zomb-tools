@@ -5,6 +5,12 @@ import StepNavigationButtons from './StepNavigationButtons';
 import YouTubeGuideSection from '@/components/ui/YouTubeGuideSection';
 import { useMapState, MapStep } from '@/hooks';
 
+interface Guide {
+  url: string;
+  type: "internal" | "external";
+  channelName?: string;
+}
+
 export interface MapContainerProps {
   /** Array of steps for this map */
   steps: MapStep[];
@@ -18,8 +24,8 @@ export interface MapContainerProps {
   backTo: string;
   /** Additional CSS class for the map */
   className?: string;
-  /** Optional YouTube guide embed URL */
-  guideUrl?: string;
+  /** Optional YouTube guide configuration */
+  guide?: Guide;
 }
 
 /**
@@ -40,7 +46,7 @@ export function MapContainer({
   mapName,
   backTo,
   className = '',
-  guideUrl
+  guide
 }: MapContainerProps) {
   const {
     activeStepIndex,
@@ -62,7 +68,7 @@ export function MapContainer({
         <MapNavigation
           backTo={backTo}
           onReset={handleReset}
-          guideUrl={guideUrl}
+          guide={guide}
         />
       </div>
 
@@ -98,10 +104,10 @@ export function MapContainer({
           onGoToStep={(stepIndex: number) => goToStep(steps[stepIndex].path)}
         />
 
-        {/* YouTube Guide Section - Only show if guide URL is provided */}
-        {guideUrl && (
+        {/* YouTube Guide Section - Only show if guide is provided */}
+        {guide && (
           <YouTubeGuideSection 
-            guideUrl={guideUrl} 
+            guide={guide} 
             mapName={mapName} 
           />
         )}

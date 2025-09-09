@@ -26,7 +26,7 @@ function Classified() {
 			mapName="Classified"
 			backTo="/bo4"
 			className="classified"
-			guideUrl={mapData?.guideUrl}
+			guide={mapData?.guide}
 		/>
 	);
 }
