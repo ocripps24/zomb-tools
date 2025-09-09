@@ -54,7 +54,7 @@ export const BO4_MAPS: BO4Map[] = [
 		component: () =>
 			import("../../components/games/bo4/maps/classified/Classified.tsx"),
 		available: true,
-		tools: ["Codes"],
+		tools: ["Project Skadi"],
 		difficulty: "easy",
 		guideUrl: "https://www.youtube.com/embed/LnNDzHcv4Yw",
 	},

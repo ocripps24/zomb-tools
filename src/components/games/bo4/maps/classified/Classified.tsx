@@ -9,7 +9,7 @@ import CodesSection from "./sections/CodesSection";
 const STEPS: MapStep[] = [
 	{
 		id: "codes",
-		name: "Codes Collection",
+		name: "Project Skadi",
 		path: "/bo4/classified/codes",
 		component: CodesSection,
 	},
