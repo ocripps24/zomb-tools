@@ -1,0 +1,67 @@
+@use "../abstracts/variables" as *;
+
+// Page/Section transition classes
+.page-transition {
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+  
+  &.fade-enter {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  
+  &.fade-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  &.fade-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  &.fade-exit-active {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+// Map content transition
+.map-content {
+  .transition-wrapper {
+    position: relative;
+    min-height: 200px;
+  }
+  
+  .step-content {
+    @extend .page-transition;
+    
+    &.transitioning {
+      pointer-events: none;
+    }
+  }
+}
+
+// Transition mixin for reusable fade effects
+@mixin fade-transition($duration: 300ms, $offset: 10px) {
+  transition: opacity $duration ease-in-out, transform $duration ease-in-out;
+  
+  &.fade-enter {
+    opacity: 0;
+    transform: translateY($offset);
+  }
+  
+  &.fade-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  &.fade-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  &.fade-exit-active {
+    opacity: 0;
+    transform: translateY(-#{$offset});
+  }
+}

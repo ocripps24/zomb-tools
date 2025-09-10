@@ -2,6 +2,7 @@ import React from 'react';
 import MapNavigation from './MapNavigation';
 import StepNavigation from './StepNavigation';
 import StepNavigationButtons from './StepNavigationButtons';
+import { TransitionWrapper } from './TransitionWrapper';
 import YouTubeGuideSection from '@/components/ui/YouTubeGuideSection';
 import { useMapState, MapStep } from '@/hooks';
 
@@ -80,20 +81,24 @@ export function MapContainer({
       />
 
       <div className="map-content">
-        {/* Render current step component directly based on activeStepIndex */}
-        {steps[activeStepIndex] && (() => {
-          const StepComponent = steps[activeStepIndex].component;
-          return (
-            <StepComponent
-              data={getStepData(steps[activeStepIndex].id)}
-              onChange={(data: any) => handleStepDataChange(steps[activeStepIndex].id, data)}
-              onNext={goToNext}
-              onPrevious={goToPrevious}
-              currentStep={activeStepIndex + 1}
-              totalSteps={steps.length}
-            />
-          );
-        })()}
+        {/* Render current step component with transition wrapper */}
+        <TransitionWrapper 
+          transitionKey={`step-${activeStepIndex}-${steps[activeStepIndex]?.id}`}
+        >
+          {steps[activeStepIndex] && (() => {
+            const StepComponent = steps[activeStepIndex].component;
+            return (
+              <StepComponent
+                data={getStepData(steps[activeStepIndex].id)}
+                onChange={(data: any) => handleStepDataChange(steps[activeStepIndex].id, data)}
+                onNext={goToNext}
+                onPrevious={goToPrevious}
+                currentStep={activeStepIndex + 1}
+                totalSteps={steps.length}
+              />
+            );
+          })()}
+        </TransitionWrapper>
 
         <StepNavigationButtons
           currentStepIndex={activeStepIndex}
