@@ -3,6 +3,7 @@ import StepNavigation from "./StepNavigation";
 import StepNavigationButtons from "./StepNavigationButtons";
 import YouTubeGuideSection from "@/components/ui/YouTubeGuideSection";
 import { useMapState, MapStep } from "@/hooks";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface Guide {
 	url: string;
@@ -75,23 +76,37 @@ export function MapContainer({
 			/>
 
 			<div className="map-content">
-				{/* Render current step component */}
-				{steps[activeStepIndex] &&
-					(() => {
-						const StepComponent = steps[activeStepIndex].component;
-						return (
-							<StepComponent
-								data={getStepData(steps[activeStepIndex].id)}
-								onChange={(data: any) =>
-									handleStepDataChange(steps[activeStepIndex].id, data)
-								}
-								onNext={goToNext}
-								onPrevious={goToPrevious}
-								currentStep={activeStepIndex + 1}
-								totalSteps={steps.length}
-							/>
-						);
-					})()}
+				{/* Render current step component with transitions */}
+				<AnimatePresence mode="wait">
+					{steps[activeStepIndex] && (
+						<motion.div
+							key={steps[activeStepIndex].id}
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
+							transition={{
+								duration: 0.25,
+								ease: "easeInOut"
+							}}
+						>
+							{(() => {
+								const StepComponent = steps[activeStepIndex].component;
+								return (
+									<StepComponent
+										data={getStepData(steps[activeStepIndex].id)}
+										onChange={(data: any) =>
+											handleStepDataChange(steps[activeStepIndex].id, data)
+										}
+										onNext={goToNext}
+										onPrevious={goToPrevious}
+										currentStep={activeStepIndex + 1}
+										totalSteps={steps.length}
+									/>
+								);
+							})()}
+						</motion.div>
+					)}
+				</AnimatePresence>
 
 				<StepNavigationButtons
 					currentStepIndex={activeStepIndex}

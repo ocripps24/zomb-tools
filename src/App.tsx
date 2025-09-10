@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import { GameSelection, MapSelection, NotFound } from "./components/pages";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import TermsAndConditions from "./components/pages/TermsAndConditions";
@@ -39,6 +40,29 @@ function App() {
 		document.title = getDocumentTitle();
 	}, [location.pathname]);
 
+	// Generate a key for page transitions that ignores map step changes
+	const getPageTransitionKey = () => {
+		const path = location.pathname;
+		
+		// For map pages, only use the base map path (not the step)
+		// e.g. "/bo6/terminus/nathan" becomes "/bo6/terminus"
+		const segments = path.split('/').filter(Boolean);
+		
+		// If it's a map page with 3+ segments (game/map/step), use only first 2
+		if (segments.length >= 3) {
+			const gameId = segments[0];
+			const mapId = segments[1];
+			
+			// Check if this is a known game/map combination
+			if ((gameId === 'bo4' || gameId === 'bo6') && mapId) {
+				return `/${gameId}/${mapId}`;
+			}
+		}
+		
+		// For all other routes, use the full path
+		return path;
+	};
+
 	return (
 		<div className="app">
 			<header className="app-header">
@@ -46,38 +70,51 @@ function App() {
 			</header>
 
 			<main className="app-main">
-				<Routes>
-					{/* Root - Game Selection */}
-					<Route path={ROUTES.home} element={<GameSelection />} />
+				<AnimatePresence mode="wait">
+					<motion.div
+						key={getPageTransitionKey()}
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						transition={{
+							duration: 0.3,
+							ease: "easeInOut"
+						}}
+					>
+						<Routes location={location}>
+							{/* Root - Game Selection */}
+							<Route path={ROUTES.home} element={<GameSelection />} />
 
-					{/* Legal Routes */}
-					<Route path={ROUTES.privacyPolicy} element={<PrivacyPolicy />} />
-					<Route path={ROUTES.termsAndConditions} element={<TermsAndConditions />} />
+							{/* Legal Routes */}
+							<Route path={ROUTES.privacyPolicy} element={<PrivacyPolicy />} />
+							<Route path={ROUTES.termsAndConditions} element={<TermsAndConditions />} />
 
-					{/* BO4 Routes */}
-					<Route path={ROUTES.games.bo4.base} element={<MapSelection gameId="bo4" />} />
-					<Route
-						path={ROUTE_PATTERNS.games.bo4.maps.voyageOfDespair}
-						element={<VoyageOfDespair />}
-					/>
-					<Route path={ROUTE_PATTERNS.games.bo4.maps.tagDerToten} element={<TagDerToten />} />
-					<Route path={ROUTE_PATTERNS.games.bo4.maps.alphaOmega} element={<AlphaOmega />} />
-					<Route path={ROUTE_PATTERNS.games.bo4.maps.classified} element={<Classified />} />
+							{/* BO4 Routes */}
+							<Route path={ROUTES.games.bo4.base} element={<MapSelection gameId="bo4" />} />
+							<Route
+								path={ROUTE_PATTERNS.games.bo4.maps.voyageOfDespair}
+								element={<VoyageOfDespair />}
+							/>
+							<Route path={ROUTE_PATTERNS.games.bo4.maps.tagDerToten} element={<TagDerToten />} />
+							<Route path={ROUTE_PATTERNS.games.bo4.maps.alphaOmega} element={<AlphaOmega />} />
+							<Route path={ROUTE_PATTERNS.games.bo4.maps.classified} element={<Classified />} />
 
-					{/* BO6 Routes */}
-					<Route path={ROUTES.games.bo6.base} element={<MapSelection gameId="bo6" />} />
-					<Route path={ROUTE_PATTERNS.games.bo6.maps.terminus} element={<Terminus />} />
-					<Route path={ROUTE_PATTERNS.games.bo6.maps.reckoning} element={<Reckoning />} />
-					<Route path={ROUTE_PATTERNS.games.bo6.maps.shatteredVeil} element={<ShatteredVeil />} />
-					<Route path={ROUTE_PATTERNS.games.bo6.maps.libertyFalls} element={<LibertyFalls />} />
-					<Route path={ROUTE_PATTERNS.games.bo6.maps.citadelleDesMorts} element={<CitadelleDesMorts />} />
+							{/* BO6 Routes */}
+							<Route path={ROUTES.games.bo6.base} element={<MapSelection gameId="bo6" />} />
+							<Route path={ROUTE_PATTERNS.games.bo6.maps.terminus} element={<Terminus />} />
+							<Route path={ROUTE_PATTERNS.games.bo6.maps.reckoning} element={<Reckoning />} />
+							<Route path={ROUTE_PATTERNS.games.bo6.maps.shatteredVeil} element={<ShatteredVeil />} />
+							<Route path={ROUTE_PATTERNS.games.bo6.maps.libertyFalls} element={<LibertyFalls />} />
+							<Route path={ROUTE_PATTERNS.games.bo6.maps.citadelleDesMorts} element={<CitadelleDesMorts />} />
 
-					{/* Legacy route redirect for existing bookmarks */}
-					<Route path={ROUTE_PATTERNS.legacy.voyageOfDespair} element={<VoyageOfDespair />} />
+							{/* Legacy route redirect for existing bookmarks */}
+							<Route path={ROUTE_PATTERNS.legacy.voyageOfDespair} element={<VoyageOfDespair />} />
 
-					{/* 404 */}
-					<Route path="*" element={<NotFound />} />
-				</Routes>
+							{/* 404 */}
+							<Route path="*" element={<NotFound />} />
+						</Routes>
+					</motion.div>
+				</AnimatePresence>
 			</main>
 
 			<Footer onResetConsent={resetConsent} />
