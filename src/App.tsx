@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { PageTransition } from "./components/core/PageTransition";
 import { GameSelection, MapSelection, NotFound } from "./components/pages";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import TermsAndConditions from "./components/pages/TermsAndConditions";
@@ -47,40 +46,38 @@ function App() {
 			</header>
 
 			<main className="app-main">
-				<PageTransition>
-					<Routes>
-						{/* Root - Game Selection */}
-						<Route path={ROUTES.home} element={<GameSelection />} />
+				<Routes>
+					{/* Root - Game Selection */}
+					<Route path={ROUTES.home} element={<GameSelection />} />
 
-						{/* Legal Routes */}
-						<Route path={ROUTES.privacyPolicy} element={<PrivacyPolicy />} />
-						<Route path={ROUTES.termsAndConditions} element={<TermsAndConditions />} />
+					{/* Legal Routes */}
+					<Route path={ROUTES.privacyPolicy} element={<PrivacyPolicy />} />
+					<Route path={ROUTES.termsAndConditions} element={<TermsAndConditions />} />
 
-						{/* BO4 Routes */}
-						<Route path={ROUTES.games.bo4.base} element={<MapSelection gameId="bo4" />} />
-						<Route
-							path={ROUTE_PATTERNS.games.bo4.maps.voyageOfDespair}
-							element={<VoyageOfDespair />}
-						/>
-						<Route path={ROUTE_PATTERNS.games.bo4.maps.tagDerToten} element={<TagDerToten />} />
-						<Route path={ROUTE_PATTERNS.games.bo4.maps.alphaOmega} element={<AlphaOmega />} />
-						<Route path={ROUTE_PATTERNS.games.bo4.maps.classified} element={<Classified />} />
+					{/* BO4 Routes */}
+					<Route path={ROUTES.games.bo4.base} element={<MapSelection gameId="bo4" />} />
+					<Route
+						path={ROUTE_PATTERNS.games.bo4.maps.voyageOfDespair}
+						element={<VoyageOfDespair />}
+					/>
+					<Route path={ROUTE_PATTERNS.games.bo4.maps.tagDerToten} element={<TagDerToten />} />
+					<Route path={ROUTE_PATTERNS.games.bo4.maps.alphaOmega} element={<AlphaOmega />} />
+					<Route path={ROUTE_PATTERNS.games.bo4.maps.classified} element={<Classified />} />
 
-						{/* BO6 Routes */}
-						<Route path={ROUTES.games.bo6.base} element={<MapSelection gameId="bo6" />} />
-						<Route path={ROUTE_PATTERNS.games.bo6.maps.terminus} element={<Terminus />} />
-						<Route path={ROUTE_PATTERNS.games.bo6.maps.reckoning} element={<Reckoning />} />
-						<Route path={ROUTE_PATTERNS.games.bo6.maps.shatteredVeil} element={<ShatteredVeil />} />
-						<Route path={ROUTE_PATTERNS.games.bo6.maps.libertyFalls} element={<LibertyFalls />} />
-						<Route path={ROUTE_PATTERNS.games.bo6.maps.citadelleDesMorts} element={<CitadelleDesMorts />} />
+					{/* BO6 Routes */}
+					<Route path={ROUTES.games.bo6.base} element={<MapSelection gameId="bo6" />} />
+					<Route path={ROUTE_PATTERNS.games.bo6.maps.terminus} element={<Terminus />} />
+					<Route path={ROUTE_PATTERNS.games.bo6.maps.reckoning} element={<Reckoning />} />
+					<Route path={ROUTE_PATTERNS.games.bo6.maps.shatteredVeil} element={<ShatteredVeil />} />
+					<Route path={ROUTE_PATTERNS.games.bo6.maps.libertyFalls} element={<LibertyFalls />} />
+					<Route path={ROUTE_PATTERNS.games.bo6.maps.citadelleDesMorts} element={<CitadelleDesMorts />} />
 
-						{/* Legacy route redirect for existing bookmarks */}
-						<Route path={ROUTE_PATTERNS.legacy.voyageOfDespair} element={<VoyageOfDespair />} />
+					{/* Legacy route redirect for existing bookmarks */}
+					<Route path={ROUTE_PATTERNS.legacy.voyageOfDespair} element={<VoyageOfDespair />} />
 
-						{/* 404 */}
-						<Route path="*" element={<NotFound />} />
-					</Routes>
-				</PageTransition>
+					{/* 404 */}
+					<Route path="*" element={<NotFound />} />
+				</Routes>
 			</main>
 
 			<Footer onResetConsent={resetConsent} />

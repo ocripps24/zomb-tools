@@ -1,5 +1,6 @@
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
+@use "../abstracts/functions" as *;
 
 .not-found-container {
 	display: flex;
@@ -9,11 +10,7 @@
 	min-height: 80vh;
 	text-align: center;
 	padding: space(3xl);
-	background: linear-gradient(
-		135deg,
-		var(--accent-color) 0%,
-		var(--text-primary) 100%
-	);
+	background: var(--bg-tertiary);
 	border-radius: radius(base);
 	margin: space(xl) 0;
 }
@@ -21,15 +18,13 @@
 .not-found-content {
 	max-width: 500px;
 	width: 100%;
-	color: white;
+	color: var(--text-primary);
 }
 
 .not-found-content .error-code {
 	font-size: 8rem;
 	font-weight: font-weight(bold);
 	margin-bottom: space(lg);
-	text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-	animation: pulse 2s infinite;
 
 	@include mobile {
 		font-size: 6rem;
@@ -58,35 +53,28 @@
 }
 
 .not-found-content .home-link {
-	display: inline-block;
-	padding: space(lg) space(2xl);
-	background: rgba(255, 255, 255, 0.1);
-	border: 2px solid rgba(255, 255, 255, 0.3);
-	border-radius: radius(base);
-	color: white;
+	background: var(--btn-primary-bg);
+	border: 2px solid var(--border-color);
+	color: var(--btn-primary-text);
+	border-radius: var(--radius);
+	padding: 0.75rem 1.5rem;
+	font-size: 1rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all var(--transition);
 	text-decoration: none;
-	font-weight: font-weight(semibold);
-	font-size: font-size(base);
-	transition: transition(base);
+	display: inline-block;
+	text-align: center;
 
-	&:hover {
-		background: rgba(255, 255, 255, 0.2);
-		border-color: rgba(255, 255, 255, 0.5);
-		transform: translateY(-2px);
-	}
-
+	&:hover,
 	&:focus {
-		outline: 2px solid rgba(255, 255, 255, 0.5);
-		outline-offset: 2px;
+		background: var(--btn-secondary-bg);
+		border-color: var(--accent-color);
+		color: var(--btn-secondary-text);
+		transform: translateY(-1px);
 	}
-}
 
-@keyframes pulse {
-	0%,
-	100% {
-		opacity: 1;
-	}
-	50% {
-		opacity: 0.7;
+	&:active {
+		transform: translateY(0);
 	}
 }

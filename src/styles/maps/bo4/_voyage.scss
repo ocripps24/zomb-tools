@@ -441,7 +441,7 @@
 		@include responsive-grid(1, 2, 3, space(lg));
 
 		& {
-			margin-bottom: space(3xl);
+			margin-bottom: space(2xl);
 			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 		}
 	}
@@ -737,78 +737,6 @@
 		}
 	}
 
-	.portal-order {
-		margin-top: space(3xl);
-		padding: space(2xl);
-		border: 1px solid var(--border-color);
-		border-radius: radius(base);
-		background-color: transparent;
-
-		h4 {
-			margin: 0 0 space(lg) 0;
-			color: var(--text-primary);
-			font-size: font-size(base);
-		}
-
-		&-list {
-			@include flex-column;
-			gap: space(sm);
-		}
-
-		&-item {
-			display: flex;
-			align-items: center;
-			gap: space(md);
-			padding: space(md) space(lg);
-			background-color: transparent;
-			border: 1px solid var(--border-color);
-			border-radius: radius(base);
-			transition: transition(base);
-
-			&--assigned {
-				border-color: var(--success-color);
-				background-color: var(--location-card-completed-bg);
-			}
-		}
-	}
-
-	.portal-step {
-		@include flex-center;
-		@include touch-target(32px);
-		background-color: var(--accent-color);
-		color: var(--btn-primary-text);
-		border: 2px solid var(--btn-primary-text);
-		border-radius: radius(full);
-		font-weight: font-weight(semibold);
-		font-size: font-size(sm);
-		min-width: 32px;
-		flex-shrink: 0;
-	}
-
-	.portal-location {
-		font-size: font-size(lg);
-		font-weight: font-weight(semibold);
-		color: var(--text-primary);
-		flex: 1;
-		text-align: left;
-
-		@include mobile {
-			font-size: font-size(base);
-		}
-	}
-
-	.portal-catalyst {
-		font-weight: font-weight(semibold);
-		font-size: font-size(base);
-		color: var(--text-primary);
-		text-align: right;
-		flex-shrink: 0;
-
-		@include mobile {
-			font-size: font-size(sm);
-		}
-	}
-
 	.clear-btn {
 		margin-top: space(lg);
 		background-color: var(--danger-color);
@@ -818,5 +746,84 @@
 		&:hover {
 			background-color: #b91c1c;
 		}
+	}
+}
+
+// Portal order section styles
+.portal-order {
+	margin-top: space(xl);
+	padding: space(lg);
+	border: 1px solid var(--border-subtle);
+	border-radius: radius(base);
+	background-color: var(--bg-tertiary);
+
+	h4 {
+		margin: 0 0 space(lg) 0;
+		color: var(--text-primary);
+		font-size: font-size(base);
+		font-weight: font-weight(semibold);
+	}
+
+	&-list {
+		@include flex-column;
+		gap: space(md);
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		gap: space(md);
+		padding: space(md);
+		background-color: transparent;
+		border: 1px solid var(--border-subtle);
+		border-radius: radius(base);
+		transition: transition(base);
+
+		&:hover:not(&--assigned) {
+			border-color: var(--border-focus);
+			background-color: var(--location-card-hover-bg);
+		}
+
+		&--assigned {
+			border-color: var(--location-card-completed-border);
+			background-color: var(--location-card-completed-bg);
+		}
+	}
+}
+
+.portal-step {
+	@include flex-center;
+	@include touch-target(32px);
+	background-color: var(--text-primary);
+	color: var(--bg-primary);
+	border: 2px solid var(--text-primary);
+	border-radius: radius(full);
+	font-weight: font-weight(bold);
+	font-size: font-size(sm);
+	min-width: 32px;
+	flex-shrink: 0;
+}
+
+.portal-location {
+	font-size: font-size(lg);
+	font-weight: font-weight(semibold);
+	color: var(--text-primary);
+	flex: 1;
+	text-align: left;
+
+	@include mobile {
+		font-size: font-size(base);
+	}
+}
+
+.portal-catalyst {
+	font-weight: font-weight(semibold);
+	font-size: font-size(base);
+	color: var(--text-primary);
+	text-align: right;
+	flex-shrink: 0;
+
+	@include mobile {
+		font-size: font-size(sm);
 	}
 }
