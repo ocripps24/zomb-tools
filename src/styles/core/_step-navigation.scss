@@ -85,7 +85,7 @@
 	// Mobile: Inactive tabs show only numbers, minimal padding
 	&:not(.step-tab--active) {
 		flex: 0 0 auto; // Don't grow, minimal size
-		padding: space(sm) space(md);
+		// padding: space(sm) space(md);
 
 		.step-name {
 			display: none; // Hide step names on inactive tabs
@@ -106,7 +106,7 @@
 		// Override mobile behavior - all tabs equal size
 		&:not(.step-tab--active) {
 			flex: 1; // Equal size on desktop
-			
+
 			.step-name {
 				display: block; // Show names on all tabs at larger screens
 			}
