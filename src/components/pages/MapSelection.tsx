@@ -4,6 +4,7 @@ import SettingsInfoPanel from "@/components/ui/SettingsInfoPanel";
 import { getGameById } from "@/data/games";
 import { BO4_MAPS, type BO4Map } from "@/data/bo4/maps";
 import { BO6_MAPS, type BO6Map } from "@/data/bo6/maps";
+import { BO7_MAPS, type BO7Map } from "@/data/bo7/maps";
 import { ROUTES } from "@/routes";
 
 // Vite dynamic import for all map preview images - supports multiple formats
@@ -42,12 +43,14 @@ const getPreview = (gameId: string, mapId: string): string | null => {
 	return null;
 };
 
-const getMapsByGame = (gameId: string): (BO4Map | BO6Map)[] => {
+const getMapsByGame = (gameId: string): (BO4Map | BO6Map | BO7Map)[] => {
 	switch (gameId) {
 		case "bo4":
 			return BO4_MAPS;
 		case "bo6":
 			return BO6_MAPS;
+		case "bo7":
+			return BO7_MAPS;
 		default:
 			return [];
 	}

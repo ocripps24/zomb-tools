@@ -34,9 +34,9 @@ export const GAMES: Record<string, Game> = {
 		name: "Black Ops 7",
 		fullName: "Call of Duty: Black Ops 7",
 		description: "Coming 2025 - Zombies mode tools (Pre-release)",
-		available: false,
+		available: true,
 		releaseYear: 2025,
-		route: null,
+		route: ROUTES.games.bo7.base,
 	},
 };
 

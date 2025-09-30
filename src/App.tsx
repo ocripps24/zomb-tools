@@ -55,7 +55,7 @@ function App() {
 			const mapId = segments[1];
 			
 			// Check if this is a known game/map combination
-			if ((gameId === 'bo4' || gameId === 'bo6') && mapId) {
+			if ((gameId === 'bo4' || gameId === 'bo6' || gameId === 'bo7') && mapId) {
 				return `/${gameId}/${mapId}`;
 			}
 		}
@@ -101,6 +101,9 @@ function App() {
 							<Route path={ROUTE_PATTERNS.games.bo6.maps.shatteredVeil} element={<ShatteredVeil />} />
 							<Route path={ROUTE_PATTERNS.games.bo6.maps.libertyFalls} element={<LibertyFalls />} />
 							<Route path={ROUTE_PATTERNS.games.bo6.maps.citadelleDesMorts} element={<CitadelleDesMorts />} />
+
+							{/* BO7 Routes */}
+							<Route path={ROUTES.games.bo7.base} element={<MapSelection gameId="bo7" />} />
 
 							{/* Legacy route redirect for existing bookmarks */}
 							<Route path={ROUTE_PATTERNS.legacy.voyageOfDespair} element={<VoyageOfDespair />} />
