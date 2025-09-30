@@ -40,7 +40,7 @@ const getLogo = (id: string): string | null => {
 };
 
 function GameSelection() {
-	const allGames = Object.values(GAMES) as Array<{
+	const allGames = (Object.values(GAMES) as Array<{
 		id: string;
 		name: string;
 		fullName: string;
@@ -48,7 +48,7 @@ function GameSelection() {
 		available: boolean;
 		releaseYear: number;
 		route: string | null;
-	}>;
+	}>).sort((a, b) => b.releaseYear - a.releaseYear);
 	const navigate = useNavigate();
 
 	return (

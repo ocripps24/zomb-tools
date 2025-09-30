@@ -46,11 +46,6 @@ export const ROUTES = {
 			},
 		},
 	},
-
-	// Legacy routes (for backwards compatibility)
-	legacy: {
-		voyageOfDespair: "/voyage-of-despair",
-	},
 } as const;
 
 // Map step routes configuration
@@ -161,9 +156,6 @@ export const ROUTE_PATTERNS = {
 			},
 		},
 	},
-	legacy: {
-		voyageOfDespair: "/voyage-of-despair/*",
-	},
 } as const;
 
 // Map metadata that corresponds to routes
@@ -245,5 +237,4 @@ export type RoutePaths =
 	| typeof ROUTES.games.bo7.base
 	| (typeof ROUTES.games.bo4.maps)[keyof typeof ROUTES.games.bo4.maps]
 	| (typeof ROUTES.games.bo6.maps)[keyof typeof ROUTES.games.bo6.maps]
-	| (typeof ROUTES.games.bo7.maps)[keyof typeof ROUTES.games.bo7.maps]
-	| (typeof ROUTES.legacy)[keyof typeof ROUTES.legacy];
+	| (typeof ROUTES.games.bo7.maps)[keyof typeof ROUTES.games.bo7.maps];

@@ -105,9 +105,6 @@ function App() {
 							{/* BO7 Routes */}
 							<Route path={ROUTES.games.bo7.base} element={<MapSelection gameId="bo7" />} />
 
-							{/* Legacy route redirect for existing bookmarks */}
-							<Route path={ROUTE_PATTERNS.legacy.voyageOfDespair} element={<VoyageOfDespair />} />
-
 							{/* 404 */}
 							<Route path="*" element={<NotFound />} />
 						</Routes>
