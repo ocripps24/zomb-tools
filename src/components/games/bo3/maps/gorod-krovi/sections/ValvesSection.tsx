@@ -347,17 +347,15 @@ function ValvesSection(props: BaseSectionProps<ValvesData>) {
 
 				const solution = getSolution();
 
-				// Filter out locations that can't be selected based on current selections
-				const getAvailableLocations = (forCanister: boolean) => {
-					return VALVE_LOCATIONS.filter((location) => {
-						if (forCanister) {
-							// Can't select the same location as green light
-							return location.id !== data.greenLight;
-						} else {
-							// Can't select the same location as purple canister
-							return location.id !== data.purpleCanister;
-						}
-					});
+				// Check if a location is disabled based on current selections
+				const isLocationDisabled = (locationId: string, forCanister: boolean) => {
+					if (forCanister) {
+						// Can't select the same location as green light
+						return locationId === data.greenLight;
+					} else {
+						// Can't select the same location as purple canister
+						return locationId === data.purpleCanister;
+					}
 				};
 
 				return (
@@ -371,17 +369,25 @@ function ValvesSection(props: BaseSectionProps<ValvesData>) {
 									Select the valve location with the green light
 								</p>
 								<div className="location-grid">
-									{getAvailableLocations(false).map((location) => (
-										<LocationCard
-											key={location.id}
-											primaryText={location.name}
-											isCompleted={data.greenLight === location.id}
-											selectable={true}
-											isSelected={data.greenLight === location.id}
-											onSelect={() => handleGreenLightSelect(location.id)}
-											variant="default"
-										/>
-									))}
+									{VALVE_LOCATIONS.map((location) => {
+										const disabled = isLocationDisabled(location.id, false);
+										return (
+											<LocationCard
+												key={location.id}
+												primaryText={location.name}
+												isCompleted={data.greenLight === location.id}
+												selectable={true}
+												isSelected={data.greenLight === location.id}
+												onSelect={
+													disabled
+														? undefined
+														: () => handleGreenLightSelect(location.id)
+												}
+												variant="default"
+												disabled={disabled}
+											/>
+										);
+									})}
 								</div>
 							</div>
 
@@ -392,17 +398,25 @@ function ValvesSection(props: BaseSectionProps<ValvesData>) {
 									Select the valve location with the purple canister
 								</p>
 								<div className="location-grid">
-									{getAvailableLocations(true).map((location) => (
-										<LocationCard
-											key={location.id}
-											primaryText={location.name}
-											isCompleted={data.purpleCanister === location.id}
-											selectable={true}
-											isSelected={data.purpleCanister === location.id}
-											onSelect={() => handlePurpleCanisterSelect(location.id)}
-											variant="default"
-										/>
-									))}
+									{VALVE_LOCATIONS.map((location) => {
+										const disabled = isLocationDisabled(location.id, true);
+										return (
+											<LocationCard
+												key={location.id}
+												primaryText={location.name}
+												isCompleted={data.purpleCanister === location.id}
+												selectable={true}
+												isSelected={data.purpleCanister === location.id}
+												onSelect={
+													disabled
+														? undefined
+														: () => handlePurpleCanisterSelect(location.id)
+												}
+												variant="default"
+												disabled={disabled}
+											/>
+										);
+									})}
 								</div>
 							</div>
 						</div>
