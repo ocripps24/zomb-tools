@@ -55,7 +55,7 @@ function App() {
 			const mapId = segments[1];
 			
 			// Check if this is a known game/map combination
-			if ((gameId === 'bo4' || gameId === 'bo6' || gameId === 'bo7') && mapId) {
+			if ((gameId === 'bo3' || gameId === 'bo4' || gameId === 'bo6' || gameId === 'bo7') && mapId) {
 				return `/${gameId}/${mapId}`;
 			}
 		}
@@ -83,6 +83,9 @@ function App() {
 							{/* Legal Routes */}
 							<Route path={ROUTES.privacyPolicy} element={<PrivacyPolicy />} />
 							<Route path={ROUTES.termsAndConditions} element={<TermsAndConditions />} />
+
+							{/* BO3 Routes */}
+							<Route path={ROUTES.games.bo3.base} element={<MapSelection gameId="bo3" />} />
 
 							{/* BO4 Routes */}
 							<Route path={ROUTES.games.bo4.base} element={<MapSelection gameId="bo4" />} />

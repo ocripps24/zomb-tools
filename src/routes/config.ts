@@ -15,6 +15,12 @@ export const ROUTES = {
 
 	// Game routes
 	games: {
+		bo3: {
+			base: "/bo3",
+			maps: {
+				gorodKrovi: "/bo3/gorod-krovi",
+			},
+		},
 		bo4: {
 			base: "/bo4",
 			maps: {
@@ -125,6 +131,12 @@ export const MAP_STEPS = {
 // Route patterns for React Router (with wildcards)
 export const ROUTE_PATTERNS = {
 	games: {
+		bo3: {
+			base: "/bo3",
+			maps: {
+				gorodKrovi: "/bo3/gorod-krovi/*",
+			},
+		},
 		bo4: {
 			base: "/bo4",
 			maps: {
@@ -172,6 +184,10 @@ export const ROUTE_METADATA = {
 	[ROUTES.termsAndConditions]: {
 		title: "Terms and Conditions",
 		documentTitle: "Terms and Conditions - COD Zombies Tools",
+	},
+	"/bo3": {
+		title: "Black Ops 3 - Select Map",
+		documentTitle: "BO3 Maps - COD Zombies Tools",
 	},
 	"/bo4": {
 		title: "Black Ops 4 - Select Map",
@@ -221,6 +237,10 @@ export const ROUTE_METADATA = {
 		title: "Ashes of the Damned",
 		documentTitle: "Ashes of the Damned Easter Eggs - COD Zombies Tools",
 	},
+	[ROUTES.games.bo3.maps.gorodKrovi]: {
+		title: "Gorod Krovi",
+		documentTitle: "Gorod Krovi Easter Eggs - COD Zombies Tools",
+	},
 } as const;
 
 // Type exports for TypeScript support
@@ -232,9 +252,11 @@ export type RouteMetadata = typeof ROUTE_METADATA;
 // Helper type for extracting route paths
 export type RoutePaths =
 	| typeof ROUTES.home
+	| typeof ROUTES.games.bo3.base
 	| typeof ROUTES.games.bo4.base
 	| typeof ROUTES.games.bo6.base
 	| typeof ROUTES.games.bo7.base
+	| (typeof ROUTES.games.bo3.maps)[keyof typeof ROUTES.games.bo3.maps]
 	| (typeof ROUTES.games.bo4.maps)[keyof typeof ROUTES.games.bo4.maps]
 	| (typeof ROUTES.games.bo6.maps)[keyof typeof ROUTES.games.bo6.maps]
 	| (typeof ROUTES.games.bo7.maps)[keyof typeof ROUTES.games.bo7.maps];

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import MapSelectionCard from "./MapSelectionCard";
 import SettingsInfoPanel from "@/components/ui/SettingsInfoPanel";
 import { getGameById } from "@/data/games";
+import { BO3_MAPS, type BO3Map } from "@/data/bo3/maps";
 import { BO4_MAPS, type BO4Map } from "@/data/bo4/maps";
 import { BO6_MAPS, type BO6Map } from "@/data/bo6/maps";
 import { BO7_MAPS, type BO7Map } from "@/data/bo7/maps";
@@ -43,8 +44,10 @@ const getPreview = (gameId: string, mapId: string): string | null => {
 	return null;
 };
 
-const getMapsByGame = (gameId: string): (BO4Map | BO6Map | BO7Map)[] => {
+const getMapsByGame = (gameId: string): (BO3Map | BO4Map | BO6Map | BO7Map)[] => {
 	switch (gameId) {
+		case "bo3":
+			return BO3_MAPS;
 		case "bo4":
 			return BO4_MAPS;
 		case "bo6":
