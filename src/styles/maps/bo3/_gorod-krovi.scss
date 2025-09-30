@@ -1,0 +1,224 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+// Gorod Krovi specific styles
+
+// Valves section
+.valves-section {
+	// Valve selection grid - two columns for green light and purple canister
+	.valve-selection-grid {
+		// Mobile-first: Single column
+		@include grid(1, space(xl));
+		margin-bottom: space(xl);
+
+		// Tablet and up: Two columns
+		@include tmd-up {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	.valve-selection-card {
+		@include flex-column;
+		gap: space(md);
+
+		.selection-title {
+			margin: 0 0 space(xs) 0;
+			color: var(--text-primary);
+			font-size: font-size(base);
+			font-weight: font-weight(semibold);
+			text-align: center;
+			padding-bottom: space(sm);
+			border-bottom: 1px solid var(--border-subtle);
+		}
+
+		.selection-description {
+			margin: 0 0 space(md) 0;
+			color: var(--text-secondary);
+			font-size: font-size(sm);
+			text-align: center;
+		}
+	}
+
+	// Valve solution display - styled like door-code-result
+	.valve-solution {
+		margin-bottom: space(xl);
+		padding: space(xl);
+		border: 2px solid var(--success-color);
+		border-radius: radius(base);
+		background: var(--location-card-completed-bg);
+		text-align: center;
+
+		h3 {
+			margin: 0 0 space(md) 0;
+			color: var(--success-color);
+			font-size: font-size(xl);
+		}
+
+		.solution-description {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-primary);
+			font-size: font-size(sm);
+		}
+	}
+
+	// Valve positions grid - single row layout
+	.valve-positions-grid {
+		display: grid;
+		// Mobile-first: Stack vertically on small screens
+		grid-template-columns: 1fr;
+		gap: space(sm);
+		margin-bottom: space(lg);
+
+		// Small tablet: 2 columns
+		@include tsm-up {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		// Medium tablet and up: Single row with 5 columns
+		@include tmd-up {
+			grid-template-columns: repeat(5, 1fr);
+			gap: space(md);
+		}
+	}
+
+	// Individual valve position card
+	.valve-position-card {
+		@include flex-column;
+		align-items: center;
+		justify-content: center;
+		gap: space(sm);
+		padding: space(md);
+		border: 2px solid var(--success-color);
+		border-radius: radius(base);
+		background: transparent;
+		text-align: center;
+
+		// Tablet and up: More spacious padding
+		@include tmd-up {
+			padding: space(lg);
+		}
+	}
+
+	.valve-location {
+		font-size: font-size(sm);
+		font-weight: font-weight(medium);
+		color: var(--text-primary);
+		line-height: 1.3;
+
+		@include tmd-up {
+			font-size: font-size(base);
+		}
+	}
+
+	.valve-position {
+		font-family: font-family(mono);
+		font-size: font-size(3xl);
+		font-weight: font-weight(bold);
+		color: var(--success-color);
+		line-height: 1;
+
+		@include tmd-up {
+			font-size: font-size(4xl);
+		}
+	}
+
+	.solution-note {
+		margin-top: space(md);
+		padding-top: space(md);
+		border-top: 1px solid var(--border-subtle);
+
+		p {
+			margin: 0;
+			color: var(--text-primary);
+			font-size: font-size(sm);
+			text-align: center;
+
+			strong {
+				color: var(--success-color);
+				font-weight: font-weight(medium);
+			}
+		}
+	}
+
+	// Error message styling
+	.valve-error {
+		margin: space(xl) 0;
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border: 1px solid var(--danger-color);
+		border-radius: radius(base);
+
+		p {
+			margin: 0;
+			color: var(--danger-color);
+			font-size: font-size(sm);
+			text-align: center;
+		}
+	}
+}
+
+// Compact mode styles for valves section
+.base-section.compact .valves-section {
+	.valve-selection-grid {
+		margin-bottom: space(lg);
+		gap: space(lg);
+	}
+
+	.valve-selection-card {
+		gap: space(sm);
+
+		.selection-title {
+			margin-bottom: space(xs);
+			font-size: font-size(sm);
+		}
+
+		.selection-description {
+			margin-bottom: space(sm);
+			font-size: font-size(xs);
+		}
+	}
+
+	.valve-solution {
+		padding: space(lg);
+
+		h3 {
+			margin-bottom: space(sm);
+			font-size: font-size(lg);
+		}
+
+		.solution-description {
+			margin-bottom: space(md);
+		}
+	}
+
+	.valve-positions-grid {
+		gap: space(xs);
+		margin-bottom: space(md);
+
+		@include tmd-up {
+			gap: space(sm);
+		}
+	}
+
+	.valve-position-card {
+		padding: space(sm);
+
+		@include tmd-up {
+			padding: space(md);
+		}
+	}
+
+	.valve-position {
+		font-size: font-size(2xl);
+
+		@include tmd-up {
+			font-size: font-size(3xl);
+		}
+	}
+
+	.solution-note {
+		margin-top: space(sm);
+		padding-top: space(sm);
+	}
+}

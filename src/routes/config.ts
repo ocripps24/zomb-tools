@@ -56,6 +56,14 @@ export const ROUTES = {
 
 // Map step routes configuration
 export const MAP_STEPS = {
+	bo3: {
+		gorodKrovi: {
+			base: "/bo3/gorod-krovi",
+			steps: {
+				valves: "/bo3/gorod-krovi/valves",
+			},
+		},
+	},
 	bo4: {
 		voyageOfDespair: {
 			base: "/bo4/voyage-of-despair",

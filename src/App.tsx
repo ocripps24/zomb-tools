@@ -20,6 +20,7 @@ import { getGameById } from "./data/games";
 import { ROUTES, ROUTE_PATTERNS, getRouteMetadata } from "./routes";
 import "./styles/main.scss";
 import { NavBar, Footer } from "./components/layout/index.js";
+import GorodKrovi from "./components/games/bo3/maps/gorod-krovi/GorodKrovi";
 
 function App() {
 	const location = useLocation();
@@ -86,6 +87,7 @@ function App() {
 
 							{/* BO3 Routes */}
 							<Route path={ROUTES.games.bo3.base} element={<MapSelection gameId="bo3" />} />
+							<Route path={ROUTE_PATTERNS.games.bo3.maps.gorodKrovi} element={<GorodKrovi />} />
 
 							{/* BO4 Routes */}
 							<Route path={ROUTES.games.bo4.base} element={<MapSelection gameId="bo4" />} />

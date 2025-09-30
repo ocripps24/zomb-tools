@@ -20,11 +20,12 @@ export const BO3_MAPS: BO3Map[] = [
 	{
 		id: "gorod-krovi",
 		name: "Gorod Krovi",
-		status: "Coming later",
+		status: "Available",
 		route: ROUTES.games.bo3.maps.gorodKrovi,
-		component: null,
-		available: false,
-		tools: ["TBC"],
+		component: () =>
+			import("../../components/games/bo3/maps/gorod-krovi/GorodKrovi.tsx"),
+		available: true,
+		tools: ["Valves"],
 		difficulty: "hard",
 	},
 ];
