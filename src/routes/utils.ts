@@ -6,7 +6,7 @@
 import { ROUTES, MAP_STEPS, ROUTE_METADATA, type RoutePaths } from './config';
 
 // Game and map type definitions
-export type GameId = 'bo4' | 'bo6';
+export type GameId = 'bo3' | 'bo4' | 'bo6' | 'bo7';
 export type MapId = string;
 export type StepId = string;
 
@@ -114,8 +114,10 @@ export const isRouteActive = (currentPath: string, targetRoute: string): boolean
  * Extract game ID from a route path
  */
 export const getGameIdFromPath = (path: string): GameId | null => {
+  if (path.startsWith('/bo3')) return 'bo3';
   if (path.startsWith('/bo4')) return 'bo4';
   if (path.startsWith('/bo6')) return 'bo6';
+  if (path.startsWith('/bo7')) return 'bo7';
   return null;
 };
 
@@ -162,10 +164,14 @@ export const isValidRoute = (path: string): boolean => {
   // Check if path matches any of our defined routes
   const allRoutes = [
     ROUTES.home,
+    ...Object.values(ROUTES.games.bo3.maps),
     ...Object.values(ROUTES.games.bo4.maps),
     ...Object.values(ROUTES.games.bo6.maps),
+    ...Object.values(ROUTES.games.bo7.maps),
+    ROUTES.games.bo3.base,
     ROUTES.games.bo4.base,
     ROUTES.games.bo6.base,
+    ROUTES.games.bo7.base,
     ...Object.values(ROUTES.legacy)
   ];
 
@@ -185,7 +191,13 @@ export const getBreadcrumb = (path: string) => {
   ];
 
   if (gameId) {
-    const gameName = gameId === 'bo4' ? 'Black Ops 4' : 'Black Ops 6';
+    const gameNames: Record<GameId, string> = {
+      'bo3': 'Black Ops 3',
+      'bo4': 'Black Ops 4',
+      'bo6': 'Black Ops 6',
+      'bo7': 'Black Ops 7',
+    };
+    const gameName = gameNames[gameId];
     breadcrumb.push({
       name: gameName,
       path: getGameRoute(gameId)

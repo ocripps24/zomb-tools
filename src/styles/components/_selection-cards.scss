@@ -34,7 +34,7 @@
 	// Title styling
 	&__title {
 		font-weight: 600;
-		font-size: 1rem;
+		font-size: font-size(lg);
 		color: var(--text-primary);
 		text-align: left;
 		margin: 0 0 0.5rem 0;
@@ -61,7 +61,7 @@
 	@extend .selection-card;
 }
 
-// Map Selection Card  
+// Map Selection Card
 .map-selection-card {
 	@extend .selection-card;
 

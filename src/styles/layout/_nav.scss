@@ -2,129 +2,209 @@
 @use "../abstracts/functions" as *;
 @use "../abstracts/mixins" as *;
 
-// Navigation component styles - Mobile First
+// Navigation component styles - Glassmorphism floating navbar
 .nav {
+	// Positioning: Fixed 20px from top, centered horizontally
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1000;
+
+	// Layout
 	display: flex;
 	align-items: center;
-	// Mobile: Compact gap and padding
-	gap: space(sm);
-	position: relative;
-	padding: space(sm) space(md);
-	background: var(--bg-tertiary);
-	// border: 2px solid var(--border-color);
-	border-bottom: 1px solid var(--border-subtle);
-	// border-radius: var(--radius);
-	// box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	justify-content: space-between;
+	gap: 80px;
+	height: 60px;
+	padding: 0 space(xl);
 
-	// Tablet and up: More spacious
-	@include tmd-up {
+	// Glassmorphism effect
+	background: hsla(0, 0%, 100%, 0.2);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px); // Safari support
+	border-radius: 30px; // Pill shape for 60px height
+	border: 1px solid hsla(0, 0%, 100%, 0.1);
+	box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+	// Mobile: Smaller gap and padding
+	@media (max-width: #{breakpoint(tmd) - 1px}) {
 		gap: space(lg);
-		padding: space(lg) space(xl);
+		padding: 0 space(lg);
+		top: 10px; // Less top spacing on mobile
 	}
 
+	// Brand section (logo + text)
 	&__brand {
-		// Mobile-first: Small static brand text
-		@include static-text(base, bold, 1.2);
-		color: var(--text-primary);
-		text-decoration: none;
-		margin-right: auto;
+		display: flex;
+		align-items: center;
+		gap: space(sm);
 		background: transparent;
-		border: none !important;
+		border: none;
 		cursor: pointer;
-
-		// Tablet and up: Much larger static brand text
-		@include tmd-up {
-			@include static-text(4xl, bold, 1.2);
-		}
+		padding: 0;
+		transition: opacity var(--transition);
 
 		&:hover,
 		&:focus {
-			color: var(--accent-color);
-		}
-
-		// Override nav__link font sizes when both classes are present
-		&.nav__link {
-			@include static-text(base, medium, 1.2);
-
-			@include tmd-up {
-				@include static-text(2xl, medium, 1.2);
-			}
+			opacity: 0.8;
 		}
 	}
 
+	&__logo {
+		width: 44px;
+		height: 38px;
+		flex-shrink: 0;
+
+		// Ensure logo strokes use white color
+		path {
+			stroke: var(--text-primary);
+		}
+	}
+
+	&__brand-text {
+		@include static-text(lg, semibold, 1);
+		color: var(--text-primary);
+		white-space: nowrap;
+
+		@include tmd-up {
+			font-size: 32px;
+		}
+	}
+
+	// Links container
 	&__links {
 		display: flex;
 		align-items: center;
-		// Mobile: Tighter spacing
-		gap: space(xs);
+		gap: space(sm);
+	}
 
-		// Tablet and up: More comfortable spacing
+	// Desktop links (hidden on mobile)
+	&__links-desktop {
+		display: none;
+		gap: space(sm);
+
 		@include tmd-up {
-			gap: space(sm);
+			display: flex;
 		}
 	}
 
+	// Mobile dropdown (hidden on desktop)
+	&__dropdown {
+		position: relative;
+		display: block;
+
+		@include tmd-up {
+			display: none;
+		}
+	}
+
+	// Individual link styling
 	&__link {
-		@include touch-target(44px); // Ensure touch-friendly size
+		@include touch-target(44px);
 		background: transparent;
-		border: 2px solid transparent;
+		border: none;
 		color: var(--text-primary);
-		// Mobile: Compact padding
-		padding: space(xs) space(sm);
-		border-radius: var(--radius);
+		padding: space(xs) space(md);
+		border-radius: 20px;
 		text-decoration: none;
-		@include fluid-text(sm, medium, 1.3);
+		font-size: 20px;
+		font-weight: 500;
 		transition: all var(--transition);
 		cursor: pointer;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-
-		// Tablet and up: More comfortable padding
-		@include tmd-up {
-			padding: space(sm) space(lg);
-			@include fluid-text(base, medium, 1.3);
-		}
+		gap: space(xs);
+		white-space: nowrap;
 
 		&:hover,
 		&:focus {
-			background: var(--bg-tertiary);
-			border-color: var(--border-color);
-			color: var(--text-primary);
+			background: hsla(0, 0%, 0%, 0.8);
 		}
 
 		&--active {
-			background: var(--bg-tertiary);
-			border-color: var(--border-color);
-			color: var(--text-primary);
-		}
-
-		// Theme toggle specific styling
-		&--theme {
-			// Mobile: Smaller theme button
-			min-width: 44px;
-
-			@include tmd-up {
-				min-width: 48px;
-			}
+			background: hsla(0, 0%, 0%, 0.8);
 		}
 	}
 
+	// Dropdown toggle button
+	&__dropdown-toggle {
+		padding: space(xs) space(md);
+	}
+
+	// Chevron icon (rotated for dropdown)
+	&__chevron {
+		width: 11px;
+		height: 11px;
+		transform: rotate(-90deg); // Point down
+		transition: transform var(--transition);
+
+		path {
+			stroke: var(--text-primary);
+		}
+
+		&--open {
+			transform: rotate(90deg); // Point up when open
+		}
+	}
+
+	// Dropdown menu
+	&__dropdown-menu {
+		position: absolute;
+		top: calc(100% + 8px);
+		right: 0;
+		min-width: 120px;
+		background: hsla(0, 0%, 100%, 0.2);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		border-radius: 15px;
+		border: 1px solid hsla(0, 0%, 100%, 0.1);
+		box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+		overflow: hidden;
+		animation: dropdown-fade-in 0.2s ease-out;
+	}
+
+	&__dropdown-item {
+		width: 100%;
+		padding: space(md) space(lg);
+		background: transparent;
+		border: none;
+		color: var(--text-primary);
+		font-size: 18px;
+		font-weight: 500;
+		text-align: left;
+		cursor: pointer;
+		transition: background var(--transition);
+
+		&:hover,
+		&:focus {
+			background: hsla(0, 0%, 0%, 0.8);
+		}
+
+		&--active {
+			background: hsla(0, 0%, 0%, 0.8);
+			font-weight: 600;
+		}
+	}
+
+	// Separator (for future theme toggle)
 	&__separator {
 		width: 1px;
-		// Mobile: Shorter separator
-		height: 1.5rem;
-		background: var(--border-subtle);
-		margin: 0 space(xs);
-
-		// Tablet and up: Taller separator with more margin
-		@include tmd-up {
-			height: 2rem;
-			margin: 0 space(sm);
-		}
+		height: 2rem;
+		background: hsla(0, 0%, 100%, 0.2);
+		margin: 0 space(sm);
 	}
+}
 
-	&__spacer {
-		flex: 1;
+// Dropdown animation
+@keyframes dropdown-fade-in {
+	from {
+		opacity: 0;
+		transform: translateY(-8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
 	}
 }
