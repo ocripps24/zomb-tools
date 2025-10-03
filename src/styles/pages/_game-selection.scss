@@ -5,7 +5,12 @@
 
 // Game selection page styles
 .game-selection {
-	margin-top: space(2xl);
+	margin-top: space(5xl);
+	padding: 0 space(sm);
+
+	@include tsm-up {
+		padding: 0 space(2xl);
+	}
 
 	&__header {
 		text-align: center;

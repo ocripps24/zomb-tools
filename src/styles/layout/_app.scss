@@ -1,4 +1,6 @@
+@use "../abstracts/variables" as *;
 @use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
 
 // App layout styles
 .app {
@@ -10,20 +12,22 @@
 }
 
 .app-header {
-	// padding: 1rem 2rem;
 	background: transparent;
 }
 
 .app-header h1 {
-	color: var(--text-primary); // Use CSS variable instead of hardcoded #fff
+	color: var(--text-primary);
 	margin-bottom: 0;
 	text-align: center;
 	margin-top: 1.5rem;
+
+	@include tmd-up {
+		font-size: 1.75rem;
+	}
 }
 
 .app-main {
 	flex: 1;
-	padding: 0 2rem 2rem 2rem;
 	margin: 0 auto;
 	width: 100%;
 }
@@ -151,18 +155,4 @@
 .map-footer {
 	margin-top: 2rem;
 	padding-top: 1rem;
-}
-
-@media (max-width: 768px) {
-	.app-main {
-		padding: 1rem;
-	}
-
-	.app-header {
-		padding: 1rem;
-	}
-
-	.app-header h1 {
-		font-size: 1.75rem;
-	}
 }

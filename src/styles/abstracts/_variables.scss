@@ -3,7 +3,7 @@
 // Essential SASS variables that functions/mixins depend on
 $colors: (
 	// Core theme colors
-	black: #000000,
+	black: #0e0e0e,
 	white: #ffffff,
 
 	// Gray scale for nuance
@@ -23,7 +23,8 @@ $colors: (
 	success-light: #22c55e,
 	warning: #d97706,
 	danger: #dc2626,
-	info: #3b82f6
+	info: #3b82f6,
+	border: hsla(0, 0%, 100%, 0.2)
 );
 
 // Minimal spacing system
@@ -35,17 +36,23 @@ $spacing: (
 	xl: 2rem,
 	2xl: 3rem,
 	3xl: 4rem,
+	4xl: 5rem,
+	5xl: 7.5rem,
+	6xl: 10rem,
 );
 
 // Responsive breakpoints - 11-point system
 $breakpoints: (
 	psm: 300px,
-	pmd: 375px,   // Primary phone
+	pmd: 375px,
+	// Primary phone
 	plg: 425px,
 	tsm: 576px,
-	tmd: 768px,   // Primary tablet  
+	tmd: 768px,
+	// Primary tablet
 	tlg: 992px,
-	dsm: 1200px,  // Primary desktop
+	dsm: 1200px,
+	// Primary desktop
 	dmd: 1440px,
 	dlg: 1660px,
 	dxl: 1800px,
@@ -55,7 +62,7 @@ $breakpoints: (
 // Fluid Typography Scale (Utopia-style)
 // Format: clamp(min-size, fluid-calculation, max-size)
 // Scales between 375px (pmd) and 1200px (dsm) breakpoints
-// 
+//
 // Usage:
 // font-size: font-size(lg);           // Fluid scaling
 // font-size: static-font-size(lg);    // Fixed size
@@ -63,16 +70,26 @@ $breakpoints: (
 // @include heading-3;                 // Preset heading style
 
 $font-sizes: (
-	xs: clamp(0.69rem, 0.66rem + 0.13vw, 0.75rem),        // 11px → 12px
-	sm: clamp(0.78rem, 0.74rem + 0.2vw, 0.875rem),        // 12.5px → 14px  
-	base: clamp(0.875rem, 0.83rem + 0.24vw, 1rem),        // 14px → 16px
-	lg: clamp(1rem, 0.93rem + 0.33vw, 1.125rem),          // 16px → 18px
-	xl: clamp(1.125rem, 1.04rem + 0.41vw, 1.25rem),       // 18px → 20px
-	2xl: clamp(1.25rem, 1.14rem + 0.68vw, 1.5rem),        // 20px → 24px
-	3xl: clamp(1.5rem, 1.29rem + 1.05vw, 1.875rem),       // 24px → 30px
-	4xl: clamp(1.75rem, 1.48rem + 1.36vw, 2.25rem),       // 28px → 36px
-	5xl: clamp(2rem, 1.61rem + 1.95vw, 2.75rem),          // 32px → 44px
-	6xl: clamp(2.25rem, 1.73rem + 2.61vw, 3.25rem),       // 36px → 52px
+	xs: clamp(0.69rem, 0.66rem + 0.13vw, 0.75rem),
+	// 11px → 12px
+	sm: clamp(0.78rem, 0.74rem + 0.2vw, 0.875rem),
+	// 12.5px → 14px
+	base: clamp(0.875rem, 0.83rem + 0.24vw, 1rem),
+	// 14px → 16px
+	lg: clamp(1rem, 0.93rem + 0.33vw, 1.125rem),
+	// 16px → 18px
+	xl: clamp(1.125rem, 1.04rem + 0.41vw, 1.25rem),
+	// 18px → 20px
+	2xl: clamp(1.25rem, 1.14rem + 0.68vw, 1.5rem),
+	// 20px → 24px
+	3xl: clamp(1.5rem, 1.29rem + 1.05vw, 1.875rem),
+	// 24px → 30px
+	4xl: clamp(1.75rem, 1.48rem + 1.36vw, 2.25rem),
+	// 28px → 36px
+	5xl: clamp(2rem, 1.61rem + 1.95vw, 2.75rem),
+	// 32px → 44px
+	6xl: clamp(2.25rem, 1.73rem + 2.61vw, 3.25rem),
+	// 36px → 52px
 );
 
 // Static font sizes (for cases where fluid isn't desired)
@@ -153,7 +170,7 @@ $z-indexes: (
 	--text-muted: #{map.get($colors, gray-400)};
 
 	// Border colors
-	--border-color: #{map.get($colors, white)};
+	--border-color: #{map.get($colors, border)};
 	--border-focus: #{map.get($colors, gray-300)};
 	--border-subtle: #{map.get($colors, gray-700)};
 

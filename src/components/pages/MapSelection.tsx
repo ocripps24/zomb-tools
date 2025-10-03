@@ -44,7 +44,9 @@ const getPreview = (gameId: string, mapId: string): string | null => {
 	return null;
 };
 
-const getMapsByGame = (gameId: string): (BO3Map | BO4Map | BO6Map | BO7Map)[] => {
+const getMapsByGame = (
+	gameId: string
+): (BO3Map | BO4Map | BO6Map | BO7Map)[] => {
 	switch (gameId) {
 		case "bo3":
 			return BO3_MAPS;
@@ -70,7 +72,7 @@ function MapSelection({ gameId }: MapSelectionProps) {
 
 	if (!game) {
 		return (
-			<MapSelectionCard 
+			<MapSelectionCard
 				label="Game Not Found"
 				image={null}
 				onClick={() => {}}
@@ -82,18 +84,9 @@ function MapSelection({ gameId }: MapSelectionProps) {
 
 	return (
 		<div className="map-selection">
-			<button
-				className="btn btn--secondary"
-				onClick={() => navigate(ROUTES.home)}
-				style={{ marginBottom: "2rem" }}
-			>
-				← Back to Games
-			</button>
-			<h2 className="map-selection__title">Select a {game.name} Map</h2>
-			{/* <p className="map-selection__subtitle">
-				Choose which {game.name} Zombies map you want to access speedrun tools
-				for.
-			</p> */}
+			<div className="map-selection__header">
+				<h2 className="map-selection__title">{game.name}</h2>
+			</div>
 			<div className="map-selection__grid">
 				{maps.map((map) => (
 					<MapSelectionCard

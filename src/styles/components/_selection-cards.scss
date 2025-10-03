@@ -1,3 +1,7 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
 // Game and Map Selection Card Styles
 
 // Base selection card structure
@@ -13,7 +17,7 @@
 	&__image {
 		overflow: hidden;
 		aspect-ratio: 16 / 9;
-		border: 2px solid var(--border-color);
+		border: 1px solid var(--border-color);
 		border-radius: var(--radius);
 		width: 100%;
 
