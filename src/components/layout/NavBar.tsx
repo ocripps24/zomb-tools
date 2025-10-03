@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getTheme, toggleTheme, THEMES } from "@/utils/theme";
 import { ROUTES, getGameRoute } from "@/routes";
 import MrPeeksLogo from "@/assets/icons/mr-peeks-head-logo.svg";
 import ChevronIcon from "@/assets/icons/chevron.svg";
@@ -12,10 +11,9 @@ const games = [
 	{ id: "bo7", name: "BO7" },
 ];
 
-const NavBar: React.FC<{ title?: string }> = ({ title }) => {
+const NavBar: React.FC<{ title?: string }> = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const [currentTheme, setCurrentTheme] = useState(getTheme());
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	// Determine active game by path
@@ -23,21 +21,6 @@ const NavBar: React.FC<{ title?: string }> = ({ title }) => {
 		location.pathname.startsWith(`/${game.id}`)
 	);
 	const isHome = location.pathname === "/";
-
-	const handleThemeToggle = () => {
-		const newTheme = toggleTheme();
-		setCurrentTheme(newTheme);
-	};
-
-	// Update theme state if it changes externally
-	useEffect(() => {
-		const handleStorageChange = () => {
-			setCurrentTheme(getTheme());
-		};
-
-		window.addEventListener("storage", handleStorageChange);
-		return () => window.removeEventListener("storage", handleStorageChange);
-	}, []);
 
 	// Close dropdown when clicking outside
 	useEffect(() => {
@@ -62,7 +45,9 @@ const NavBar: React.FC<{ title?: string }> = ({ title }) => {
 				onClick={() => navigate(ROUTES.home)}
 				aria-label="Home"
 			>
-				<MrPeeksLogo className="nav__logo" />
+				<span className="nav__logo">
+					<MrPeeksLogo />
+				</span>
 				<span className="nav__brand-text">ZomB Tools</span>
 			</button>
 
@@ -97,7 +82,9 @@ const NavBar: React.FC<{ title?: string }> = ({ title }) => {
 						aria-expanded={isDropdownOpen}
 					>
 						<span>Games</span>
-						<ChevronIcon className={`nav__chevron${isDropdownOpen ? " nav__chevron--open" : ""}`} />
+						<span className={`nav__chevron${isDropdownOpen ? " nav__chevron--open" : ""}`}>
+							<ChevronIcon />
+						</span>
 					</button>
 
 					{isDropdownOpen && (

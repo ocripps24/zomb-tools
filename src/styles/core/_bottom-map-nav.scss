@@ -1,0 +1,239 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+// Bottom Map Navigation - Glassmorphism sticky nav
+.bottom-map-nav {
+	// Positioning: Fixed 20px from bottom, centered horizontally
+	position: fixed;
+	bottom: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1000;
+
+	// Layout
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: space(lg);
+	height: 60px;
+	padding: 0 space(xl);
+
+	// Glassmorphism effect
+	background: hsla(0, 0%, 100%, 0.2);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	border-radius: 30px;
+	border: 1px solid hsla(0, 0%, 100%, 0.1);
+	box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+	// Mobile: Smaller spacing
+	@media (max-width: #{breakpoint(tmd) - 1px}) {
+		gap: space(sm);
+		padding: 0 space(lg);
+		bottom: 10px;
+	}
+
+	// Back button
+	&__back {
+		display: flex;
+		align-items: center;
+		gap: space(xs);
+		// Mobile: Less padding on left
+		padding: space(xs) space(md) space(xs) space(xs);
+		background: transparent;
+		border: none;
+		border-radius: 20px;
+		color: var(--text-primary);
+		text-decoration: none;
+		font-size: 18px;
+		font-weight: 500;
+		transition: all var(--transition);
+		cursor: pointer;
+
+		// Desktop: Normal padding
+		@include tmd-up {
+			padding: space(xs) space(md);
+		}
+
+		&:hover,
+		&:focus {
+			background: hsla(0, 0%, 0%, 0.8);
+		}
+	}
+
+	&__back-icon {
+		display: flex;
+		align-items: center;
+		width: 11px;
+		height: 11px;
+
+		svg {
+			width: 100%;
+			height: 100%;
+
+			path {
+				stroke: var(--text-primary);
+			}
+		}
+	}
+
+	&__back-text {
+		white-space: nowrap;
+
+		// Mobile: Hide text, show only icon
+		@media (max-width: #{breakpoint(tmd) - 1px}) {
+			display: none;
+		}
+	}
+
+	// Controls container (prev + steps + next)
+	&__controls {
+		display: flex;
+		align-items: center;
+		gap: space(sm);
+		flex: 1;
+		justify-content: center;
+	}
+
+	// Chevron buttons
+	&__chevron {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		padding: 0;
+		background: transparent;
+		border: none;
+		border-radius: 20px;
+		color: var(--text-primary);
+		transition: all var(--transition);
+		cursor: pointer;
+
+		svg {
+			width: 11px;
+			height: 11px;
+
+			path {
+				stroke: var(--text-primary);
+			}
+		}
+
+		&:hover:not(:disabled),
+		&:focus:not(:disabled) {
+			background: hsla(0, 0%, 0%, 0.8);
+		}
+
+		&:disabled {
+			opacity: 0.3;
+			cursor: not-allowed;
+		}
+
+		&--prev svg {
+			// Already pointing left
+		}
+
+		&--next svg {
+			transform: rotate(180deg); // Point right
+		}
+	}
+
+	// Steps container
+	&__steps {
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+
+	// Desktop: Show full step navigation
+	&__steps-desktop {
+		display: none;
+
+		@include tmd-up {
+			display: block;
+		}
+
+		// Override step navigation styles for bottom nav
+		.step-navigation {
+			margin-bottom: 0;
+		}
+
+		.step-tabs {
+			border: none; // No border for bottom nav
+		}
+
+		.step-tab {
+			background: transparent;
+			border: none;
+
+			&:hover,
+			&:focus {
+				background: hsla(0, 0%, 0%, 0.8);
+			}
+
+			&--active {
+				background: hsla(0, 0%, 0%, 0.8);
+			}
+		}
+	}
+
+	// Mobile: Show simple counter
+	&__steps-mobile {
+		display: block;
+
+		@include tmd-up {
+			display: none;
+		}
+	}
+
+	&__counter {
+		padding: space(xs) space(md);
+		color: var(--text-primary);
+		font-size: 16px;
+		font-weight: 500;
+		white-space: nowrap;
+	}
+
+	// Reset button
+	&__reset {
+		display: flex;
+		align-items: center;
+		gap: space(xs);
+		// Mobile: Less padding on right
+		padding: space(xs) space(xs) space(xs) space(md);
+		background: transparent;
+		border: none;
+		border-radius: 20px;
+		color: var(--text-primary);
+		font-size: 18px;
+		font-weight: 500;
+		transition: all var(--transition);
+		cursor: pointer;
+
+		// Desktop: Normal padding
+		@include tmd-up {
+			padding: space(xs) space(md);
+		}
+
+		&:hover,
+		&:focus {
+			background: hsla(0, 0%, 0%, 0.8);
+		}
+	}
+
+	&__reset-icon {
+		display: flex;
+		align-items: center;
+		font-size: 18px;
+	}
+
+	&__reset-text {
+		white-space: nowrap;
+
+		// Mobile: Hide text, show only icon
+		@media (max-width: #{breakpoint(tmd) - 1px}) {
+			display: none;
+		}
+	}
+}

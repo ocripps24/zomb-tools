@@ -1,6 +1,4 @@
-import MapNavigation from "./MapNavigation";
-import StepNavigation from "./StepNavigation";
-import StepNavigationButtons from "./StepNavigationButtons";
+import BottomMapNav from "./BottomMapNav";
 import YouTubeGuideSection from "@/components/ui/YouTubeGuideSection";
 import { useMapState, MapStep } from "@/hooks";
 import { AnimatePresence, motion } from "framer-motion";
@@ -59,23 +57,20 @@ export function MapContainer({
 		handleReset,
 	} = useMapState({ steps, basePath, storagePrefix });
 
+	// Extract game name from backTo path
+	const getGameName = (path: string) => {
+		if (!path || typeof path !== "string") return "Maps";
+		const pathParts = path.split("/");
+		const gameId = pathParts[1];
+		if (!gameId) return "Maps";
+		return gameId.toUpperCase() + " Maps";
+	};
+
+	const isFirstStep = activeStepIndex === 0;
+	const isLastStep = activeStepIndex === steps.length - 1;
+
 	return (
 		<div className={`map-page ${className}`}>
-			<div className="map-info">
-				<h1 className="map-title">{mapName}</h1>
-			</div>
-
-			<div className="map-header">
-				<MapNavigation backTo={backTo} onReset={handleReset} guide={guide} />
-			</div>
-
-			{/* Step Tabs Navigation */}
-			<StepNavigation
-				steps={steps.map((step) => ({ id: step.id, name: step.name }))}
-				activeStep={activeStepIndex}
-				onStepChange={(stepIndex: number) => goToStep(steps[stepIndex].path)}
-			/>
-
 			<div className="map-content">
 				{/* Render current step component with transitions */}
 				<AnimatePresence mode="wait">
@@ -96,6 +91,7 @@ export function MapContainer({
 										onPrevious={goToPrevious}
 										currentStep={activeStepIndex + 1}
 										totalSteps={steps.length}
+										guide={guide}
 									/>
 								);
 							})()}
@@ -103,18 +99,23 @@ export function MapContainer({
 					)}
 				</AnimatePresence>
 
-				<StepNavigationButtons
-					currentStepIndex={activeStepIndex}
-					totalSteps={steps.length}
-					onNext={goToNext}
-					onPrevious={goToPrevious}
-					stepNames={steps.map((step) => step.name)}
-					onGoToStep={(stepIndex: number) => goToStep(steps[stepIndex].path)}
-				/>
-
 				{/* YouTube Guide Section - Only show if guide is provided */}
 				{guide && <YouTubeGuideSection guide={guide} mapName={mapName} />}
 			</div>
+
+			{/* Bottom Navigation */}
+			<BottomMapNav
+				backTo={backTo}
+				backLabel={getGameName(backTo)}
+				onReset={handleReset}
+				steps={steps.map((step) => ({ id: step.id, name: step.name }))}
+				activeStep={activeStepIndex}
+				onStepChange={(stepIndex: number) => goToStep(steps[stepIndex].path)}
+				onNext={goToNext}
+				onPrevious={goToPrevious}
+				isFirstStep={isFirstStep}
+				isLastStep={isLastStep}
+			/>
 		</div>
 	);
 }

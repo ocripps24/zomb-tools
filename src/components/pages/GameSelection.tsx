@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import GameSelectionCard from "./GameSelectionCard";
 import SettingsInfoPanel from "@/components/ui/SettingsInfoPanel";
+import VideoHero from "@/components/ui/VideoHero";
 import { GAMES } from "@/data/games";
 
 // Vite dynamic import for all game logos - supports multiple formats
@@ -52,31 +53,36 @@ function GameSelection() {
 	const navigate = useNavigate();
 
 	return (
-		<div className="game-selection">
-			<h2 className="game-selection__title">Select a Game</h2>
-			{/* <p className="game-selection__subtitle">
-				Choose which Call of Duty Zombies game you want to access speedrun tools
-				for.
-			</p> */}
-			<div className="game-selection__grid">
-				{allGames.map((game) => (
-					<GameSelectionCard
-						key={game.id}
-						image={getLogo(game.id)}
-						label={game.name}
-						onClick={
-							game.available && game.route
-								? () => navigate(game.route!)
-								: undefined
-						}
-						disabled={!game.available}
-					/>
-				))}
-			</div>
+		<>
+			{/* Full-viewport background video */}
+			<VideoHero videoId="07SF99EeZ1M" />
 
-			{/* Settings Information Section */}
-			<SettingsInfoPanel />
-		</div>
+			<div className="game-selection">
+				<h2 className="game-selection__title">Select a Game</h2>
+				{/* <p className="game-selection__subtitle">
+					Choose which Call of Duty Zombies game you want to access speedrun tools
+					for.
+				</p> */}
+				<div className="game-selection__grid">
+					{allGames.map((game) => (
+						<GameSelectionCard
+							key={game.id}
+							image={getLogo(game.id)}
+							label={game.name}
+							onClick={
+								game.available && game.route
+									? () => navigate(game.route!)
+									: undefined
+							}
+							disabled={!game.available}
+						/>
+					))}
+				</div>
+
+				{/* Settings Information Section */}
+				<SettingsInfoPanel />
+			</div>
+		</>
 	);
 }
 

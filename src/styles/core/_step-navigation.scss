@@ -15,17 +15,15 @@
 .step-tabs {
 	display: flex;
 	gap: 0.5rem;
-	border-radius: var(--radius);
-	border: 2px solid var(--border-color);
-	overflow: hidden; // Add back to ensure clean edges
+	align-items: center;
 }
 
 .step-tab {
-	background: var(--bg-tertiary);
+	background: transparent;
 	border: none;
 	color: var(--text-primary);
 	// Mobile: More compact padding
-	padding: space(md) space(sm);
+	padding: space(xs) space(md);
 	@include fluid-text(sm, medium, 1.3);
 	cursor: pointer;
 	flex: 1; // Equal size on desktop - all tabs get equal space
@@ -35,20 +33,18 @@
 	justify-content: center;
 	gap: space(xs);
 	min-width: 0; // Allow flex items to shrink below content size
+	border-radius: 20px;
 
 	// Desktop: More spacious padding
 	@include tmd-up {
-		padding: space(lg) space(xl);
+		padding: space(sm) space(lg);
 		@include fluid-text(base, medium, 1.3);
 	}
 
 	&:hover,
 	&:focus {
-		background: var(
-			--step-tab-active-bg
-		); // Use theme-appropriate gray for hover
+		background: hsla(0, 0%, 0%, 0.8); // Match global nav black bubble
 		color: var(--text-primary);
-		transform: translateY(-1px);
 	}
 
 	&:active {
@@ -56,13 +52,11 @@
 	}
 
 	&.step-tab--active {
-		background: var(
-			--step-tab-active-bg
-		); // Use theme-appropriate gray for active state
+		background: hsla(0, 0%, 0%, 0.8); // Match global nav black bubble
 		color: var(--text-primary);
-		transform: none; // No transform for active state
+		transform: none;
 		position: relative;
-		font-weight: 600; // Make active tab text slightly bolder
+		font-weight: 600;
 	}
 
 	.step-number {

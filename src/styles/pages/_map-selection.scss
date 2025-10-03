@@ -30,15 +30,14 @@
 		gap: 2rem;
 		margin: 2rem 0;
 
-		@include pmd-up {
+		@include tsm-up {
 			grid-template-columns: repeat(2, 1fr);
 		}
 
-		@include tmd-up {
+		@include tlg-up {
 			grid-template-columns: repeat(3, 1fr);
 		}
 	}
-
 
 	&__back-button {
 		margin-bottom: 2rem;
