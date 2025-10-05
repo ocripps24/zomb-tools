@@ -61,9 +61,9 @@ function GameSelection() {
 			<GlassHero
 				imageSrc={beamsImage}
 				glassIntensity={50}
-				glassSegments={30}
+				glassSegments={60}
 				glassMode="mouse"
-				glassMotion={0.25}
+				glassMotion={0.75}
 			/>
 
 			<div className="game-selection">

@@ -24,10 +24,10 @@
  * SOFTWARE.
  */
 
-import * as THREE from 'three';
+import * as THREE from "three";
 
 interface FlutedGlassOptions {
-  dom: HTMLElement;
+	dom: HTMLElement;
 }
 
 const vertex = `
@@ -103,360 +103,444 @@ void main() {
 `;
 
 class FlutedGlassSketch {
-  private scene: THREE.Scene;
-  private container: HTMLElement;
-  private width: number;
-  private height: number;
-  private renderer: THREE.WebGLRenderer;
-  private mode: 'static' | 'mouse' | 'scroll';
-  private motionFactor: number;
-  private camera: THREE.OrthographicCamera;
-  private isPlaying: boolean;
-  private material?: THREE.ShaderMaterial;
-  private geometry?: THREE.PlaneGeometry;
-  private plane?: THREE.Mesh;
-  private mouse: THREE.Vector2;
-  private rotationAngle: number = 0;
-  private segments: number = 80;
-  private overlayOpacity: number = 0;
-  private imageAspect: number = 1;
-  private intensity: number = 50;
-  private videoTexture?: THREE.VideoTexture;
+	private scene: THREE.Scene;
+	private container: HTMLElement;
+	private width: number;
+	private height: number;
+	private renderer: THREE.WebGLRenderer;
+	private mode: "static" | "mouse" | "scroll";
+	private motionFactor: number;
+	private camera: THREE.OrthographicCamera;
+	private isPlaying: boolean;
+	private material?: THREE.ShaderMaterial;
+	private geometry?: THREE.PlaneGeometry;
+	private plane?: THREE.Mesh;
+	private mouse: THREE.Vector2;
+	private rotationAngle: number = 0;
+	private segments: number = 80;
+	private overlayOpacity: number = 0;
+	private imageAspect: number = 1;
+	private intensity: number = 50;
+	private videoTexture?: THREE.VideoTexture;
+	private lastMouseMove: number = 0;
+	private mouseInfluence: number = 0; // 0-1 blend factor between ambient and mouse
 
-  constructor(options: FlutedGlassOptions) {
-    this.scene = new THREE.Scene();
-    this.mouse = new THREE.Vector2(0.5, 0.5);
+	constructor(options: FlutedGlassOptions) {
+		this.scene = new THREE.Scene();
+		this.mouse = new THREE.Vector2(0.5, 0.5);
 
-    this.container = options.dom;
-    const position = getComputedStyle(this.container).position;
-    if (position !== 'relative' && position !== 'absolute' && position !== 'fixed' && position !== 'sticky') {
-      this.container.style.position = 'relative';
-    }
+		this.container = options.dom;
+		const position = getComputedStyle(this.container).position;
+		if (
+			position !== "relative" &&
+			position !== "absolute" &&
+			position !== "fixed" &&
+			position !== "sticky"
+		) {
+			this.container.style.position = "relative";
+		}
 
-    this.width = this.container.offsetWidth;
-    this.height = this.container.offsetHeight;
-    this.renderer = new THREE.WebGLRenderer({ alpha: true });
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    this.renderer.setSize(this.width, this.height);
-    this.renderer.setClearColor(0x000000, 0);
+		this.width = this.container.offsetWidth;
+		this.height = this.container.offsetHeight;
+		this.renderer = new THREE.WebGLRenderer({ alpha: true });
+		this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+		this.renderer.setSize(this.width, this.height);
+		this.renderer.setClearColor(0x000000, 0);
 
-    const modeAttr = this.container.getAttribute('tlg-fluted-glass-mode');
-    this.mode = (modeAttr && ['static', 'mouse', 'scroll'].includes(modeAttr)) ? modeAttr as 'static' | 'mouse' | 'scroll' : 'static';
-    const motionAttr = this.container.getAttribute('tlg-fluted-glass-motion');
-    this.motionFactor = -50 * parseFloat(motionAttr || '1') || -50;
+		const modeAttr = this.container.getAttribute("tlg-fluted-glass-mode");
+		this.mode =
+			modeAttr && ["static", "mouse", "scroll"].includes(modeAttr)
+				? (modeAttr as "static" | "mouse" | "scroll")
+				: "static";
+		const motionAttr = this.container.getAttribute("tlg-fluted-glass-motion");
+		this.motionFactor = -50 * parseFloat(motionAttr || "1") || -50;
 
-    this.container.appendChild(this.renderer.domElement);
+		this.container.appendChild(this.renderer.domElement);
 
-    var frustumSize = 1;
-    this.camera = new THREE.OrthographicCamera(
-      frustumSize / -2,
-      frustumSize / 2,
-      frustumSize / 2,
-      frustumSize / -2,
-      -1000,
-      1000
-    );
-    this.camera.position.set(0, 0, 2);
+		var frustumSize = 1;
+		this.camera = new THREE.OrthographicCamera(
+			frustumSize / -2,
+			frustumSize / 2,
+			frustumSize / 2,
+			frustumSize / -2,
+			-1000,
+			1000
+		);
+		this.camera.position.set(0, 0, 2);
 
-    this.isPlaying = true;
-    this.addObjects();
-    this.resize();
-    this.render();
-    this.setupResize();
+		this.isPlaying = true;
+		this.addObjects();
+		this.resize();
+		this.render();
+		this.setupResize();
 
-    if (this.mode === 'mouse') {
-      this.mouseEvents();
-    }
-    if (this.mode === 'scroll') {
-      this.setupScroll();
-    }
-  }
+		if (this.mode === "mouse") {
+			this.mouseEvents();
+		}
+		if (this.mode === "scroll") {
+			this.setupScroll();
+		}
+	}
 
-  mouseEvents(): void {
-    this.container.addEventListener('mousemove', (event) => {
-      this.onMouseMove(event);
-    });
-  }
+	mouseEvents(): void {
+		this.container.addEventListener("mousemove", (event) => {
+			this.onMouseMove(event);
+		});
+	}
 
-  setupScroll(): void {
-    window.addEventListener('scroll', this.handleScroll.bind(this));
-  }
+	setupScroll(): void {
+		window.addEventListener("scroll", this.handleScroll.bind(this));
+	}
 
-  handleScroll(): void {
-    const rect = this.container.getBoundingClientRect();
-    const elemTop = rect.top;
-    const elemBottom = rect.bottom;
+	handleScroll(): void {
+		const rect = this.container.getBoundingClientRect();
+		const elemTop = rect.top;
+		const elemBottom = rect.bottom;
 
-    // Check if the element is in the viewport
-    const isInViewport = elemTop < window.innerHeight && elemBottom >= 0;
+		// Check if the element is in the viewport
+		const isInViewport = elemTop < window.innerHeight && elemBottom >= 0;
 
-    if (isInViewport) {
-      const totalHeight = window.innerHeight + this.container.offsetHeight;
-      const scrolled = window.innerHeight - elemTop;
-      const progress = scrolled / totalHeight;
-      const maxMovement = 0.2; // Full rotation
-      if (this.material) {
-        this.material.uniforms.uMotionValue.value = progress * maxMovement * this.motionFactor;
-      }
-    }
-  }
+		if (isInViewport) {
+			const totalHeight = window.innerHeight + this.container.offsetHeight;
+			const scrolled = window.innerHeight - elemTop;
+			const progress = scrolled / totalHeight;
+			const maxMovement = 0.2; // Full rotation
+			if (this.material) {
+				this.material.uniforms.uMotionValue.value =
+					progress * maxMovement * this.motionFactor;
+			}
+		}
+	}
 
-  onMouseMove(event: MouseEvent): void {
-    const rect = this.container.getBoundingClientRect();
-    this.mouse.x = (event.clientX - rect.left) / rect.width;
-    this.mouse.y = 1.0 - (event.clientY - rect.top) / rect.height;
-    if (this.material) {
-      this.material.uniforms.uMotionValue.value = 0.5 + this.mouse.x * this.motionFactor * 0.1;
-    }
-  }
+	onMouseMove(event: MouseEvent): void {
+		const rect = this.container.getBoundingClientRect();
+		this.mouse.x = (event.clientX - rect.left) / rect.width;
+		this.mouse.y = 1.0 - (event.clientY - rect.top) / rect.height;
+		this.lastMouseMove = Date.now();
+		if (this.material) {
+			this.material.uniforms.uMotionValue.value =
+				0.5 + this.mouse.x * this.motionFactor * 0.1;
+		}
+	}
 
-  setupResize(): void {
-    window.addEventListener("resize", this.resize.bind(this));
-  }
+	setupResize(): void {
+		window.addEventListener("resize", this.resize.bind(this));
+	}
 
-  resize(): void {
-    this.width = this.container.offsetWidth;
-    this.height = this.container.offsetHeight;
-    this.renderer.setSize(this.width, this.height);
+	resize(): void {
+		this.width = this.container.offsetWidth;
+		this.height = this.container.offsetHeight;
+		this.renderer.setSize(this.width, this.height);
 
-    if (this.material) {
-      this.material.uniforms.resolution.value.x = this.width;
-      this.material.uniforms.resolution.value.y = this.height;
-    }
-    this.camera.updateProjectionMatrix();
-  }
+		if (this.material) {
+			this.material.uniforms.resolution.value.x = this.width;
+			this.material.uniforms.resolution.value.y = this.height;
+		}
+		this.camera.updateProjectionMatrix();
+	}
 
-  addObjects(): void {
-    // Set rotation angle
-    const rotationAttribute = this.container.getAttribute("tlg-fluted-glass-rotation");
-    this.rotationAngle = parseFloat(rotationAttribute || "0") || 0; // Default to 0
+	addObjects(): void {
+		// Set rotation angle
+		const rotationAttribute = this.container.getAttribute(
+			"tlg-fluted-glass-rotation"
+		);
+		this.rotationAngle = parseFloat(rotationAttribute || "0") || 0; // Default to 0
 
-    // Set number of segments
-    const segmentsAttribute = this.container.getAttribute("tlg-fluted-glass-segments");
-    this.segments = parseInt(segmentsAttribute || "80", 10) || 80; // Default to 80
+		// Set number of segments
+		const segmentsAttribute = this.container.getAttribute(
+			"tlg-fluted-glass-segments"
+		);
+		this.segments = parseInt(segmentsAttribute || "80", 10) || 80; // Default to 80
 
-    // Get overlay opacity value from attribute
-    const overlaysAttr = this.container.getAttribute("tlg-fluted-glass-overlay");
-    this.overlayOpacity = Math.max(0, Math.min(100, parseFloat(overlaysAttr || "0") || 0)); // Clamp between 0 and 100
+		// Get overlay opacity value from attribute
+		const overlaysAttr = this.container.getAttribute(
+			"tlg-fluted-glass-overlay"
+		);
+		this.overlayOpacity = Math.max(
+			0,
+			Math.min(100, parseFloat(overlaysAttr || "0") || 0)
+		); // Clamp between 0 and 100
 
-    // Get intensity value from attribute (controls warping strength)
-    const intensityAttr = this.container.getAttribute("tlg-fluted-glass-intensity");
-    this.intensity = Math.max(0, Math.min(100, parseFloat(intensityAttr || "50") || 50)); // Clamp between 0 and 100
+		// Get intensity value from attribute (controls warping strength)
+		const intensityAttr = this.container.getAttribute(
+			"tlg-fluted-glass-intensity"
+		);
+		this.intensity = Math.max(
+			0,
+			Math.min(100, parseFloat(intensityAttr || "50") || 50)
+		); // Clamp between 0 and 100
 
-    // Check for video element first
-    const videoElements = this.container.querySelectorAll<HTMLVideoElement>("[tlg-fluted-glass-video]");
-    if (videoElements.length > 0) {
-      const videoElement = videoElements[0];
+		// Check for video element first
+		const videoElements = this.container.querySelectorAll<HTMLVideoElement>(
+			"[tlg-fluted-glass-video]"
+		);
+		if (videoElements.length > 0) {
+			const videoElement = videoElements[0];
 
-      // Ensure video plays
-      videoElement.play().catch(err => console.log('Video autoplay prevented:', err));
+			// Ensure video plays
+			videoElement
+				.play()
+				.catch((err) => console.log("Video autoplay prevented:", err));
 
-      // For video, set aspect ratio from video dimensions once loaded
-      if (videoElement.videoWidth && videoElement.videoHeight) {
-        this.imageAspect = videoElement.videoWidth / videoElement.videoHeight;
-        this.setupMaterialAndGeometryWithVideo(videoElement);
-      } else {
-        videoElement.addEventListener('loadedmetadata', () => {
-          this.imageAspect = videoElement.videoWidth / videoElement.videoHeight;
-          videoElement.play().catch(err => console.log('Video autoplay prevented:', err));
-          this.setupMaterialAndGeometryWithVideo(videoElement);
-        });
-      }
-      return;
-    }
+			// For video, set aspect ratio from video dimensions once loaded
+			if (videoElement.videoWidth && videoElement.videoHeight) {
+				this.imageAspect = videoElement.videoWidth / videoElement.videoHeight;
+				this.setupMaterialAndGeometryWithVideo(videoElement);
+			} else {
+				videoElement.addEventListener("loadedmetadata", () => {
+					this.imageAspect = videoElement.videoWidth / videoElement.videoHeight;
+					videoElement
+						.play()
+						.catch((err) => console.log("Video autoplay prevented:", err));
+					this.setupMaterialAndGeometryWithVideo(videoElement);
+				});
+			}
+			return;
+		}
 
-    // Fallback to image elements
-    const imageElements = this.container.querySelectorAll<HTMLImageElement>("[tlg-fluted-glass-image]");
-    const randomImageElement = imageElements[Math.floor(Math.random() * imageElements.length)];
+		// Fallback to image elements
+		const imageElements = this.container.querySelectorAll<HTMLImageElement>(
+			"[tlg-fluted-glass-image]"
+		);
+		const randomImageElement =
+			imageElements[Math.floor(Math.random() * imageElements.length)];
 
-    if (!randomImageElement) {
-      console.error("No image or video element found with [tlg-fluted-glass-image] or [tlg-fluted-glass-video] attribute");
-      return;
-    }
+		if (!randomImageElement) {
+			console.error(
+				"No image or video element found with [tlg-fluted-glass-image] or [tlg-fluted-glass-video] attribute"
+			);
+			return;
+		}
 
-    // Create a new Image object to load the texture
-    const image = new Image();
-    image.crossOrigin = "anonymous";
-    image.onload = () => {
-      // Calculate the aspect ratio automatically
-      this.imageAspect = image.naturalWidth / image.naturalHeight;
-      // Once the image is loaded and the aspect ratio is calculated, set up the material and geometry
-      this.setupMaterialAndGeometry(randomImageElement.src);
-    };
-    // Set the image source to start loading
-    image.src = randomImageElement.src;
-  }
+		// Create a new Image object to load the texture
+		const image = new Image();
+		image.crossOrigin = "anonymous";
+		image.onload = () => {
+			// Calculate the aspect ratio automatically
+			this.imageAspect = image.naturalWidth / image.naturalHeight;
+			// Once the image is loaded and the aspect ratio is calculated, set up the material and geometry
+			this.setupMaterialAndGeometry(randomImageElement.src);
+		};
+		// Set the image source to start loading
+		image.src = randomImageElement.src;
+	}
 
-  setupMaterialAndGeometryWithVideo(videoElement: HTMLVideoElement): void {
-    const rendererElement = this.renderer.domElement;
-    // Set styles for generated canvas
-    rendererElement.style.position = 'absolute';
-    rendererElement.style.top = '0';
-    rendererElement.style.left = '0';
-    rendererElement.style.width = '100%';
-    rendererElement.style.height = '100%';
+	setupMaterialAndGeometryWithVideo(videoElement: HTMLVideoElement): void {
+		const rendererElement = this.renderer.domElement;
+		// Set styles for generated canvas
+		rendererElement.style.position = "absolute";
+		rendererElement.style.top = "0";
+		rendererElement.style.left = "0";
+		rendererElement.style.width = "100%";
+		rendererElement.style.height = "100%";
 
-    // Append the renderer element to the container
-    this.container.appendChild(rendererElement);
+		// Append the renderer element to the container
+		this.container.appendChild(rendererElement);
 
-    console.log('Setting up video texture. Video playing:', !videoElement.paused, 'Video currentTime:', videoElement.currentTime);
+		console.log(
+			"Setting up video texture. Video playing:",
+			!videoElement.paused,
+			"Video currentTime:",
+			videoElement.currentTime
+		);
 
-    // Create video texture that updates each frame
-    this.videoTexture = new THREE.VideoTexture(videoElement);
-    this.videoTexture.minFilter = THREE.LinearFilter;
-    this.videoTexture.magFilter = THREE.LinearFilter;
+		// Create video texture that updates each frame
+		this.videoTexture = new THREE.VideoTexture(videoElement);
+		this.videoTexture.minFilter = THREE.LinearFilter;
+		this.videoTexture.magFilter = THREE.LinearFilter;
 
-    // Log video state changes
-    videoElement.addEventListener('play', () => console.log('Video started playing'));
-    videoElement.addEventListener('pause', () => console.log('Video paused'));
+		// Log video state changes
+		videoElement.addEventListener("play", () =>
+			console.log("Video started playing")
+		);
+		videoElement.addEventListener("pause", () => console.log("Video paused"));
 
-    this.material = new THREE.ShaderMaterial({
-      side: THREE.DoubleSide,
-      uniforms: {
-        resolution: {
-          value: new THREE.Vector4()
-        },
-        uTexture: {
-          value: this.videoTexture
-        },
-        uMotionValue: {
-          value: 0.5
-        },
-        uRotation: {
-          value: this.rotationAngle
-        },
-        uSegments: {
-          value: this.segments
-        },
-        uOverlayColor: {
-          value: new THREE.Vector3(0.0, 0.0, 0.0)
-        },
-        uOverlayColorWhite: {
-          value: new THREE.Vector3(1.0, 1.0, 1.0)
-        },
-        uImageAspect: {
-          value: this.imageAspect
-        },
-        uOverlayOpacity: {
-          value: this.overlayOpacity
-        },
-        uIntensity: {
-          value: this.intensity
-        }
-      },
-      vertexShader: vertex,
-      fragmentShader: fragment,
-      transparent: true
-    });
+		this.material = new THREE.ShaderMaterial({
+			side: THREE.DoubleSide,
+			uniforms: {
+				resolution: {
+					value: new THREE.Vector4(),
+				},
+				uTexture: {
+					value: this.videoTexture,
+				},
+				uMotionValue: {
+					value: 0.5,
+				},
+				uRotation: {
+					value: this.rotationAngle,
+				},
+				uSegments: {
+					value: this.segments,
+				},
+				uOverlayColor: {
+					value: new THREE.Vector3(0.0, 0.0, 0.0),
+				},
+				uOverlayColorWhite: {
+					value: new THREE.Vector3(1.0, 1.0, 1.0),
+				},
+				uImageAspect: {
+					value: this.imageAspect,
+				},
+				uOverlayOpacity: {
+					value: this.overlayOpacity,
+				},
+				uIntensity: {
+					value: this.intensity,
+				},
+			},
+			vertexShader: vertex,
+			fragmentShader: fragment,
+			transparent: true,
+		});
 
-    this.geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
-    this.plane = new THREE.Mesh(this.geometry, this.material);
-    this.scene.add(this.plane);
+		this.geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
+		this.plane = new THREE.Mesh(this.geometry, this.material);
+		this.scene.add(this.plane);
 
-    this.resize();
-    this.handleScroll();
-  }
+		this.resize();
+		this.handleScroll();
+	}
 
-  setupMaterialAndGeometry(imageSrc: string): void {
-    const rendererElement = this.renderer.domElement;
-    // Set styles for generated canvas
-    rendererElement.style.position = 'absolute';
-    rendererElement.style.top = '0';
-    rendererElement.style.left = '0';
-    rendererElement.style.width = '100%';
-    rendererElement.style.height = '100%';
+	setupMaterialAndGeometry(imageSrc: string): void {
+		const rendererElement = this.renderer.domElement;
+		// Set styles for generated canvas
+		rendererElement.style.position = "absolute";
+		rendererElement.style.top = "0";
+		rendererElement.style.left = "0";
+		rendererElement.style.width = "100%";
+		rendererElement.style.height = "100%";
 
-    // Append the renderer element to the container
-    this.container.appendChild(rendererElement);
+		// Append the renderer element to the container
+		this.container.appendChild(rendererElement);
 
-    let texture = new THREE.TextureLoader().load(imageSrc);
-    texture.minFilter = THREE.LinearFilter;
+		let texture = new THREE.TextureLoader().load(imageSrc);
+		texture.minFilter = THREE.LinearFilter;
 
-    this.material = new THREE.ShaderMaterial({
-      side: THREE.DoubleSide,
-      uniforms: {
-        resolution: {
-          value: new THREE.Vector4()
-        },
-        uTexture: {
-          value: texture
-        },
-        uMotionValue: {
-          value: 0.5
-        },
-        uRotation: {
-          value: this.rotationAngle
-        },
-        uSegments: {
-          value: this.segments
-        },
-        uOverlayColor: {
-          value: new THREE.Vector3(0.0, 0.0, 0.0)
-        },
-        uOverlayColorWhite: {
-          value: new THREE.Vector3(1.0, 1.0, 1.0)
-        },
-        uImageAspect: {
-          value: this.imageAspect
-        },
-        uOverlayOpacity: {
-          value: this.overlayOpacity
-        },
-        uIntensity: {
-          value: this.intensity
-        }
-      },
-      vertexShader: vertex,
-      fragmentShader: fragment,
-      transparent: true
-    });
+		this.material = new THREE.ShaderMaterial({
+			side: THREE.DoubleSide,
+			uniforms: {
+				resolution: {
+					value: new THREE.Vector4(),
+				},
+				uTexture: {
+					value: texture,
+				},
+				uMotionValue: {
+					value: 0.5,
+				},
+				uRotation: {
+					value: this.rotationAngle,
+				},
+				uSegments: {
+					value: this.segments,
+				},
+				uOverlayColor: {
+					value: new THREE.Vector3(0.0, 0.0, 0.0),
+				},
+				uOverlayColorWhite: {
+					value: new THREE.Vector3(1.0, 1.0, 1.0),
+				},
+				uImageAspect: {
+					value: this.imageAspect,
+				},
+				uOverlayOpacity: {
+					value: this.overlayOpacity,
+				},
+				uIntensity: {
+					value: this.intensity,
+				},
+			},
+			vertexShader: vertex,
+			fragmentShader: fragment,
+			transparent: true,
+		});
 
-    this.geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
-    this.plane = new THREE.Mesh(this.geometry, this.material);
-    this.scene.add(this.plane);
+		this.geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
+		this.plane = new THREE.Mesh(this.geometry, this.material);
+		this.scene.add(this.plane);
 
-    this.resize();
-    this.handleScroll();
-  }
+		this.resize();
+		this.handleScroll();
+	}
 
-  render(_time: number = 0): void {
-    if (!this.isPlaying) return;
+	render(time: number = 0): void {
+		if (!this.isPlaying) return;
 
-    requestAnimationFrame(this.render.bind(this));
-    this.renderer.render(this.scene, this.camera);
-  }
+		// Check if mouse was active recently (no delay - starts fading immediately)
+		const timeSinceMouseMove = Date.now() - this.lastMouseMove;
+		const mouseIsActive = timeSinceMouseMove < 400; // Very short delay (0.1s)
 
-  destroy(): void {
-    this.isPlaying = false;
-    if (this.renderer && this.renderer.domElement && this.renderer.domElement.parentNode) {
-      this.renderer.domElement.parentNode.removeChild(this.renderer.domElement);
-    }
-    if (this.geometry) this.geometry.dispose();
-    if (this.material) this.material.dispose();
-    if (this.renderer) this.renderer.dispose();
-  }
+		// Blend factor approach - both motions always active
+		if (this.mode === "mouse" && this.material) {
+			// Calculate ambient sine wave (always running) - increased speed
+			const ambientValue = 0.5 + Math.sin(time * 0.001) * 0.3; // 0.001 = 3x faster
+
+			// Calculate mouse-controlled value (70% horizontal, 30% vertical)
+			const mouseValue = 0.5 + (this.mouse.x * 0.7 + this.mouse.y * 0.3) * this.motionFactor * 0.1;
+
+			// Smoothly fade mouse influence in/out
+			const targetInfluence = mouseIsActive ? 1 : 0;
+			const influenceLerpSpeed = 0.01; // Faster fade to reduce elastic feeling
+			this.mouseInfluence +=
+				(targetInfluence - this.mouseInfluence) * influenceLerpSpeed;
+
+			// Blend between ambient and mouse values based on influence
+			const finalValue =
+				ambientValue + (mouseValue - ambientValue) * this.mouseInfluence;
+
+			this.material.uniforms.uMotionValue.value = finalValue;
+
+			// Dynamically adjust segments based on mouse interaction
+			const ambientSegments = this.segments; // Base segment count
+			const mouseSegments = this.segments * 1.5; // 50% more detail during interaction
+			const finalSegments = ambientSegments + (mouseSegments - ambientSegments) * this.mouseInfluence;
+			this.material.uniforms.uSegments.value = finalSegments;
+		}
+
+		requestAnimationFrame(this.render.bind(this));
+		this.renderer.render(this.scene, this.camera);
+	}
+
+	destroy(): void {
+		this.isPlaying = false;
+		if (
+			this.renderer &&
+			this.renderer.domElement &&
+			this.renderer.domElement.parentNode
+		) {
+			this.renderer.domElement.parentNode.removeChild(this.renderer.domElement);
+		}
+		if (this.geometry) this.geometry.dispose();
+		if (this.material) this.material.dispose();
+		if (this.renderer) this.renderer.dispose();
+	}
 }
 
 // Initialize function for manual setup
-export function initFlutedGlass(container: HTMLElement): FlutedGlassSketch | null {
-  const hasImage = container.querySelector("[tlg-fluted-glass-image]");
-  const hasVideo = container.querySelector("[tlg-fluted-glass-video]");
+export function initFlutedGlass(
+	container: HTMLElement
+): FlutedGlassSketch | null {
+	const hasImage = container.querySelector("[tlg-fluted-glass-image]");
+	const hasVideo = container.querySelector("[tlg-fluted-glass-video]");
 
-  if (hasImage || hasVideo) {
-    return new FlutedGlassSketch({
-      dom: container
-    });
-  } else {
-    console.error("No [tlg-fluted-glass-image] or [tlg-fluted-glass-video] child found within container element.");
-    return null;
-  }
+	if (hasImage || hasVideo) {
+		return new FlutedGlassSketch({
+			dom: container,
+		});
+	} else {
+		console.error(
+			"No [tlg-fluted-glass-image] or [tlg-fluted-glass-video] child found within container element."
+		);
+		return null;
+	}
 }
 
 // Auto-initialize on DOM ready (for attribute-based usage)
 export function autoInitFlutedGlass(): void {
-  document.querySelectorAll("[tlg-fluted-glass-canvas]").forEach((element) => {
-    initFlutedGlass(element as HTMLElement);
-  });
+	document.querySelectorAll("[tlg-fluted-glass-canvas]").forEach((element) => {
+		initFlutedGlass(element as HTMLElement);
+	});
 }
 
 // Export the class for advanced usage
