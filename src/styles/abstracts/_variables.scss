@@ -17,7 +17,7 @@ $colors: (
 	gray-700: #374151,
 	gray-800: #1f2937,
 	gray-900: #111827,
-
+	gray-frost: color-mix(in oklab, oklch(0.928 0.006 264.531) 50%, transparent),
 	// Semantic colors
 	success: #16a34a,
 	success-light: #22c55e,
@@ -133,6 +133,14 @@ $shadows: (
 	base: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
 	md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
 	lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+);
+
+// Blur levels
+$blurs: (
+	sm: 8px,
+	md: 12px,
+	lg: 20px,
+	xl: 40px,
 );
 
 // Border radius

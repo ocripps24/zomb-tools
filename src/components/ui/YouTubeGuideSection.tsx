@@ -1,5 +1,4 @@
-import React from 'react';
-import YouTubeIcon from '@/assets/icons/youtube-icon.svg';
+import YouTubeIcon from "@/assets/icons/youtube-icon.svg";
 
 interface Guide {
 	url: string;
@@ -28,10 +27,10 @@ function YouTubeGuideSection({ guide, mapName }: YouTubeGuideSectionProps) {
 
 	return (
 		<div id="youtube-guide-section" className="youtube-guide-section">
-			<h4><YouTubeIcon /> Easter Egg Guide for {mapName}</h4>
-			<p className="guide-description">
-				{getDescription()}
-			</p>
+			<h4>
+				<YouTubeIcon /> Easter Egg Guide for {mapName}
+			</h4>
+			<p className="guide-description">{getDescription()}</p>
 			<div className="youtube-embed-container">
 				<iframe
 					src={guide.url}
@@ -44,7 +43,8 @@ function YouTubeGuideSection({ guide, mapName }: YouTubeGuideSectionProps) {
 				></iframe>
 			</div>
 			<p className="guide-note">
-				This guide complements the interactive tools above. Use both together for the best experience!
+				This guide complements the interactive tools above. Use both together
+				for the best experience!
 			</p>
 		</div>
 	);

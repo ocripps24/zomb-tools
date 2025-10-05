@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import GameSelectionCard from "./GameSelectionCard";
 import SettingsInfoPanel from "@/components/ui/SettingsInfoPanel";
-import VideoHero from "@/components/ui/VideoHero";
+import GlassHero from "@/components/ui/GlassHero";
 import { GAMES } from "@/data/games";
+import beamsImage from "@/assets/images/beams-bkg-v2.png";
 
 // Vite dynamic import for all game logos - supports multiple formats
 const logosWebp = import.meta.glob("@/assets/games/*-logo.webp", {
@@ -41,21 +42,29 @@ const getLogo = (id: string): string | null => {
 };
 
 function GameSelection() {
-	const allGames = (Object.values(GAMES) as Array<{
-		id: string;
-		name: string;
-		fullName: string;
-		description: string;
-		available: boolean;
-		releaseYear: number;
-		route: string | null;
-	}>).sort((a, b) => b.releaseYear - a.releaseYear);
+	const allGames = (
+		Object.values(GAMES) as Array<{
+			id: string;
+			name: string;
+			fullName: string;
+			description: string;
+			available: boolean;
+			releaseYear: number;
+			route: string | null;
+		}>
+	).sort((a, b) => b.releaseYear - a.releaseYear);
 	const navigate = useNavigate();
 
 	return (
 		<>
-			{/* Full-viewport background video */}
-			<VideoHero videoId="07SF99EeZ1M" />
+			{/* Full-viewport background image with fluted glass effect */}
+			<GlassHero
+				imageSrc={beamsImage}
+				glassIntensity={50}
+				glassSegments={30}
+				glassMode="mouse"
+				glassMotion={0.25}
+			/>
 
 			<div className="game-selection">
 				<h2 className="game-selection__title">Select a Game</h2>
