@@ -5,8 +5,10 @@
 
 // Game selection page styles
 .game-selection {
+	position: relative;
 	margin-top: space(5xl);
 	padding: 0 space(sm);
+	z-index: 100;
 
 	@include tsm-up {
 		padding: 0 space(2xl);
@@ -40,7 +42,7 @@
 			grid-template-columns: repeat(2, 1fr);
 		}
 
-		@include tlg-up {
+		@include dmd-up {
 			grid-template-columns: repeat(3, 1fr);
 		}
 	}

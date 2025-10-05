@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { GAMES } from "@/data/games";
+import { BO3_MAPS } from "@/data/bo3/maps";
 import { BO4_MAPS } from "@/data/bo4/maps";
 import { BO6_MAPS } from "@/data/bo6/maps";
+import { BO7_MAPS } from "@/data/bo7/maps";
 
 interface FooterProps {
 	onResetConsent: () => void;
@@ -11,10 +13,14 @@ function Footer({ onResetConsent }: FooterProps) {
 	// Get available maps for each game
 	const getGameMaps = (gameId: string) => {
 		switch (gameId) {
+			case "bo3":
+				return BO3_MAPS.filter((map) => map.available);
 			case "bo4":
 				return BO4_MAPS.filter((map) => map.available);
 			case "bo6":
 				return BO6_MAPS.filter((map) => map.available);
+			case "bo7":
+				return BO7_MAPS.filter((map) => map.available);
 			default:
 				return [];
 		}

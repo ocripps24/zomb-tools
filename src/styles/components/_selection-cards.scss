@@ -12,13 +12,16 @@
 	cursor: pointer;
 	background: none;
 	border: none;
+	transition: transform var(--transition);
+	z-index: 100;
 
 	// Image container (row 1)
 	&__image {
 		overflow: hidden;
 		aspect-ratio: 16 / 9;
-		border: 1px solid var(--border-color);
-		border-radius: var(--radius);
+		// border: 1px solid var(--border-color);
+		border-top-left-radius: var(--radius);
+		border-top-right-radius: var(--radius);
 		width: 100%;
 
 		img {
@@ -31,22 +34,30 @@
 
 	// Meta data container (row 2)
 	&__meta {
-		padding: 1rem 0;
+		padding: 2rem 1.5rem;
 		width: 100%;
+		background: hsla(0, 0%, 100%, 0.2);
+		backdrop-filter: blur(8px);
+		border-bottom-left-radius: var(--radius);
+		border-bottom-right-radius: var(--radius);
 	}
 
 	// Title styling
 	&__title {
 		font-weight: 600;
-		font-size: font-size(lg);
+		font-size: font-size(2xl);
 		color: var(--text-primary);
 		text-align: left;
-		margin: 0 0 0.5rem 0;
+		margin: 0;
 	}
 
 	// Hover effect - only scale the image (but not when disabled)
 	&:not(&--disabled):hover &__image img {
-		transform: scale(1.05);
+		// transform: scale(1.05);
+	}
+
+	&:not(&--disabled):hover {
+		transform: translateY(-8px);
 	}
 
 	// Disabled/unavailable state

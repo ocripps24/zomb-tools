@@ -4,9 +4,11 @@
 
 // Footer component styles
 .site-footer {
+	position: relative;
 	margin-top: space(3xl);
-	border-top: 1px solid var(--border-subtle);
-	background-color: var(--bg-tertiary);
+	border-top: 1px solid var(--border-color);
+	background-color: var(--bg-primary);
+	z-index: 100;
 }
 
 .footer-content {
@@ -96,7 +98,7 @@
 
 // Legal Section
 .footer-legal {
-	border-top: 1px solid var(--border-subtle);
+	border-top: 1px solid var(--border-color);
 	padding-top: space(xl);
 	@include flex-column;
 	gap: space(lg);
@@ -108,24 +110,24 @@
 			color: var(--text-primary);
 			@include fluid-text(sm, medium, 1.4);
 		}
-		
+
 		.legal-links {
 			display: flex;
 			align-items: center;
 			gap: space(sm);
 			margin-top: space(xs);
-			
+
 			.legal-link {
 				color: var(--text-secondary);
 				text-decoration: none;
 				@include fluid-text(xs, normal, 1.4);
 				transition: color var(--transition);
-				
+
 				&:hover {
 					color: var(--accent-primary);
 				}
 			}
-			
+
 			.consent-link {
 				background: none;
 				border: none;
@@ -133,7 +135,7 @@
 				cursor: pointer;
 				font-family: inherit;
 			}
-			
+
 			.separator {
 				color: var(--text-tertiary);
 				font-size: text-size(xs);
