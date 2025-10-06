@@ -1,0 +1,397 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+// ResultsDisplay component styles
+// Shared component for displaying calculation results, codes, and sequences
+// Used across multiple maps to ensure consistent result display patterns
+
+.results-display {
+	// Base container styling - minimal since variants control layout
+	// Optional wrapper padding can be added here if needed
+	border-radius: radius(base);
+	padding: space(lg);
+	border: 2px solid var(--success-color);
+
+	// Tablet and up: More spacious
+	@include tmd-up {
+		padding: space(xl);
+	}
+}
+
+// ============================================================================
+// SINGLE CODE VARIANT
+// ============================================================================
+
+.results-single-code-container {
+	position: relative; // For badge positioning
+	text-align: center;
+
+	h3 {
+		margin: 0 0 space(lg) 0;
+		@include fluid-text(xl, semibold, 1.4);
+	}
+
+	// Color scheme variants
+	&--success {
+		h3 {
+			color: var(--success-color);
+		}
+	}
+
+	&--accent {
+		border: 2px solid var(--accent-color);
+
+		h3 {
+			color: var(--accent-color);
+		}
+	}
+
+	&--primary {
+		border: 2px solid var(--primary-color);
+
+		h3 {
+			color: var(--primary-color);
+		}
+	}
+
+	// Loading state (replace mode)
+	&--loading {
+		.code-display {
+			@include flex-center;
+			min-height: 150;
+		}
+	}
+}
+
+.code-display {
+	margin-bottom: space(lg);
+
+	.code-number {
+		font-family: font-family(mono);
+		font-weight: font-weight(bold);
+		background: transparent;
+		border-radius: radius(base);
+		display: inline-block;
+
+		// Standard format (default)
+		&--standard {
+			font-size: font-size(4xl);
+			padding: space(md) space(lg);
+			border: 2px solid var(--success-color);
+			color: var(--success-color);
+
+			@include tmd-up {
+				font-size: font-size(5xl);
+				padding: space(lg) space(xl);
+			}
+		}
+
+		// Large format (minimal border, bigger text)
+		&--large {
+			font-size: font-size(5xl);
+			padding: space(sm) space(md);
+			border: 1px solid var(--success-color);
+			color: var(--success-color);
+
+			@include tmd-up {
+				font-size: font-size(6xl);
+			}
+		}
+	}
+}
+
+.code-note {
+	margin: 0;
+	@include fluid-text(sm, normal, 1.5);
+	color: var(--text-secondary);
+	font-style: italic;
+}
+
+// ============================================================================
+// GRID VARIANT
+// ============================================================================
+
+.results-grid-container {
+	position: relative; // For badge positioning
+
+	h3 {
+		margin: 0 0 space(lg) 0;
+		@include fluid-text(lg, medium, 1.4);
+		color: var(--text-primary);
+	}
+
+	.results-description {
+		margin: 0 0 space(lg) 0;
+		@include fluid-text(sm, normal, 1.5);
+		color: var(--text-secondary);
+	}
+
+	// Loading state (replace mode)
+	&--loading {
+		.results-grid-placeholder {
+			@include flex-center;
+			min-height: 150px;
+			margin: space(lg) 0;
+		}
+	}
+}
+
+.results-grid {
+	display: grid;
+	gap: space(md);
+	// grid-template-columns set inline via style prop
+
+	@include tmd-up {
+		gap: space(lg);
+	}
+}
+
+.result-item {
+	@include flex-column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: space(lg);
+	background: var(--bg-tertiary);
+	border-radius: radius(base);
+	transition: all 0.2s ease;
+
+	@include tmd-up {
+		padding: space(xl);
+	}
+
+	// Status variants
+	&--complete {
+		border: 1px solid var(--border-color);
+	}
+
+	&--incomplete {
+		border: 1px solid var(--border-subtle);
+		opacity: 0.6;
+	}
+
+	&--pending {
+		border: 1px dashed var(--border-subtle);
+		opacity: 0.5;
+	}
+
+	// Color scheme variants (applied to complete items)
+	&--success.result-item--complete {
+		border-color: var(--success-color);
+
+		.result-number {
+			color: var(--success-color);
+		}
+	}
+
+	&--accent.result-item--complete {
+		border-color: var(--accent-color);
+
+		.result-number {
+			color: var(--accent-color);
+		}
+	}
+
+	&--primary.result-item--complete {
+		border-color: var(--primary-color);
+
+		.result-number {
+			color: var(--primary-color);
+		}
+	}
+}
+
+.result-number {
+	font-family: font-family(mono);
+	font-size: font-size(2xl);
+	font-weight: font-weight(bold);
+	margin-bottom: space(xs);
+
+	@include tmd-up {
+		font-size: font-size(3xl);
+	}
+}
+
+.result-label {
+	@include fluid-text(sm, normal, 1.3);
+	color: var(--text-secondary);
+}
+
+.result-metadata {
+	margin-top: space(xs);
+	@include fluid-text(xs, normal, 1.2);
+	color: var(--text-muted);
+	font-style: italic;
+
+	.metadata-item {
+		display: block;
+	}
+}
+
+// ============================================================================
+// SEQUENCE VARIANT
+// ============================================================================
+
+.results-sequence-container {
+	position: relative; // For badge positioning
+
+	h3 {
+		margin: 0 0 space(md) 0;
+		@include fluid-text(lg, medium, 1.4);
+		color: var(--text-primary);
+	}
+
+	.results-description {
+		margin: 0 0 space(lg) 0;
+		@include fluid-text(sm, normal, 1.5);
+		color: var(--text-secondary);
+	}
+}
+
+.results-sequence {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: space(md);
+
+	// Tablet and up: Show all in one row
+	@include tmd-up {
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: space(lg);
+	}
+}
+
+.sequence-item {
+	display: flex;
+	align-items: center;
+	gap: space(md);
+	padding: space(lg);
+	background: var(--bg-tertiary);
+	border-radius: radius(base);
+	transition: all 0.2s ease;
+
+	@include tmd-up {
+		gap: space(lg);
+		padding: space(xl);
+	}
+
+	// Status variants (matching grid variant)
+	&--complete {
+		border: 1px solid var(--border-color);
+	}
+
+	&--incomplete {
+		border: 1px solid var(--border-subtle);
+		opacity: 0.6;
+	}
+
+	&--pending {
+		border: 1px dashed var(--border-subtle);
+		opacity: 0.5;
+	}
+
+	// Color scheme variants (applied to complete items)
+	&--success.sequence-item--complete {
+		border-color: var(--success-color);
+
+		.sequence-number {
+			background: var(--success-color);
+		}
+
+		.sequence-value {
+			color: var(--success-color);
+		}
+	}
+
+	&--accent.sequence-item--complete {
+		border-color: var(--success-color);
+
+		.sequence-number {
+			background: var(--success-color);
+		}
+
+		.sequence-value {
+			color: var(--accent-color);
+		}
+	}
+
+	&--primary.sequence-item--complete {
+		border-color: var(--success-color);
+
+		.sequence-number {
+			background: var(--success-color);
+		}
+
+		.sequence-value {
+			color: var(--primary-color);
+		}
+	}
+}
+
+.sequence-number {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: radius(full);
+	color: white;
+	font-weight: font-weight(bold);
+	font-size: font-size(lg);
+	flex-shrink: 0;
+
+	@include tmd-up {
+		width: 44px;
+		height: 44px;
+		font-size: font-size(xl);
+	}
+}
+
+.sequence-details {
+	@include flex-column;
+	gap: space(xs);
+	flex: 1;
+
+	// Reorder: metadata first, then value
+	.sequence-metadata {
+		order: 1;
+	}
+
+	.sequence-value {
+		order: 2;
+	}
+}
+
+.sequence-value {
+	font-family: font-family(mono);
+	font-size: font-size(xl);
+	font-weight: font-weight(bold);
+
+	@include tmd-up {
+		font-size: font-size(2xl);
+	}
+}
+
+.sequence-metadata {
+	display: flex;
+	gap: space(md);
+	flex-wrap: wrap;
+
+	.metadata-item {
+		@include fluid-text(sm, semibold, 1.3);
+		color: var(--text-primary);
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+}
+
+// ============================================================================
+// PROGRESS BADGE (Circular)
+// ============================================================================
+
+.progress-badge {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 10;
+}

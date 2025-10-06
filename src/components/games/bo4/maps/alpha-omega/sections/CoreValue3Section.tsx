@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { NumberPad } from "@/components/ui";
+import { NumberPad, ResultsDisplay } from "@/components/ui";
+import type { ResultItem } from "@/components/ui/ResultsDisplay";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 
@@ -81,7 +82,7 @@ function CoreValue3Section(props: BaseSectionProps<CoreValue3Data>) {
       }}
       {...props}
     >
-      {({ data, setData }) => {
+      {({ data, setData, progress }) => {
         const handleCodeChange = (location: keyof CoreValue3Data, value: string) => {
           setData(prevData => ({
             ...prevData,
@@ -95,9 +96,17 @@ function CoreValue3Section(props: BaseSectionProps<CoreValue3Data>) {
           { label: "Code 3", code: data.code3 }
         ].filter(item => item.code && item.code.length === 4);
 
+        // Format completed codes for ResultsDisplay
+        const resultItems: ResultItem[] = completedCodes.map((item, index) => ({
+          id: `code-${index + 1}`,
+          value: item.code,
+          label: item.label,
+          status: "complete" as const,
+        }));
+
         return (
           <div className="core-value-3-section-content">
-            
+
             {/* Code Entry Section */}
             <div className="codes-input-section">
               <h3>Painting Codes</h3>
@@ -136,26 +145,18 @@ function CoreValue3Section(props: BaseSectionProps<CoreValue3Data>) {
 
             {/* Results Section */}
             {completedCodes.length > 0 && (
-              <div className="codes-results-section">
-                <h3>Rushmore Code Sequence</h3>
-                <p>Enter these codes into Rushmore in any order:</p>
-                <div className="results-grid">
-                  {completedCodes.map((item) => (
-                    <div key={item.label} className="result-item complete">
-                      <div className="result-number">{item.code}</div>
-                      <div className="result-label">{item.label}</div>
-                    </div>
-                  ))}
-                  
-                  {/* Show remaining slots */}
-                  {Array.from({ length: 3 - completedCodes.length }, (_, index) => (
-                    <div key={`empty-${index}`} className="result-item incomplete">
-                      <div className="result-number">----</div>
-                      <div className="result-label">Pending</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <ResultsDisplay
+                variant="grid"
+                title="Rushmore Code Sequence"
+                description="Enter these codes into Rushmore in any order:"
+                results={resultItems}
+                showIncomplete={true}
+                totalExpected={3}
+                gridColumns={3}
+                colorScheme="success"
+                progressMode="badge"
+                progress={progress}
+              />
             )}
 
           </div>

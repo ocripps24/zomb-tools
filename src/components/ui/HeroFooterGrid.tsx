@@ -34,7 +34,7 @@ const HeroFooterGrid = () => {
 
 			{/* Quick Links Section */}
 			<div className="hero-footer-grid__section hero-footer-grid__section--desktop-only">
-				<h3 className="hero-footer-grid__label">Quick Links</h3>
+				<h3 className="hero-footer-grid__label">Games</h3>
 				<div className="hero-footer-grid__content">
 					<ul className="hero-footer-grid__links">
 						{gameLinks.map((link) => (

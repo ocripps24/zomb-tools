@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { FloatingCard } from "@/components/ui";
+import { ResultsDisplay } from "@/components/ui";
+import type { SequenceItem } from "@/components/ui/ResultsDisplay";
 import { BaseSection } from "@/components/core";
 import { NumberPad } from "@/components/ui";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
@@ -79,6 +80,9 @@ function SortableLocationButton({
 		</div>
 	);
 }
+
+// Expected code length for this section
+const CODE_LENGTH = 4;
 
 // Code data - ordered by the sequence they should be displayed in results
 const CODES_DATA = [
@@ -212,7 +216,7 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 			}}
 			getProgress={(data: CodesSectionData) => {
 				const enteredCodes = Object.values(data.codes || {}).filter(
-					(code) => code && code.trim() !== ""
+					(code) => code && code.length === CODE_LENGTH
 				).length;
 				return {
 					completed: enteredCodes,
@@ -273,8 +277,8 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 						},
 					}));
 
-					// Auto-progression: if code is complete (4 digits), move to next incomplete location
-					if (value.length === 4) {
+					// Auto-progression: if code is complete, move to next incomplete location
+					if (value.length === CODE_LENGTH) {
 						const currentOrderedIds = data.locationOrder || [3, 4, 2, 1];
 						const currentIndex = currentOrderedIds.indexOf(selectedLocationId);
 
@@ -284,7 +288,7 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 							const nextCodeKey = `code${nextId}`;
 							if (
 								!data.codes[nextCodeKey] ||
-								data.codes[nextCodeKey].length < 4
+								data.codes[nextCodeKey].length < CODE_LENGTH
 							) {
 								setSelectedLocationId(nextId);
 								return;
@@ -297,7 +301,7 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 							const nextCodeKey = `code${nextId}`;
 							if (
 								!data.codes[nextCodeKey] ||
-								data.codes[nextCodeKey].length < 4
+								data.codes[nextCodeKey].length < CODE_LENGTH
 							) {
 								setSelectedLocationId(nextId);
 								return;
@@ -350,7 +354,7 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 											{getOrderedLocations().map((codeData) => {
 												const isSelected = selectedLocationId === codeData.id;
 												const isCompleted =
-													data.codes[`code${codeData.id}`]?.length === 4;
+													data.codes[`code${codeData.id}`]?.length === CODE_LENGTH;
 
 												return (
 													<SortableLocationButton
@@ -373,7 +377,7 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 											value={selectedCode}
 											onChange={handleCodeChange}
 											title={`${selectedLocation.order} - ${selectedLocation.casualLocation}`}
-											maxLength={4}
+											maxLength={CODE_LENGTH}
 											placeholder="____"
 											inputMode={inputType}
 											className="main-numberpad"
@@ -383,37 +387,34 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 							</div>
 						</div>
 
-						{/* Results Section - Show when we have at least one completed code */}
-						{progress.completed > 0 && (
-							<div className="codes-results-section">
-								<FloatingCard className="completion-card">
-									<h4>
-										{progress.isComplete
-											? "🎉 All Codes Collected!"
-											: "📋 Project Skadi Sequence"}
-									</h4>
-									<p>
-										{progress.isComplete
-											? "Here are your codes in the correct sequence order:"
-											: "Codes collected so far in the correct sequence order:"}
-									</p>
-
-									<div className="codes-sequence">
-										{getOrderedCodes()
-											.filter((code) => code.value && code.value.length === 4)
-											.map((code) => (
-												<div key={code.id} className="sequence-item">
-													<div className="sequence-number">{code.order}</div>
-													<div className="sequence-details">
-														<div className="sequence-map">{code.map}</div>
-														<div className="sequence-code">{code.value}</div>
-													</div>
-												</div>
-											))}
-									</div>
-								</FloatingCard>
-							</div>
-						)}
+						{/* Results Section */}
+						<div className="codes-results-section">
+							<ResultsDisplay
+								variant="sequence"
+								title={
+									progress.isComplete
+										? "🎉 All Codes Collected!"
+										: "📋 Project Skadi Sequence"
+								}
+								description={
+									progress.isComplete
+										? "Here are your codes in the correct sequence order:"
+										: "Codes collected so far in the correct sequence order:"
+								}
+								sequenceItems={getOrderedCodes().map((code): SequenceItem => ({
+									id: code.id.toString(),
+									order: code.order,
+									value: code.value || "----",
+									metadata: { map: code.map },
+									status: code.value && code.value.length === CODE_LENGTH ? "complete" : "pending",
+								}))}
+								showIncomplete={true}
+								totalExpected={4}
+								colorScheme="success"
+								progressMode="badge"
+								progress={progress}
+							/>
+						</div>
 					</div>
 				);
 			}}

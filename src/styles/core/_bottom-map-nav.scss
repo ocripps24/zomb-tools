@@ -6,7 +6,7 @@
 .bottom-map-nav {
 	// Positioning: Fixed 20px from bottom, centered horizontally
 	position: fixed;
-	bottom: 20px;
+	bottom: 10px;
 	left: 50%;
 	transform: translateX(-50%);
 	z-index: 1000;
@@ -15,9 +15,9 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: space(lg);
+	gap: space(sm);
 	height: 60px;
-	padding: 0 space(xl);
+	padding: 0 space(lg);
 
 	// Glassmorphism effect
 	background: hsla(0, 0%, 100%, 0.2);
@@ -27,11 +27,10 @@
 	border: 1px solid hsla(0, 0%, 100%, 0.1);
 	box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
-	// Mobile: Smaller spacing
-	@media (max-width: #{breakpoint(tmd) - 1px}) {
-		gap: space(sm);
-		padding: 0 space(lg);
-		bottom: 10px;
+	@include tmd-up {
+		bottom: 20px;
+		gap: space(lg);
+		padding: 0 space(xl);
 	}
 
 	// Back button
@@ -81,9 +80,8 @@
 	&__back-text {
 		white-space: nowrap;
 
-		// Mobile: Hide text, show only icon
-		@media (max-width: #{breakpoint(tmd) - 1px}) {
-			display: none;
+		@include tmd-up {
+			display: block;
 		}
 	}
 
@@ -232,8 +230,8 @@
 		white-space: nowrap;
 
 		// Mobile: Hide text, show only icon
-		@media (max-width: #{breakpoint(tmd) - 1px}) {
-			display: none;
+		@include tmd-up {
+			display: block;
 		}
 	}
 }

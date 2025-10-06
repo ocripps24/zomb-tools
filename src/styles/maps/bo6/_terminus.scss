@@ -42,46 +42,5 @@
 		}
 	}
 
-	.equation-results {
-		margin-top: 2rem;
-		background: transparent;
-		border: 1px solid var(--border-subtle);
-		border-radius: var(--radius);
-		padding: 1.5rem;
-
-		h3 {
-			margin: 0 0 1.5rem 0;
-			color: var(--text-primary);
-			text-align: center;
-		}
-
-		.results-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-			gap: 1rem;
-
-			.result-item {
-				background: var(--input-bg);
-				border: 1px solid var(--success-light-color);
-				border-radius: var(--radius);
-				padding: 1rem;
-				text-align: center;
-
-				.result-number {
-					display: block;
-					font-size: 1.8rem;
-					font-weight: bold;
-					color: var(--success-light-color);
-					margin-bottom: 0.5rem;
-				}
-
-				.result-label {
-					color: var(--text-secondary);
-					font-size: 0.9rem;
-				}
-			}
-		}
-	}
-
-	// Section tips styles now handled by _section-tips.scss component
+	// Results display now handled by _results-display.scss component
 }

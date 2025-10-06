@@ -106,22 +106,22 @@ function RavenSwordSection(props: BaseSectionProps<RavenSwordData>) {
 					items: [
 						{
 							label: "Antiquity Location",
-							text: "The antiquity is found on a pedestal in the ritual room"
+							text: "The antiquity is found on a pedestal in the ritual room",
 						},
 						{
 							label: "Dial Location",
-							text: "The dual-ring dial is located on the wall near the Raven Sword"
+							text: "The dual-ring dial is located on the wall near the Raven Sword",
 						},
 						{
 							label: "Ring Rotation",
-							text: "Each ring can be rotated independently - inner ring first, then outer ring"
+							text: "Each ring can be rotated independently - inner ring first, then outer ring",
 						},
 						{
 							label: "Confirmation",
-							text: "When set correctly, the dial will emit a sound and the Raven Sword will activate"
-						}
-					]
-				}
+							text: "When set correctly, the dial will emit a sound and the Raven Sword will activate",
+						},
+					],
+				},
 			}}
 			getProgress={(data: RavenSwordData) => {
 				const hasSelection = Boolean(data.selectedAntiquity);
@@ -149,11 +149,6 @@ function RavenSwordSection(props: BaseSectionProps<RavenSwordData>) {
 					<div className="raven-sword-section">
 						{/* Antiquity Selection */}
 						<div className="antiquity-selection">
-							<h3>Select Your Antiquity</h3>
-							<p className="selection-description">
-								Choose the antiquity you picked up from the pedestal in-game.
-							</p>
-
 							<div className="antiquity-grid">
 								{ANTIQUITIES.map((antiquity) => (
 									<div
@@ -188,10 +183,11 @@ function RavenSwordSection(props: BaseSectionProps<RavenSwordData>) {
 										<h4>Inner Ring (Elemental)</h4>
 										<div className="symbol-display">
 											{(() => {
-												const ElementalComponent =
-													ELEMENTAL_SYMBOLS[
-														selectedAntiquity.innerSymbol as keyof typeof ELEMENTAL_SYMBOLS
-													].component as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+												const ElementalComponent = ELEMENTAL_SYMBOLS[
+													selectedAntiquity.innerSymbol as keyof typeof ELEMENTAL_SYMBOLS
+												].component as unknown as React.ComponentType<
+													React.SVGProps<SVGSVGElement>
+												>;
 												return <ElementalComponent className="symbol-icon" />;
 											})()}
 											<span className="symbol-name">
@@ -208,10 +204,11 @@ function RavenSwordSection(props: BaseSectionProps<RavenSwordData>) {
 										<h4>Outer Ring (Zodiac)</h4>
 										<div className="symbol-display">
 											{(() => {
-												const ZodiacComponent =
-													ZODIAC_SYMBOLS[
-														selectedAntiquity.outerSymbol as keyof typeof ZODIAC_SYMBOLS
-													].component as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+												const ZodiacComponent = ZODIAC_SYMBOLS[
+													selectedAntiquity.outerSymbol as keyof typeof ZODIAC_SYMBOLS
+												].component as unknown as React.ComponentType<
+													React.SVGProps<SVGSVGElement>
+												>;
 												return <ZodiacComponent className="symbol-icon" />;
 											})()}
 											<span className="symbol-name">
@@ -245,7 +242,6 @@ function RavenSwordSection(props: BaseSectionProps<RavenSwordData>) {
 								</div>
 							</div>
 						)}
-
 					</div>
 				);
 			}}

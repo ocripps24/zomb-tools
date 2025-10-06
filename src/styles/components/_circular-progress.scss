@@ -1,0 +1,127 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+// CircularProgress component styles
+// Hollow circle progress indicator with stroke animation
+
+.circular-progress {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	// Large variant (200px) - used as placeholder in results
+	&--large {
+		width: 150px;
+		height: 150px;
+
+		.circular-progress-svg {
+			width: 150px;
+			height: 150px;
+		}
+
+		.circular-progress-text {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		.percentage-value {
+			font-size: font-size(3xl);
+			font-weight: font-weight(bold);
+			font-family: font-family(mono);
+
+			@include tmd-up {
+				font-size: font-size(4xl);
+			}
+		}
+	}
+
+	// Badge variant (40px) - small indicator in corner
+	&--badge {
+		width: 40px;
+		height: 40px;
+
+		.circular-progress-svg {
+			width: 40px;
+			height: 40px;
+		}
+
+		.circular-progress-text {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		.percentage-badge {
+			font-size: font-size(xs);
+			font-weight: font-weight(bold);
+			font-family: font-family(mono);
+		}
+	}
+
+	// Color scheme variants
+	&--success {
+		.circular-progress-track {
+			stroke: var(--border-subtle);
+		}
+
+		.circular-progress-stroke {
+			stroke: var(--success-color);
+		}
+
+		.circular-progress-text {
+			color: var(--success-color);
+		}
+	}
+
+	&--accent {
+		.circular-progress-track {
+			stroke: var(--border-subtle);
+		}
+
+		.circular-progress-stroke {
+			stroke: var(--accent-color);
+		}
+
+		.circular-progress-text {
+			color: var(--accent-color);
+		}
+	}
+
+	&--primary {
+		.circular-progress-track {
+			stroke: var(--border-subtle);
+		}
+
+		.circular-progress-stroke {
+			stroke: var(--primary-color);
+		}
+
+		.circular-progress-text {
+			color: var(--primary-color);
+		}
+	}
+}
+
+// SVG circle elements
+.circular-progress-svg {
+	display: block;
+}
+
+.circular-progress-track {
+	opacity: 0.3;
+}
+
+.circular-progress-stroke {
+	transition: stroke-dashoffset 0.5s ease;
+}
+
+// Text styling
+.circular-progress-text {
+	pointer-events: none;
+	user-select: none;
+}

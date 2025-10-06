@@ -1,6 +1,7 @@
 import React from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
+import { ResultsDisplay } from "@/components/ui";
 
 // Document data with predefined order for code calculation
 const DOCUMENTS = [
@@ -151,26 +152,23 @@ function DocumentsCodeSection(props: BaseSectionProps<DocumentsData>) {
 						</div>
 
 						{/* Code Preview */}
-						{selectedCount > 0 && (
-							<div className="code-preview">
-								<h4>Generated Code</h4>
-								<div className="code-display">
-									<span className="code-value">{generatedCode}</span>
-									{selectedCount < 4 && (
-										<span className="code-note">
-											Select {4 - selectedCount} more document
-											{4 - selectedCount !== 1 ? "s" : ""} to complete the code
-										</span>
-									)}
-								</div>
-								{selectedCount === 4 && (
-									<p className="code-instruction">
-										Enter this {generatedCode.length}-digit code into the computer
-										terminal in the teleportation room.
-									</p>
-								)}
-							</div>
-						)}
+						<ResultsDisplay
+							variant="single-code"
+							title="Generated Code"
+							finalCode={selectedCount === 4 ? generatedCode : ""}
+							codeFormat="standard"
+							codeNote={
+								selectedCount === 4
+									? `Enter this ${generatedCode.length}-digit code into the computer terminal in the teleportation room.`
+									: `Select ${4 - selectedCount} more document${4 - selectedCount !== 1 ? "s" : ""} to complete the code`
+							}
+							progressMode="replace"
+							progress={{
+								completed: selectedCount,
+								total: 4,
+							}}
+							colorScheme="success"
+						/>
 					</div>
 				);
 			}}

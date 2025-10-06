@@ -1,6 +1,7 @@
 import React from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
+import ResultsDisplay from "./ResultsDisplay";
 
 // Types for the generic number code section
 export interface NumberCodeLocation {
@@ -158,33 +159,16 @@ function NumberCodeSection({
             </div>
 
             {/* Progress Summary */}
-            <div className="code-summary">
-              <div className="completion-status">
-                <h3>Progress</h3>
-                <div className="progress-bar">
-                  <div
-                    className="progress-fill"
-                    style={{ width: `${(progress.completed / progress.total) * 100}%` }}
-                  />
-                </div>
-                <span className="progress-text">
-                  {progress.completed} of {progress.total} numbers collected
-                </span>
-              </div>
-
-              {/* Final Code Display */}
-              {finalCode && (
-                <div className="final-code">
-                  <h3>{title}</h3>
-                  <div className="code-display">
-                    <span className="code-number">{finalCode}</span>
-                  </div>
-                  {finalCodeNote && (
-                    <p className="code-note">{finalCodeNote}</p>
-                  )}
-                </div>
-              )}
-            </div>
+            <ResultsDisplay
+              variant="single-code"
+              title={title}
+              finalCode={finalCode || ""}
+              codeFormat="standard"
+              codeNote={finalCodeNote}
+              progressMode="replace"
+              progress={progress}
+              colorScheme="success"
+            />
 
           </div>
         );

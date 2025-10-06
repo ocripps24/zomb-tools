@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { NumberPad } from "@/components/ui";
+import { NumberPad, ResultsDisplay } from "@/components/ui";
+import type { ResultItem } from "@/components/ui/ResultsDisplay";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 
@@ -138,6 +139,21 @@ function UnlockAdamSection(props: BaseSectionProps<UnlockAdamData>) {
 					}));
 				};
 
+				// Build result items for display
+				const getResultItems = (): ResultItem[] => {
+					return CODE_INFO.map((codeInfo) => {
+						const currentValue = data[codeInfo.id as keyof UnlockAdamData] || "";
+						const hasValue = currentValue.length === 4;
+
+						return {
+							id: codeInfo.id,
+							value: hasValue ? currentValue : "----",
+							label: codeInfo.name,
+							status: hasValue ? "complete" : "pending",
+						};
+					});
+				};
+
 				return (
 					<div className="unlock-adam-section-content">
 						{/* Code Entry Section */}
@@ -172,38 +188,16 @@ function UnlockAdamSection(props: BaseSectionProps<UnlockAdamData>) {
 							</div>
 						</div>
 
-						{/* Results Section - Show when we have at least one code */}
-						{progress.completed > 0 && (
-							<div className="codes-results-section">
-								<h3>Rushmore Code Sequence</h3>
-								<div className="results-grid">
-									{CODE_INFO.map((codeInfo) => {
-										const currentValue =
-											data[codeInfo.id as keyof UnlockAdamData] || "";
-										const hasValue = currentValue.length === 4;
-
-										return (
-											<div
-												key={codeInfo.id}
-												className={`result-item ${
-													hasValue ? "complete" : "incomplete"
-												}`}
-											>
-												<div className="result-number">
-													{hasValue ? currentValue : "----"}
-												</div>
-												<div className="result-label">{codeInfo.name}</div>
-												{codeInfo.readonly && (
-													<div className="result-note">Always the same</div>
-												)}
-											</div>
-										);
-									})}
-								</div>
-							</div>
-						)}
-
-
+						{/* Results Section */}
+						<ResultsDisplay
+							variant="grid"
+							title="Rushmore Code Sequence"
+							results={getResultItems()}
+							gridColumns={4}
+							colorScheme="success"
+							progressMode="badge"
+							progress={progress}
+						/>
 					</div>
 				);
 			}}

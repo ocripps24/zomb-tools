@@ -6,233 +6,155 @@
 .codes-section-content {
 	@include flex-column;
 	gap: space(2xl);
-}
 
-.codes-input-section {
-	border: 1px solid var(--border-color);
-	border-radius: radius(base);
-	padding: space(md);
+	.codes-input-section {
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		padding: space(md);
 
-	h3 {
-		font-size: font-size(2xl);
-		font-weight: font-weight(semibold);
-		color: var(--text-primary);
-		margin: 0 0 space(sm) 0;
-	}
-
-	p {
-		color: var(--text-secondary);
-		margin: 0 0 space(2xl) 0;
-		line-height: 1.6;
-	}
-}
-
-.codes-input-layout {
-	display: flex;
-	gap: space(2xl);
-	margin-top: space(md);
-
-	@include mobile {
-		flex-direction: column;
-		gap: space(md);
-	}
-
-	.location-selector {
-		flex: 1;
-		min-width: 200px;
-
-		.location-button {
-			display: flex;
-			align-items: center;
-			width: 100%;
-			margin-bottom: space(sm);
-			background: var(--bg-tertiary);
-			border: 2px solid var(--border-color);
-			border-radius: radius(base);
-			transition: transition(base);
-			font-family: var(--font-family);
-			font-size: font-size(sm);
-			user-select: none;
-
-			&:hover {
-				background: var(--location-card-hover-bg);
-			}
-
-			// Visual states with border colors
-			&--empty {
-				border-color: var(--border-color); // white
-			}
-
-			&--selected {
-				border-color: var(--warning-color); // yellow/warning
-				background: var(--location-card-selected-bg);
-			}
-
-			&--completed {
-				border-color: var(--success-light-color); // green
-				background: var(--location-card-completed-bg);
-			}
-
-			.location-content {
-				@include flex-center;
-				gap: space(sm);
-				flex: 1;
-				padding: space(md) space(lg);
-				cursor: pointer;
-				justify-content: flex-start;
-
-				.location-order {
-					font-weight: font-weight(bold);
-					min-width: 1rem;
-				}
-
-				.location-separator {
-					color: var(--text-secondary);
-				}
-
-				.location-name {
-					font-weight: font-weight(medium);
-				}
-			}
-
-			.drag-handle {
-				@include flex-center;
-				padding: space(sm);
-				background: none;
-				border: none;
-				color: var(--text-secondary);
-				cursor: grab;
-				font-size: font-size(lg);
-				line-height: 1;
-				transition: transition(base);
-				min-width: space(2xl);
-
-				&:hover {
-					color: var(--text-primary);
-				}
-
-				&:active {
-					cursor: grabbing;
-				}
-			}
-		}
-	}
-
-	.numberpad-column {
-		flex: 1;
-		@include flex-center;
-		justify-content: center;
-		align-items: flex-start;
-
-		.main-numberpad {
-			width: 100%;
-			max-width: 300px;
-		}
-	}
-}
-
-.codes-results-section {
-	.completion-card {
-		h4 {
-			font-size: font-size(xl);
-			margin: 0 0 space(lg) 0;
+		h3 {
+			font-size: font-size(2xl);
+			font-weight: font-weight(semibold);
 			color: var(--text-primary);
+			margin: 0 0 space(sm) 0;
 		}
 
 		p {
-			margin: 0 0 space(2xl) 0;
 			color: var(--text-secondary);
+			margin: 0 0 space(2xl) 0;
 			line-height: 1.6;
 		}
 
-		.sequence-note {
-			margin-top: space(2xl);
-			font-style: italic;
-			color: var(--text-muted);
-			border-top: 1px solid var(--border-subtle);
-			padding-top: space(lg);
+		.codes-input-layout {
+			display: flex;
+			flex-direction: column;
+			gap: space(md);
+			margin-top: space(md);
+
+			@include tmd-up {
+				flex-direction: row;
+				gap: space(2xl);
+			}
+
+			.location-selector {
+				flex: 1;
+				min-width: 200px;
+
+				.location-button {
+					display: flex;
+					align-items: center;
+					width: 100%;
+					margin-bottom: space(sm);
+					background: var(--bg-tertiary);
+					border: 2px solid var(--border-color);
+					border-radius: radius(base);
+					transition: transition(base);
+					font-family: var(--font-family);
+					font-size: font-size(sm);
+					user-select: none;
+
+					&:hover {
+						background: var(--location-card-hover-bg);
+					}
+
+					// Visual states with border colors
+					&--empty {
+						border-color: var(--border-color); // white
+					}
+
+					&--selected {
+						border-color: var(--warning-color); // yellow/warning
+						background: var(--location-card-selected-bg);
+					}
+
+					&--completed {
+						border-color: var(--success-light-color); // green
+						background: var(--location-card-completed-bg);
+					}
+
+					.location-content {
+						@include flex-center;
+						gap: space(sm);
+						flex: 1;
+						padding: space(md) space(lg);
+						cursor: pointer;
+						justify-content: flex-start;
+
+						.location-order {
+							font-weight: font-weight(bold);
+							min-width: 1rem;
+						}
+
+						.location-separator {
+							color: var(--text-secondary);
+						}
+
+						.location-name {
+							font-weight: font-weight(medium);
+						}
+					}
+
+					.drag-handle {
+						@include flex-center;
+						padding: space(sm);
+						background: none;
+						border: none;
+						color: var(--text-secondary);
+						cursor: grab;
+						font-size: font-size(lg);
+						line-height: 1;
+						transition: transition(base);
+						min-width: space(2xl);
+
+						&:hover {
+							color: var(--text-primary);
+						}
+
+						&:active {
+							cursor: grabbing;
+						}
+					}
+				}
+			}
+
+			.numberpad-column {
+				flex: 1;
+				@include flex-center;
+				justify-content: center;
+				align-items: flex-start;
+
+				.main-numberpad {
+					width: 100%;
+					max-width: 300px;
+				}
+			}
 		}
-	}
-}
 
-.codes-sequence {
-	display: flex;
-	flex-direction: row;
-	gap: space(lg);
-	margin: space(lg) 0;
-	flex-wrap: wrap;
-}
+		.codes-results-section {
+			.completion-card {
+				h4 {
+					font-size: font-size(xl);
+					margin: 0 0 space(lg) 0;
+					color: var(--text-primary);
+				}
 
-.sequence-item {
-	@include flex-center;
-	gap: space(lg);
-	padding: space(lg);
-	background: var(--bg-tertiary);
-	border: 1px solid var(--border-color);
-	border-radius: radius(base);
-	transition: transition(base);
-	flex: 1;
-	min-width: 200px;
-	justify-content: flex-start;
+				p {
+					margin: 0 0 space(2xl) 0;
+					color: var(--text-secondary);
+					line-height: 1.6;
+				}
 
-	&:hover {
-		border-color: var(--border-focus);
-		transform: translateY(-1px);
-	}
-}
+				.sequence-note {
+					margin-top: space(2xl);
+					font-style: italic;
+					color: var(--text-muted);
+					border-top: 1px solid var(--border-subtle);
+					padding-top: space(lg);
+				}
+			}
 
-.sequence-number {
-	@include flex-center;
-	@include touch-target(2.5rem);
-	background: var(--primary-color);
-	color: white;
-	border-radius: radius(full);
-	font-weight: font-weight(semibold);
-	font-size: font-size(lg);
-	flex-shrink: 0;
-}
-
-.sequence-details {
-	@include flex-column;
-	flex: 1;
-	gap: space(xs);
-}
-
-.sequence-map {
-	font-weight: font-weight(semibold);
-	color: var(--text-primary);
-	font-size: font-size(sm);
-	text-transform: uppercase;
-	letter-spacing: 0.5px;
-}
-
-.sequence-code {
-	font-family: var(--font-mono);
-	font-size: font-size(xl);
-	color: var(--accent-color);
-	font-weight: font-weight(bold);
-	letter-spacing: 1px;
-}
-
-// Mobile responsiveness
-@include mobile {
-	.codes-sequence {
-		flex-direction: column;
-	}
-
-	.sequence-item {
-		padding: space(md);
-		gap: space(md);
-		flex: none;
-		min-width: auto;
-	}
-
-	.sequence-number {
-		@include touch-target(space(2xl));
-		font-size: font-size(base);
-	}
-
-	.sequence-code {
-		font-size: font-size(lg);
+			// Results now use ResultsDisplay component
+			// Sequence styles handled by _results-display.scss
+		}
 	}
 }

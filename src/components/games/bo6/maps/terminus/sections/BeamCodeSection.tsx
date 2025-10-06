@@ -1,7 +1,8 @@
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
-import { SymbolPicker } from "@/components/ui";
+import { SymbolPicker, ResultsDisplay } from "@/components/ui";
 import type { Symbol } from "@/components/ui/SymbolPicker";
+import type { ResultItem } from "@/components/ui/ResultsDisplay";
 import { BeamSymbols, SYMBOL_DATA, getSymbolValue } from "./BeamSymbols";
 
 interface SymbolLocation {
@@ -64,7 +65,7 @@ function BeamCodeSection(props: BaseSectionProps<BeamCodeData>) {
 			}}
 			{...props}
 		>
-			{({ data, setData }) => {
+			{({ data, setData, progress }) => {
 				const handleSymbolSelect = (locationId: string, symbolId: string) => {
 					setData((prevData: BeamCodeData) => ({
 						...prevData,
@@ -107,6 +108,30 @@ function BeamCodeSection(props: BaseSectionProps<BeamCodeData>) {
 				const results = calculateEquations();
 				const usedSymbols: string[] = Object.values(data).filter(Boolean);
 
+				// Format results for ResultsDisplay
+				const resultItems: ResultItem[] | undefined = results
+					? [
+							{
+								id: "eq1",
+								value: results.equation1,
+								label: "First Number",
+								status: "complete" as const,
+							},
+							{
+								id: "eq2",
+								value: results.equation2,
+								label: "Second Number",
+								status: "complete" as const,
+							},
+							{
+								id: "eq3",
+								value: results.equation3,
+								label: "Third Number",
+								status: "complete" as const,
+							},
+					  ]
+					: undefined;
+
 				return (
 					<div className="beam-code-section">
 						<div className="symbol-selection">
@@ -131,26 +156,15 @@ function BeamCodeSection(props: BaseSectionProps<BeamCodeData>) {
 							))}
 						</div>
 
-						{results && (
-							<div className="equation-results">
-								<h3>Terminal Sequence</h3>
-								<div className="results-grid">
-									<div className="result-item">
-										<span className="result-number">{results.equation1}</span>
-										<span className="result-label">First Number</span>
-									</div>
-									<div className="result-item">
-										<span className="result-number">{results.equation2}</span>
-										<span className="result-label">Second Number</span>
-									</div>
-									<div className="result-item">
-										<span className="result-number">{results.equation3}</span>
-										<span className="result-label">Third Number</span>
-									</div>
-								</div>
-							</div>
-						)}
-
+						<ResultsDisplay
+							variant="grid"
+							title="Terminal Sequence"
+							results={resultItems || []}
+							gridColumns={3}
+							colorScheme="success"
+							progressMode="replace"
+							progress={progress}
+						/>
 					</div>
 				);
 			}}
