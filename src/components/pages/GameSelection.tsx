@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import GameSelectionCard from "./GameSelectionCard";
 import SettingsInfoPanel from "@/components/ui/SettingsInfoPanel";
+import GlassHero from "@/components/ui/GlassHero";
+import HeroFooterGrid from "@/components/ui/HeroFooterGrid";
 import { GAMES } from "@/data/games";
+import beamsImage from "@/assets/images/beams-bkg-v2.png";
 
 // Vite dynamic import for all game logos - supports multiple formats
 const logosWebp = import.meta.glob("@/assets/games/*-logo.webp", {
@@ -40,43 +43,60 @@ const getLogo = (id: string): string | null => {
 };
 
 function GameSelection() {
-	const allGames = (Object.values(GAMES) as Array<{
-		id: string;
-		name: string;
-		fullName: string;
-		description: string;
-		available: boolean;
-		releaseYear: number;
-		route: string | null;
-	}>).sort((a, b) => b.releaseYear - a.releaseYear);
+	const allGames = (
+		Object.values(GAMES) as Array<{
+			id: string;
+			name: string;
+			fullName: string;
+			description: string;
+			available: boolean;
+			releaseYear: number;
+			route: string | null;
+		}>
+	).sort((a, b) => b.releaseYear - a.releaseYear);
 	const navigate = useNavigate();
 
 	return (
-		<div className="game-selection">
-			<h2 className="game-selection__title">Select a Game</h2>
-			{/* <p className="game-selection__subtitle">
-				Choose which Call of Duty Zombies game you want to access speedrun tools
-				for.
-			</p> */}
-			<div className="game-selection__grid">
-				{allGames.map((game) => (
-					<GameSelectionCard
-						key={game.id}
-						image={getLogo(game.id)}
-						label={game.name}
-						onClick={
-							game.available && game.route
-								? () => navigate(game.route!)
-								: undefined
-						}
-						disabled={!game.available}
-					/>
-				))}
+		<>
+			<div className="game-selection__hero">
+				{/* Full-viewport background image with fluted glass effect */}
+				<GlassHero
+					imageSrc={beamsImage}
+					glassIntensity={50}
+					glassSegments={60}
+					glassMode="mouse"
+					glassMotion={0.75}
+				/>
+				{/* Hero footer grid - positioned at bottom of hero section */}
+				<HeroFooterGrid />
 			</div>
 
-			{/* Settings Information Section */}
-			<SettingsInfoPanel />
-		</div>
+			<div className="game-selection">
+				<h2 className="game-selection__title">Select a Game</h2>
+				{/* <p className="game-selection__subtitle">
+					Choose which Call of Duty Zombies game you want to access speedrun tools
+					for.
+				</p> */}
+				<div className="game-selection__grid">
+					{allGames.map((game) => (
+						<GameSelectionCard
+							key={game.id}
+							image={getLogo(game.id)}
+							label={game.name}
+							onClick={
+								game.available && game.route
+									? () => navigate(game.route!)
+									: undefined
+							}
+							disabled={!game.available}
+						/>
+					))}
+				</div>
+
+				{/* Settings Information Section */}
+				<SettingsInfoPanel />
+			</div>
+		</>
 	);
 }
 

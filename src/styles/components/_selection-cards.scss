@@ -1,3 +1,7 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
 // Game and Map Selection Card Styles
 
 // Base selection card structure
@@ -8,13 +12,16 @@
 	cursor: pointer;
 	background: none;
 	border: none;
+	transition: transform var(--transition);
+	z-index: 100;
 
 	// Image container (row 1)
 	&__image {
 		overflow: hidden;
 		aspect-ratio: 16 / 9;
-		border: 2px solid var(--border-color);
-		border-radius: var(--radius);
+		// border: 1px solid var(--border-color);
+		border-top-left-radius: var(--radius);
+		border-top-right-radius: var(--radius);
 		width: 100%;
 
 		img {
@@ -27,31 +34,43 @@
 
 	// Meta data container (row 2)
 	&__meta {
-		padding: 1rem 0;
+		padding: 2rem 1.5rem;
 		width: 100%;
+		background: hsla(0, 0%, 100%, 0.2);
+		backdrop-filter: blur(8px);
+		border-bottom-left-radius: var(--radius);
+		border-bottom-right-radius: var(--radius);
 	}
 
 	// Title styling
 	&__title {
 		font-weight: 600;
-		font-size: 1rem;
+		font-size: font-size(2xl);
 		color: var(--text-primary);
 		text-align: left;
-		margin: 0 0 0.5rem 0;
+		margin: 0;
 	}
 
 	// Hover effect - only scale the image (but not when disabled)
 	&:not(&--disabled):hover &__image img {
-		transform: scale(1.05);
+		// transform: scale(1.05);
+	}
+
+	&:not(&--disabled):hover {
+		transform: translateY(-8px);
 	}
 
 	// Disabled/unavailable state
 	&--disabled {
-		opacity: 0.5;
+		opacity: 1;
 		cursor: not-allowed;
 
-		&__image img {
+		.selection-card__image img {
 			transform: none !important;
+		}
+
+		.selection-card__meta {
+			opacity: 0.5;
 		}
 	}
 }
@@ -61,14 +80,14 @@
 	@extend .selection-card;
 }
 
-// Map Selection Card  
+// Map Selection Card
 .map-selection-card {
 	@extend .selection-card;
 
 	// Tools display (when map is available)
 	&__tools {
 		font-size: 0.875rem;
-		color: var(--text-secondary);
+		color: var(--text-primary);
 		text-align: left;
 
 		strong {
@@ -79,7 +98,7 @@
 	// Status display (when map is not available)
 	&__status {
 		font-size: 0.875rem;
-		color: var(--text-muted);
+		color: var(--text-primary);
 		font-style: italic;
 		text-align: left;
 	}

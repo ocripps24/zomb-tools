@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * Reusable settings information panel that explains available customization options.
  * Used on game selection and map selection pages to inform users about settings features.
@@ -12,17 +10,17 @@ function SettingsInfoPanel() {
 				Many map sections include settings panels at the bottom to customize
 				your experience:
 			</p>
-			<div className="settings-info__features">
-				<div className="settings-feature">
-					<strong>Input Formats:</strong> Choose between button-based input
-					and text entry fields for different data types.
-				</div>
-				<div className="settings-feature">
+			<ul className="settings-info__features">
+				<li className="settings-feature">
+					<strong>Input Formats:</strong> Choose between button-based input and
+					text entry fields for different data types.
+				</li>
+				<li className="settings-feature">
 					<strong>UI Size:</strong> Switch between Standard and Compact modes.
-					Compact mode reduces spacing and padding for a denser layout
-					preferred by speedrunners.
-				</div>
-			</div>
+					Compact mode reduces spacing and padding for a denser layout preferred
+					by speedrunners.
+				</li>
+			</ul>
 			<p className="settings-info__note">
 				<strong>Notes:</strong>
 				<br />

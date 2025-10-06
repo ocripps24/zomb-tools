@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getTheme, toggleTheme, THEMES } from "@/utils/theme";
 import { ROUTES, getGameRoute } from "@/routes";
+import MrPeeksLogo from "@/assets/icons/mr-peeks-head-logo.svg";
+import ChevronIcon from "@/assets/icons/chevron.svg";
 
 const games = [
+	{ id: "bo3", name: "BO3" },
 	{ id: "bo4", name: "BO4" },
 	{ id: "bo6", name: "BO6" },
+	{ id: "bo7", name: "BO7" },
 ];
 
-const NavBar: React.FC<{ title?: string }> = ({ title }) => {
+const NavBar: React.FC<{ title?: string }> = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const [currentTheme, setCurrentTheme] = useState(getTheme());
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	// Determine active game by path
 	const activeGame = games.find((game) =>
@@ -19,47 +22,95 @@ const NavBar: React.FC<{ title?: string }> = ({ title }) => {
 	);
 	const isHome = location.pathname === "/";
 
-	const handleThemeToggle = () => {
-		const newTheme = toggleTheme();
-		setCurrentTheme(newTheme);
-	};
-
-	// Update theme state if it changes externally
+	// Close dropdown when clicking outside
 	useEffect(() => {
-		const handleStorageChange = () => {
-			setCurrentTheme(getTheme());
+		const handleClickOutside = (event: MouseEvent) => {
+			const dropdown = document.querySelector('.nav__dropdown');
+			if (dropdown && !dropdown.contains(event.target as Node)) {
+				setIsDropdownOpen(false);
+			}
 		};
 
-		window.addEventListener("storage", handleStorageChange);
-		return () => window.removeEventListener("storage", handleStorageChange);
-	}, []);
+		if (isDropdownOpen) {
+			document.addEventListener('click', handleClickOutside);
+		}
+
+		return () => document.removeEventListener('click', handleClickOutside);
+	}, [isDropdownOpen]);
 
 	return (
-		<nav className="nav nav--bubble" aria-label="Global Navigation">
+		<nav className="nav" aria-label="Global Navigation">
 			<button
-				className={`nav__brand nav__link${isHome ? " nav__link--active" : ""}`}
+				className={`nav__brand${isHome ? " nav__brand--active" : ""}`}
 				onClick={() => navigate(ROUTES.home)}
 				aria-label="Home"
 			>
-				ZomB Tools
+				<span className="nav__logo">
+					<MrPeeksLogo />
+				</span>
+				<span className="nav__brand-text">ZomB Tools</span>
 			</button>
-			<div className="nav__spacer" />
+
 			<div className="nav__links">
-				{games.map((game) => (
+				{/* Desktop: Show all game links */}
+				<div className="nav__links-desktop">
+					{games.map((game) => (
+						<button
+							key={game.id}
+							className={`nav__link${
+								activeGame && activeGame.id === game.id
+									? " nav__link--active"
+									: ""
+							}`}
+							onClick={() => navigate(getGameRoute(game.id as 'bo3' | 'bo4' | 'bo6' | 'bo7'))}
+							aria-label={game.name}
+						>
+							{game.name}
+						</button>
+					))}
+				</div>
+
+				{/* Mobile: Dropdown menu */}
+				<div className="nav__dropdown">
 					<button
-						key={game.id}
-						className={`nav__link${
-							activeGame && activeGame.id === game.id
-								? " nav__link--active"
-								: ""
-						}`}
-						onClick={() => navigate(getGameRoute(game.id as 'bo4' | 'bo6'))}
-						aria-label={game.name}
+						className={`nav__link nav__dropdown-toggle${activeGame ? " nav__link--active" : ""}`}
+						onClick={(e) => {
+							e.stopPropagation();
+							setIsDropdownOpen(!isDropdownOpen);
+						}}
+						aria-label="Games menu"
+						aria-expanded={isDropdownOpen}
 					>
-						{game.name}
+						<span>Games</span>
+						<span className={`nav__chevron${isDropdownOpen ? " nav__chevron--open" : ""}`}>
+							<ChevronIcon />
+						</span>
 					</button>
-				))}
-				<span className="nav__separator" />
+
+					{isDropdownOpen && (
+						<div className="nav__dropdown-menu">
+							{games.map((game) => (
+								<button
+									key={game.id}
+									className={`nav__dropdown-item${
+										activeGame && activeGame.id === game.id
+											? " nav__dropdown-item--active"
+											: ""
+									}`}
+									onClick={() => {
+										navigate(getGameRoute(game.id as 'bo3' | 'bo4' | 'bo6' | 'bo7'));
+										setIsDropdownOpen(false);
+									}}
+								>
+									{game.name}
+								</button>
+							))}
+						</div>
+					)}
+				</div>
+
+				{/* Theme toggle - hidden for now but keeping code */}
+				{/* <span className="nav__separator" />
 				<button
 					className="nav__link nav__link--theme"
 					onClick={handleThemeToggle}
@@ -71,7 +122,7 @@ const NavBar: React.FC<{ title?: string }> = ({ title }) => {
 					} mode`}
 				>
 					{currentTheme === THEMES.DARK ? "☀️" : "🌙"}
-				</button>
+				</button> */}
 			</div>
 		</nav>
 	);

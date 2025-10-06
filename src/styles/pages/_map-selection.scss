@@ -5,17 +5,31 @@
 
 // Map selection page styles
 .map-selection {
-	margin-top: space(2xl);
+	position: relative;
+	z-index: 100;
+	margin-top: space(5xl);
+	padding: 0 space(sm);
+
+	@include tsm-up {
+		padding: 0 space(2xl);
+	}
+
 	&__header {
-		text-align: center;
-		margin-bottom: 2rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: space(xs) 0 space(md) 0;
+
+		@include tmd-up {
+			padding: space(xl) 0;
+		}
 	}
 
 	&__title {
 		font-size: 2.5rem;
 		font-weight: 700;
 		color: var(--text-primary);
-		margin: 0 0 1rem 0;
+		margin: 0;
 	}
 
 	&__subtitle {
@@ -30,17 +44,16 @@
 		gap: 2rem;
 		margin: 2rem 0;
 
-		@include pmd-up {
+		@include tsm-up {
 			grid-template-columns: repeat(2, 1fr);
 		}
 
-		@include tmd-up {
+		@include dmd-up {
 			grid-template-columns: repeat(3, 1fr);
 		}
 	}
 
-
 	&__back-button {
-		margin-bottom: 2rem;
+		margin: 0;
 	}
 }

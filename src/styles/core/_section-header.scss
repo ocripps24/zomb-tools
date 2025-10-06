@@ -3,7 +3,7 @@
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 2rem;
-	
+
 	&__top-row {
 		display: flex;
 		justify-content: space-between;
@@ -11,20 +11,54 @@
 		margin-bottom: 0.75rem;
 		width: 100%;
 	}
-	
+
 	&__title {
 		color: var(--text-primary);
 		font-size: 1.5rem;
 		margin: 0;
 		font-weight: 600;
 		flex: 1; // Take available space
-		
+
 		.progress-counter {
 			color: var(--text-secondary);
 			font-weight: 400;
 		}
 	}
-	
+
+	&__buttons {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+
+		// Reset button text should match guide icon height
+		.btn {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			line-height: 1.8rem; // Match guide icon height
+		}
+
+		// Guide button inherits from .guide-btn in _app.scss
+		.guide-btn {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			.btn-icon {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				svg {
+					width: 1.8rem;
+					height: 1.8rem;
+					fill: #ff0000;
+					transition: fill var(--transition);
+				}
+			}
+		}
+	}
+
 	&__description {
 		color: var(--text-secondary);
 		margin: 0;

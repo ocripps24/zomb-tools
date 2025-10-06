@@ -1,5 +1,12 @@
 import React from "react";
 import Button from "./Button";
+import YouTubeIcon from "@/assets/icons/youtube-icon.svg";
+
+interface Guide {
+	url: string;
+	type: "internal" | "external";
+	channelName?: string;
+}
 
 interface SectionHeaderProps {
 	title: string;
@@ -10,6 +17,7 @@ interface SectionHeaderProps {
 	description?: string;
 	onReset: () => void;
 	resetButtonText?: string;
+	guide?: Guide;
 }
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({
@@ -17,8 +25,16 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
 	progress,
 	description,
 	onReset,
-	resetButtonText = "Reset All",
+	resetButtonText = "Clear",
+	guide,
 }) => {
+	const scrollToGuide = () => {
+		const guideElement = document.getElementById("youtube-guide-section");
+		if (guideElement) {
+			guideElement.scrollIntoView({ behavior: "smooth" });
+		}
+	};
+
 	return (
 		<div className="section-header">
 			<div className="section-header__top-row">
@@ -30,10 +46,21 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
 						</span>
 					)}
 				</h3>
-				<Button variantType="secondary" onClick={onReset}>
-					<span className="btn__full">{resetButtonText}</span>
-					<span className="btn__short">Clear</span>
-				</Button>
+				<div className="section-header__buttons">
+					{guide && (
+						<button
+							onClick={scrollToGuide}
+							className="btn btn-secondary guide-btn"
+						>
+							<span className="btn-icon">
+								<YouTubeIcon />
+							</span>
+						</button>
+					)}
+					<Button variantType="secondary" onClick={onReset}>
+						{resetButtonText}
+					</Button>
+				</div>
 			</div>
 			{description && (
 				<p className="section-header__description">{description}</p>

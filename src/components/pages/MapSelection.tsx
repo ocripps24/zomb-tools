@@ -6,7 +6,8 @@ import { BO3_MAPS, type BO3Map } from "@/data/bo3/maps";
 import { BO4_MAPS, type BO4Map } from "@/data/bo4/maps";
 import { BO6_MAPS, type BO6Map } from "@/data/bo6/maps";
 import { BO7_MAPS, type BO7Map } from "@/data/bo7/maps";
-import { ROUTES } from "@/routes";
+import GlassHero from "@/components/ui/GlassHero";
+import beamsImage from "@/assets/images/beams-bkg-v2.png";
 
 // Vite dynamic import for all map preview images - supports multiple formats
 const previewsWebp = import.meta.glob("@/assets/maps/*/*-preview.webp", {
@@ -44,7 +45,9 @@ const getPreview = (gameId: string, mapId: string): string | null => {
 	return null;
 };
 
-const getMapsByGame = (gameId: string): (BO3Map | BO4Map | BO6Map | BO7Map)[] => {
+const getMapsByGame = (
+	gameId: string
+): (BO3Map | BO4Map | BO6Map | BO7Map)[] => {
 	switch (gameId) {
 		case "bo3":
 			return BO3_MAPS;
@@ -70,7 +73,7 @@ function MapSelection({ gameId }: MapSelectionProps) {
 
 	if (!game) {
 		return (
-			<MapSelectionCard 
+			<MapSelectionCard
 				label="Game Not Found"
 				image={null}
 				onClick={() => {}}
@@ -81,37 +84,39 @@ function MapSelection({ gameId }: MapSelectionProps) {
 	}
 
 	return (
-		<div className="map-selection">
-			<button
-				className="btn btn--secondary"
-				onClick={() => navigate(ROUTES.home)}
-				style={{ marginBottom: "2rem" }}
-			>
-				← Back to Games
-			</button>
-			<h2 className="map-selection__title">Select a {game.name} Map</h2>
-			{/* <p className="map-selection__subtitle">
-				Choose which {game.name} Zombies map you want to access speedrun tools
-				for.
-			</p> */}
-			<div className="map-selection__grid">
-				{maps.map((map) => (
-					<MapSelectionCard
-						key={map.id}
-						image={getPreview(gameId, map.id)}
-						label={map.name}
-						onClick={map.available ? () => navigate(map.route) : undefined}
-						style={{ opacity: map.available ? 1 : 0.5 }}
-						tools={map.tools}
-						status={map.status}
-						available={map.available}
-					/>
-				))}
-			</div>
+		<>
+			{/* Full-viewport background image with fluted glass effect */}
+			<GlassHero
+				imageSrc={beamsImage}
+				glassIntensity={50}
+				glassSegments={60}
+				glassMode="mouse"
+				glassMotion={0.75}
+			/>
 
-			{/* Settings Information Section */}
-			<SettingsInfoPanel />
-		</div>
+			<div className="map-selection">
+				<div className="map-selection__header">
+					<h2 className="map-selection__title">{game.name}</h2>
+				</div>
+				<div className="map-selection__grid">
+					{maps.map((map) => (
+						<MapSelectionCard
+							key={map.id}
+							image={getPreview(gameId, map.id)}
+							label={map.name}
+							onClick={map.available ? () => navigate(map.route) : undefined}
+							// style={{ opacity: map.available ? 1 : 0.5 }}
+							tools={map.tools}
+							status={map.status}
+							available={map.available}
+						/>
+					))}
+				</div>
+
+				{/* Settings Information Section */}
+				<SettingsInfoPanel />
+			</div>
+		</>
 	);
 }
 

@@ -9,44 +9,56 @@
 	padding: space(xl);
 	border: 1px solid var(--border-color);
 	border-radius: radius(base);
-	background-color: var(--bg-tertiary);
+	background-color: var(--border-color);
+	backdrop-filter: blur(20px);
 
 	h4 {
 		margin-bottom: space(md);
 		color: var(--text-primary);
-		@include fluid-text(base, medium, 1.3);
+		@include fluid-text(lg, semibold, 1.3);
 	}
 
 	&__description {
 		margin-bottom: space(lg);
-		color: var(--text-secondary);
+		color: var(--text-primary);
 		@include fluid-text(sm, normal, 1.4);
 	}
 
 	&__features {
 		margin-bottom: space(lg);
-	}
+		// padding-left: 0;
+		list-style: none;
 
-	.settings-feature {
-		margin-bottom: space(md);
-		color: var(--text-primary);
-		@include fluid-text(sm, normal, 1.4);
-
-		strong {
+		.settings-feature {
+			position: relative;
+			margin-bottom: space(sm);
+			padding-left: space(lg);
 			color: var(--text-primary);
-			font-weight: font-weight(medium);
-		}
+			@include fluid-text(sm, normal, 1.4);
 
-		&:last-child {
-			margin-bottom: 0;
+			&:before {
+				content: "–";
+				position: absolute;
+				left: 0;
+				color: var(--text-secondary);
+			}
+
+			strong {
+				color: var(--text-primary);
+				font-weight: font-weight(semibold);
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
 		}
 	}
 
 	&__note {
 		margin: 0;
 		padding-top: space(md);
-		border-top: 1px solid var(--border-subtle);
-		color: var(--text-secondary);
+		border-top: 1px solid var(--border-color);
+		color: var(--text-primary);
 		@include fluid-text(xs, normal, 1.4);
 		font-style: italic;
 
