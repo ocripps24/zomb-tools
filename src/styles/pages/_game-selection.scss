@@ -8,10 +8,20 @@
 	position: relative;
 	margin-top: space(5xl);
 	padding: 0 space(sm);
+	padding-bottom: 0; // No bottom padding - footer grid handles spacing
 	z-index: 100;
+	display: flex;
+	flex-direction: column;
 
 	@include tsm-up {
 		padding: 0 space(2xl);
+		padding-bottom: 0;
+	}
+
+	&__hero {
+		position: relative;
+		height: 100vh;
+		display: grid;
 	}
 
 	&__header {

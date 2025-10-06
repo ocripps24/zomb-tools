@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import GameSelectionCard from "./GameSelectionCard";
 import SettingsInfoPanel from "@/components/ui/SettingsInfoPanel";
 import GlassHero from "@/components/ui/GlassHero";
+import HeroFooterGrid from "@/components/ui/HeroFooterGrid";
 import { GAMES } from "@/data/games";
 import beamsImage from "@/assets/images/beams-bkg-v2.png";
 
@@ -57,14 +58,18 @@ function GameSelection() {
 
 	return (
 		<>
-			{/* Full-viewport background image with fluted glass effect */}
-			<GlassHero
-				imageSrc={beamsImage}
-				glassIntensity={50}
-				glassSegments={60}
-				glassMode="mouse"
-				glassMotion={0.75}
-			/>
+			<div className="game-selection__hero">
+				{/* Full-viewport background image with fluted glass effect */}
+				<GlassHero
+					imageSrc={beamsImage}
+					glassIntensity={50}
+					glassSegments={60}
+					glassMode="mouse"
+					glassMotion={0.75}
+				/>
+				{/* Hero footer grid - positioned at bottom of hero section */}
+				<HeroFooterGrid />
+			</div>
 
 			<div className="game-selection">
 				<h2 className="game-selection__title">Select a Game</h2>

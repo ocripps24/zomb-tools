@@ -145,11 +145,17 @@
 }
 
 .map-content {
-	margin-top: 2rem;
 	min-height: 400px; // Ensure content area has minimum height
+	max-width: 1200px;
+	margin: 0 auto;
+	margin-top: 5rem;
 	background: var(--bg-tertiary); // Use tertiary background for better contrast
 	border-radius: var(--radius);
 	padding: 1rem;
+
+	@include tsm-up {
+		margin-top: 8rem;
+	}
 }
 
 .map-footer {

@@ -62,11 +62,15 @@
 
 	// Disabled/unavailable state
 	&--disabled {
-		opacity: 0.5;
+		opacity: 1;
 		cursor: not-allowed;
 
-		&__image img {
+		.selection-card__image img {
 			transform: none !important;
+		}
+
+		.selection-card__meta {
+			opacity: 0.5;
 		}
 	}
 }
@@ -83,7 +87,7 @@
 	// Tools display (when map is available)
 	&__tools {
 		font-size: 0.875rem;
-		color: var(--text-secondary);
+		color: var(--text-primary);
 		text-align: left;
 
 		strong {
@@ -94,7 +98,7 @@
 	// Status display (when map is not available)
 	&__status {
 		font-size: 0.875rem;
-		color: var(--text-muted);
+		color: var(--text-primary);
 		font-style: italic;
 		text-align: left;
 	}

@@ -5,6 +5,8 @@
 
 // Map selection page styles
 .map-selection {
+	position: relative;
+	z-index: 100;
 	margin-top: space(5xl);
 	padding: 0 space(sm);
 
