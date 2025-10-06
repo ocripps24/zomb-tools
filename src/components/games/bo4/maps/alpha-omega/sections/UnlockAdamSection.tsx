@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { NumberPad, ResultsDisplay } from "@/components/ui";
 import type { ResultItem } from "@/components/ui/ResultsDisplay";
 import { BaseSection } from "@/components/core";

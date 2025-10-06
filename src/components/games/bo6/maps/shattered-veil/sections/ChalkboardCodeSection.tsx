@@ -1,4 +1,3 @@
-import React from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import { ResultsDisplay } from "@/components/ui";
@@ -128,10 +127,6 @@ function ChalkboardCodeSection(props: BaseSectionProps<ChalkboardData>) {
 				};
 
 				const finalCode = getFinalCode();
-				const selectedChalkboard =
-					CHALKBOARD_SOLUTIONS[
-						data.selectedChalkboard as keyof typeof CHALKBOARD_SOLUTIONS
-					];
 
 				return (
 					<div className="chalkboard-code-section">

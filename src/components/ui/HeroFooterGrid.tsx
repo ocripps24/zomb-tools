@@ -25,9 +25,9 @@ const HeroFooterGrid = () => {
 				<h3 className="hero-footer-grid__label">About</h3>
 				<div className="hero-footer-grid__content">
 					<p>
-						Comprehensive speedrun tools and guides for Call of Duty Zombies.
-						Track your progress, plan your strategies, and optimize your runs
-						across multiple games and maps.
+						Tools to help you complete Easter Egg steps across the COD Zombies
+						franchise. This site is under active development with new maps and
+						features being added regularly.
 					</p>
 				</div>
 			</div>
