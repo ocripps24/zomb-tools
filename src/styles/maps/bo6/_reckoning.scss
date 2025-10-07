@@ -681,7 +681,6 @@
 			}
 		}
 	}
-
 }
 
 // Compact mode styles for door code section
@@ -700,15 +699,15 @@
 	}
 
 	.word-dictionaries {
-		margin-bottom: space(lg);
+		margin-bottom: space(md);
 
+		// Hide h4 title and description in compact mode
 		h4 {
-			margin-bottom: space(sm);
-			@include fluid-text(base, medium, 1.2);
+			display: none;
 		}
 
 		.dictionaries-description {
-			margin-bottom: space(sm);
+			display: none;
 		}
 	}
 
@@ -722,8 +721,9 @@
 			@include fluid-text(sm, medium, 1.2);
 		}
 
+		// Hide screen notes in compact mode
 		.screen-note {
-			margin-bottom: space(sm);
+			display: none;
 		}
 	}
 
@@ -736,17 +736,27 @@
 		@include fluid-text(xs, normal, 1);
 	}
 
+	.door-code-single-layout {
+		grid-template-columns: repeat(1, 1fr);
+	}
+
 	.door-code-result {
-		margin-top: space(lg);
+		margin-top: space(md);
+		margin-bottom: space(md);
 		padding: space(md);
 
 		.door-code-single-layout {
 			gap: space(md);
+			margin-bottom: 0;
 		}
 
 		.code-instruction {
-			margin-top: space(sm);
+			display: none;
 		}
+	}
+
+	.element-section {
+		display: none;
 	}
 
 	.door-code-error {
@@ -768,14 +778,6 @@
 	}
 
 	.periodic-table-reference {
-		margin-top: space(lg);
-
-		h4 {
-			margin-bottom: space(sm);
-		}
-
-		.table-description {
-			margin-bottom: space(sm);
-		}
+		display: none;
 	}
 }

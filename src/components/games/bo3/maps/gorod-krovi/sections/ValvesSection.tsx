@@ -275,7 +275,7 @@ function ValvesSection(props: BaseSectionProps<ValvesData>) {
 				},
 				title: "Valves",
 				description:
-					"Find the two variations around the map: one valve with a green light and another with a purple cypher. Select their locations below to see the correct valve positions.",
+					"Set the locations of the Green Light and Purple Cypher to get the correct valve positions.",
 				resetButtonText: "Reset Valves",
 				tipsConfig: {
 					show: true,

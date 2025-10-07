@@ -104,6 +104,44 @@
 	}
 }
 
+// Guide button (YouTube icon button)
+.guide-btn {
+	display: none; // Hide on mobile to save space
+	align-items: center;
+	justify-content: center;
+	gap: space(xs);
+
+	@include tmd-up {
+		display: flex; // Show on tablet and up
+	}
+
+	.btn-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		svg {
+			width: 1.8rem;
+			height: 1.8rem;
+			fill: #ff0000; // YouTube red
+			transition: fill var(--transition);
+		}
+	}
+
+	// No text for this button, just icon
+	.btn-text {
+		display: none;
+	}
+
+	// Hover state
+	&:hover,
+	&:focus {
+		.btn-icon svg {
+			// Keep YouTube red on hover
+		}
+	}
+}
+
 // Symbol buttons (for clock symbols)
 .symbol-btn {
 	@include touch-target(52px);

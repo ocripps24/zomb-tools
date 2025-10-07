@@ -35,23 +35,27 @@ function BeamCodeSection(props: BaseSectionProps<BeamCodeData>) {
 					show: true,
 					items: [
 						{
-							label: "Step 1",
-							text: "Find 3 laptops around the map with X, Y, Z stickers"
+							label: "Steps",
+							text: "Turn on 3 laptops around the map with X, Y, Z stickers. Enter the sequence into the terminal in the Weapons Lab.",
 						},
 						{
-							label: "Step 2",
-							text: "Turn on each laptop to reveal a symbol"
+							label: "X Laptop",
+							text: "Flopper",
 						},
 						{
-							label: "Step 3",
-							text: "Click the matching symbol above for each laptop"
+							label: "Y Laptop",
+							text: "Quick Revive",
 						},
 						{
-							label: "Step 4",
-							text: "Enter the calculated numbers into the terminal in order"
-						}
-					]
-				}
+							label: "Z Laptop",
+							text: "Stamina Up",
+						},
+						{
+							label: "Note",
+							text: "The black/sketched/full part of the symbols are represented as solid white above",
+						},
+					],
+				},
 			}}
 			getProgress={(data: BeamCodeData) => {
 				const completedCount = SYMBOL_LOCATIONS.filter(

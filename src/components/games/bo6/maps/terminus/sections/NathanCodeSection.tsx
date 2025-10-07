@@ -10,7 +10,6 @@ const CODE_LOCATIONS = [
 		description: "Hour hand of clock in Quick-Revive room",
 		min: 1,
 		max: 9,
-		tertiaryText: "Range: 1-9"
 	},
 	{
 		id: "card",
@@ -18,15 +17,13 @@ const CODE_LOCATIONS = [
 		description: "Playing card on board (Ace = 1)",
 		min: 1,
 		max: 9,
-		tertiaryText: "Range: 1-9"
 	},
 	{
 		id: "sign",
 		name: "Sign (Engineering)",
-		description: "Sign on the wall",
+		description: "Days without injury",
 		min: 0,
 		max: 9,
-		tertiaryText: "Range: 0-9"
 	},
 ];
 
@@ -35,21 +32,21 @@ const TIPS_CONFIG = {
 	items: [
 		{
 			label: "Clock",
-			text: "Look at the hour hand position in the Interrogation Room (where Quick-Revive is located)"
+			text: "Look at the hour hand position in the Interrogation Room (where Quick-Revive is located)",
 		},
 		{
 			label: "Card",
-			text: "Find the playing card on the board in the Mess area (remember: Ace = 1)"
+			text: "Find the playing card on the board in the Mess area (remember: Ace = 1)",
 		},
 		{
 			label: "Sign",
-			text: "Check the wall sign in the Engineering area"
+			text: "Check the wall sign in the Engineering area",
 		},
 		{
 			label: "Order",
-			text: "The code is always entered as Clock-Card-Sign, regardless of the order you collect them"
-		}
-	]
+			text: "The code is always entered as Clock-Card-Sign, regardless of the order you collect them",
+		},
+	],
 };
 
 function NathanCodeSection(props: BaseSectionProps<NumberCodeData>) {

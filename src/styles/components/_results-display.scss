@@ -457,3 +457,17 @@
 		font-weight: font-weight(semibold);
 	}
 }
+
+.base-section.compact .results-display {
+	.results-note,
+	.code-note,
+	.results-single-code-container h3,
+	.results-grid-container h3,
+	.results-sequence-container h3 {
+		display: none;
+	}
+
+	.code-display {
+		margin-bottom: 0;
+	}
+}

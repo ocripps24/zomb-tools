@@ -1,3 +1,7 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
 // Terminus specific styles
 .terminus-page {
 	// Map-specific overrides can go here if needed
@@ -9,17 +13,16 @@
 .beam-code-section {
 	.symbol-selection {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: 1fr;
 		gap: 1rem;
 		margin: 2rem 0;
 
-		// Responsive breakpoint for smaller screens
-		@media (max-width: 768px) {
-			grid-template-columns: 1fr;
+		@include tmd-up {
+			grid-template-columns: repeat(2, 1fr);
 		}
 
-		@media (max-width: 1024px) and (min-width: 769px) {
-			grid-template-columns: repeat(2, 1fr);
+		@include dsm-up {
+			grid-template-columns: repeat(3, 1fr);
 		}
 	}
 
@@ -43,4 +46,21 @@
 	}
 
 	// Results display now handled by _results-display.scss component
+}
+
+.base-section.compact {
+	.nathan-code-section {
+		.code-inputs {
+			margin-bottom: space(md);
+		}
+		.input-label p {
+			display: none;
+		}
+	}
+	.beam-code-section {
+		.symbol-selection {
+			margin-top: space(md);
+			margin-bottom: space(md);
+		}
+	}
 }

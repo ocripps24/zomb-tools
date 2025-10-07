@@ -63,9 +63,9 @@
 }
 
 // Compact mode styles - reduce spacing
-.compact {
+.base-section.compact {
 	.section-settings {
-		margin-top: space(xl);
+		margin-top: space(md);
 		padding: space(lg);
 
 		h4 {

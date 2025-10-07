@@ -117,7 +117,7 @@ export function BaseSection<T = any>({
 	guide,
 }: BaseSectionWrapperProps<T>) {
 	// Get global settings for compact mode
-	const { getCompactClass } = useGlobalSettings();
+	const { settings, getCompactClass, updateSetting } = useGlobalSettings();
 	const {
 		data,
 		setData,
@@ -140,6 +140,33 @@ export function BaseSection<T = any>({
 		}
 	};
 
+	// Always show settings with at minimum a compact mode toggle
+	const finalSettingsConfig: SettingsConfig = (() => {
+		// If custom settings exist, use them as-is
+		if (config.settingsConfig) {
+			return config.settingsConfig;
+		}
+
+		// Auto-generate compact mode toggle for all sections
+		return {
+			show: true,
+			title: "Section Settings",
+			settings: [
+				{
+					id: "ui-size",
+					label: "UI Density",
+					value: settings.uiSize,
+					options: [
+						{ value: "standard", label: "Standard" },
+						{ value: "compact", label: "Compact" },
+					],
+					note: "Compact mode reduces spacing and hides secondary information",
+					onChange: (value) => updateSetting("uiSize", value as "standard" | "compact"),
+				},
+			],
+		};
+	})();
+
 	return (
 		<div className={`base-section ${getCompactClass()}`.trim()}>
 			<SectionHeader
@@ -159,10 +186,8 @@ export function BaseSection<T = any>({
 					<TipsSection config={config.tipsConfig} title={config.tipsTitle} />
 				)}
 
-				{/* Render settings section if configured */}
-				{config.settingsConfig && (
-					<SettingsSection config={config.settingsConfig} />
-				)}
+				{/* Always render settings section with at minimum compact mode toggle */}
+				<SettingsSection config={finalSettingsConfig} />
 			</div>
 		</div>
 	);

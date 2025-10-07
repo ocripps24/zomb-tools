@@ -4,6 +4,7 @@ import type { SequenceItem } from "@/components/ui/ResultsDisplay";
 import { BaseSection } from "@/components/core";
 import { NumberPad } from "@/components/ui";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
+import { useGlobalSettings } from "@/hooks/useGlobalSettings";
 import {
 	DndContext,
 	closestCenter,
@@ -146,8 +147,8 @@ interface CodesSectionData {
 
 function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 	const [inputType, setInputType] = useState<"keypad" | "text">("keypad");
-	const [uiMode, setUiMode] = useState<"standard" | "compact">("standard");
 	const [selectedLocationId, setSelectedLocationId] = useState<number>(1); // Default to first location
+	const { settings, updateSetting } = useGlobalSettings();
 
 	// Drag and drop sensors with better touch support
 	const sensors = useSensors(
@@ -201,15 +202,15 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 							onChange: (value) => setInputType(value as "keypad" | "text"),
 						},
 						{
-							id: "uiMode",
-							label: "UI Mode",
-							value: uiMode,
+							id: "ui-size",
+							label: "UI Density",
+							value: settings.uiSize,
 							options: [
 								{ value: "standard", label: "Standard" },
 								{ value: "compact", label: "Compact" },
 							],
-							note: "Adjust the layout density of the code input grid",
-							onChange: (value) => setUiMode(value as "standard" | "compact"),
+							note: "Compact mode reduces spacing and hides secondary information",
+							onChange: (value) => updateSetting("uiSize", value as "standard" | "compact"),
 						},
 					],
 				},

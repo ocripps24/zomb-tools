@@ -78,6 +78,7 @@
 	}
 
 	&__back-text {
+		display: none;
 		white-space: nowrap;
 
 		@include tmd-up {
@@ -227,6 +228,7 @@
 	}
 
 	&__reset-text {
+		display: none;
 		white-space: nowrap;
 
 		// Mobile: Hide text, show only icon

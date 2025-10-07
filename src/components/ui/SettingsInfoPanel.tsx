@@ -17,8 +17,7 @@ function SettingsInfoPanel() {
 				</li>
 				<li className="settings-feature">
 					<strong>UI Size:</strong> Switch between Standard and Compact modes.
-					Compact mode reduces spacing and padding for a denser layout preferred
-					by speedrunners.
+					Compact mode reduces tightens the UI and removes descriptive elements.
 				</li>
 			</ul>
 			<p className="settings-info__note">

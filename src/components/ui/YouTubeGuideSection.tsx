@@ -1,4 +1,5 @@
 import YouTubeIcon from "@/assets/icons/youtube-icon.svg";
+import { useGlobalSettings } from "@/hooks/useGlobalSettings";
 
 interface Guide {
 	url: string;
@@ -15,8 +16,15 @@ interface YouTubeGuideSectionProps {
  * YouTube guide section component that embeds video guides at the bottom of map pages.
  * Uses responsive iframe embed for optimal viewing experience.
  * Supports both internal and external guides with appropriate descriptions.
+ * Automatically hides in compact mode.
  */
 function YouTubeGuideSection({ guide, mapName }: YouTubeGuideSectionProps) {
+	const { isCompact } = useGlobalSettings();
+
+	// Hide guide section in compact mode
+	if (isCompact) {
+		return null;
+	}
 	const getDescription = () => {
 		if (guide.type === "internal") {
 			return "Watch this complete walkthrough to learn how to complete the Easter Egg step by step.";
