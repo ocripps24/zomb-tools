@@ -8,5 +8,6 @@ export { default as NumberCodeSection } from './NumberCodeSection.tsx';
 export { default as NumberPad } from './NumberPad.tsx';
 export { default as ResultsDisplay } from './ResultsDisplay.tsx';
 export { default as CircularProgress } from './CircularProgress.tsx';
+export { default as OrderedLocationSection } from './OrderedLocationSection.tsx';
 export { default as TipsSection } from './TipsSection.tsx';
 export { default as SettingsSection } from './SettingsSection.tsx';

@@ -1,0 +1,233 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+// OrderedLocationSection component styles
+// Reusable component for ordering locations with drag-and-drop
+// Used for Voyage planets, Gorod Krovi bombs, etc.
+
+.locations-section {
+	.location-grid {
+		display: grid;
+		gap: space(lg);
+		grid-template-columns: repeat(3, 1fr);
+
+		// Adjust columns based on number of remaining items
+		.location-btn:nth-last-child(2):first-child,
+		.location-btn:nth-last-child(2):first-child ~ .location-btn {
+			grid-column: span 1;
+		}
+
+		&:has(.location-btn:nth-last-child(2):first-child) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		&:has(.location-btn:only-child) {
+			grid-template-columns: 1fr;
+		}
+
+		@include mobile {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.available-locations {
+		margin-bottom: space(3xl);
+
+		h4 {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-primary);
+			font-size: font-size(base);
+		}
+	}
+
+	.location-btn {
+		@include button-base;
+		padding: space(md) space(lg);
+		border: 1px solid var(--border-color);
+		background-color: transparent;
+		color: var(--text-primary);
+		font-size: font-size(sm);
+		font-weight: font-weight(medium);
+		transition: transition(base);
+
+		&:hover {
+			border-color: var(--accent-color);
+			color: var(--accent-color);
+		}
+
+		@include mobile {
+			padding: space(sm) space(md);
+			font-size: font-size(xs);
+		}
+	}
+
+	.location-order {
+		@include flex-column;
+		gap: space(sm);
+
+		h4 {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-primary);
+			font-size: font-size(base);
+		}
+
+		&-list {
+			@include flex-column;
+			gap: space(sm);
+		}
+
+		&-item {
+			@include flex-between;
+			padding: space(md);
+			background-color: transparent;
+			border: 1px solid var(--border-color);
+			border-radius: radius(base);
+			user-select: none;
+			-webkit-user-select: none;
+			-webkit-touch-callout: none;
+
+			transition: border-color transition(base), box-shadow transition(base),
+				opacity transition(base);
+
+			&:hover {
+				border-color: var(--accent-color);
+				box-shadow: shadow(sm);
+			}
+
+			&--dragging {
+				opacity: 0.8;
+				box-shadow: shadow(lg);
+				z-index: 1000;
+				transition: none;
+			}
+		}
+	}
+
+	.location-number {
+		@include flex-center;
+		@include touch-target(32px);
+		background-color: var(--accent-color);
+		color: var(--btn-primary-text);
+		border-radius: radius(full);
+		font-weight: font-weight(semibold);
+		font-size: font-size(sm);
+		min-width: 32px;
+		flex-shrink: 0;
+		margin-right: space(md);
+	}
+
+	.location-info {
+		@include flex-column;
+		gap: space(xs);
+		flex: 1;
+	}
+
+	.location-name {
+		color: var(--text-primary);
+		font-size: font-size(base);
+
+		@include mobile {
+			font-size: font-size(sm);
+		}
+
+		&-primary {
+			font-weight: font-weight(semibold);
+		}
+
+		&-detail {
+			font-weight: font-weight(normal);
+		}
+	}
+
+	.location-actions {
+		@include flex-center;
+		gap: space(sm);
+
+		.drag-handle {
+			cursor: grab;
+			color: var(--text-primary);
+			padding: space(xs);
+			background: none;
+			border: none;
+			font-family: inherit;
+			font-size: inherit;
+			user-select: none;
+			-webkit-user-select: none;
+			-webkit-touch-callout: none;
+			-webkit-tap-highlight-color: transparent;
+			touch-action: none;
+			transition: transition(base);
+
+			&:hover {
+				color: var(--accent-color);
+			}
+
+			&:active {
+				cursor: grabbing;
+				color: var(--accent-color);
+			}
+
+			@include mobile {
+				padding: space(sm);
+				min-width: 28px;
+				min-height: 28px;
+				-webkit-user-drag: none;
+				-webkit-touch-callout: none;
+				overscroll-behavior: none;
+				-webkit-overflow-scrolling: auto;
+			}
+		}
+	}
+
+	.delete-btn {
+		@include flex-center;
+		background-color: var(--danger-color);
+		color: white;
+		border: none;
+		border-radius: radius(full);
+		width: 24px;
+		height: 24px;
+		font-size: font-size(sm);
+		cursor: pointer;
+		transition: transition(base);
+
+		&:hover {
+			background-color: #b91c1c;
+			transform: scale(1.1);
+		}
+
+		@include mobile {
+			width: 28px;
+			height: 28px;
+			font-size: font-size(base);
+		}
+	}
+
+	.location-final {
+		background-color: var(--location-card-completed-bg);
+		border-color: var(--success-color);
+		cursor: default;
+
+		&:hover {
+			border-color: var(--success-color);
+			box-shadow: none;
+		}
+
+		.location-number {
+			background-color: var(--success-color);
+			color: white;
+		}
+	}
+
+	.clear-btn {
+		margin-top: space(lg);
+		background-color: var(--danger-color);
+		color: white;
+		border: none;
+
+		&:hover {
+			background-color: #b91c1c;
+		}
+	}
+}

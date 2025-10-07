@@ -52,6 +52,7 @@ export interface ResultsDisplayProps {
   // Common props
   title?: string;
   description?: string;
+  note?: React.ReactNode; // Optional note displayed below results (supports JSX)
   className?: string;
   colorScheme?: "success" | "accent" | "primary";
 }
@@ -85,6 +86,7 @@ function ResultsDisplay({
   progressMode = "none",
   title,
   description,
+  note,
   className = "",
   colorScheme = "success",
 }: ResultsDisplayProps) {
@@ -143,7 +145,7 @@ function ResultsDisplay({
     // Replace mode: Show circular progress until complete
     if (progressMode === "replace" && !isComplete) {
       return (
-        <div className="results-grid-container results-grid-container--loading">
+        <div className={`results-grid-container results-grid-container--${colorScheme} results-grid-container--loading`}>
           {title && <h3>{title}</h3>}
           {description && <p className="results-description">{description}</p>}
           <div className="results-grid-placeholder">
@@ -176,7 +178,7 @@ function ResultsDisplay({
     }
 
     return (
-      <div className="results-grid-container">
+      <div className={`results-grid-container results-grid-container--${colorScheme}`}>
         {title && <h3>{title}</h3>}
         {description && <p className="results-description">{description}</p>}
 
@@ -215,6 +217,9 @@ function ResultsDisplay({
             </div>
           ))}
         </div>
+
+        {/* Optional note */}
+        {note && <div className="results-note">{note}</div>}
       </div>
     );
   };
@@ -240,7 +245,7 @@ function ResultsDisplay({
     }
 
     return (
-      <div className="results-sequence-container">
+      <div className={`results-sequence-container results-sequence-container--${colorScheme}`}>
         {title && <h3>{title}</h3>}
         {description && <p className="results-description">{description}</p>}
 
@@ -278,6 +283,9 @@ function ResultsDisplay({
             </div>
           ))}
         </div>
+
+        {/* Optional note */}
+        {note && <div className="results-note">{note}</div>}
       </div>
     );
   };

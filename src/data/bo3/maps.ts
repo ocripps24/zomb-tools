@@ -25,8 +25,13 @@ export const BO3_MAPS: BO3Map[] = [
 		component: () =>
 			import("../../components/games/bo3/maps/gorod-krovi/GorodKrovi.tsx"),
 		available: true,
-		tools: ["Valves"],
+		tools: ["Valves, Bombs"],
 		difficulty: "hard",
+		guide: {
+			url: "https://www.youtube.com/embed/GdOJYibXUvw",
+			type: "external",
+			channelName: "Joltz",
+		},
 	},
 ];
 

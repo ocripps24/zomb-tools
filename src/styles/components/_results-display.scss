@@ -12,6 +12,7 @@
 	border-radius: radius(base);
 	padding: space(lg);
 	border: 2px solid var(--success-color);
+	text-align: center;
 
 	// Tablet and up: More spacious
 	@include tmd-up {
@@ -117,7 +118,7 @@
 
 	h3 {
 		margin: 0 0 space(lg) 0;
-		@include fluid-text(lg, medium, 1.4);
+		@include fluid-text(xl, semibold, 1.4);
 		color: var(--text-primary);
 	}
 
@@ -125,6 +126,25 @@
 		margin: 0 0 space(lg) 0;
 		@include fluid-text(sm, normal, 1.5);
 		color: var(--text-secondary);
+	}
+
+	// Color scheme variants
+	&--success {
+		h3 {
+			color: var(--success-color);
+		}
+	}
+
+	&--accent {
+		h3 {
+			color: var(--accent-color);
+		}
+	}
+
+	&--primary {
+		h3 {
+			color: var(--primary-color);
+		}
 	}
 
 	// Loading state (replace mode)
@@ -152,13 +172,13 @@
 	align-items: center;
 	justify-content: center;
 	text-align: center;
-	padding: space(lg);
+	padding: space(sm);
 	background: var(--bg-tertiary);
 	border-radius: radius(base);
 	transition: all 0.2s ease;
 
 	@include tmd-up {
-		padding: space(xl);
+		padding: space(md);
 	}
 
 	// Status variants
@@ -246,6 +266,25 @@
 		margin: 0 0 space(lg) 0;
 		@include fluid-text(sm, normal, 1.5);
 		color: var(--text-secondary);
+	}
+
+	// Color scheme variants
+	&--success {
+		h3 {
+			color: var(--success-color);
+		}
+	}
+
+	&--accent {
+		h3 {
+			color: var(--accent-color);
+		}
+	}
+
+	&--primary {
+		h3 {
+			color: var(--primary-color);
+		}
 	}
 }
 
@@ -394,4 +433,27 @@
 	top: 0;
 	right: 0;
 	z-index: 10;
+}
+
+// ============================================================================
+// RESULTS NOTE (Shared across all variants)
+// ============================================================================
+
+.results-note {
+	margin-top: space(lg);
+	padding: space(xs) 0;
+	background: transparent;
+	border-radius: radius(base);
+	@include fluid-text(sm, normal, 1.6);
+	color: var(--text-secondary);
+
+	@include tmd-up {
+		margin-top: space(xl);
+		padding: space(sm) 0;
+	}
+
+	strong {
+		color: var(--success-color);
+		font-weight: font-weight(semibold);
+	}
 }
