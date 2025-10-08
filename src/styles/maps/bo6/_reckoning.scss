@@ -684,100 +684,133 @@
 }
 
 // Compact mode styles for door code section
-.base-section.compact .door-code-section {
-	.screens-grid {
-		margin-bottom: space(lg);
-		gap: space(md);
-	}
-
-	.screen-input {
-		gap: space(xs);
-	}
-
-	.screen-word-input {
-		padding: space(sm);
-	}
-
-	.word-dictionaries {
-		margin-bottom: space(md);
-
-		// Hide h4 title and description in compact mode
-		h4 {
+.base-section.compact {
+	.documents-section {
+		.documents-grid {
+			margin-bottom: space(md);
+			grid-template-columns: repeat(3, 1fr);
+			gap: space(sm);
+			@include tmd-up {
+				gap: space(md);
+				grid-template-columns: repeat(6, 1fr);
+			}
+		}
+		.document-card {
+			grid-template-columns: repeat(1, auto);
+			grid-template-areas: "number";
+			justify-content: center;
+			@include dsm-up {
+				grid-template-columns: repeat(2, 1fr);
+				grid-template-areas: "number status";
+			}
+		}
+		.document-info,
+		.document-status {
 			display: none;
 		}
 
-		.dictionaries-description {
-			display: none;
+		.document-status {
+			@include dsm-up {
+				display: flex;
+			}
 		}
 	}
 
-	.dictionaries-grid {
-		gap: space(md);
-	}
-
-	.dictionary-column {
-		h5 {
-			margin-bottom: space(xs);
-			@include fluid-text(sm, medium, 1.2);
+	.door-code-section {
+		.screens-grid {
+			margin-bottom: space(lg);
+			gap: space(md);
 		}
 
-		// Hide screen notes in compact mode
-		.screen-note {
-			display: none;
+		.screen-input {
+			gap: space(xs);
 		}
-	}
 
-	.word-buttons {
-		gap: space(xs);
-	}
+		.screen-word-input {
+			padding: space(sm);
+		}
 
-	.word-btn {
-		padding: space(xs) space(sm);
-		@include fluid-text(xs, normal, 1);
-	}
+		.word-dictionaries {
+			margin-bottom: space(md);
 
-	.door-code-single-layout {
-		grid-template-columns: repeat(1, 1fr);
-	}
+			// Hide h4 title and description in compact mode
+			h4 {
+				display: none;
+			}
 
-	.door-code-result {
-		margin-top: space(md);
-		margin-bottom: space(md);
-		padding: space(md);
+			.dictionaries-description {
+				display: none;
+			}
+		}
+
+		.dictionaries-grid {
+			gap: space(md);
+		}
+
+		.dictionary-column {
+			h5 {
+				margin-bottom: space(xs);
+				@include fluid-text(sm, medium, 1.2);
+			}
+
+			// Hide screen notes in compact mode
+			.screen-note {
+				display: none;
+			}
+		}
+
+		.word-buttons {
+			gap: space(xs);
+		}
+
+		.word-btn {
+			padding: space(xs) space(sm);
+			@include fluid-text(xs, normal, 1);
+		}
 
 		.door-code-single-layout {
-			gap: space(md);
-			margin-bottom: 0;
+			grid-template-columns: repeat(1, 1fr);
 		}
 
-		.code-instruction {
+		.door-code-result {
+			margin-top: space(md);
+			margin-bottom: space(md);
+			padding: space(md);
+
+			.door-code-single-layout {
+				gap: space(md);
+				margin-bottom: 0;
+			}
+
+			.code-instruction {
+				display: none;
+			}
+		}
+
+		.element-section {
 			display: none;
 		}
-	}
 
-	.element-section {
-		display: none;
-	}
+		.door-code-error {
+			margin: space(lg) 0;
+			padding: space(md);
 
-	.door-code-error {
-		margin: space(lg) 0;
-		padding: space(md);
+			h4 {
+				margin-bottom: space(xs);
+				@include fluid-text(base, medium, 1.2);
+			}
 
-		h4 {
-			margin-bottom: space(xs);
-			@include fluid-text(base, medium, 1.2);
+			.error-message {
+				margin-bottom: space(sm);
+			}
+
+			.error-suggestion {
+				padding-top: space(xs);
+			}
 		}
 
-		.error-message {
-			margin-bottom: space(sm);
+		.periodic-table-reference {
+			display: none;
 		}
-
-		.error-suggestion {
-			padding-top: space(xs);
-		}
-	}
-
-	.periodic-table-reference {
-		display: none;
 	}
 }

@@ -11,7 +11,7 @@ import chalkboard4 from "@/assets/maps/bo6/shattered-veil/chalkboard-4.jpg";
 // Chalkboard solutions data
 const CHALKBOARD_SOLUTIONS = {
 	1: {
-		identifier: "BCDEF",
+		identifier: "M",
 		solutions: {
 			YETI: "3576",
 			MOTH: "1676",
@@ -20,7 +20,7 @@ const CHALKBOARD_SOLUTIONS = {
 		},
 	},
 	2: {
-		identifier: "AIOUY",
+		identifier: "S",
 		solutions: {
 			YETI: "5785",
 			MOTH: "8587",
@@ -29,7 +29,7 @@ const CHALKBOARD_SOLUTIONS = {
 		},
 	},
 	3: {
-		identifier: "E",
+		identifier: "OUY",
 		solutions: {
 			YETI: "3192",
 			MOTH: "7394",
@@ -38,7 +38,7 @@ const CHALKBOARD_SOLUTIONS = {
 		},
 	},
 	4: {
-		identifier: "OSTUHJLD",
+		identifier: "NI",
 		solutions: {
 			YETI: "5482",
 			MOTH: "1888",
@@ -135,7 +135,7 @@ function ChalkboardCodeSection(props: BaseSectionProps<ChalkboardData>) {
 							<h3>Select Your Chalkboard</h3>
 							<p className="selection-description">
 								Choose the chalkboard that matches your game. Look at the
-								top-left group of letters to identify it.
+								bottom-left group of letters to identify it.
 							</p>
 
 							<div className="chalkboard-grid">
@@ -162,7 +162,7 @@ function ChalkboardCodeSection(props: BaseSectionProps<ChalkboardData>) {
 												/>
 											</div>
 											<div className="chalkboard-info">
-												<h4>{chalkboard.identifier}</h4>
+												<p>{chalkboard.identifier}</p>
 											</div>
 										</div>
 									)

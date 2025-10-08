@@ -33,7 +33,7 @@ function StaffUpgrade(props: BaseSectionProps<StaffUpgradeData>) {
 	return (
 		<BaseSection
 			config={{
-				storageKey: "thetomb-staffupgrade-data",
+				storageKey: "the-tomb-staff-upgrade-data",
 				defaultValue: { selectedSymbols: [] },
 				title: "Staff Upgrade",
 				description: "Select the 3 symbols present in the Dark Aether sky",
@@ -41,8 +41,16 @@ function StaffUpgrade(props: BaseSectionProps<StaffUpgradeData>) {
 					show: true,
 					items: [
 						{
-							label: "Verification",
-							text: "You can verify that the symbols have been shot correctly by looking for the symbols on floor immediately in front of the portal",
+							label: "Lanterns",
+							text: "Shoot 3 lanterns with the Ice Staff within 10 seconds to trigger the appearance of the symbols",
+						},
+						{
+							label: "Rocks",
+							text: "Identify and shoot 3 symbols on floating rocks in the Dark Aether sky",
+						},
+						{
+							label: "Portal",
+							text: "When shot correctly, the symbols will appear on the floor of the portal. If you don't see the symbols advance the round and try again",
 						},
 					],
 				},

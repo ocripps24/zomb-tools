@@ -20,7 +20,7 @@
 	&__symbol {
 		position: relative;
 		background: transparent;
-		border: 2px solid var(--accent-color);
+		border: 2px solid var(--border-color);
 		border-radius: radius(base);
 		padding: space(sm);
 		cursor: pointer;
@@ -46,11 +46,11 @@
 		}
 
 		&:hover:not(&--disabled) {
-			border-color: var(--border-color);
+			border-color: var(--accent-color);
 		}
 
 		&--selected {
-			border-color: var(--success-color);
+			border-color: var(--success-color) !important;
 
 			.staff-upgrade__symbol-number {
 				background: var(--success-color);
@@ -90,34 +90,39 @@
 }
 
 // Compact mode adjustments
-.base-section.compact .staff-upgrade {
-	&__grid {
-		gap: space(xs);
-		margin-bottom: space(md);
+.base-section.compact {
+	.staff-upgrade {
+		&__grid {
+			gap: space(xs);
+			margin-bottom: space(md);
 
-		@include tmd-up {
-			gap: space(sm);
-			margin-bottom: space(lg);
+			@include tmd-up {
+				gap: space(md);
+			}
+		}
+
+		&__symbol {
+			padding: space(xs);
+
+			@include tmd-up {
+				padding: space(sm);
+			}
+		}
+
+		&__symbol-number {
+			width: 20px;
+			height: 20px;
+			font-size: 0.625rem;
+
+			@include tmd-up {
+				width: 24px;
+				height: 24px;
+				font-size: 0.75rem;
+			}
 		}
 	}
 
-	&__symbol {
-		padding: space(xs);
-
-		@include tmd-up {
-			padding: space(sm);
-		}
-	}
-
-	&__symbol-number {
-		width: 20px;
-		height: 20px;
-		font-size: 0.625rem;
-
-		@include tmd-up {
-			width: 24px;
-			height: 24px;
-			font-size: 0.75rem;
-		}
+	.reference-images {
+		display: none;
 	}
 }

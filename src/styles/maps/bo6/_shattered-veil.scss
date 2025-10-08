@@ -33,25 +33,23 @@
 
 	.chalkboard-grid {
 		// Mobile-first: Single column
-		@include grid(1, space(lg));
+		@include grid(2, space(sm));
 
 		// Tablet and up: Two columns
 		@include tmd-up {
-			grid-template-columns: repeat(2, 1fr);
-			gap: space(xl);
+			@include grid(4, space(md));
 		}
 
 		// Desktop: Four columns in one row
 		@include dsm-up {
 			grid-template-columns: repeat(4, 1fr);
-			gap: space(xl);
 		}
 	}
 
 	.chalkboard-option {
 		@include flex-column;
 		background-color: transparent;
-		border: 2px solid var(--border-subtle);
+		border: 1px solid var(--border-subtle);
 		border-radius: radius(base);
 		padding: space(md);
 		cursor: pointer;
@@ -71,10 +69,10 @@
 		}
 
 		&--selected {
-			border-color: var(--success-color);
+			border-color: var(--success-color) !important;
 			background-color: var(--location-card-selected-bg);
 
-			.chalkboard-info h4 {
+			.chalkboard-info p {
 				color: var(--success-color);
 			}
 		}
@@ -103,30 +101,19 @@
 				max-height: 250px;
 			}
 		}
-
-		.chalkboard-option:hover & img {
-			transform: scale(1.02);
-		}
 	}
 
 	.chalkboard-info {
 		text-align: center;
 
-		h4 {
-			margin: 0 0 space(xs) 0;
+		p {
 			color: var(--text-primary);
-			@include fluid-text(base, medium, 1.4);
+			font-size: font-size(base);
+			font-weight: 600;
 			transition: color transition(base);
-		}
 
-		.identifier {
-			margin: 0;
-			color: var(--text-secondary);
-			@include fluid-text(sm, normal, 1.3);
-
-			strong {
-				color: var(--text-primary);
-				font-weight: font-weight(semibold);
+			@include tmd-up {
+				font-size: font-size(lg);
 			}
 		}
 	}
@@ -151,13 +138,11 @@
 	.codeword-buttons {
 		display: grid;
 		// Mobile-first: Two columns
-		grid-template-columns: repeat(2, 1fr);
-		gap: space(md);
+		@include grid(2, space(sm));
 
 		// Tablet and up: Four columns
 		@include tmd-up {
-			grid-template-columns: repeat(4, 1fr);
-			gap: space(lg);
+			@include grid(4, space(md));
 		}
 	}
 
@@ -177,17 +162,49 @@
 			font-size: font-size(lg);
 		}
 
-		&--selected {
-			background-color: var(--success-color);
-			color: var(--btn-primary-text);
-			border-color: var(--success-color);
+		// &--selected {
+		// 	color: var(--text-primary);
+		// 	border-color: var(--success-color);
+		// }
+
+		// &:hover:not(&--selected) {
+		// 	border-color: var(--accent-color);
+		// }
+
+		&:hover {
+			border-color: var(--border-color);
+			background-color: var(--location-card-hover-bg) !important;
 		}
 
-		&:hover:not(&--selected) {
-			background-color: var(--bg-tertiary);
-			border-color: var(--accent-color);
+		&--selected {
+			border-color: var(--success-color) !important;
+			background-color: var(--location-card-selected-bg) !important;
 		}
 	}
 }
 
 // Code collection styles now handled by _code-collection-section.scss component
+
+.base-section.compact {
+	.chalkboard-code-section {
+		.chalkboard-selection {
+			margin-bottom: space(md);
+		}
+
+		.chalkboard-image,
+		.codeword-selection p,
+		.selection-description {
+			display: none;
+		}
+	}
+
+	.safe-code-section {
+		.input-description {
+			display: none;
+		}
+		.code-inputs {
+			margin-bottom: space(md);
+			gap: space(md);
+		}
+	}
+}
