@@ -43,6 +43,7 @@
 @use "components/hero";
 @use "components/glass-hero";
 @use "components/hero-footer-grid";
+@use "components/reference-images";
 
 // 5. Layout Components - structural layout elements
 @use "layout/nav";
@@ -67,6 +68,7 @@
 @use "maps/bo6/shattered-veil";
 @use "maps/bo6/liberty-falls";
 @use "maps/bo6/citadelle-des-morts";
+@use "maps/bo6/the-tomb";
 
 html,
 body {

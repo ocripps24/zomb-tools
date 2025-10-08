@@ -9,6 +9,7 @@ export interface ResultItem {
   id: string;
   value: string | number;
   label?: string;
+  image?: string;
   metadata?: {
     [key: string]: string | number;
   };
@@ -201,8 +202,13 @@ function ResultsDisplay({
           {displayResults.map((result) => (
             <div
               key={result.id}
-              className={`result-item result-item--${result.status || "complete"} result-item--${colorScheme}`}
+              className={`result-item result-item--${result.status || "complete"} result-item--${colorScheme} ${result.image ? "result-item--with-image" : ""}`}
             >
+              {result.image && (
+                <div className="result-image">
+                  <img src={result.image} alt={result.label || `Result ${result.value}`} />
+                </div>
+              )}
               <div className="result-number">{result.value}</div>
               {result.label && <div className="result-label">{result.label}</div>}
               {result.metadata && Object.keys(result.metadata).length > 0 && (

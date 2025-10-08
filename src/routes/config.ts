@@ -133,6 +133,12 @@ export const MAP_STEPS = {
 				door: "/bo6/reckoning/door",
 			},
 		},
+		theTomb: {
+			base: "/bo6/the-tomb",
+			steps: {
+				staffUpgrade: "/bo6/the-tomb/staff-upgrade",
+			},
+		},
 	},
 } as const;
 
@@ -240,6 +246,10 @@ export const ROUTE_METADATA = {
 	[ROUTES.games.bo6.maps.reckoning]: {
 		title: "Reckoning",
 		documentTitle: "Reckoning Easter Eggs - COD Zombies Tools",
+	},
+	[ROUTES.games.bo6.maps.theTomb]: {
+		title: "The Tomb",
+		documentTitle: "The Tomb Easter Eggs - COD Zombies Tools",
 	},
 	[ROUTES.games.bo7.maps.ashesOfTheDamned]: {
 		title: "Ashes of the Damned",

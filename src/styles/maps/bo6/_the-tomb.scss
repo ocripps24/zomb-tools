@@ -1,0 +1,123 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+.staff-upgrade {
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: space(sm);
+		margin-bottom: space(lg);
+
+		// Tablet and up: 8 columns in 1 row
+		@include tmd-up {
+			grid-template-columns: repeat(8, 1fr);
+			gap: space(md);
+			margin-bottom: space(xl);
+		}
+	}
+
+	&__symbol {
+		position: relative;
+		background: transparent;
+		border: 2px solid var(--accent-color);
+		border-radius: radius(base);
+		padding: space(sm);
+		cursor: pointer;
+		transition: all 0.2s ease;
+		aspect-ratio: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: space(xs);
+
+		// Tablet and up: More padding
+		@include tmd-up {
+			padding: space(md);
+			gap: space(sm);
+		}
+
+		img {
+			width: 100%;
+			height: auto;
+			object-fit: contain;
+			transition: opacity 0.2s ease;
+		}
+
+		&:hover:not(&--disabled) {
+			border-color: var(--border-color);
+		}
+
+		&--selected {
+			border-color: var(--success-color);
+
+			.staff-upgrade__symbol-number {
+				background: var(--success-color);
+				color: var(--bg-primary);
+			}
+		}
+
+		&--disabled {
+			opacity: 0.4;
+			cursor: not-allowed;
+		}
+	}
+
+	&__symbol-number {
+		position: absolute;
+		top: 0;
+		right: 0;
+		border: 1px solid var(--border-primary);
+		border-bottom-left-radius: 50%;
+		width: 20px;
+		height: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--text-primary);
+		transition: all 0.2s ease;
+
+		// Tablet and up: Larger badge
+		@include tlg-up {
+			width: 28px;
+			height: 28px;
+			font-size: 0.875rem;
+		}
+	}
+}
+
+// Compact mode adjustments
+.base-section.compact .staff-upgrade {
+	&__grid {
+		gap: space(xs);
+		margin-bottom: space(md);
+
+		@include tmd-up {
+			gap: space(sm);
+			margin-bottom: space(lg);
+		}
+	}
+
+	&__symbol {
+		padding: space(xs);
+
+		@include tmd-up {
+			padding: space(sm);
+		}
+	}
+
+	&__symbol-number {
+		width: 20px;
+		height: 20px;
+		font-size: 0.625rem;
+
+		@include tmd-up {
+			width: 24px;
+			height: 24px;
+			font-size: 0.75rem;
+		}
+	}
+}

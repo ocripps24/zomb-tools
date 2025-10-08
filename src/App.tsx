@@ -14,6 +14,7 @@ import Reckoning from "./components/games/bo6/maps/reckoning/Reckoning";
 import ShatteredVeil from "./components/games/bo6/maps/shattered-veil/ShatteredVeil";
 import LibertyFalls from "./components/games/bo6/maps/liberty-falls/LibertyFalls";
 import CitadelleDesMorts from "./components/games/bo6/maps/citadelle-des-morts/CitadelleDesMorts";
+import TheTomb from "./components/games/bo6/maps/the-tomb/TheTomb";
 import CookieConsentBanner from "./components/ui/CookieConsentBanner";
 import { useConsent } from "./contexts/ConsentContext";
 import { ROUTES, ROUTE_PATTERNS, getRouteMetadata } from "./routes";
@@ -154,6 +155,10 @@ function App() {
 							<Route
 								path={ROUTE_PATTERNS.games.bo6.maps.citadelleDesMorts}
 								element={<CitadelleDesMorts />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.bo6.maps.theTomb}
+								element={<TheTomb />}
 							/>
 
 							{/* BO7 Routes */}

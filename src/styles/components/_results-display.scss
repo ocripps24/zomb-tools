@@ -181,6 +181,11 @@
 		padding: space(md);
 	}
 
+	// Image support
+	&--with-image {
+		gap: space(sm);
+	}
+
 	// Status variants
 	&--complete {
 		border: 1px solid var(--border-color);
@@ -222,6 +227,19 @@
 	}
 }
 
+.result-image {
+	width: 100%;
+	max-width: 120px;
+	margin-bottom: space(sm);
+
+	img {
+		width: 100%;
+		height: auto;
+		display: block;
+		border-radius: radius(sm);
+	}
+}
+
 .result-number {
 	font-family: font-family(mono);
 	font-size: font-size(2xl);
@@ -230,6 +248,16 @@
 
 	@include tmd-up {
 		font-size: font-size(3xl);
+	}
+
+	// Smaller number when image is present
+	.result-item--with-image & {
+		font-size: font-size(lg);
+		margin-bottom: 0;
+
+		@include tmd-up {
+			font-size: font-size(xl);
+		}
 	}
 }
 

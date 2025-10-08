@@ -29,7 +29,7 @@ export const BO6_MAPS: BO6Map[] = [
 		difficulty: "medium",
 		guide: {
 			url: "https://www.youtube.com/embed/gSB646HNfgs",
-			type: "internal"
+			type: "internal",
 		},
 	},
 	{
@@ -42,6 +42,11 @@ export const BO6_MAPS: BO6Map[] = [
 		available: true,
 		tools: ["Vault"],
 		difficulty: "easy",
+		guide: {
+			url: "https://www.youtube.com/embed/iNSPFb5AIz8",
+			type: "external",
+			channelName: "MrRoflWaffles",
+		},
 	},
 	{
 		id: "citadelle-des-morts",
@@ -55,16 +60,27 @@ export const BO6_MAPS: BO6Map[] = [
 		available: true,
 		tools: ["Raven Sword", "Traps"],
 		difficulty: "medium",
+		guide: {
+			url: "https://www.youtube.com/embed/Qy8OU0A9aLo",
+			type: "external",
+			channelName: "MrRoflWaffles",
+		},
 	},
 	{
 		id: "the-tomb",
 		name: "The Tomb",
-		status: "Coming later",
+		status: "Available",
 		route: ROUTES.games.bo6.maps.theTomb,
-		component: null,
-		available: false,
-		tools: ["Upgrade symbols"],
+		component: () =>
+			import("../../components/games/bo6/maps/the-tomb/TheTomb.tsx"),
+		available: true,
+		tools: ["Staff Upgrade"],
 		difficulty: "easy",
+		guide: {
+			url: "https://www.youtube.com/embed/XLqB2EQ9VNs",
+			type: "external",
+			channelName: "MrRoflWaffles",
+		},
 	},
 	{
 		id: "shattered-veil",
@@ -80,7 +96,7 @@ export const BO6_MAPS: BO6Map[] = [
 		difficulty: "easy",
 		guide: {
 			url: "https://www.youtube.com/embed/8hRISolznmE",
-			type: "internal"
+			type: "internal",
 		},
 	},
 	{
@@ -95,7 +111,7 @@ export const BO6_MAPS: BO6Map[] = [
 		difficulty: "medium",
 		guide: {
 			url: "https://www.youtube.com/embed/ABA6bHB5q6s",
-			type: "internal"
+			type: "internal",
 		},
 	},
 ];

@@ -1,0 +1,117 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+.reference-images {
+	width: 100%;
+	margin: space(lg) 0;
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius);
+	padding: space(md);
+
+	&__single {
+		width: 100%;
+		border-radius: var(--radius);
+		overflow: hidden;
+
+		img {
+			width: 100%;
+			height: auto;
+			display: block;
+		}
+	}
+
+	&__carousel {
+		overflow: hidden;
+		border-radius: var(--radius);
+	}
+
+	&__container {
+		display: flex;
+	}
+
+	&__slide {
+		flex: 0 0 100%;
+		min-width: 0;
+
+		img {
+			width: 100%;
+			height: auto;
+			display: block;
+		}
+	}
+
+	&__controls {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: space(md);
+		margin-top: space(md);
+	}
+
+	&__button {
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-primary);
+		border-radius: var(--radius);
+		color: var(--text-primary);
+		font-size: 1.25rem;
+		padding: space(sm) space(md);
+		cursor: pointer;
+		transition: all 0.2s ease;
+
+		&:hover {
+			background: var(--bg-secondary);
+			border-color: var(--border-hover);
+		}
+
+		&:active {
+			transform: scale(0.95);
+		}
+	}
+
+	&__dots {
+		display: flex;
+		gap: space(xs);
+	}
+
+	&__dot {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: var(--bg-secondary);
+		border: 1px solid var(--border-primary);
+		cursor: pointer;
+		transition: all 0.2s ease;
+		padding: 0;
+
+		&:hover {
+			background: var(--bg-tertiary);
+			border-color: var(--border-hover);
+		}
+
+		&--active {
+			background: var(--accent-primary);
+			border-color: var(--accent-primary);
+		}
+	}
+}
+
+// Compact mode adjustments
+.base-section.compact .reference-images {
+	margin: space(md) 0;
+
+	&__controls {
+		margin-top: space(sm);
+		gap: space(sm);
+	}
+
+	&__button {
+		padding: space(xs) space(sm);
+		font-size: 1rem;
+	}
+
+	&__dot {
+		width: 8px;
+		height: 8px;
+	}
+}
