@@ -33,7 +33,7 @@ const HeroFooterGrid = () => {
 			</div>
 
 			{/* Quick Links Section */}
-			<div className="hero-footer-grid__section hero-footer-grid__section--desktop-only">
+			<div className="hero-footer-grid__section">
 				<h3 className="hero-footer-grid__label">Games</h3>
 				<div className="hero-footer-grid__content">
 					<ul className="hero-footer-grid__links">
@@ -49,7 +49,7 @@ const HeroFooterGrid = () => {
 			</div>
 
 			{/* Featured Maps Section */}
-			<div className="hero-footer-grid__section hero-footer-grid__section--desktop-only">
+			<div className="hero-footer-grid__section">
 				<h3 className="hero-footer-grid__label">Featured Maps</h3>
 				<div className="hero-footer-grid__content">
 					<ul className="hero-footer-grid__links">
