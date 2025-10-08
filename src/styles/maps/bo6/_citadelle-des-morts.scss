@@ -33,11 +33,11 @@
 
 	.antiquity-grid {
 		// Mobile-first: Single column
-		@include grid(1, space(lg));
+		@include grid(2, space(md));
 
 		// Tablet and up: Two columns
 		@include tmd-up {
-			@include grid(2, space(lg));
+			@include grid(3, space(lg));
 		}
 
 		// Large screens: Three columns for better spacing
@@ -99,7 +99,6 @@
 		padding: space(lg);
 		border: 1px solid var(--success-color);
 		border-radius: radius(base);
-		background: var(--location-card-completed-bg);
 
 		h3 {
 			margin: 0 0 space(sm) 0;
@@ -160,7 +159,7 @@
 		}
 
 		&.outer-ring {
-			// Example: Color the outer ring symbols differently  
+			// Example: Color the outer ring symbols differently
 			.symbol-icon {
 				color: var(--accent-color);
 			}
@@ -450,5 +449,108 @@
 	to {
 		opacity: 1;
 		transform: translateY(0);
+	}
+}
+
+.base-section.compact {
+	.raven-sword-section {
+		.antiquity-selection,
+		.dial-combination {
+			margin-bottom: space(md);
+		}
+		.antiquity-grid {
+			@include tmd-up {
+				grid-template-columns: repeat(5, 1fr);
+				gap: space(md);
+			}
+		}
+		.antiquity-info p,
+		.combination-description,
+		.combination-note,
+		.dial-ring h4,
+		.symbol-display span {
+			display: none;
+		}
+		.dial-rings {
+			margin-bottom: 0;
+			@include pmd-up {
+				flex-direction: row;
+
+				.dial-ring {
+					flex: 1;
+				}
+			}
+		}
+		.antiquity-option {
+			padding: space(md);
+		}
+		.antiquity-info h4 {
+			margin-bottom: 0;
+		}
+	}
+
+	.traps-section {
+		// margins
+		.pages-section,
+		.traps-assignment {
+			margin-bottom: space(md);
+		}
+
+		// display none
+		.pages-section h3,
+		.pages-section p,
+		.page-header span,
+		.traps-description,
+		.traps-assignment h3,
+		.location-fixed small {
+			display: none;
+		}
+		// custom
+		.pages-grid {
+			gap: space(sm);
+
+			@include tsm-up {
+				grid-template-columns: repeat(2, 1fr);
+			}
+			@include tlg-up {
+				grid-template-columns: repeat(4, 1fr);
+			}
+		}
+		.page-header,
+		.trap-header {
+			margin-bottom: 0;
+		}
+		.page-card {
+			padding: space(sm);
+			gap: space(sm);
+		}
+		.symbol-selection {
+			grid-template-columns: repeat(4, 1fr);
+			gap: space(sm);
+		}
+		.symbol-option {
+			padding: space(xs);
+		}
+		.traps-assignment {
+			padding: 0;
+			border: none;
+		}
+		.traps-grid {
+			gap: space(sm);
+
+			@include pmd-up {
+				grid-template-columns: repeat(2, 1fr);
+			}
+			@include tlg-up {
+				grid-template-columns: repeat(4, 1fr);
+			}
+		}
+		.trap-card {
+			padding: space(md);
+		}
+		.trap-symbol svg {
+			max-width: 50px;
+			max-height: 50px;
+		}
 	}
 }

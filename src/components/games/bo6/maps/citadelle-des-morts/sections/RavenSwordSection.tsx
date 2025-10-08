@@ -23,8 +23,8 @@ const ANTIQUITIES = [
 		outerSymbol: "aries",
 	},
 	{
-		id: "raven-skulls",
-		name: "Raven Skulls",
+		id: "skulls",
+		name: "Skulls",
 		description: "Bird skulls with mystical properties",
 		innerSymbol: "air",
 		outerSymbol: "gemini",

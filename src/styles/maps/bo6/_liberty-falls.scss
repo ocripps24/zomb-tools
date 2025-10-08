@@ -7,7 +7,15 @@
 // Reuses existing styles from Shattered Veil for Bank Vault code section
 
 // Bank Vault Code Section
-.bank-vault-code-section {
+.vault-code-section {
 	// Uses standard section structure with section-header component
 	// All styling is handled by existing .safe-code-section styles in _shattered-veil.scss
+}
+
+.base-section.compact {
+	.vault-code-section {
+		.code-inputs {
+			margin-bottom: space(md);
+		}
+	}
 }
