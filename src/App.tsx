@@ -21,6 +21,7 @@ import { ROUTES, ROUTE_PATTERNS, getRouteMetadata } from "./routes";
 import "./styles/main.scss";
 import { NavBar, Footer } from "./components/layout/index.js";
 import GorodKrovi from "./components/games/bo3/maps/gorod-krovi/GorodKrovi";
+import ShadowsOfEvil from "./components/games/bo3/maps/shadows-of-evil/ShadowsOfEvil";
 
 function App() {
 	const location = useLocation();
@@ -107,6 +108,10 @@ function App() {
 							<Route
 								path={ROUTE_PATTERNS.games.bo3.maps.gorodKrovi}
 								element={<GorodKrovi />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.bo3.maps.shadowsOfEvil}
+								element={<ShadowsOfEvil />}
 							/>
 
 							{/* BO4 Routes */}

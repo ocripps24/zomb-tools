@@ -167,8 +167,14 @@ export function BaseSection<T = any>({
 		};
 	})();
 
+	// Generate section class name from title (e.g., "Staff Upgrade" -> "staff-upgrade")
+	const sectionClassName = config.title
+		.toLowerCase()
+		.replace(/\s+/g, '-')
+		.replace(/[^a-z0-9-]/g, '');
+
 	return (
-		<div className={`base-section ${getCompactClass()}`.trim()}>
+		<div className={`base-section ${sectionClassName} ${getCompactClass()}`.trim()}>
 			<SectionHeader
 				title={config.title}
 				progress={progress}

@@ -238,6 +238,15 @@
 		display: block;
 		border-radius: radius(sm);
 	}
+
+	&-svg {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-height: 100px;
+		max-width: 80px;
+		margin: 0 auto;
+	}
 }
 
 .result-number {

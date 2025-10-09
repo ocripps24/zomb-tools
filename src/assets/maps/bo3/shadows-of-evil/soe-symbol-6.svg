@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 69.01 100.28">
+  <g id="c" data-name="Layer 1">
+    <g id="d" data-name="symbol-6">
+      <g>
+        <polygon points="21.48 14.7 2.86 28.41 2.86 .99 21.48 14.7" fill="none" stroke="#fff" stroke-miterlimit="10"/>
+        <polygon points="41.1 14.69 22.48 28.4 22.48 .99 41.1 14.69" fill="none" stroke="#fff" stroke-miterlimit="10"/>
+        <line x1="41.1" y1="14.69" x2="69.01" y2="14.69" fill="none" stroke="#fff" stroke-miterlimit="10"/>
+      </g>
+      <polygon points="2.86 67.87 29.09 50.01 2.86 32.16 64.98 50.01 2.86 67.87" fill="none" stroke="#fff" stroke-miterlimit="10"/>
+      <g>
+        <polygon points="21.48 85.59 2.86 99.29 2.86 71.88 21.48 85.59" fill="none" stroke="#fff" stroke-miterlimit="10"/>
+        <polygon points="41.1 85.58 22.48 99.29 22.48 71.87 41.1 85.58" fill="none" stroke="#fff" stroke-miterlimit="10"/>
+        <line x1="41.1" y1="85.58" x2="69.01" y2="85.58" fill="none" stroke="#fff" stroke-miterlimit="10"/>
+      </g>
+    </g>
+  </g>
+</svg>

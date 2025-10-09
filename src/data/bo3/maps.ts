@@ -18,6 +18,24 @@ export interface BO3Map {
 
 export const BO3_MAPS: BO3Map[] = [
 	{
+		id: "shadows-of-evil",
+		name: "Shadows of Evil",
+		status: "Available",
+		route: ROUTES.games.bo3.maps.shadowsOfEvil,
+		component: () =>
+			import(
+				"../../components/games/bo3/maps/shadows-of-evil/ShadowsOfEvil.tsx"
+			),
+		available: true,
+		tools: ["Egg Symbols"],
+		difficulty: "medium",
+		guide: {
+			url: "https://www.youtube.com/embed/zz9m-MB725o",
+			type: "external",
+			channelName: "MrRoflWaffles",
+		},
+	},
+	{
 		id: "gorod-krovi",
 		name: "Gorod Krovi",
 		status: "Available",

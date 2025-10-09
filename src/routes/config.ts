@@ -19,6 +19,7 @@ export const ROUTES = {
 			base: "/bo3",
 			maps: {
 				gorodKrovi: "/bo3/gorod-krovi",
+				shadowsOfEvil: "/bo3/shadows-of-evil",
 			},
 		},
 		bo4: {
@@ -61,6 +62,12 @@ export const MAP_STEPS = {
 			base: "/bo3/gorod-krovi",
 			steps: {
 				valves: "/bo3/gorod-krovi/valves",
+			},
+		},
+		shadowsOfEvil: {
+			base: "/bo3/shadows-of-evil",
+			steps: {
+				eggSymbols: "/bo3/shadows-of-evil/egg-symbols",
 			},
 		},
 	},
@@ -149,6 +156,7 @@ export const ROUTE_PATTERNS = {
 			base: "/bo3",
 			maps: {
 				gorodKrovi: "/bo3/gorod-krovi/*",
+				shadowsOfEvil: "/bo3/shadows-of-evil/*",
 			},
 		},
 		bo4: {
@@ -258,6 +266,10 @@ export const ROUTE_METADATA = {
 	[ROUTES.games.bo3.maps.gorodKrovi]: {
 		title: "Gorod Krovi",
 		documentTitle: "Gorod Krovi Easter Eggs - COD Zombies Tools",
+	},
+	[ROUTES.games.bo3.maps.shadowsOfEvil]: {
+		title: "Shadows of Evil",
+		documentTitle: "Shadows of Evil Easter Eggs - COD Zombies Tools",
 	},
 } as const;
 

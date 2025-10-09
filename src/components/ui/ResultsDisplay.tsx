@@ -9,7 +9,7 @@ export interface ResultItem {
   id: string;
   value: string | number;
   label?: string;
-  image?: string;
+  image?: string | React.ComponentType<React.SVGProps<SVGSVGElement>>;
   metadata?: {
     [key: string]: string | number;
   };
@@ -206,7 +206,14 @@ function ResultsDisplay({
             >
               {result.image && (
                 <div className="result-image">
-                  <img src={result.image} alt={result.label || `Result ${result.value}`} />
+                  {typeof result.image === "string" ? (
+                    <img src={result.image} alt={result.label || `Result ${result.value}`} />
+                  ) : (
+                    (() => {
+                      const SvgComponent = result.image;
+                      return <SvgComponent className="result-image-svg" />;
+                    })()
+                  )}
                 </div>
               )}
               <div className="result-number">{result.value}</div>
