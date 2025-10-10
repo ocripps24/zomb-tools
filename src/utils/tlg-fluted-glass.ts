@@ -125,6 +125,8 @@ class FlutedGlassSketch {
 	private videoTexture?: THREE.VideoTexture;
 	private lastMouseMove: number = 0;
 	private mouseInfluence: number = 0; // 0-1 blend factor between ambient and mouse
+	private dynamicSegments: boolean = false; // Whether to increase segments on mouse interaction
+	private segmentMultiplier: number = 1.5; // How many extra segments on interaction (1.5 = 50% more)
 
 	constructor(options: FlutedGlassOptions) {
 		this.scene = new THREE.Scene();
@@ -279,6 +281,21 @@ class FlutedGlassSketch {
 			0,
 			Math.min(100, parseFloat(intensityAttr || "50") || 50)
 		); // Clamp between 0 and 100
+
+		// Get dynamic segments setting (whether to increase segments on interaction)
+		const dynamicSegmentsAttr = this.container.getAttribute(
+			"tlg-fluted-glass-dynamic-segments"
+		);
+		this.dynamicSegments = dynamicSegmentsAttr === "true"; // Default to false
+
+		// Get segment multiplier (how much to increase segments on interaction)
+		const segmentMultiplierAttr = this.container.getAttribute(
+			"tlg-fluted-glass-segment-multiplier"
+		);
+		this.segmentMultiplier = Math.max(
+			1.0,
+			Math.min(3.0, parseFloat(segmentMultiplierAttr || "1.5") || 1.5)
+		); // Clamp between 1.0 and 3.0
 
 		// Check for video element first
 		const videoElements = this.container.querySelectorAll<HTMLVideoElement>(
@@ -501,11 +518,16 @@ class FlutedGlassSketch {
 
 				this.material.uniforms.uMotionValue.value = finalValue;
 
-				// Dynamically adjust segments based on mouse interaction
-				const ambientSegments = this.segments; // Base segment count
-				const mouseSegments = this.segments * 1.5; // 50% more detail during interaction
-				const finalSegments = ambientSegments + (mouseSegments - ambientSegments) * this.mouseInfluence;
-				this.material.uniforms.uSegments.value = finalSegments;
+				// Dynamically adjust segments based on mouse interaction (if enabled)
+				if (this.dynamicSegments) {
+					const ambientSegments = this.segments; // Base segment count
+					const mouseSegments = this.segments * this.segmentMultiplier; // Additional detail during interaction
+					const finalSegments = ambientSegments + (mouseSegments - ambientSegments) * this.mouseInfluence;
+					this.material.uniforms.uSegments.value = finalSegments;
+				} else {
+					// Keep segments constant
+					this.material.uniforms.uSegments.value = this.segments;
+				}
 			} else if (this.mode === "static") {
 				// Static mode: just ambient sine wave animation (for touch devices)
 				const ambientValue = 0.5 + Math.sin(time * 0.001) * 0.3;

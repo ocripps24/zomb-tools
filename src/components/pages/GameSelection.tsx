@@ -4,7 +4,8 @@ import SettingsInfoPanel from "@/components/ui/SettingsInfoPanel";
 import GlassHero from "@/components/ui/GlassHero";
 import HeroFooterGrid from "@/components/ui/HeroFooterGrid";
 import { GAMES } from "@/data/games";
-import beamsImage from "@/assets/images/beams-bkg-v2.png";
+// import beamsImage from "@/assets/images/beams-bkg-v2.png";
+import beamsImage from "@/assets/images/bo7-cover-art.jpg";
 
 // Vite dynamic import for all game logos - supports multiple formats
 const logosWebp = import.meta.glob("@/assets/games/*-logo.webp", {
@@ -62,10 +63,11 @@ function GameSelection() {
 				{/* Full-viewport background image with fluted glass effect */}
 				<GlassHero
 					imageSrc={beamsImage}
-					glassIntensity={50}
-					glassSegments={60}
+					glassIntensity={10}
+					glassSegments={40}
 					glassMode="mouse"
-					glassMotion={0.75}
+					glassMotion={0.5}
+					glassRotation={0}
 				/>
 				{/* Hero footer grid - positioned at bottom of hero section */}
 				<HeroFooterGrid />
