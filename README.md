@@ -39,13 +39,23 @@ git clone https://github.com/yourusername/zomb-tools.git
 cd zomb-tools
 ```
 
-2. Install dependencies:
+2. **Setup GSAP** (required for smooth scrolling):
+
+This project uses GSAP premium plugins. See [SETUP_GSAP.md](SETUP_GSAP.md) for detailed instructions.
+
+```bash
+# Quick start:
+cp .npmrc.example .npmrc
+# Edit .npmrc and add your GSAP token from https://greensock.com/account/
+```
+
+3. Install dependencies:
 
 ```bash
 npm install
 ```
 
-3. Start the development server:
+4. Start the development server:
 
 ```bash
 npm run dev

@@ -31,6 +31,11 @@ jobs:
           node-version: "18"
           cache: "npm"
 
+      - name: Setup GSAP Token
+        run: |
+          echo "@gsap:registry=https://npm.greensock.com" >> .npmrc
+          echo "//npm.greensock.com/:_authToken=${{ secrets.GSAP_AUTH_TOKEN }}" >> .npmrc
+
       - name: Install dependencies
         run: npm ci
 
