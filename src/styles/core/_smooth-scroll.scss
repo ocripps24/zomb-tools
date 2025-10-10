@@ -1,0 +1,32 @@
+@use "../abstracts/variables" as *;
+
+// GSAP ScrollSmoother required structure
+// These styles are necessary for ScrollSmoother to work correctly
+
+#smooth-wrapper {
+	overflow: hidden; // Required for ScrollSmoother
+	position: fixed; // Required for ScrollSmoother
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+
+#smooth-content {
+	overflow: visible; // Required for ScrollSmoother
+	width: 100%;
+	// ScrollSmoother will set the height automatically
+}
+
+// Optional: Prevent layout shift on page load
+html.smooth-scroll-loading {
+	overflow: hidden;
+}
+
+// Ensure fixed elements work correctly with ScrollSmoother
+.smooth-scroll-fixed {
+	position: fixed;
+	z-index: 100;
+	// Use this class on elements that should stay fixed (like navbar)
+}
