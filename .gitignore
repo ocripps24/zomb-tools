@@ -32,3 +32,6 @@ dist-ssr
 
 # NPM configuration with private tokens
 .npmrc 
+
+# todo list
+todo.md
