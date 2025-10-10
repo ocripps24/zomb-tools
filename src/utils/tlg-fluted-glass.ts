@@ -25,6 +25,7 @@
  */
 
 import * as THREE from "three";
+import { isTouchDevice } from "./deviceDetection";
 
 interface FlutedGlassOptions {
 	dom: HTMLElement;
@@ -148,10 +149,19 @@ class FlutedGlassSketch {
 		this.renderer.setClearColor(0x000000, 0);
 
 		const modeAttr = this.container.getAttribute("tlg-fluted-glass-mode");
-		this.mode =
+		let specifiedMode =
 			modeAttr && ["static", "mouse", "scroll"].includes(modeAttr)
 				? (modeAttr as "static" | "mouse" | "scroll")
 				: "static";
+
+		// On touch devices, use static mode (ambient animation only) for better UX
+		// Mouse/scroll interactions don't work well on touch devices
+		if (isTouchDevice() && specifiedMode === "mouse") {
+			this.mode = "static";
+		} else {
+			this.mode = specifiedMode;
+		}
+
 		const motionAttr = this.container.getAttribute("tlg-fluted-glass-motion");
 		this.motionFactor = -50 * parseFloat(motionAttr || "1") || -50;
 
@@ -467,35 +477,41 @@ class FlutedGlassSketch {
 	render(time: number = 0): void {
 		if (!this.isPlaying) return;
 
-		// Check if mouse was active recently (no delay - starts fading immediately)
-		const timeSinceMouseMove = Date.now() - this.lastMouseMove;
-		const mouseIsActive = timeSinceMouseMove < 400; // Very short delay (0.1s)
+		if (this.material) {
+			if (this.mode === "mouse") {
+				// Mouse mode: blend between ambient animation and mouse interaction
+				const timeSinceMouseMove = Date.now() - this.lastMouseMove;
+				const mouseIsActive = timeSinceMouseMove < 400; // Very short delay (0.4s)
 
-		// Blend factor approach - both motions always active
-		if (this.mode === "mouse" && this.material) {
-			// Calculate ambient sine wave (always running) - increased speed
-			const ambientValue = 0.5 + Math.sin(time * 0.001) * 0.3; // 0.001 = 3x faster
+				// Calculate ambient sine wave (always running) - increased speed
+				const ambientValue = 0.5 + Math.sin(time * 0.001) * 0.3; // 0.001 = 3x faster
 
-			// Calculate mouse-controlled value (70% horizontal, 30% vertical)
-			const mouseValue = 0.5 + (this.mouse.x * 0.7 + this.mouse.y * 0.3) * this.motionFactor * 0.1;
+				// Calculate mouse-controlled value (70% horizontal, 30% vertical)
+				const mouseValue = 0.5 + (this.mouse.x * 0.7 + this.mouse.y * 0.3) * this.motionFactor * 0.1;
 
-			// Smoothly fade mouse influence in/out
-			const targetInfluence = mouseIsActive ? 1 : 0;
-			const influenceLerpSpeed = 0.01; // Faster fade to reduce elastic feeling
-			this.mouseInfluence +=
-				(targetInfluence - this.mouseInfluence) * influenceLerpSpeed;
+				// Smoothly fade mouse influence in/out
+				const targetInfluence = mouseIsActive ? 1 : 0;
+				const influenceLerpSpeed = 0.005; // Slower lerp = smoother, less snappy transitions (was 0.01)
+				this.mouseInfluence +=
+					(targetInfluence - this.mouseInfluence) * influenceLerpSpeed;
 
-			// Blend between ambient and mouse values based on influence
-			const finalValue =
-				ambientValue + (mouseValue - ambientValue) * this.mouseInfluence;
+				// Blend between ambient and mouse values based on influence
+				const finalValue =
+					ambientValue + (mouseValue - ambientValue) * this.mouseInfluence;
 
-			this.material.uniforms.uMotionValue.value = finalValue;
+				this.material.uniforms.uMotionValue.value = finalValue;
 
-			// Dynamically adjust segments based on mouse interaction
-			const ambientSegments = this.segments; // Base segment count
-			const mouseSegments = this.segments * 1.5; // 50% more detail during interaction
-			const finalSegments = ambientSegments + (mouseSegments - ambientSegments) * this.mouseInfluence;
-			this.material.uniforms.uSegments.value = finalSegments;
+				// Dynamically adjust segments based on mouse interaction
+				const ambientSegments = this.segments; // Base segment count
+				const mouseSegments = this.segments * 1.5; // 50% more detail during interaction
+				const finalSegments = ambientSegments + (mouseSegments - ambientSegments) * this.mouseInfluence;
+				this.material.uniforms.uSegments.value = finalSegments;
+			} else if (this.mode === "static") {
+				// Static mode: just ambient sine wave animation (for touch devices)
+				const ambientValue = 0.5 + Math.sin(time * 0.001) * 0.3;
+				this.material.uniforms.uMotionValue.value = ambientValue;
+			}
+			// Scroll mode doesn't update here - it's handled in handleScroll()
 		}
 
 		requestAnimationFrame(this.render.bind(this));
