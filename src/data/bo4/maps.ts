@@ -38,7 +38,7 @@ export const BO4_MAPS: BO4Map[] = [
 	{
 		id: "blood-of-the-dead",
 		name: "Blood of the Dead",
-		status: "Coming soon",
+		status: "Coming later",
 		route: ROUTES.games.bo4.maps.bloodOfTheDead,
 		component: null,
 		available: false,
@@ -48,7 +48,7 @@ export const BO4_MAPS: BO4Map[] = [
 	{
 		id: "ix",
 		name: "IX",
-		status: "Coming later",
+		status: "Coming soon",
 		route: ROUTES.games.bo4.maps.ix,
 		component: null,
 		available: false,
@@ -74,11 +74,11 @@ export const BO4_MAPS: BO4Map[] = [
 	{
 		id: "dead-of-the-night",
 		name: "Dead of the Night",
-		status: "Under review",
+		status: "Under development",
 		route: ROUTES.games.bo4.maps.deadOfTheNight,
 		component: null,
 		available: false,
-		tools: ["TBC"],
+		tools: ["Alastair's Folly, Atlas, Scratches"],
 		difficulty: "medium",
 	},
 	{
@@ -100,7 +100,7 @@ export const BO4_MAPS: BO4Map[] = [
 	{
 		id: "ancient-evil",
 		name: "Ancient Evil",
-		status: "Under review",
+		status: "Not currently planned",
 		route: ROUTES.games.bo4.maps.ancientEvil,
 		component: null,
 		available: false,

@@ -13,8 +13,8 @@
 	border-top: 2px solid var(--accent-primary);
 	padding: space(md) space(lg);
 	box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
-	backdrop-filter: blur(8px);
-	
+	backdrop-filter: blur(blurs(xl));
+
 	@include tmd-up {
 		padding: space(lg) space(xl);
 	}
@@ -24,7 +24,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: space(md);
-	
+
 	@include tmd-up {
 		flex-direction: row;
 		align-items: center;
@@ -35,31 +35,31 @@
 
 .consent-text {
 	flex: 1;
-	
+
 	h4 {
 		color: var(--text-primary);
 		font-size: text-size(lg);
 		margin: 0 0 space(sm) 0;
 		font-weight: weight(bold);
 	}
-	
+
 	p {
 		color: var(--text-secondary);
 		line-height: 1.5;
 		margin: 0 0 space(xs) 0;
 		font-size: text-size(sm);
-		
+
 		&:last-child {
 			margin-bottom: 0;
 		}
 	}
-	
+
 	.privacy-link {
 		color: var(--accent-primary);
 		text-decoration: none;
 		border-bottom: 1px dotted var(--accent-primary);
 		transition: all var(--transition);
-		
+
 		&:hover {
 			color: var(--accent-secondary);
 			border-bottom-color: var(--accent-secondary);
@@ -71,7 +71,7 @@
 	display: flex;
 	gap: space(sm);
 	flex-shrink: 0;
-	
+
 	@include tmd-up {
 		align-self: center;
 	}
@@ -81,7 +81,7 @@
 	min-width: 100px;
 	font-size: text-size(sm);
 	padding: space(sm) space(md);
-	
+
 	@include mobile {
 		flex: 1;
 		min-width: auto;

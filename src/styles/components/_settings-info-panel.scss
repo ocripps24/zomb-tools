@@ -10,7 +10,7 @@
 	border: 1px solid var(--border-color);
 	border-radius: radius(base);
 	background-color: var(--border-color);
-	backdrop-filter: blur(20px);
+	backdrop-filter: blur(blurs(xl));
 
 	h4 {
 		margin-bottom: space(md);

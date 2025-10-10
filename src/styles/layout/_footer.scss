@@ -96,6 +96,14 @@
 	}
 }
 
+.coming-soon {
+	margin: 0;
+	padding: space(xs) 0;
+	color: var(--text-tertiary);
+	@include fluid-text(sm, normal, 1.5);
+	font-style: italic;
+}
+
 // Legal Section
 .footer-legal {
 	border-top: 1px solid var(--border-color);
@@ -113,9 +121,21 @@
 
 		.legal-links {
 			display: flex;
-			align-items: center;
+			flex-direction: column;
 			gap: space(sm);
 			margin-top: space(xs);
+
+			@include tmd-up {
+				flex-direction: row;
+				align-items: center;
+			}
+
+			.separator {
+				display: none;
+				@include tmd-up {
+					display: inline;
+				}
+			}
 
 			.legal-link {
 				color: var(--text-secondary);
@@ -134,6 +154,11 @@
 				padding: 0;
 				cursor: pointer;
 				font-family: inherit;
+				align-self: flex-start;
+
+				@include tmd-up {
+					align-self: center;
+				}
 			}
 
 			.separator {

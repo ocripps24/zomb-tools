@@ -15,6 +15,11 @@
 	@return get($colors, $name);
 }
 
+// Color functions
+@function blurs($name) {
+	@return get($blurs, $name);
+}
+
 // Spacing functions
 @function space($size) {
 	@return get($spacing, $size);
