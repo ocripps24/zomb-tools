@@ -1,0 +1,179 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+// Roadmap page styles
+.roadmap {
+	position: relative;
+	z-index: 10;
+	min-height: calc(100vh - var(--nav-height));
+	padding: space(2xl) space(lg);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: space(2xl);
+
+	@include tmd-up {
+		padding: space(3xl) space(2xl);
+	}
+
+	&__hero {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		z-index: 1;
+	}
+
+	&__container {
+		width: 100%;
+		max-width: 900px;
+		margin: 0 auto;
+	}
+
+	&__card {
+		background-color: var(--border-color);
+		backdrop-filter: blur(blurs(2xl));
+		border: 1px solid var(--border-color);
+		border-radius: radius(lg);
+		padding: space(xl);
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+		@include tmd-up {
+			padding: space(2xl);
+		}
+	}
+
+	&__title {
+		margin: 0 0 space(md) 0;
+		color: var(--text-primary);
+		@include fluid-text(2xl, bold, 1.2);
+		text-align: center;
+	}
+
+	&__description {
+		margin: 0 0 space(2xl) 0;
+		color: var(--text-primary);
+		@include fluid-text(base, normal, 1.6);
+		text-align: center;
+		padding-bottom: space(xl);
+		border-bottom: 1px solid var(--border-color);
+	}
+
+	&__timeline {
+		display: flex;
+		flex-direction: column;
+		gap: space(xl);
+		margin-bottom: space(2xl);
+	}
+
+	&__entry {
+		position: relative;
+		padding-left: space(lg);
+		border-left: 2px solid var(--text-accent);
+		transition: all var(--transition);
+
+		&:hover {
+			border-left-color: var(--text-primary);
+		}
+
+		&:last-child {
+			border-left-color: transparent;
+		}
+	}
+
+	&__date {
+		margin: 0 0 space(md) 0;
+		color: var(--text-accent);
+		@include fluid-text(2xl, semibold, 1.3);
+		position: relative;
+	}
+
+	&__items {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: space(sm);
+	}
+
+	&__item {
+		position: relative;
+		padding-left: space(lg);
+		color: var(--text-primary);
+		@include fluid-text(sm, normal, 1.6);
+
+		// Bullet point
+		&::before {
+			content: "–";
+			position: absolute;
+			left: 0;
+			color: var(--text-primary);
+		}
+	}
+
+	&__footer {
+		padding-top: space(xl);
+		border-top: 1px solid var(--border-color);
+		text-align: center;
+
+		p {
+			margin: 0;
+			color: var(--text-primary);
+			@include fluid-text(sm, normal, 1.6);
+		}
+	}
+
+	&__link {
+		color: var(--text-accent);
+		text-decoration: none;
+		font-weight: font-weight(semibold);
+		transition: color var(--transition);
+
+		&:hover {
+			color: var(--text-primary);
+			text-decoration: underline;
+		}
+	}
+}
+
+// Compact mode support
+.base-section.compact .roadmap {
+	&__card {
+		padding: space(lg);
+
+		@include tmd-up {
+			padding: space(xl);
+		}
+	}
+
+	&__timeline {
+		gap: space(lg);
+	}
+
+	&__entry {
+		padding-left: space(md);
+	}
+
+	&__date {
+		margin-bottom: space(sm);
+
+		&::before {
+			left: calc(-1 * space(md) - 6px);
+			width: 12px;
+			height: 12px;
+		}
+	}
+
+	&__items {
+		gap: space(xs);
+	}
+
+	&__item {
+		padding-left: space(md);
+	}
+}

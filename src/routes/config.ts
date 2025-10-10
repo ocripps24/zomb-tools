@@ -9,6 +9,9 @@ export const ROUTES = {
 	// Root routes
 	home: "/",
 
+	// Info routes
+	roadmap: "/roadmap",
+
 	// Legal routes
 	privacyPolicy: "/privacy-policy",
 	termsAndConditions: "/terms-and-conditions",
@@ -198,6 +201,10 @@ export const ROUTE_METADATA = {
 		title: "COD Zombies Tools",
 		documentTitle:
 			"COD Zombies Tools - Easter Egg Solver for BO3 | BO4 | BO6 | BO7",
+	},
+	[ROUTES.roadmap]: {
+		title: "Development Roadmap",
+		documentTitle: "Development Roadmap - COD Zombies Tools",
 	},
 	[ROUTES.privacyPolicy]: {
 		title: "Privacy Policy",

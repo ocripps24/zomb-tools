@@ -44,7 +44,7 @@ function Footer({ onResetConsent }: FooterProps) {
 											{game.name}
 										</Link>
 									</h4>
-									{gameMaps.length > 0 && (
+									{gameMaps.length > 0 ? (
 										<ul className="map-list">
 											{gameMaps.map((map) => (
 												<li key={map.id}>
@@ -54,6 +54,8 @@ function Footer({ onResetConsent }: FooterProps) {
 												</li>
 											))}
 										</ul>
+									) : (
+										<p className="coming-soon">Coming soon</p>
 									)}
 								</div>
 							);
@@ -66,6 +68,10 @@ function Footer({ onResetConsent }: FooterProps) {
 					<div className="copyright">
 						<p>&copy; 2025 Zomb Tools</p>
 						<div className="legal-links">
+							<Link to="/roadmap" className="legal-link">
+								Roadmap
+							</Link>
+							<span className="separator">•</span>
 							<Link to="/privacy-policy" className="legal-link">
 								Privacy Policy
 							</Link>

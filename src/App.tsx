@@ -5,6 +5,7 @@ import { PAGE_TRANSITION } from "@/utils/transitions";
 import { GameSelection, MapSelection, NotFound } from "./components/pages";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import TermsAndConditions from "./components/pages/TermsAndConditions";
+import Roadmap from "./components/pages/Roadmap";
 import VoyageOfDespair from "./components/games/bo4/maps/voyage-of-despair/VoyageOfDespair";
 import TagDerToten from "./components/games/bo4/maps/tag-der-toten/TagDerToten";
 import AlphaOmega from "./components/games/bo4/maps/alpha-omega/AlphaOmega";
@@ -88,10 +89,13 @@ function App() {
 
 			<main className="app-main">
 				<AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
-					<motion.div key={getPageTransitionKey()} {...PAGE_TRANSITION}>
-						<Routes location={location}>
+						<motion.div key={getPageTransitionKey()} {...PAGE_TRANSITION}>
+							<Routes location={location}>
 							{/* Root - Game Selection */}
 							<Route path={ROUTES.home} element={<GameSelection />} />
+
+							{/* Info Routes */}
+							<Route path={ROUTES.roadmap} element={<Roadmap />} />
 
 							{/* Legal Routes */}
 							<Route path={ROUTES.privacyPolicy} element={<PrivacyPolicy />} />

@@ -23,12 +23,19 @@ const HeroFooterGrid = () => {
 			{/* About Section */}
 			<div className="hero-footer-grid__section">
 				<h3 className="hero-footer-grid__label">About</h3>
-				<div className="hero-footer-grid__content">
+				<div className="hero-footer-grid__content hero-footer-grid__content--about">
 					<p>
 						Tools to help you complete Easter Egg steps across the COD Zombies
 						franchise. This site is under active development with new maps and
 						features being added regularly.
 					</p>
+					<ul className="hero-footer-grid__links">
+						<li>
+							<Link to={ROUTES.roadmap} data-text="View Roadmap">
+								<span>View Roadmap</span>
+							</Link>
+						</li>
+					</ul>
 				</div>
 			</div>
 
