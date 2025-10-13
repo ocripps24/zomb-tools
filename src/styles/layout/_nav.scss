@@ -50,9 +50,20 @@
 		padding: 0;
 		transition: opacity var(--transition);
 
-		&:hover,
-		&:focus {
-			opacity: 0.8;
+		&:hover {
+			.nav__logo svg {
+				// color: color(soe-neon-pink);
+				// fill: color(soe-neon-pink);
+				path:first-of-type {
+					filter: drop-shadow(0 0 4px color(soe-neon-pink))
+						drop-shadow(0 0 8px color(soe-neon-pink))
+						drop-shadow(0 0 16px color(soe-neon-pink));
+				}
+			}
+			.nav__brand-text {
+				// color: color(soe-neon-pink);
+				text-shadow: 0 0 8px color(soe-neon-pink);
+			}
 		}
 	}
 
@@ -62,8 +73,23 @@
 		flex-shrink: 0;
 
 		// Ensure logo strokes use white color
-		path {
-			stroke: var(--text-primary);
+		svg {
+			fill: color(mr-peeks);
+			color: color(white);
+
+			path {
+				transition: transition(base);
+			}
+
+			path:first-of-type {
+				stroke: color(mr-peeks);
+				fill: color(soe-neon-pink);
+				stroke-width: 10;
+			}
+			path:nth-of-type(2) {
+				color: color(mr-peeks);
+				fill: color(mr-peeks);
+			}
 		}
 	}
 
@@ -71,6 +97,7 @@
 		@include static-text(lg, semibold, 1);
 		color: var(--text-primary);
 		white-space: nowrap;
+		transition: transition(base);
 
 		@include tmd-up {
 			font-size: 32px;

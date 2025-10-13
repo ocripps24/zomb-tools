@@ -44,16 +44,26 @@
 		gap: 2rem;
 		margin: 2rem 0;
 
-		@include tsm-up {
+		@include tmd-up {
 			grid-template-columns: repeat(2, 1fr);
 		}
 
-		@include dmd-up {
+		@include tlg-up {
 			grid-template-columns: repeat(3, 1fr);
 		}
 	}
 
 	&__back-button {
 		margin: 0;
+	}
+
+	// Game-specific grid overrides
+	&--bo4 {
+		.map-selection__grid {
+			// BO4 has 8 maps, so use 4 columns on larger screens
+			@include dsm-up {
+				grid-template-columns: repeat(4, 1fr);
+			}
+		}
 	}
 }

@@ -94,7 +94,7 @@ function MapSelection({ gameId }: MapSelectionProps) {
 				glassMotion={0.75}
 			/>
 
-			<div className="map-selection">
+			<div className={`map-selection map-selection--${gameId}`}>
 				<div className="map-selection__header">
 					<h2 className="map-selection__title">{game.name}</h2>
 				</div>
