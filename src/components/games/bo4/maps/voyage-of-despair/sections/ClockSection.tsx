@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import { SymbolPicker } from "@/components/ui";
@@ -6,6 +6,7 @@ import { MovementSlider } from "@/components/ui";
 import { MovementStepper } from "@/components/ui";
 import { MovementButtons } from "@/components/ui";
 import { SYMBOL_ICONS, SYMBOL_NAMES } from "./SymbolIcons";
+import { createUiSizeSetting } from "@/utils/settingsHelpers";
 
 const CLOCK_LOCATIONS = [
 	{ id: "mailrooms", name: "Mailrooms" },
@@ -105,7 +106,7 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 				const settings = JSON.parse(saved);
 				return {
 					displayFormat: settings.displayFormat || "time",
-					inputMethod: settings.inputMethod || "sliders"
+					inputMethod: settings.inputMethod || "sliders",
 				};
 			}
 		} catch (e) {
@@ -116,8 +117,11 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 
 	// UI preference states
 	const initialSettings = getInitialSettings();
-	const [displayFormat, setDisplayFormat] = useState(initialSettings.displayFormat);
+	const [displayFormat, setDisplayFormat] = useState(
+		initialSettings.displayFormat
+	);
 	const [inputMethod, setInputMethod] = useState(initialSettings.inputMethod);
+	const uiSizeSetting = createUiSizeSetting();
 
 	// Save UI preferences to localStorage when they change
 	useEffect(() => {
@@ -131,12 +135,14 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 				storageKey: "voyage-of-despair-clock-data",
 				defaultValue: { clocks: getInitialData() },
 				title: "Clock Locations & Times",
-				description: "Record times and symbols for active clocks. Enter hour and minute separately. Each symbol can only be used once.",
+				description:
+					"Record times and symbols for active clocks. Enter hour and minute separately. Each symbol can only be used once.",
 				resetButtonText: "Reset Clocks",
 				settingsConfig: {
 					show: true,
 					title: "Clock Input Preferences",
-					description: "Customize how you input clock times and how they are displayed.",
+					description:
+						"Customize how you input clock times and how they are displayed.",
 					settings: [
 						{
 							id: "display-format",
@@ -144,10 +150,10 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 							value: displayFormat,
 							options: [
 								{ value: "time", label: "Time Format (01:45)" },
-								{ value: "movements", label: "Movement Format (+1/-3)" }
+								{ value: "movements", label: "Movement Format (+1/-3)" },
 							],
 							note: "How times are displayed throughout the interface",
-							onChange: (value) => setDisplayFormat(value)
+							onChange: (value) => setDisplayFormat(value),
 						},
 						{
 							id: "input-method",
@@ -157,36 +163,42 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 								{ value: "sliders", label: "Sliders (range controls)" },
 								{ value: "steppers", label: "Steppers (+/- buttons)" },
 								{ value: "buttons", label: "Button Grid" },
-								{ value: "text", label: "Text Fields" }
+								{ value: "text", label: "Text Fields" },
 							],
 							note: "How you input time values for each clock location",
-							onChange: (value) => setInputMethod(value)
-						}
-					]
-				}
+							onChange: (value) => setInputMethod(value),
+						},
+						uiSizeSetting,
+					],
+				},
 			}}
 			getProgress={(data: ClocksData) => {
 				const completeClocks = Object.values(data.clocks || {}).filter(
-					(clock) => clock.hour !== "" && clock.minute !== "" && clock.symbol !== ""
+					(clock) =>
+						clock.hour !== "" && clock.minute !== "" && clock.symbol !== ""
 				).length;
 				return {
 					completed: completeClocks,
 					total: 4,
-					isComplete: completeClocks === 4
+					isComplete: completeClocks === 4,
 				};
 			}}
 			{...props}
 		>
-			{({ data, setData, progress }) => {
-
+			{({ data, setData }) => {
 				// Validation functions
 				const isMovementValid = (movement: number, symbol: string) => {
 					if (!symbol) return true; // No symbol selected, no validation needed
-					const limits = MOVEMENT_LIMITS[symbol as keyof typeof MOVEMENT_LIMITS];
+					const limits =
+						MOVEMENT_LIMITS[symbol as keyof typeof MOVEMENT_LIMITS];
 					return movement >= limits.min && movement <= limits.max;
 				};
 
-				const isTimeValueValid = (timeValue: string, type: string, symbol: string) => {
+				const isTimeValueValid = (
+					timeValue: string,
+					type: string,
+					symbol: string
+				) => {
 					if (!timeValue || timeValue === "" || !symbol) return true;
 					const movement = timeToMovement(timeValue, type);
 					return isMovementValid(movement, symbol);
@@ -220,9 +232,9 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 									[locationId]: {
 										...newData,
 										hourError,
-										minuteError: currentData.minuteError, // Keep existing minute error state
-									}
-								}
+										minuteError,
+									},
+								},
 							};
 						});
 					}
@@ -230,7 +242,10 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 
 				const handleMinuteChange = (locationId: string, minute: string) => {
 					// Allow only numbers and limit to 0-59
-					if (minute === "" || (/^\d{1,2}$/.test(minute) && parseInt(minute) <= 59)) {
+					if (
+						minute === "" ||
+						(/^\d{1,2}$/.test(minute) && parseInt(minute) <= 59)
+					) {
 						const minuteMovement = timeToMovement(minute, "minute");
 						setData((prev: ClocksData) => {
 							const currentData = prev.clocks[locationId] || {};
@@ -243,16 +258,20 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 									...prev.clocks,
 									[locationId]: {
 										...newData,
-										hourError: currentData.hourError, // Keep existing hour error state
+										hourError,
 										minuteError,
-									}
-								}
+									},
+								},
 							};
 						});
 					}
 				};
 
-				const handleMovementChange = (locationId: string, movement: number, type: string) => {
+				const handleMovementChange = (
+					locationId: string,
+					movement: number,
+					type: string
+				) => {
 					const timeValue = movementToTime(movement, type);
 					if (type === "hour") {
 						setData((prev: ClocksData) => {
@@ -277,8 +296,8 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 											currentData.minuteMovement !== undefined
 												? currentData.minuteMovement
 												: 0,
-									}
-								}
+									},
+								},
 							};
 						});
 					} else {
@@ -304,8 +323,8 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 											currentData.hourMovement !== undefined
 												? currentData.hourMovement
 												: 0,
-									}
-								}
+									},
+								},
 							};
 						});
 					}
@@ -321,8 +340,8 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 							...prev,
 							clocks: {
 								...prev.clocks,
-								[locationId]: { ...newData, hourError, minuteError }
-							}
+								[locationId]: { ...newData, hourError, minuteError },
+							},
 						};
 					});
 				};
@@ -333,19 +352,12 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 						.filter((symbol) => symbol !== "");
 				};
 
-				const getAvailableSymbols = (currentSymbol: string) => {
-					const used = getUsedSymbols();
-					return SYMBOLS.filter(
-						(symbol) => symbol === currentSymbol || !used.includes(symbol)
-					);
-				};
-
 				// Convert SYMBOLS to format expected by SymbolPicker
 				const getSymbolsForPicker = () => {
-					return SYMBOLS.map(symbolId => ({
+					return SYMBOLS.map((symbolId) => ({
 						id: symbolId,
-						component: SYMBOL_ICONS[symbolId],
-						name: SYMBOL_NAMES[symbolId]
+						component: SYMBOL_ICONS[symbolId as keyof typeof SYMBOL_ICONS],
+						name: SYMBOL_NAMES[symbolId as keyof typeof SYMBOL_NAMES],
 					}));
 				};
 
@@ -353,7 +365,7 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 				const getCompleteClocks = () => {
 					return Object.entries(data.clocks || {})
 						.filter(
-							([locationId, clock]) =>
+							([, clock]) =>
 								clock.hour !== "" && clock.minute !== "" && clock.symbol !== ""
 						)
 						.map(([locationId, clock]) => ({
@@ -409,10 +421,7 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 								}
 
 								return (
-									<div
-										key={location.id}
-										className={locationClass}
-									>
+									<div key={location.id} className={locationClass}>
 										<div className="clock-location-header">
 											<h4>{location.name}</h4>
 										</div>
@@ -490,7 +499,13 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 														locationId={location.id}
 														type="hour"
 														movement={clockData.hourMovement || 0}
-														limits={clockData.symbol ? MOVEMENT_LIMITS[clockData.symbol as keyof typeof MOVEMENT_LIMITS] : { min: -5, max: 5 }}
+														limits={
+															clockData.symbol
+																? MOVEMENT_LIMITS[
+																		clockData.symbol as keyof typeof MOVEMENT_LIMITS
+																  ]
+																: { min: -5, max: 5 }
+														}
 														displayFormat={displayFormat}
 														movementToTime={movementToTime}
 														onChange={handleMovementChange}
@@ -499,7 +514,13 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 														locationId={location.id}
 														type="minute"
 														movement={clockData.minuteMovement || 0}
-														limits={clockData.symbol ? MOVEMENT_LIMITS[clockData.symbol as keyof typeof MOVEMENT_LIMITS] : { min: -5, max: 5 }}
+														limits={
+															clockData.symbol
+																? MOVEMENT_LIMITS[
+																		clockData.symbol as keyof typeof MOVEMENT_LIMITS
+																  ]
+																: { min: -5, max: 5 }
+														}
 														displayFormat={displayFormat}
 														movementToTime={movementToTime}
 														onChange={handleMovementChange}
@@ -513,7 +534,13 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 														locationId={location.id}
 														type="hour"
 														movement={clockData.hourMovement || 0}
-														limits={clockData.symbol ? MOVEMENT_LIMITS[clockData.symbol as keyof typeof MOVEMENT_LIMITS] : { min: -5, max: 5 }}
+														limits={
+															clockData.symbol
+																? MOVEMENT_LIMITS[
+																		clockData.symbol as keyof typeof MOVEMENT_LIMITS
+																  ]
+																: { min: -5, max: 5 }
+														}
 														displayFormat={displayFormat}
 														movementToTime={movementToTime}
 														onChange={handleMovementChange}
@@ -522,7 +549,13 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 														locationId={location.id}
 														type="minute"
 														movement={clockData.minuteMovement || 0}
-														limits={clockData.symbol ? MOVEMENT_LIMITS[clockData.symbol as keyof typeof MOVEMENT_LIMITS] : { min: -5, max: 5 }}
+														limits={
+															clockData.symbol
+																? MOVEMENT_LIMITS[
+																		clockData.symbol as keyof typeof MOVEMENT_LIMITS
+																  ]
+																: { min: -5, max: 5 }
+														}
 														displayFormat={displayFormat}
 														movementToTime={movementToTime}
 														onChange={handleMovementChange}
@@ -537,7 +570,13 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 														symbol={clockData.symbol}
 														hourMovement={clockData.hourMovement || 0}
 														minuteMovement={clockData.minuteMovement || 0}
-														limits={clockData.symbol ? MOVEMENT_LIMITS[clockData.symbol as keyof typeof MOVEMENT_LIMITS] : { min: -5, max: 5 }}
+														limits={
+															clockData.symbol
+																? MOVEMENT_LIMITS[
+																		clockData.symbol as keyof typeof MOVEMENT_LIMITS
+																  ]
+																: { min: -5, max: 5 }
+														}
 														displayFormat={displayFormat}
 														movementToTime={movementToTime}
 														onChange={handleMovementChange}
@@ -550,13 +589,13 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 							})}
 						</div>
 
-
 						{/* Helper Section */}
 						{completeClocks.length > 0 && (
 							<div className="clock-helper">
 								<h4>Dial Locations & Inputs</h4>
 								<p className="helper-description">
-									All symbols match the in-game positioning of their respective dials:
+									All symbols match the in-game positioning of their respective
+									dials:
 								</p>
 
 								<div className="helper-locations">
@@ -574,9 +613,12 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 													}`}
 												>
 													<div className="helper-symbol">
-														{React.createElement(SYMBOL_ICONS["triangle-up-dash"], {
-															size: 24,
-														})}
+														{React.createElement(
+															SYMBOL_ICONS["triangle-up-dash"],
+															{
+																size: 24,
+															}
+														)}
 													</div>
 													<div className="helper-data">
 														{clocksBySymbol["triangle-up-dash"]
@@ -591,7 +633,8 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 																			.minuteMovement
 																  }`
 																: movementToTime(
-																		clocksBySymbol["triangle-up-dash"].minuteMovement,
+																		clocksBySymbol["triangle-up-dash"]
+																			.minuteMovement,
 																		"minute"
 																  )
 															: "?"}
@@ -608,21 +651,28 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 													}`}
 												>
 													<div className="helper-symbol">
-														{React.createElement(SYMBOL_ICONS["triangle-down"], {
-															size: 24,
-														})}
+														{React.createElement(
+															SYMBOL_ICONS["triangle-down"],
+															{
+																size: 24,
+															}
+														)}
 													</div>
 													<div className="helper-data">
 														{clocksBySymbol["triangle-down"]
 															? displayFormat === "movements"
 																? `${
-																		clocksBySymbol["triangle-down"].minuteMovement >=
-																		0
+																		clocksBySymbol["triangle-down"]
+																			.minuteMovement >= 0
 																			? "+"
 																			: ""
-																  }${clocksBySymbol["triangle-down"].minuteMovement}`
+																  }${
+																		clocksBySymbol["triangle-down"]
+																			.minuteMovement
+																  }`
 																: movementToTime(
-																		clocksBySymbol["triangle-down"].minuteMovement,
+																		clocksBySymbol["triangle-down"]
+																			.minuteMovement,
 																		"minute"
 																  )
 															: "?"}
@@ -639,9 +689,12 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 													}`}
 												>
 													<div className="helper-symbol">
-														{React.createElement(SYMBOL_ICONS["triangle-down-dash"], {
-															size: 24,
-														})}
+														{React.createElement(
+															SYMBOL_ICONS["triangle-down-dash"],
+															{
+																size: 24,
+															}
+														)}
 													</div>
 													<div className="helper-data">
 														{clocksBySymbol["triangle-down-dash"]
@@ -682,12 +735,16 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 														{clocksBySymbol["triangle-up"]
 															? displayFormat === "movements"
 																? `${
-																		clocksBySymbol["triangle-up"].minuteMovement >= 0
+																		clocksBySymbol["triangle-up"]
+																			.minuteMovement >= 0
 																			? "+"
 																			: ""
-																  }${clocksBySymbol["triangle-up"].minuteMovement}`
+																  }${
+																		clocksBySymbol["triangle-up"].minuteMovement
+																  }`
 																: movementToTime(
-																		clocksBySymbol["triangle-up"].minuteMovement,
+																		clocksBySymbol["triangle-up"]
+																			.minuteMovement,
 																		"minute"
 																  )
 															: "?"}
@@ -711,9 +768,12 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 													}`}
 												>
 													<div className="helper-symbol">
-														{React.createElement(SYMBOL_ICONS["triangle-up-dash"], {
-															size: 24,
-														})}
+														{React.createElement(
+															SYMBOL_ICONS["triangle-up-dash"],
+															{
+																size: 24,
+															}
+														)}
 													</div>
 													<div className="helper-data">
 														{clocksBySymbol["triangle-up-dash"]
@@ -723,9 +783,13 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 																			.hourMovement >= 0
 																			? "+"
 																			: ""
-																  }${clocksBySymbol["triangle-up-dash"].hourMovement}`
+																  }${
+																		clocksBySymbol["triangle-up-dash"]
+																			.hourMovement
+																  }`
 																: movementToTime(
-																		clocksBySymbol["triangle-up-dash"].hourMovement,
+																		clocksBySymbol["triangle-up-dash"]
+																			.hourMovement,
 																		"hour"
 																  )
 															: "?"}
@@ -742,9 +806,12 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 													}`}
 												>
 													<div className="helper-symbol">
-														{React.createElement(SYMBOL_ICONS["triangle-down-dash"], {
-															size: 24,
-														})}
+														{React.createElement(
+															SYMBOL_ICONS["triangle-down-dash"],
+															{
+																size: 24,
+															}
+														)}
 													</div>
 													<div className="helper-data">
 														{clocksBySymbol["triangle-down-dash"]
@@ -755,10 +822,12 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 																			? "+"
 																			: ""
 																  }${
-																		clocksBySymbol["triangle-down-dash"].hourMovement
+																		clocksBySymbol["triangle-down-dash"]
+																			.hourMovement
 																  }`
 																: movementToTime(
-																		clocksBySymbol["triangle-down-dash"].hourMovement,
+																		clocksBySymbol["triangle-down-dash"]
+																			.hourMovement,
 																		"hour"
 																  )
 															: "?"}
@@ -790,10 +859,13 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 														{clocksBySymbol["triangle-up"]
 															? displayFormat === "movements"
 																? `${
-																		clocksBySymbol["triangle-up"].hourMovement >= 0
+																		clocksBySymbol["triangle-up"]
+																			.hourMovement >= 0
 																			? "+"
 																			: ""
-																  }${clocksBySymbol["triangle-up"].hourMovement}`
+																  }${
+																		clocksBySymbol["triangle-up"].hourMovement
+																  }`
 																: movementToTime(
 																		clocksBySymbol["triangle-up"].hourMovement,
 																		"hour"
@@ -812,20 +884,27 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 													}`}
 												>
 													<div className="helper-symbol">
-														{React.createElement(SYMBOL_ICONS["triangle-down"], {
-															size: 24,
-														})}
+														{React.createElement(
+															SYMBOL_ICONS["triangle-down"],
+															{
+																size: 24,
+															}
+														)}
 													</div>
 													<div className="helper-data">
 														{clocksBySymbol["triangle-down"]
 															? displayFormat === "movements"
 																? `${
-																		clocksBySymbol["triangle-down"].hourMovement >= 0
+																		clocksBySymbol["triangle-down"]
+																			.hourMovement >= 0
 																			? "+"
 																			: ""
-																  }${clocksBySymbol["triangle-down"].hourMovement}`
+																  }${
+																		clocksBySymbol["triangle-down"].hourMovement
+																  }`
 																: movementToTime(
-																		clocksBySymbol["triangle-down"].hourMovement,
+																		clocksBySymbol["triangle-down"]
+																			.hourMovement,
 																		"hour"
 																  )
 															: "?"}

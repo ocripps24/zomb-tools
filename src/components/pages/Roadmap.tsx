@@ -12,7 +12,6 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 	{
 		date: "November 2025",
 		items: [
-			"Expecting to add Dead of the Night support",
 			"BO4: Planning to add Blood of the Dead",
 			"BO7: Planning to add Ashes of the Damned",
 		],
