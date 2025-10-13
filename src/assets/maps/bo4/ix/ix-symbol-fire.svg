@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 172.01 210.38">
+  <g id="c" data-name="Layer 1">
+    <g id="d" data-name="ix-symbol-fire">
+      <path d="M25.32,12.86c-3.95,1.13-11.33,20.85-14.12,28.24-2.53,6.69-6.11,20.62-7.34,27.67-1.39,7.96-2.47,24.12-2.82,32.19-.28,6.35,1.19,24.37,1.88,30.68.85,7.76,2.51,17.79,4.89,25.22,2.53,7.89,8.86,23.31,12.99,30.49,3.42,5.95,11.11,18.68,16.38,22.02,28.05-21.65,133.84-102.78,133.84-102.78,0,0-116.52-74.54-145.69-93.74Z" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="171.01" y1="106.6" x2="1.03" y2="106.6" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path d="M64.28,1c-20.67,27.88-26.76,44.29-29.99,78.93-1.84,21.94-1.5,44.61,1.79,66.16,1.35,8.38,2.65,16.85,5.4,24.76,3.1,8.97,7.49,17.48,12.46,25.65" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="71.06" y1="152.34" x2="97.03" y2="200.34" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="86.02" y1="143.31" x2="113.41" y2="194.13" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="113.41" y1="21.89" x2="84.05" y2="78.93" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="99.72" y1="12.86" x2="64.28" y2="69.89" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,181 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+.ra-symbols {
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: space(sm);
+		margin-bottom: space(lg);
+
+		// Tablet and up: 8 columns in 1 row
+		@include tmd-up {
+			grid-template-columns: repeat(8, 1fr);
+			gap: space(md);
+			margin-bottom: space(xl);
+		}
+	}
+
+	&__symbol {
+		position: relative;
+		background: transparent;
+		border: 2px solid var(--border-color);
+		border-radius: radius(base);
+		padding: space(sm);
+		cursor: pointer;
+		transition: all 0.2s ease;
+		aspect-ratio: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: space(xs);
+
+		// Tablet and up: More padding
+		@include tmd-up {
+			padding: space(md);
+			gap: space(sm);
+		}
+
+		&:hover:not(&--disabled) {
+			border-color: var(--accent-color);
+		}
+
+		&--selected {
+			border-color: color(neon-blue) !important;
+
+			.ra-symbols__symbol-number {
+				background: color(neon-blue);
+				color: var(--bg-primary);
+			}
+		}
+
+		&--disabled {
+			opacity: 0.4;
+			cursor: not-allowed;
+		}
+	}
+
+	&__symbol-svg {
+		width: 100%;
+		height: 100%;
+		max-width: 60px;
+		max-height: 60px;
+		object-fit: contain;
+
+		@include tmd-up {
+			max-width: 80px;
+			max-height: 80px;
+		}
+	}
+
+	&__symbol-number {
+		position: absolute;
+		top: 0;
+		right: 0;
+		border: 1px solid var(--border-primary);
+		border-bottom-left-radius: 50%;
+		width: 20px;
+		height: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--text-primary);
+		transition: all 0.2s ease;
+
+		// Tablet and up: Larger badge
+		@include tlg-up {
+			width: 28px;
+			height: 28px;
+			font-size: 0.875rem;
+		}
+	}
+
+	// Override SVG colors to neon cyan with navy blue shadow
+	&__symbol-svg {
+		* {
+			stroke: color(neon-blue) !important;
+			stroke-width: 4 !important;
+			fill: none !important;
+		}
+
+		// Dark navy blue glow effect around the cyan stroke - multiple layers for stronger effect
+		filter: drop-shadow(0 0 2px rgba(0, 20, 50, 1))
+			drop-shadow(0 0 4px rgba(0, 25, 60, 0.95))
+			drop-shadow(0 0 8px rgba(0, 30, 70, 0.8))
+			drop-shadow(0 0 12px rgba(0, 35, 80, 0.6))
+			drop-shadow(0 0 16px rgba(0, 40, 90, 0.4));
+	}
+}
+
+// Override ResultsDisplay colors to neon blue (scoped to ra-symbols section)
+.base-section.ra-symbols {
+	.results-display {
+		border-color: color(neon-blue);
+	}
+
+	.results-grid-container {
+		h3 {
+			color: color(neon-blue);
+		}
+
+		.result-item {
+			border-color: color(neon-blue);
+
+			.result-number {
+				color: color(neon-blue);
+			}
+
+			.result-image-svg {
+				* {
+					stroke: color(neon-blue) !important;
+					stroke-width: 4 !important;
+					fill: none !important;
+				}
+
+				// Dark navy blue glow effect on results display symbols
+				filter: drop-shadow(0 0 2px rgba(0, 20, 50, 1))
+					drop-shadow(0 0 4px rgba(0, 25, 60, 0.95))
+					drop-shadow(0 0 8px rgba(0, 30, 70, 0.8))
+					drop-shadow(0 0 12px rgba(0, 35, 80, 0.6))
+					drop-shadow(0 0 16px rgba(0, 40, 90, 0.4));
+			}
+		}
+	}
+}
+
+// Compact mode adjustments
+.base-section.compact .ra-symbols {
+	&__grid {
+		gap: space(xs);
+		margin-bottom: space(md);
+
+		@include tmd-up {
+			gap: space(sm);
+			margin-bottom: space(lg);
+		}
+	}
+
+	&__symbol {
+		padding: space(xs);
+
+		@include tmd-up {
+			padding: space(sm);
+		}
+	}
+
+	&__symbol-number {
+		width: 16px;
+		height: 16px;
+		font-size: 0.625rem;
+
+		@include tlg-up {
+			width: 20px;
+			height: 20px;
+			font-size: 0.75rem;
+		}
+	}
+}

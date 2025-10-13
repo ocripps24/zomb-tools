@@ -107,6 +107,12 @@ export const MAP_STEPS = {
 				codes: "/bo4/classified/codes",
 			},
 		},
+		ix: {
+			base: "/bo4/ix",
+			steps: {
+				raSymbols: "/bo4/ix/ra-symbols",
+			},
+		},
 	},
 	bo6: {
 		terminus: {
@@ -277,6 +283,10 @@ export const ROUTE_METADATA = {
 	[ROUTES.games.bo3.maps.shadowsOfEvil]: {
 		title: "Shadows of Evil",
 		documentTitle: "Shadows of Evil Easter Eggs - COD Zombies Tools",
+	},
+	[ROUTES.games.bo4.maps.ix]: {
+		title: "IX",
+		documentTitle: "IX Easter Eggs - COD Zombies Tools",
 	},
 } as const;
 

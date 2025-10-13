@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 201.06 215.31">
+  <g id="c" data-name="Layer 1">
+    <g id="d" data-name="ix-symbol-electric">
+      <path d="M152.7,138.54c0,41.84-33.92,75.76-75.76,75.76S3.39,180.33,1.17,138.54C-1.73,83.82,32.47,59.73,74.32,59.73s78.38,24.09,78.38,78.81Z" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path d="M75.07,1c-1.42,70.75-.28,142.46,1.87,213.31" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <polyline points="200.06 146.32 75.21 144.43 33.33 143.49" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path d="M74.44,92.48c-15.61,2.68-32.49,9.91-38.62,25.63-7.33,19.88-1.78,42.03,15.64,54.65,7.1,5.42,16.03,7.94,24.59,9.69" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="164.81" y1="89.85" x2="130.08" y2="109.89" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="166.79" y1="104.53" x2="134.88" y2="125.42" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="157.47" y1="204.2" x2="125" y2="171.45" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="114.55" y1="182.46" x2="139.12" y2="212.67" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

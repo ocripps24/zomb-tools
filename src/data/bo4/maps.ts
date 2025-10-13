@@ -48,11 +48,11 @@ export const BO4_MAPS: BO4Map[] = [
 	{
 		id: "ix",
 		name: "IX",
-		status: "Coming soon",
+		status: "Available",
 		route: ROUTES.games.bo4.maps.ix,
-		component: null,
-		available: false,
-		tools: ["TBC"],
+		component: () => import("../../components/games/bo4/maps/ix/IX.tsx"),
+		available: true,
+		tools: ["Ra Symbols"],
 		difficulty: "medium",
 	},
 	{

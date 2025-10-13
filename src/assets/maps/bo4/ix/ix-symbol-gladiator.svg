@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 208.12 215.46">
+  <g id="c" data-name="Layer 1">
+    <g id="d" data-name="ix-symbol-gladiator">
+      <polygon points="1 1 207.12 1 104.06 126.36 1 1" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="104.06" y1="214.46" x2="126.93" y2="214.46" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="140.17" y1="182.27" x2="187.92" y2="182.27" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <polyline points="5.52 182.27 28.39 182.27 51.26 182.27" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path d="M28.39,182.27s-7.73-80.36,0-105.6c2.69-8.8,15.67-23.91,23.34-28.99,11.7-7.74,38.34-13.28,52.33-12.24,12.18.91,32.82,5.08,41.86,13.3,6.1,5.54,15.93,18.99,18.12,32.91,1.69,10.73,0,100.61,0,100.61" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <polyline points="104.06 35.45 104.06 126.36 104.06 214.46 80.62 214.46" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

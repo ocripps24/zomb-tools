@@ -10,6 +10,7 @@ import VoyageOfDespair from "./components/games/bo4/maps/voyage-of-despair/Voyag
 import TagDerToten from "./components/games/bo4/maps/tag-der-toten/TagDerToten";
 import AlphaOmega from "./components/games/bo4/maps/alpha-omega/AlphaOmega";
 import Classified from "./components/games/bo4/maps/classified/Classified";
+import IX from "./components/games/bo4/maps/ix/IX";
 import Terminus from "./components/games/bo6/maps/terminus/Terminus";
 import Reckoning from "./components/games/bo6/maps/reckoning/Reckoning";
 import ShatteredVeil from "./components/games/bo6/maps/shattered-veil/ShatteredVeil";
@@ -138,6 +139,10 @@ function App() {
 							<Route
 								path={ROUTE_PATTERNS.games.bo4.maps.classified}
 								element={<Classified />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.bo4.maps.ix}
+								element={<IX />}
 							/>
 
 							{/* BO6 Routes */}

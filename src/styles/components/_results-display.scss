@@ -243,9 +243,14 @@
 		display: block;
 		width: 100%;
 		height: auto;
-		max-height: 100px;
-		max-width: 80px;
+		max-height: 60px;
+		max-width: 60px;
 		margin: 0 auto;
+
+		@include tmd-up {
+			max-height: 80px;
+			max-width: 80px;
+		}
 	}
 }
 
