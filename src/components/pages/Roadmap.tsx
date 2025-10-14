@@ -23,6 +23,7 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 			"BO3: Added Shadows of Evil, Gorod Krovi with other maps under review",
 			"BO4: Added IX",
 			"BO4: Planning to add Dead of the Night",
+			"BO5: Added Firebase Z, Mauer der Toten",
 			"BO6: Added The Tomb",
 			"Compact mode UI upgrades",
 		],
