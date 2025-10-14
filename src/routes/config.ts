@@ -38,6 +38,12 @@ export const ROUTES = {
 				ancientEvil: "/bo4/ancient-evil",
 			},
 		},
+		bo5: {
+			base: "/bo5",
+			maps: {
+				mauerDerToten: "/bo5/mauer-der-toten",
+			},
+		},
 		bo6: {
 			base: "/bo6",
 			maps: {
@@ -114,6 +120,14 @@ export const MAP_STEPS = {
 			},
 		},
 	},
+	bo5: {
+		mauerDerToten: {
+			base: "/bo5/mauer-der-toten",
+			steps: {
+				"safe-code": "/bo5/mauer-der-toten/safe-code",
+			},
+		},
+	},
 	bo6: {
 		terminus: {
 			base: "/bo6/terminus",
@@ -181,6 +195,12 @@ export const ROUTE_PATTERNS = {
 				ancientEvil: "/bo4/ancient-evil/*",
 			},
 		},
+		bo5: {
+			base: "/bo5",
+			maps: {
+				mauerDerToten: "/bo5/mauer-der-toten/*",
+			},
+		},
 		bo6: {
 			base: "/bo6",
 			maps: {
@@ -228,6 +248,10 @@ export const ROUTE_METADATA = {
 		title: "Black Ops 4 - Select Map",
 		documentTitle: "BO4 Maps - COD Zombies Tools",
 	},
+	"/bo5": {
+		title: "Cold War - Select Map",
+		documentTitle: "CW Maps - COD Zombies Tools",
+	},
 	"/bo6": {
 		title: "Black Ops 6 - Select Map",
 		documentTitle: "BO6 Maps - COD Zombies Tools",
@@ -235,6 +259,18 @@ export const ROUTE_METADATA = {
 	"/bo7": {
 		title: "Black Ops 7 - Select Map",
 		documentTitle: "BO7 Maps - COD Zombies Tools",
+	},
+	[ROUTES.games.bo3.maps.gorodKrovi]: {
+		title: "Gorod Krovi",
+		documentTitle: "Gorod Krovi Easter Eggs - COD Zombies Tools",
+	},
+	[ROUTES.games.bo3.maps.shadowsOfEvil]: {
+		title: "Shadows of Evil",
+		documentTitle: "Shadows of Evil Easter Eggs - COD Zombies Tools",
+	},
+	[ROUTES.games.bo4.maps.ix]: {
+		title: "IX",
+		documentTitle: "IX Easter Eggs - COD Zombies Tools",
 	},
 	[ROUTES.games.bo4.maps.voyageOfDespair]: {
 		title: "Voyage of Despair",
@@ -248,6 +284,14 @@ export const ROUTE_METADATA = {
 		title: "Alpha Omega",
 		documentTitle: "Alpha Omega Easter Eggs - COD Zombies Tools",
 	},
+	[ROUTES.games.bo4.maps.classified]: {
+		title: "Classified",
+		documentTitle: "Classified Easter Eggs - COD Zombies Tools",
+	},
+	[ROUTES.games.bo5.maps.mauerDerToten]: {
+		title: "Mauer der Toten",
+		documentTitle: "Mauer der Toten Easter Eggs - COD Zombies Tools",
+	},
 	[ROUTES.games.bo6.maps.terminus]: {
 		title: "Terminus",
 		documentTitle: "Terminus Easter Eggs - COD Zombies Tools",
@@ -260,6 +304,10 @@ export const ROUTE_METADATA = {
 		title: "Citadelle des Morts",
 		documentTitle: "Citadelle des Morts Easter Eggs - COD Zombies Tools",
 	},
+	[ROUTES.games.bo6.maps.theTomb]: {
+		title: "The Tomb",
+		documentTitle: "The Tomb Easter Eggs - COD Zombies Tools",
+	},
 	[ROUTES.games.bo6.maps.shatteredVeil]: {
 		title: "Shattered Veil",
 		documentTitle: "Shattered Veil Easter Eggs - COD Zombies Tools",
@@ -268,25 +316,9 @@ export const ROUTE_METADATA = {
 		title: "Reckoning",
 		documentTitle: "Reckoning Easter Eggs - COD Zombies Tools",
 	},
-	[ROUTES.games.bo6.maps.theTomb]: {
-		title: "The Tomb",
-		documentTitle: "The Tomb Easter Eggs - COD Zombies Tools",
-	},
 	[ROUTES.games.bo7.maps.ashesOfTheDamned]: {
 		title: "Ashes of the Damned",
 		documentTitle: "Ashes of the Damned Easter Eggs - COD Zombies Tools",
-	},
-	[ROUTES.games.bo3.maps.gorodKrovi]: {
-		title: "Gorod Krovi",
-		documentTitle: "Gorod Krovi Easter Eggs - COD Zombies Tools",
-	},
-	[ROUTES.games.bo3.maps.shadowsOfEvil]: {
-		title: "Shadows of Evil",
-		documentTitle: "Shadows of Evil Easter Eggs - COD Zombies Tools",
-	},
-	[ROUTES.games.bo4.maps.ix]: {
-		title: "IX",
-		documentTitle: "IX Easter Eggs - COD Zombies Tools",
 	},
 } as const;
 
@@ -301,9 +333,11 @@ export type RoutePaths =
 	| typeof ROUTES.home
 	| typeof ROUTES.games.bo3.base
 	| typeof ROUTES.games.bo4.base
+	| typeof ROUTES.games.bo5.base
 	| typeof ROUTES.games.bo6.base
 	| typeof ROUTES.games.bo7.base
 	| (typeof ROUTES.games.bo3.maps)[keyof typeof ROUTES.games.bo3.maps]
 	| (typeof ROUTES.games.bo4.maps)[keyof typeof ROUTES.games.bo4.maps]
+	| (typeof ROUTES.games.bo5.maps)[keyof typeof ROUTES.games.bo5.maps]
 	| (typeof ROUTES.games.bo6.maps)[keyof typeof ROUTES.games.bo6.maps]
 	| (typeof ROUTES.games.bo7.maps)[keyof typeof ROUTES.games.bo7.maps];

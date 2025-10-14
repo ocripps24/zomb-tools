@@ -6,11 +6,14 @@ import { GameSelection, MapSelection, NotFound } from "./components/pages";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import TermsAndConditions from "./components/pages/TermsAndConditions";
 import Roadmap from "./components/pages/Roadmap";
+import GorodKrovi from "./components/games/bo3/maps/gorod-krovi/GorodKrovi";
+import ShadowsOfEvil from "./components/games/bo3/maps/shadows-of-evil/ShadowsOfEvil";
 import VoyageOfDespair from "./components/games/bo4/maps/voyage-of-despair/VoyageOfDespair";
 import TagDerToten from "./components/games/bo4/maps/tag-der-toten/TagDerToten";
 import AlphaOmega from "./components/games/bo4/maps/alpha-omega/AlphaOmega";
 import Classified from "./components/games/bo4/maps/classified/Classified";
 import IX from "./components/games/bo4/maps/ix/IX";
+import MauerDerToten from "./components/games/bo5/maps/mauer-der-toten/MauerDerToten";
 import Terminus from "./components/games/bo6/maps/terminus/Terminus";
 import Reckoning from "./components/games/bo6/maps/reckoning/Reckoning";
 import ShatteredVeil from "./components/games/bo6/maps/shattered-veil/ShatteredVeil";
@@ -22,8 +25,6 @@ import { useConsent } from "./contexts/ConsentContext";
 import { ROUTES, ROUTE_PATTERNS, getRouteMetadata } from "./routes";
 import "./styles/main.scss";
 import { NavBar, Footer } from "./components/layout/index.js";
-import GorodKrovi from "./components/games/bo3/maps/gorod-krovi/GorodKrovi";
-import ShadowsOfEvil from "./components/games/bo3/maps/shadows-of-evil/ShadowsOfEvil";
 
 function App() {
 	const location = useLocation();
@@ -62,6 +63,7 @@ function App() {
 			if (
 				(gameId === "bo3" ||
 					gameId === "bo4" ||
+					gameId === "bo5" ||
 					gameId === "bo6" ||
 					gameId === "bo7") &&
 				mapId
@@ -79,6 +81,7 @@ function App() {
 		location.pathname.split("/").filter(Boolean).length >= 2 &&
 		(location.pathname.includes("/bo3/") ||
 			location.pathname.includes("/bo4/") ||
+			location.pathname.includes("/bo5/") ||
 			location.pathname.includes("/bo6/") ||
 			location.pathname.includes("/bo7/"));
 
@@ -89,9 +92,12 @@ function App() {
 			</header>
 
 			<main className="app-main">
-				<AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
-						<motion.div key={getPageTransitionKey()} {...PAGE_TRANSITION}>
-							<Routes location={location}>
+				<AnimatePresence
+					mode="wait"
+					onExitComplete={() => window.scrollTo(0, 0)}
+				>
+					<motion.div key={getPageTransitionKey()} {...PAGE_TRANSITION}>
+						<Routes location={location}>
 							{/* Root - Game Selection */}
 							<Route path={ROUTES.home} element={<GameSelection />} />
 
@@ -140,9 +146,16 @@ function App() {
 								path={ROUTE_PATTERNS.games.bo4.maps.classified}
 								element={<Classified />}
 							/>
+							<Route path={ROUTE_PATTERNS.games.bo4.maps.ix} element={<IX />} />
+
+							{/* BO5 Routes */}
 							<Route
-								path={ROUTE_PATTERNS.games.bo4.maps.ix}
-								element={<IX />}
+								path={ROUTES.games.bo5.base}
+								element={<MapSelection gameId="bo5" />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.bo5.maps.mauerDerToten}
+								element={<MauerDerToten />}
 							/>
 
 							{/* BO6 Routes */}
