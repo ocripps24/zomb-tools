@@ -3,7 +3,7 @@
  * These functions provide a clean API for working with routes throughout the application.
  */
 
-import { ROUTES, MAP_STEPS, ROUTE_METADATA, type RoutePaths } from "./config";
+import { ROUTES, MAP_STEPS, ROUTE_METADATA } from "./config";
 
 // Game and map type definitions
 export type GameId = "bo3" | "bo4" | "bo5" | "bo6" | "bo7";
@@ -45,7 +45,7 @@ export const getStepRoute = (
 	mapId: string,
 	stepId: string
 ): string => {
-	const gameSteps = MAP_STEPS[gameId];
+	const gameSteps = MAP_STEPS[gameId as keyof typeof MAP_STEPS];
 	if (!gameSteps) {
 		throw new Error(`Unknown game: ${gameId}`);
 	}
@@ -69,7 +69,7 @@ export const getStepRoute = (
  * Get the base route for a map (without step)
  */
 export const getMapBaseRoute = (gameId: GameId, mapId: string): string => {
-	const gameSteps = MAP_STEPS[gameId];
+	const gameSteps = MAP_STEPS[gameId as keyof typeof MAP_STEPS];
 	if (!gameSteps) {
 		throw new Error(`Unknown game: ${gameId}`);
 	}
@@ -182,21 +182,20 @@ export const isValidRoute = (path: string): boolean => {
 		ROUTES.games.bo5.base,
 		ROUTES.games.bo6.base,
 		ROUTES.games.bo7.base,
-		...Object.values(ROUTES.legacy),
 	];
 
-	return allRoutes.some((route) => path.startsWith(route));
+	return allRoutes.some((route: string) => path.startsWith(route));
 };
 
 /**
  * Get the navigation breadcrumb for a given path
  */
-export const getBreadcrumb = (path: string) => {
+export const getBreadcrumb = (path: string): Array<{ name: string; path: string }> => {
 	const gameId = getGameIdFromPath(path);
 	const mapId = getMapIdFromPath(path);
 	const stepId = getStepIdFromPath(path);
 
-	const breadcrumb = [{ name: "Home", path: ROUTES.home }];
+	const breadcrumb: Array<{ name: string; path: string }> = [{ name: "Home", path: ROUTES.home }];
 
 	if (gameId) {
 		const gameNames: Record<GameId, string> = {
