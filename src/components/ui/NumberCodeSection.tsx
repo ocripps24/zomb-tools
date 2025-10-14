@@ -1,7 +1,7 @@
-import React from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import ResultsDisplay from "./ResultsDisplay";
+import type { TipsConfig } from "./TipsSection";
 
 // Types for the generic number code section
 export interface NumberCodeLocation {
@@ -11,14 +11,7 @@ export interface NumberCodeLocation {
   min: number;
   max: number;
   tertiaryText?: string;
-}
-
-export interface TipsConfig {
-  show: boolean;
-  items: Array<{
-    label: string;
-    text: string;
-  }>;
+  order?: number;  // Optional order for final code (defaults to array order if not specified)
 }
 
 export interface NumberCodeData {
@@ -115,12 +108,20 @@ function NumberCodeSection({
         };
 
         // Get the final code in the specified format
+        // If locations have an 'order' property, sort by it for the final code
         const getFinalCode = () => {
           if (!progress.isComplete) return null;
 
-          const values = locations.map((location) => data[location.id] || "");
-          
-          return codeFormat === "spaced" 
+          // Sort locations by order property if it exists, otherwise use array order
+          const sortedLocations = [...locations].sort((a, b) => {
+            const orderA = a.order ?? locations.indexOf(a);
+            const orderB = b.order ?? locations.indexOf(b);
+            return orderA - orderB;
+          });
+
+          const values = sortedLocations.map((location) => data[location.id] || "");
+
+          return codeFormat === "spaced"
             ? values.join(" - ")
             : values.join("");
         };

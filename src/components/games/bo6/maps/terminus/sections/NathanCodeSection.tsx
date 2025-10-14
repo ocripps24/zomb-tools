@@ -5,11 +5,20 @@ import type { NumberCodeData } from "@/components/ui/NumberCodeSection";
 // Define the three locations and their value ranges
 const CODE_LOCATIONS = [
 	{
+		id: "sign",
+		name: "Sign (Engineering)",
+		description: "Days without injury",
+		min: 0,
+		max: 9,
+		order: 3,
+	},
+	{
 		id: "clock",
 		name: "Clock (Interrogation Room)",
 		description: "Hour hand of clock in Quick-Revive room",
 		min: 1,
 		max: 9,
+		order: 1,
 	},
 	{
 		id: "card",
@@ -17,13 +26,7 @@ const CODE_LOCATIONS = [
 		description: "Playing card on board (Ace = 1)",
 		min: 1,
 		max: 9,
-	},
-	{
-		id: "sign",
-		name: "Sign (Engineering)",
-		description: "Days without injury",
-		min: 0,
-		max: 9,
+		order: 2,
 	},
 ];
 
@@ -53,7 +56,7 @@ function NathanCodeSection(props: BaseSectionProps<NumberCodeData>) {
 	return (
 		<NumberCodeSection
 			title="Nathan Code"
-			description="Collect three numbers from around the map to form the Nathan Code."
+			description="Collect three numbers from around the map to form the Nathan Code. The fields are displayed in the speedrun collection order."
 			locations={CODE_LOCATIONS}
 			storageKey="terminus-nathan-code-data"
 			codeFormat="concatenated"

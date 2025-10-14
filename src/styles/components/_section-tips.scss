@@ -49,6 +49,20 @@
 			strong {
 				color: var(--text-primary);
 			}
+
+			// Nested tips styling
+			ul.nested-tips {
+				margin-top: space(sm);
+				padding-left: space(lg);
+
+				li {
+					margin-bottom: space(xs);
+
+					&:last-child {
+						margin-bottom: 0;
+					}
+				}
+			}
 		}
 	}
 }
@@ -74,6 +88,20 @@
 
 				&:last-child {
 					margin-bottom: 0;
+				}
+
+				// Nested tips in compact mode
+				ul.nested-tips {
+					margin-top: space(xs);
+					padding-left: space(md);
+
+					li {
+						margin-bottom: space(xxs);
+
+						&:last-child {
+							margin-bottom: 0;
+						}
+					}
 				}
 			}
 		}
