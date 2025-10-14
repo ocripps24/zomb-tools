@@ -12,6 +12,7 @@ interface GlassHeroProps {
 	glassRotation?: number; // Rotation angle in degrees (default: 0). Rotates the glass distortion axis. Try 45, 90, etc.
 	glassDynamicSegments?: boolean; // Enable/disable segment increase on mouse interaction (default: false). When true, segments increase on hover for more detail
 	glassSegmentMultiplier?: number; // Multiplier for segment increase on interaction (default: 1.5). Range 1.0-3.0. E.g., 2.0 = double segments on hover. Only applies if glassDynamicSegments is true
+	fixed?: boolean; // Whether the background is fixed (default: true). When false, uses absolute positioning
 	className?: string;
 }
 
@@ -59,6 +60,7 @@ const GlassHero: React.FC<GlassHeroProps> = ({
 	glassRotation = 0,
 	glassDynamicSegments = false,
 	glassSegmentMultiplier = 1.5,
+	fixed = false,
 	className = "",
 }) => {
 	const glassContainerRef = useRef<HTMLDivElement>(null);
@@ -70,13 +72,31 @@ const GlassHero: React.FC<GlassHeroProps> = ({
 			const container = glassContainerRef.current;
 			container.setAttribute("tlg-fluted-glass-canvas", "");
 			container.setAttribute("tlg-fluted-glass-mode", glassMode);
-			container.setAttribute("tlg-fluted-glass-segments", glassSegments.toString());
-			container.setAttribute("tlg-fluted-glass-overlay", glassOverlay.toString());
+			container.setAttribute(
+				"tlg-fluted-glass-segments",
+				glassSegments.toString()
+			);
+			container.setAttribute(
+				"tlg-fluted-glass-overlay",
+				glassOverlay.toString()
+			);
 			container.setAttribute("tlg-fluted-glass-motion", glassMotion.toString());
-			container.setAttribute("tlg-fluted-glass-intensity", glassIntensity.toString());
-			container.setAttribute("tlg-fluted-glass-rotation", glassRotation.toString());
-			container.setAttribute("tlg-fluted-glass-dynamic-segments", glassDynamicSegments.toString());
-			container.setAttribute("tlg-fluted-glass-segment-multiplier", glassSegmentMultiplier.toString());
+			container.setAttribute(
+				"tlg-fluted-glass-intensity",
+				glassIntensity.toString()
+			);
+			container.setAttribute(
+				"tlg-fluted-glass-rotation",
+				glassRotation.toString()
+			);
+			container.setAttribute(
+				"tlg-fluted-glass-dynamic-segments",
+				glassDynamicSegments.toString()
+			);
+			container.setAttribute(
+				"tlg-fluted-glass-segment-multiplier",
+				glassSegmentMultiplier.toString()
+			);
 
 			// Set attribute on video/image element
 			const videoElement = container.querySelector("video");
@@ -97,10 +117,23 @@ const GlassHero: React.FC<GlassHeroProps> = ({
 				sketchRef.current = null;
 			}
 		};
-	}, [glassMode, glassSegments, glassOverlay, glassMotion, glassIntensity, glassRotation, glassDynamicSegments, glassSegmentMultiplier]);
+	}, [
+		glassMode,
+		glassSegments,
+		glassOverlay,
+		glassMotion,
+		glassIntensity,
+		glassRotation,
+		glassDynamicSegments,
+		glassSegmentMultiplier,
+	]);
 
 	return (
-		<div className={`glass-hero ${className}`}>
+		<div
+			className={`glass-hero ${
+				fixed ? "glass-hero--fixed" : "glass-hero--absolute"
+			} ${className}`}
+		>
 			<div ref={glassContainerRef} className="glass-hero__container">
 				{videoSrc ? (
 					<video

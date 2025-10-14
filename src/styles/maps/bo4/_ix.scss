@@ -96,18 +96,18 @@
 
 	// Override SVG colors to neon cyan with navy blue shadow
 	&__symbol-svg {
-		* {
-			stroke: color(neon-blue) !important;
-			stroke-width: 4 !important;
-			fill: none !important;
-		}
-
 		// Dark navy blue glow effect around the cyan stroke - multiple layers for stronger effect
 		filter: drop-shadow(0 0 2px rgba(0, 20, 50, 1))
 			drop-shadow(0 0 4px rgba(0, 25, 60, 0.95))
 			drop-shadow(0 0 8px rgba(0, 30, 70, 0.8))
 			drop-shadow(0 0 12px rgba(0, 35, 80, 0.6))
 			drop-shadow(0 0 16px rgba(0, 40, 90, 0.4));
+
+		* {
+			stroke: color(neon-blue) !important;
+			stroke-width: 4 !important;
+			fill: none !important;
+		}
 	}
 }
 
@@ -130,18 +130,17 @@
 			}
 
 			.result-image-svg {
-				* {
-					stroke: color(neon-blue) !important;
-					stroke-width: 4 !important;
-					fill: none !important;
-				}
-
 				// Dark navy blue glow effect on results display symbols
 				filter: drop-shadow(0 0 2px rgba(0, 20, 50, 1))
 					drop-shadow(0 0 4px rgba(0, 25, 60, 0.95))
 					drop-shadow(0 0 8px rgba(0, 30, 70, 0.8))
 					drop-shadow(0 0 12px rgba(0, 35, 80, 0.6))
 					drop-shadow(0 0 16px rgba(0, 40, 90, 0.4));
+				* {
+					stroke: color(neon-blue) !important;
+					stroke-width: 4 !important;
+					fill: none !important;
+				}
 			}
 		}
 	}

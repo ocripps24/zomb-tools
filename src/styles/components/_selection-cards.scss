@@ -40,6 +40,7 @@
 		backdrop-filter: blur(blurs(xl));
 		border-bottom-left-radius: var(--radius);
 		border-bottom-right-radius: var(--radius);
+		transition: transition(base);
 	}
 
 	// Title styling
@@ -58,6 +59,10 @@
 
 	&:not(&--disabled):hover {
 		transform: translateY(-4px);
+
+		.selection-card__meta {
+			background: hsla(0, 0%, 100%, 0.3);
+		}
 	}
 
 	// Disabled/unavailable state

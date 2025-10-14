@@ -4,7 +4,7 @@
 
 // Full-viewport hero with fluted glass effect
 .glass-hero {
-	position: fixed;
+	position: absolute; // Default fallback
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -13,6 +13,16 @@
 	overflow: hidden;
 	background: var(--bg-primary);
 	z-index: 1;
+
+	// Fixed positioning - stays in place on scroll
+	&--fixed {
+		position: fixed;
+	}
+
+	// Absolute positioning - scrolls with page (explicit for clarity)
+	&--absolute {
+		position: absolute;
+	}
 
 	&__container {
 		position: absolute;

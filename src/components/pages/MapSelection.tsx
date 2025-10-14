@@ -92,6 +92,7 @@ function MapSelection({ gameId }: MapSelectionProps) {
 				glassSegments={60}
 				glassMode="mouse"
 				glassMotion={0.75}
+				fixed={true}
 			/>
 
 			<div className={`map-selection map-selection--${gameId}`}>
