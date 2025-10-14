@@ -1,0 +1,109 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+// Firebase Z - Dartboard Section
+.dartboard-section {
+	display: flex;
+	flex-direction: column;
+	gap: space(xl);
+	align-items: center;
+	width: 100%;
+
+	.dartboard-container {
+		width: 100%;
+		max-width: 500px;
+		margin: 0 auto;
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border-radius: radius(lg);
+		border: 1px solid var(--border-default);
+
+		@include tmd-up {
+			max-width: 600px;
+		}
+	}
+
+	.dartboard {
+		width: 100%;
+		height: auto;
+		display: block;
+
+		// Background circle
+		.dartboard-background {
+			// fill: var(--bg-secondary);
+			stroke: var(--border-default);
+			stroke-width: 2;
+		}
+
+		// Segment group
+		.dartboard-segment-group {
+			// Segment path
+			.dartboard-segment {
+				stroke: var(--border-default);
+				stroke-width: 1;
+				cursor: pointer;
+				transition: all 0.2s ease;
+
+				// Alternating colors for even/odd segments
+				&.even {
+					fill: var(--bg-tertiary);
+					fill: color(gray-500);
+				}
+
+				&.odd {
+					fill: color(black);
+				}
+
+				// Selected state
+				&.selected {
+					fill: var(--success-color);
+					// opacity: 0.2;
+					stroke: var(--success-light-color);
+				}
+
+				// Hover effect
+				&:hover {
+					filter: brightness(1.2);
+				}
+
+				// Active/click effect
+				&:active {
+					transform: scale(0.98);
+				}
+			}
+
+			// Number labels
+			.dartboard-label {
+				fill: var(--text-primary);
+				font-size: 18px;
+				font-weight: bold;
+				text-anchor: middle;
+				dominant-baseline: middle;
+				pointer-events: none;
+
+				&.selected {
+					fill: var(--text-inverse);
+				}
+			}
+		}
+
+		// Center circle
+		.dartboard-center {
+			fill: var(--bg-quaternary);
+			stroke: var(--border-default);
+			stroke-width: 2;
+		}
+	}
+}
+
+// Compact mode adjustments
+.base-section.compact {
+	.dartboard-section {
+		gap: space(lg);
+
+		.dartboard-container {
+			padding: space(md);
+		}
+	}
+}

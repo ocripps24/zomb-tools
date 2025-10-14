@@ -41,6 +41,7 @@ export const ROUTES = {
 		bo5: {
 			base: "/bo5",
 			maps: {
+				firebaseZ: "/bo5/firebase-z",
 				mauerDerToten: "/bo5/mauer-der-toten",
 			},
 		},
@@ -121,6 +122,12 @@ export const MAP_STEPS = {
 		},
 	},
 	bo5: {
+		firebaseZ: {
+			base: "/bo5/firebase-z",
+			steps: {
+				dartboard: "/bo5/firebase-z/dartboard",
+			},
+		},
 		mauerDerToten: {
 			base: "/bo5/mauer-der-toten",
 			steps: {
@@ -198,6 +205,7 @@ export const ROUTE_PATTERNS = {
 		bo5: {
 			base: "/bo5",
 			maps: {
+				firebaseZ: "/bo5/firebase-z/*",
 				mauerDerToten: "/bo5/mauer-der-toten/*",
 			},
 		},

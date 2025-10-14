@@ -18,6 +18,17 @@ export interface BO5Map {
 
 export const BO5_MAPS: BO5Map[] = [
 	{
+		id: "firebase-z",
+		name: "Firebase Z",
+		status: "Available",
+		route: ROUTES.games.bo5.maps.firebaseZ,
+		component: () =>
+			import("../../components/games/bo5/maps/firebase-z/FirebaseZ.tsx"),
+		available: true,
+		tools: ["Dartboard Code"],
+		difficulty: "easy",
+	},
+	{
 		id: "mauer-der-toten",
 		name: "Mauer der Toten",
 		status: "Available",

@@ -13,6 +13,7 @@ import TagDerToten from "./components/games/bo4/maps/tag-der-toten/TagDerToten";
 import AlphaOmega from "./components/games/bo4/maps/alpha-omega/AlphaOmega";
 import Classified from "./components/games/bo4/maps/classified/Classified";
 import IX from "./components/games/bo4/maps/ix/IX";
+import FirebaseZ from "./components/games/bo5/maps/firebase-z/FirebaseZ";
 import MauerDerToten from "./components/games/bo5/maps/mauer-der-toten/MauerDerToten";
 import Terminus from "./components/games/bo6/maps/terminus/Terminus";
 import Reckoning from "./components/games/bo6/maps/reckoning/Reckoning";
@@ -152,6 +153,10 @@ function App() {
 							<Route
 								path={ROUTES.games.bo5.base}
 								element={<MapSelection gameId="bo5" />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.bo5.maps.firebaseZ}
+								element={<FirebaseZ />}
 							/>
 							<Route
 								path={ROUTE_PATTERNS.games.bo5.maps.mauerDerToten}

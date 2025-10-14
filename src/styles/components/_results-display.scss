@@ -13,6 +13,7 @@
 	padding: space(lg);
 	border: 2px solid var(--success-color);
 	text-align: center;
+	width: 100%;
 
 	// Tablet and up: More spacious
 	@include tmd-up {

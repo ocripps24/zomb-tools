@@ -10,6 +10,9 @@ interface FooterProps {
 }
 
 function Footer({ onResetConsent }: FooterProps) {
+	// Define which games should appear in footer quick links
+	const FOOTER_GAME_IDS = ["bo3", "bo4", "bo6", "bo7"];
+
 	// Get available maps for each game
 	const getGameMaps = (gameId: string) => {
 		switch (gameId) {
@@ -26,7 +29,10 @@ function Footer({ onResetConsent }: FooterProps) {
 		}
 	};
 
-	const availableGames = Object.values(GAMES).filter((game) => game.available);
+	// Only show games that are available AND in the footer list
+	const availableGames = Object.values(GAMES).filter(
+		(game) => game.available && FOOTER_GAME_IDS.includes(game.id)
+	);
 
 	return (
 		<footer className="site-footer">
