@@ -74,11 +74,14 @@ export const BO4_MAPS: BO4Map[] = [
 	{
 		id: "dead-of-the-night",
 		name: "Dead of the Night",
-		status: "Under development",
+		status: "Available",
 		route: ROUTES.games.bo4.maps.deadOfTheNight,
-		component: null,
-		available: false,
-		tools: ["Alastair's Folly, Atlas, Scratches"],
+		component: () =>
+			import(
+				"../../components/games/bo4/maps/dead-of-the-night/DeadOfTheNight.tsx"
+			),
+		available: true,
+		tools: ["Alastair's Folly"],
 		difficulty: "medium",
 	},
 	{

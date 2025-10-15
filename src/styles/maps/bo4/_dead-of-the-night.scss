@@ -1,0 +1,165 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+// Dead of the Night - Alastair's Folly Section
+.alastair-folly-section {
+	display: flex;
+	flex-direction: column;
+	gap: space(xl);
+
+	.cylinder-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: space(lg);
+
+		@include tmd-up {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+
+	.cylinder-card {
+		background: var(--bg-tertiary);
+		border-radius: radius(base);
+		border: 1px solid var(--border-color);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+
+		.cylinder-header {
+			padding: space(md);
+			border-top: 10px solid var(--border-color);
+			background: var(--bg-quaternary);
+			text-align: center;
+
+			h3 {
+				margin: 0 0 space(xs) 0;
+				@include fluid-text(md, medium, 1.2);
+				color: var(--text-primary);
+			}
+
+			.cylinder-location {
+				margin: 0;
+				@include fluid-text(xs, normal, 1.2);
+				color: var(--text-secondary);
+			}
+		}
+
+		// Color-specific border-top colors using DOTN variables
+		&[data-color="blue"] {
+			.cylinder-header {
+				border-top-color: color(dotn-blue);
+			}
+
+			.symbol-button.selected .symbol-icon {
+				color: color(dotn-blue);
+				opacity: 1;
+			}
+		}
+
+		&[data-color="green"] {
+			.cylinder-header {
+				border-top-color: color(dotn-green);
+			}
+
+			.symbol-button.selected .symbol-icon {
+				color: color(dotn-green);
+				opacity: 1;
+			}
+		}
+
+		&[data-color="yellow"] {
+			.cylinder-header {
+				border-top-color: color(dotn-yellow);
+			}
+
+			.symbol-button.selected .symbol-icon {
+				color: color(dotn-yellow);
+				opacity: 1;
+			}
+		}
+
+		&[data-color="red"] {
+			.cylinder-header {
+				border-top-color: color(dotn-red);
+			}
+
+			.symbol-button.selected .symbol-icon {
+				color: color(dotn-red);
+				opacity: 1;
+			}
+		}
+
+		.symbol-buttons {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: space(sm);
+			padding: space(md);
+		}
+
+		.symbol-button {
+			aspect-ratio: 1;
+			background: transparent;
+			border-radius: radius(sm);
+			cursor: pointer;
+			transition: all 0.2s ease;
+			padding: space(sm);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			@include tmd-up {
+				padding: space(md);
+			}
+
+			&:hover {
+				transform: translateY(-2px);
+			}
+
+			.symbol-icon {
+				width: 100%;
+				height: 100%;
+				color: var(--text-primary);
+				transition: color 0.2s ease, opacity 0.2s ease;
+			}
+		}
+
+		// Grey out unselected symbols when one is selected
+		&:has(.symbol-button.selected) .symbol-button:not(.selected) {
+			.symbol-icon {
+				color: var(--text-tertiary);
+				opacity: 0.4;
+			}
+
+			&:hover .symbol-icon {
+				color: var(--text-secondary);
+				opacity: 0.7;
+			}
+		}
+	}
+}
+
+// Compact mode adjustments
+.base-section.compact {
+	.alastair-folly-section {
+		gap: space(md);
+
+		.cylinder-grid {
+			gap: space(md);
+		}
+
+		.cylinder-card {
+			.cylinder-header {
+				padding: space(sm);
+			}
+			.cylinder-location {
+				display: none;
+			}
+
+			.symbol-buttons {
+				gap: space(xs);
+				padding: space(sm);
+			}
+		}
+	}
+}

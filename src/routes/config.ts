@@ -114,6 +114,12 @@ export const MAP_STEPS = {
 				codes: "/bo4/classified/codes",
 			},
 		},
+		deadOfTheNight: {
+			base: "/bo4/dead-of-the-night",
+			steps: {
+				alastairFolly: "/bo4/dead-of-the-night/alastair-folly",
+			},
+		},
 		ix: {
 			base: "/bo4/ix",
 			steps: {

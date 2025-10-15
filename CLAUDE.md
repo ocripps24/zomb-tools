@@ -323,9 +323,30 @@ To add compact mode to a section:
 - **Map previews**: `src/assets/maps/{game}/`
 - **Usage**:
   ```tsx
-  import MyIcon from "@/assets/symbols/my-icon.svg?react";
-  <MyIcon />
+  // IMPORTANT: Do NOT use ?react suffix for SVG imports
+  // Import SVGs directly and cast to ComponentType
+  import MyIcon from "@/assets/symbols/my-icon.svg";
+
+  // Cast to React component type
+  const ICONS = [
+    {
+      id: "my-icon",
+      component: MyIcon as unknown as React.ComponentType<
+        React.SVGProps<SVGSVGElement>
+      >,
+    },
+  ];
+
+  // Use as component
+  const IconComponent = ICONS[0].component;
+  <IconComponent className="icon-class" />
   ```
+
+**SVG Import Pattern (IMPORTANT)**:
+- ❌ **WRONG**: `import Icon from "@/path/icon.svg?react"`
+- ✅ **CORRECT**: `import Icon from "@/path/icon.svg"`
+- Always cast to `React.ComponentType<React.SVGProps<SVGSVGElement>>`
+- See `shadows-of-evil/EggSymbols.tsx` for reference implementation
 
 ## Important Development Notes
 
