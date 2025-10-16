@@ -41,6 +41,13 @@
 			}
 		}
 
+		&:not(:first-child) {
+			display: none;
+			@include tmd-up {
+				display: grid;
+			}
+		}
+
 		// Hover state - matches selection card meta background
 		&:hover {
 			background: hsla(0, 0%, 100%, 0.2);
@@ -90,6 +97,11 @@
 			display: inline-block;
 			position: relative;
 			transition: color var(--transition);
+			font-weight: 600;
+
+			@include tmd-up {
+				font-weight: 400;
+			}
 
 			// Duplicate text in pseudo element (starts to the left)
 			&::before {

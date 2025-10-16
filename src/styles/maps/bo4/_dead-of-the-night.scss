@@ -92,9 +92,13 @@
 
 		.symbol-buttons {
 			display: grid;
-			grid-template-columns: repeat(2, 1fr);
+			grid-template-columns: repeat(4, 1fr);
 			gap: space(sm);
 			padding: space(md);
+
+			@include tsm-up {
+				grid-template-columns: repeat(2, 1fr);
+			}
 		}
 
 		.symbol-button {
@@ -139,6 +143,99 @@
 	}
 }
 
+// Dead of the Night - Atlas Section
+.atlas-section {
+	display: flex;
+	flex-direction: column;
+	gap: space(xl);
+
+	.position-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: space(lg);
+
+		@include tmd-up {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.position-card {
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		overflow: hidden;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		text-align: left;
+
+		&:hover {
+			border-color: var(--border-subtle);
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+		}
+
+		&.selected {
+			border-color: var(--success-color);
+			box-shadow: 0 0 0 3px rgba(var(--color-success-rgb), 0.2);
+		}
+
+		.position-header {
+			padding: space(md);
+			background: var(--bg-quaternary);
+			display: flex;
+			align-items: center;
+			gap: space(sm);
+			border-bottom: 1px solid var(--border-default);
+
+			.position-number {
+				@include fluid-text(lg, bold, 1);
+				color: var(--text-primary);
+				background: var(--bg-tertiary);
+				border-radius: radius(sm);
+				padding: space(xs) space(sm);
+				min-width: 2rem;
+				text-align: center;
+			}
+
+			.position-description {
+				@include fluid-text(sm, medium, 1.2);
+				color: var(--text-secondary);
+			}
+		}
+
+		.position-image-wrapper {
+			aspect-ratio: 16 / 9;
+			overflow: hidden;
+			background: var(--bg-quaternary);
+
+			.position-image {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transition: transform 0.2s ease;
+			}
+		}
+
+		&:hover .position-image {
+			transform: scale(1.05);
+		}
+
+		&.selected .position-number {
+			color: var(--success-color);
+		}
+	}
+
+	.helper-text {
+		text-align: center;
+		@include fluid-text(sm, normal, 1.4);
+		color: var(--text-secondary);
+		padding: space(md);
+	}
+}
+
 // Compact mode adjustments
 .base-section.compact {
 	.alastair-folly-section {
@@ -159,7 +256,33 @@
 			.symbol-buttons {
 				gap: space(xs);
 				padding: space(sm);
+
+				@include dsm-up {
+					grid-template-columns: repeat(4, 1fr);
+
+					.symbol-button {
+						padding: space(sm);
+					}
+				}
 			}
+		}
+	}
+
+	.atlas-section {
+		gap: space(lg);
+
+		.position-grid {
+			gap: space(md);
+		}
+
+		.position-card {
+			.position-header {
+				padding: space(sm);
+			}
+		}
+
+		.helper-text {
+			padding: space(sm);
 		}
 	}
 }

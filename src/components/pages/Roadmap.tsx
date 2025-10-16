@@ -14,16 +14,16 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 		items: [
 			"BO4: Planning to add Blood of the Dead",
 			"BO7: Planning to add Ashes of the Damned",
+			"Tweak some UI elements to be less bordery 🤪",
 		],
 	},
 	{
 		date: "October 2025",
 		items: [
 			"Major design overhaul alongside further architectural improvements",
-			"BO3: Added Shadows of Evil, Gorod Krovi with other maps under review",
-			"BO4: Added IX",
-			"BO4: Planning to add Dead of the Night",
-			"BO5: Added Firebase Z, Mauer der Toten",
+			"BO3: Added Shadows of Evil and Gorod Krovi with other maps under review",
+			"BO4: Added IX and Dead of the Night (further updates planned)",
+			"BO5: Added Firebase Z and Mauer der Toten",
 			"BO6: Added The Tomb",
 			"Compact mode UI upgrades",
 		],

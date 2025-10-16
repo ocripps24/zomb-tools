@@ -85,7 +85,7 @@ function AlastairFollySection(props: BaseSectionProps<AlastairData>) {
 	return (
 		<BaseSection
 			config={{
-				storageKey: "dead-of-the-night-alastair-data",
+				storageKey: "dead-of-the-night-alastair-folly-data",
 				defaultValue: { symbols: {} },
 				title: "Alastair's Folly",
 				description: "Find and match the symbols to their corresponding colored cylinders on the cabinet lock",

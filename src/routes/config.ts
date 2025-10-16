@@ -118,6 +118,7 @@ export const MAP_STEPS = {
 			base: "/bo4/dead-of-the-night",
 			steps: {
 				alastairFolly: "/bo4/dead-of-the-night/alastair-folly",
+				atlas: "/bo4/dead-of-the-night/atlas",
 			},
 		},
 		ix: {

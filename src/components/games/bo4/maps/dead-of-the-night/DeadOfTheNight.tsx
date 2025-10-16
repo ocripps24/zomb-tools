@@ -1,6 +1,7 @@
 import { MapContainer } from "@/components/core";
 import { getBO4MapById } from "@/data/bo4/maps";
 import AlastairFollySection from "./sections/AlastairFollySection";
+import AtlasSection from "./sections/AtlasSection";
 
 const STEPS = [
 	{
@@ -8,6 +9,12 @@ const STEPS = [
 		name: "Alastair's Folly",
 		path: "/bo4/dead-of-the-night/alastair-folly",
 		component: AlastairFollySection,
+	},
+	{
+		id: "atlas",
+		name: "Atlas",
+		path: "/bo4/dead-of-the-night/atlas",
+		component: AtlasSection,
 	},
 ];
 

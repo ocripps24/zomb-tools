@@ -21,6 +21,15 @@
 		}
 	}
 
+	&__label {
+		@include fluid-text(lg, semibold, 1.4);
+		color: var(--text-primary);
+		background: var(--bg-quaternary);
+		padding: space(sm) space(md) space(md);
+		text-align: center;
+		border-bottom: 1px solid var(--border-default);
+	}
+
 	&__carousel {
 		overflow: hidden;
 		border-radius: var(--radius);
@@ -51,7 +60,7 @@
 
 	&__button {
 		background: var(--bg-tertiary);
-		border: 1px solid var(--border-primary);
+		border: 1px solid var(--border-subtle);
 		border-radius: var(--radius);
 		color: var(--text-primary);
 		font-size: 1.25rem;
@@ -60,8 +69,8 @@
 		transition: all 0.2s ease;
 
 		&:hover {
-			background: var(--bg-secondary);
-			border-color: var(--border-hover);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+			border: 1px solid var(--border-color);
 		}
 
 		&:active {
@@ -78,20 +87,20 @@
 		width: 10px;
 		height: 10px;
 		border-radius: 50%;
-		background: var(--bg-secondary);
-		border: 1px solid var(--border-primary);
+		background: var(--accent-color);
+		opacity: 0.5;
 		cursor: pointer;
 		transition: all 0.2s ease;
 		padding: 0;
 
 		&:hover {
-			background: var(--bg-tertiary);
-			border-color: var(--border-hover);
+			// background: var(--bg-tertiary);
+			opacity: 0.75;
 		}
 
 		&--active {
-			background: var(--accent-primary);
-			border-color: var(--accent-primary);
+			background: var(--text-primary);
+			opacity: 1;
 		}
 	}
 }

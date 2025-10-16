@@ -6,6 +6,7 @@ interface ReferenceImagesProps {
   images: Array<{
     src: string;
     alt: string;
+    label?: string;
   }>;
 }
 
@@ -43,6 +44,9 @@ export function ReferenceImages({ images }: ReferenceImagesProps) {
     return (
       <div className="reference-images">
         <div className="reference-images__single">
+          {images[0].label && (
+            <div className="reference-images__label">{images[0].label}</div>
+          )}
           <img src={images[0].src} alt={images[0].alt} />
         </div>
       </div>
@@ -55,6 +59,9 @@ export function ReferenceImages({ images }: ReferenceImagesProps) {
         <div className="reference-images__container">
           {images.map((image, index) => (
             <div className="reference-images__slide" key={index}>
+              {image.label && (
+                <div className="reference-images__label">{image.label}</div>
+              )}
               <img src={image.src} alt={image.alt} />
             </div>
           ))}
