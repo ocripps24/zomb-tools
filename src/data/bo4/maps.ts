@@ -81,7 +81,7 @@ export const BO4_MAPS: BO4Map[] = [
 				"../../components/games/bo4/maps/dead-of-the-night/DeadOfTheNight.tsx"
 			),
 		available: true,
-		tools: ["Alastair's Folly"],
+		tools: ["Alastair's Folly, Atlas"],
 		difficulty: "medium",
 	},
 	{

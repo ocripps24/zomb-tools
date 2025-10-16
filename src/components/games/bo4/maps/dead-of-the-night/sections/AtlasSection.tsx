@@ -113,7 +113,7 @@ function AtlasSection(props: BaseSectionProps<AtlasData>) {
 			}}
 			{...props}
 		>
-			{({ data, setData, progress }) => {
+			{({ data, setData }) => {
 				const handlePositionSelect = (positionId: number) => {
 					setData({
 						selectedPosition:
