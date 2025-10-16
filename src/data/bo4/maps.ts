@@ -27,7 +27,7 @@ export const BO4_MAPS: BO4Map[] = [
 				"../../components/games/bo4/maps/voyage-of-despair/VoyageOfDespair.tsx"
 			),
 		available: true,
-		tools: ["clocks", "outlets", "planets"],
+		tools: ["Clocks", "Outlets", "Planets"],
 		difficulty: "medium",
 		guide: {
 			url: "https://www.youtube.com/embed/2uWcP083T0g",
@@ -81,7 +81,7 @@ export const BO4_MAPS: BO4Map[] = [
 				"../../components/games/bo4/maps/dead-of-the-night/DeadOfTheNight.tsx"
 			),
 		available: true,
-		tools: ["Alastair's Folly, Atlas"],
+		tools: ["Alastair's Folly", "Atlas"],
 		difficulty: "medium",
 	},
 	{
