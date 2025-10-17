@@ -43,10 +43,15 @@ const SYMBOLS = [
 
 // Cylinder data (lock positions)
 const CYLINDERS = [
-	{ id: "blue", name: "Blue", color: "#4A90E2", location: "Graveyard" },
-	{ id: "green", name: "Green", color: "#7ED321", location: "Gardens" },
-	{ id: "yellow", name: "Yellow", color: "#F5A623", location: "Forest Terrace" },
-	{ id: "red", name: "Red", color: "#D0021B", location: "Mansion" },
+	{ id: "blue", name: "Blue", color: "#2e42f8", location: "Graveyard" },
+	{ id: "green", name: "Green", color: "#53c006", location: "Gardens" },
+	{
+		id: "yellow",
+		name: "Yellow",
+		color: "#e3e64f",
+		location: "Forest Terrace",
+	},
+	{ id: "red", name: "Red", color: "#da111b", location: "Mansion" },
 ] as const;
 
 interface AlastairData {
@@ -88,7 +93,8 @@ function AlastairFollySection(props: BaseSectionProps<AlastairData>) {
 				storageKey: "dead-of-the-night-alastair-folly-data",
 				defaultValue: { symbols: {} },
 				title: "Alastair's Folly",
-				description: "Find and match the symbols to their corresponding colored cylinders on the cabinet lock",
+				description:
+					"Find and match the symbols to their corresponding colored cylinders on the cabinet lock",
 				resetButtonText: "Reset Symbols",
 				tipsConfig: TIPS_CONFIG,
 			}}
@@ -176,10 +182,8 @@ function AlastairFollySection(props: BaseSectionProps<AlastairData>) {
 								return {
 									id: cylinder.id,
 									order: CYLINDERS.indexOf(cylinder) + 1,
-									value: symbol ? symbol.name.toUpperCase() : "?",
-									metadata: {
-										color: cylinder.name,
-									},
+									image: symbol ? symbol.component : undefined,
+									imageColor: cylinder.color,
 									status: symbolId ? "complete" : "pending",
 								};
 							})}

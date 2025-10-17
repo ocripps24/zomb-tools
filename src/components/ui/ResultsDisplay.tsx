@@ -19,7 +19,9 @@ export interface ResultItem {
 export interface SequenceItem {
   id: string;
   order: number;
-  value: string | number;
+  value?: string | number; // Optional - can be omitted when image is primary
+  image?: string | React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  imageColor?: string; // Optional color for SVG (applied via CSS color property)
   metadata?: Record<string, string>;
   status?: "complete" | "incomplete" | "pending";
 }
@@ -278,11 +280,23 @@ function ResultsDisplay({
           {displaySequence.map((item) => (
             <div
               key={item.id}
-              className={`sequence-item sequence-item--${item.status || "complete"} sequence-item--${colorScheme}`}
+              className={`sequence-item sequence-item--${item.status || "complete"} sequence-item--${colorScheme} ${item.image ? "sequence-item--with-image" : ""}`}
             >
               <div className="sequence-number">{item.order}</div>
               <div className="sequence-details">
-                <div className="sequence-value">{item.value}</div>
+                {item.image && (
+                  <div className="sequence-image" style={item.imageColor ? { color: item.imageColor } : undefined}>
+                    {typeof item.image === "string" ? (
+                      <img src={item.image} alt={`Sequence ${item.order}`} />
+                    ) : (
+                      (() => {
+                        const SvgComponent = item.image;
+                        return <SvgComponent className="sequence-image-svg" />;
+                      })()
+                    )}
+                  </div>
+                )}
+                {item.value && <div className="sequence-value">{item.value}</div>}
                 {item.metadata && Object.keys(item.metadata).length > 0 && (
                   <div className="sequence-metadata">
                     {Object.entries(item.metadata).map(([key, value]) => (

@@ -80,8 +80,8 @@ function DartboardSection(props: BaseSectionProps<DartboardData>) {
 									// Offset by half a segment (9 degrees) to center first segment at top
 									const segmentAngle = 360 / 20; // 18 degrees per segment
 									const offset = segmentAngle / 2; // 9 degrees offset
-									const angle = (index * segmentAngle) - 90 - offset;
-									const nextAngle = ((index + 1) * segmentAngle) - 90 - offset;
+									const angle = index * segmentAngle - 90 - offset;
+									const nextAngle = (index + 1) * segmentAngle - 90 - offset;
 									const isSelected = data.segments.includes(number);
 
 									// Calculate path for segment (pie slice)
@@ -141,12 +141,7 @@ function DartboardSection(props: BaseSectionProps<DartboardData>) {
 								})}
 
 								{/* Center circle (non-interactive) */}
-								<circle
-									className="dartboard-center"
-									cx="200"
-									cy="200"
-									r="40"
-								/>
+								<circle className="dartboard-center" cx="200" cy="200" r="40" />
 							</svg>
 						</div>
 
@@ -161,6 +156,9 @@ function DartboardSection(props: BaseSectionProps<DartboardData>) {
 								status: "complete" as const,
 							}))}
 							note="Shoot these segments in order on the spawn dartboard, then shoot the bullseye"
+							showIncomplete={true}
+							totalExpected={3}
+							progressMode="badge"
 							progress={progress}
 							colorScheme="success"
 						/>

@@ -261,9 +261,9 @@
 
 		.zodiac-picker {
 			background: var(--bg-tertiary);
-			border: 1px solid var(--border-color);
+			// border: 1px solid var(--border-color);
 			border-radius: radius(base);
-			padding: space(lg);
+			// padding: space(lg);
 		}
 	}
 
@@ -293,6 +293,11 @@
 		&.scratch-card--complete {
 			border-color: var(--success-color);
 			box-shadow: 0 0 0 2px rgba(var(--color-success-rgb), 0.15);
+		}
+
+		&.scratch-card--error {
+			border-color: var(--danger-color);
+			box-shadow: 0 0 0 2px rgba(var(--color-danger-rgb), 0.15);
 		}
 
 		.scratch-card-header {

@@ -344,6 +344,8 @@
 }
 
 .sequence-item {
+	position: relative;
+	overflow: hidden;
 	display: flex;
 	align-items: center;
 	gap: space(md);
@@ -411,36 +413,68 @@
 }
 
 .sequence-number {
+	position: absolute;
+	top: 0;
+	left: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 36px;
 	height: 36px;
-	border-radius: radius(full);
+	border-radius: 0;
 	color: white;
 	font-weight: font-weight(bold);
 	font-size: font-size(lg);
 	flex-shrink: 0;
+	border-bottom-right-radius: radius(md);
 
 	@include tmd-up {
-		width: 44px;
-		height: 44px;
 		font-size: font-size(xl);
 	}
 }
 
 .sequence-details {
 	@include flex-column;
+	align-items: center;
 	gap: space(xs);
 	flex: 1;
 
-	// Reorder: metadata first, then value
-	.sequence-metadata {
+	// Reorder: image first, then value, then metadata
+	.sequence-image {
 		order: 1;
 	}
 
 	.sequence-value {
 		order: 2;
+	}
+
+	.sequence-metadata {
+		order: 3;
+	}
+}
+
+.sequence-image {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+
+	@include tmd-up {
+		width: 64px;
+		height: 64px;
+	}
+
+	img,
+	.sequence-image-svg {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	.sequence-image-svg {
+		// SVG inherits color from parent div's inline style
+		fill: currentColor;
 	}
 }
 
@@ -451,6 +485,15 @@
 
 	@include tmd-up {
 		font-size: font-size(2xl);
+	}
+
+	// When image is present, make value smaller since it's supplementary
+	.sequence-item--with-image & {
+		font-size: font-size(base);
+
+		@include tmd-up {
+			font-size: font-size(lg);
+		}
 	}
 }
 
