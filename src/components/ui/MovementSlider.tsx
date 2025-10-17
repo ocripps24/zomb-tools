@@ -1,14 +1,26 @@
 import { useState, useEffect, useCallback } from "react";
 
+interface MovementSliderProps {
+	locationId: string;
+	label: string;
+	type?: string;
+	movement: number;
+	limits?: { min: number; max: number };
+	displayFormat?: "time" | "movements";
+	movementToTime: (movement: number, type?: string) => string;
+	onChange: (locationId: string, movement: number, type?: string) => void;
+}
+
 function MovementSlider({
 	locationId,
+	label,
 	type,
 	movement,
 	limits = { min: -5, max: 5 },
 	displayFormat = "time",
 	movementToTime,
 	onChange,
-}) {
+}: MovementSliderProps) {
 	const [isDragging, setIsDragging] = useState(false);
 	const [tempValue, setTempValue] = useState(movement);
 	const timeValue = movementToTime(isDragging ? tempValue : movement, type);
@@ -18,7 +30,7 @@ function MovementSlider({
 	const maxTimeValue = movementToTime(limits.max, type);
 
 	const handleSliderChange = useCallback(
-		(e) => {
+		(e: React.ChangeEvent<HTMLInputElement>) => {
 			const newValue = parseInt(e.target.value);
 			setTempValue(newValue);
 			if (!isDragging) {
@@ -49,9 +61,7 @@ function MovementSlider({
 
 	return (
 		<div className="movement-slider">
-			<span className="movement-label">
-				{type === "hour" ? "Hour" : "Minute"}:
-			</span>
+			<span className="movement-label">{label}:</span>
 			<div className="slider-container">
 				<span className="slider-value">
 					{displayFormat === "movements" ? limits.min : minTimeValue}

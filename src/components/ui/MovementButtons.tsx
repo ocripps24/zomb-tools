@@ -1,15 +1,26 @@
 import { useState, useEffect } from "react";
 
+interface MovementButtonsProps {
+	locationId: string;
+	label: string;
+	type?: string;
+	movement: number;
+	limits?: { min: number; max: number };
+	displayFormat?: "time" | "movements";
+	movementToTime: (movement: number, type?: string) => string;
+	onChange: (locationId: string, movement: number, type?: string) => void;
+}
+
 function MovementButtons({
 	locationId,
-	symbol,
-	hourMovement,
-	minuteMovement,
+	label,
+	type,
+	movement,
 	limits = { min: -5, max: 5 },
 	displayFormat = "time",
 	movementToTime,
 	onChange,
-}) {
+}: MovementButtonsProps) {
 	const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
 	useEffect(() => {
@@ -20,24 +31,27 @@ function MovementButtons({
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
+	// Get short label for mobile (first letter + colon)
+	const shortLabel = label.charAt(0).toUpperCase() + ":";
+
 	// Generate buttons for the movement range
-	const generateButtons = (currentMovement, type) => {
+	const generateButtons = () => {
 		const buttons = [];
-		for (let movement = limits.min; movement <= limits.max; movement++) {
-			const timeValue = movementToTime(movement, type);
-			const isSelected = currentMovement === movement;
+		for (let mov = limits.min; mov <= limits.max; mov++) {
+			const timeValue = movementToTime(mov, type);
+			const isSelected = movement === mov;
 
 			buttons.push(
 				<button
-					key={movement}
-					onClick={() => onChange(locationId, movement, type)}
+					key={mov}
+					onClick={() => onChange(locationId, mov, type)}
 					className={`movement-btn ${
 						isSelected ? "movement-btn--selected" : ""
 					}`}
-					title={`${movement >= 0 ? "+" : ""}${movement} = ${timeValue}`}
+					title={`${mov >= 0 ? "+" : ""}${mov} = ${timeValue}`}
 				>
 					{displayFormat === "movements"
-						? `${movement >= 0 ? "+" : ""}${movement}`
+						? `${mov >= 0 ? "+" : ""}${mov}`
 						: timeValue}
 				</button>
 			);
@@ -45,20 +59,13 @@ function MovementButtons({
 		return buttons;
 	};
 
-	// Both mobile and desktop: Show both hour and minute buttons
 	return (
 		<div className="movement-buttons">
 			<div className="movement-buttons-section">
-				<span className="movement-label">{isMobile ? "H:" : "Hour:"}</span>
-				<div className="movement-buttons-grid">
-					{generateButtons(hourMovement || 0, "hour")}
-				</div>
-			</div>
-			<div className="movement-buttons-section">
-				<span className="movement-label">{isMobile ? "M:" : "Minute:"}</span>
-				<div className="movement-buttons-grid">
-					{generateButtons(minuteMovement || 0, "minute")}
-				</div>
+				<span className="movement-label">
+					{isMobile ? shortLabel : `${label}:`}
+				</span>
+				<div className="movement-buttons-grid">{generateButtons()}</div>
 			</div>
 		</div>
 	);

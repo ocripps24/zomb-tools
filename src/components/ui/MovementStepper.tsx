@@ -1,14 +1,26 @@
 import { useState, useEffect } from "react";
 
+interface MovementStepperProps {
+	locationId: string;
+	label: string;
+	type?: string;
+	movement: number;
+	limits?: { min: number; max: number };
+	displayFormat?: "time" | "movements";
+	movementToTime: (movement: number, type?: string) => string;
+	onChange: (locationId: string, movement: number, type?: string) => void;
+}
+
 function MovementStepper({
 	locationId,
+	label,
 	type,
 	movement,
 	limits = { min: -5, max: 5 },
 	displayFormat = "time",
 	movementToTime,
 	onChange,
-}) {
+}: MovementStepperProps) {
 	const timeValue = movementToTime(movement, type);
 	const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
@@ -20,16 +32,13 @@ function MovementStepper({
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
+	// Get short label for mobile (first letter + colon)
+	const shortLabel = label.charAt(0).toUpperCase() + ":";
+
 	return (
 		<div className="movement-stepper">
 			<span className="movement-label">
-				{isMobile
-					? type === "hour"
-						? "H:"
-						: "M:"
-					: type === "hour"
-					? "Hour:"
-					: "Minute:"}
+				{isMobile ? shortLabel : `${label}:`}
 			</span>
 			<div className="stepper-controls">
 				<button

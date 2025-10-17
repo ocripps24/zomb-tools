@@ -217,18 +217,25 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 				},
 			}}
 			getProgress={(data: ScratchesData) => {
+				// Check for duplicate counts
+				const counts = data.cards
+					.filter((card) => card.count >= MIN_SCRATCHES)
+					.map((card) => card.count);
+				const hasDuplicates = counts.length !== new Set(counts).size;
+
 				const completeCards = data.cards.filter(
 					(card) => card.symbol !== "" && card.count >= MIN_SCRATCHES
 				).length;
+
 				return {
 					completed: completeCards,
 					total: 3,
-					isComplete: completeCards === 3,
+					isComplete: completeCards === 3 && !hasDuplicates,
 				};
 			}}
 			{...props}
 		>
-			{({ data, setData }) => {
+			{({ data, setData, progress }) => {
 				// Get symbols that are already assigned to cards
 				const getUsedSymbols = () => {
 					return data.cards.map((card) => card.symbol).filter((s) => s !== "");
@@ -290,21 +297,33 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 
 				// Get sorted results (smallest to largest count) as SequenceItems
 				const getSortedResults = (): SequenceItem[] => {
-					return data.cards
+					const completeCards = data.cards
 						.filter((card) => card.symbol !== "" && card.count >= MIN_SCRATCHES)
 						.sort((a, b) => a.count - b.count)
 						.map((card, index) => {
-							const symbolData = ZODIAC_SYMBOLS.find((s) => s.id === card.symbol);
+							const symbolData = ZODIAC_SYMBOLS.find(
+								(s) => s.id === card.symbol
+							);
 							return {
 								id: card.symbol,
 								order: index + 1,
-								value: symbolData?.name || card.symbol,
-								metadata: {
-									count: `${card.count} scratches`,
-								},
+								image: symbolData?.component,
 								status: "complete" as const,
 							};
 						});
+
+					// Add pending items to show 3 total positions
+					const pendingCount = 3 - completeCards.length;
+					const pendingItems: SequenceItem[] = Array.from(
+						{ length: pendingCount },
+						(_, i) => ({
+							id: `pending-${i}`,
+							order: completeCards.length + i + 1,
+							status: "pending" as const,
+						})
+					);
+
+					return [...completeCards, ...pendingItems];
 				};
 
 				const sortedResults = getSortedResults();
@@ -313,6 +332,17 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 				const isCountOutOfRange = (count: number) => {
 					return (
 						count !== 0 && (count < MIN_SCRATCHES || count > MAX_SCRATCHES)
+					);
+				};
+
+				// Check if a count is used on another card
+				const isCountDuplicate = (count: number, currentCardIndex: number) => {
+					if (count === 0) return false;
+					return data.cards.some(
+						(card, index) =>
+							index !== currentCardIndex &&
+							card.count === count &&
+							card.count >= MIN_SCRATCHES
 					);
 				};
 
@@ -340,19 +370,25 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 						{/* Scratch Cards */}
 						<div className="scratch-cards">
 							{data.cards.map((card, index) => {
-								const symbolData = ZODIAC_SYMBOLS.find((s) => s.id === card.symbol);
+								const symbolData = ZODIAC_SYMBOLS.find(
+									(s) => s.id === card.symbol
+								);
 								const SymbolComponent = symbolData?.component;
 								const hasSymbol = card.symbol !== "";
 								const hasCount = card.count >= MIN_SCRATCHES;
-								const isComplete = hasSymbol && hasCount;
 								const outOfRange = isCountOutOfRange(card.count);
+								const isDuplicate = isCountDuplicate(card.count, index);
+								const hasError = outOfRange || isDuplicate;
+								const isComplete = hasSymbol && hasCount && !hasError;
 
 								return (
 									<div
 										key={index}
 										className={`scratch-card ${
 											isComplete ? "scratch-card--complete" : ""
-										} ${hasSymbol ? "scratch-card--has-symbol" : ""}`}
+										} ${hasSymbol ? "scratch-card--has-symbol" : ""} ${
+											hasError ? "scratch-card--error" : ""
+										}`}
 									>
 										<div className="scratch-card-header">
 											<h4>Set {index + 1}</h4>
@@ -396,13 +432,20 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 																}
 																placeholder="0"
 																className={`scratch-count-input ${
-																	outOfRange ? "scratch-count-input--error" : ""
+																	outOfRange || isDuplicate
+																		? "scratch-count-input--error"
+																		: ""
 																}`}
 															/>
 															{outOfRange && (
 																<span className="error-text">
 																	Must be between {MIN_SCRATCHES}-
 																	{MAX_SCRATCHES}
+																</span>
+															)}
+															{!outOfRange && isDuplicate && (
+																<span className="error-text">
+																	This count is already used on another card
 																</span>
 															)}
 														</div>
@@ -412,13 +455,13 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 														<div className="slider-wrapper">
 															<MovementSlider
 																locationId={`card-${index}`}
-																type="count"
+																label="Scratches"
 																movement={card.count}
 																limits={{
 																	min: MIN_SCRATCHES,
 																	max: MAX_SCRATCHES,
 																}}
-																displayFormat="count"
+																displayFormat="time"
 																movementToTime={(count: number) =>
 																	count.toString()
 																}
@@ -433,13 +476,13 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 														<div className="stepper-wrapper">
 															<MovementStepper
 																locationId={`card-${index}`}
-																type="count"
+																label="Scratches"
 																movement={card.count}
 																limits={{
 																	min: MIN_SCRATCHES,
 																	max: MAX_SCRATCHES,
 																}}
-																displayFormat="count"
+																displayFormat="time"
 																movementToTime={(count: number) =>
 																	count.toString()
 																}
@@ -454,14 +497,13 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 														<div className="buttons-wrapper">
 															<MovementButtons
 																locationId={`card-${index}`}
-																symbol="count"
-																hourMovement={card.count}
-																minuteMovement={0}
+																label="Scratches"
+																movement={card.count}
 																limits={{
 																	min: MIN_SCRATCHES,
 																	max: MAX_SCRATCHES,
 																}}
-																displayFormat="count"
+																displayFormat="time"
 																movementToTime={(count: number) =>
 																	count.toString()
 																}
@@ -487,10 +529,21 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 						<ResultsDisplay
 							variant="sequence"
 							sequenceItems={sortedResults}
-							title="Telescope Solution (Smallest to Largest)"
-							description="Enter the symbols in this order into the greenhouse telescope"
-							showIncomplete={false}
+							title={
+								progress.isComplete
+									? "🎉 Telescope Solution Complete!"
+									: "🔭 Telescope Solution (Smallest to Largest)"
+							}
+							description={
+								progress.isComplete
+									? "Enter these symbols in this order into the greenhouse telescope:"
+									: "Symbols collected so far:"
+							}
+							showIncomplete={true}
+							totalExpected={3}
+							progressMode="badge"
 							colorScheme="success"
+							progress={progress}
 						/>
 					</div>
 				);

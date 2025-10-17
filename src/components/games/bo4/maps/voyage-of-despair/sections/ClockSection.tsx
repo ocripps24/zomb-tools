@@ -33,7 +33,7 @@ const MOVEMENT_LIMITS = {
 };
 
 // Convert movement to time
-const movementToTime = (movement: number, type: string) => {
+const movementToTime = (movement: number, type?: string) => {
 	if (type === "hour") {
 		// Hour dial: 0 = 12, +1 = 1, +2 = 2, ..., -1 = 11, -2 = 10
 		let hour = (12 + movement) % 12;
@@ -270,7 +270,7 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 				const handleMovementChange = (
 					locationId: string,
 					movement: number,
-					type: string
+					type?: string
 				) => {
 					const timeValue = movementToTime(movement, type);
 					if (type === "hour") {
@@ -497,6 +497,7 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 												<div className="slider-input-group">
 													<MovementSlider
 														locationId={location.id}
+														label="Hour"
 														type="hour"
 														movement={clockData.hourMovement || 0}
 														limits={
@@ -512,6 +513,7 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 													/>
 													<MovementSlider
 														locationId={location.id}
+														label="Minute"
 														type="minute"
 														movement={clockData.minuteMovement || 0}
 														limits={
@@ -532,6 +534,7 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 												<div className="stepper-input-group">
 													<MovementStepper
 														locationId={location.id}
+														label="Hour"
 														type="hour"
 														movement={clockData.hourMovement || 0}
 														limits={
@@ -547,6 +550,7 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 													/>
 													<MovementStepper
 														locationId={location.id}
+														label="Minute"
 														type="minute"
 														movement={clockData.minuteMovement || 0}
 														limits={
@@ -567,9 +571,25 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 												<div className="button-input-group">
 													<MovementButtons
 														locationId={location.id}
-														symbol={clockData.symbol}
-														hourMovement={clockData.hourMovement || 0}
-														minuteMovement={clockData.minuteMovement || 0}
+														label="Hour"
+														type="hour"
+														movement={clockData.hourMovement || 0}
+														limits={
+															clockData.symbol
+																? MOVEMENT_LIMITS[
+																		clockData.symbol as keyof typeof MOVEMENT_LIMITS
+																  ]
+																: { min: -5, max: 5 }
+														}
+														displayFormat={displayFormat}
+														movementToTime={movementToTime}
+														onChange={handleMovementChange}
+													/>
+													<MovementButtons
+														locationId={location.id}
+														label="Minute"
+														type="minute"
+														movement={clockData.minuteMovement || 0}
 														limits={
 															clockData.symbol
 																? MOVEMENT_LIMITS[
