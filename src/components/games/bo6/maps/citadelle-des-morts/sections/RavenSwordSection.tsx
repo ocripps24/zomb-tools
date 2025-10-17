@@ -7,11 +7,11 @@ import WaterSymbol from "@/assets/symbols/triangle-down.svg";
 import AirSymbol from "@/assets/symbols/triangle-up-dash.svg";
 import EarthSymbol from "@/assets/symbols/triangle-down-dash.svg";
 
-import AriesSymbol from "@/assets/symbols/aries.svg";
-import GeminiSymbol from "@/assets/symbols/gemini.svg";
-import LeoSymbol from "@/assets/symbols/leo.svg";
-import ScorpioSymbol from "@/assets/symbols/scorpio.svg";
-import PiscesSymbol from "@/assets/symbols/pisces.svg";
+import AriesSymbol from "@/assets/symbols/zodiac-aries.svg";
+import GeminiSymbol from "@/assets/symbols/zodiac-gemini.svg";
+import LeoSymbol from "@/assets/symbols/zodiac-leo.svg";
+import ScorpioSymbol from "@/assets/symbols/zodiac-scorpio.svg";
+import PiscesSymbol from "@/assets/symbols/zodiac-pisces.svg";
 
 // Antiquity data with their corresponding symbol combinations
 const ANTIQUITIES = [

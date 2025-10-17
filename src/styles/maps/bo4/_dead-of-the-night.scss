@@ -34,7 +34,7 @@
 
 			h3 {
 				margin: 0 0 space(xs) 0;
-				@include fluid-text(md, medium, 1.2);
+				@include fluid-text(lg, medium, 1.2);
 				color: var(--text-primary);
 			}
 
@@ -236,6 +236,250 @@
 	}
 }
 
+// Dead of the Night - Scratches Section
+.scratches-section {
+	display: flex;
+	flex-direction: column;
+	gap: space(xl);
+
+	.zodiac-picker-section {
+		display: flex;
+		flex-direction: column;
+		gap: space(md);
+
+		h3 {
+			margin: 0;
+			@include fluid-text(lg, medium, 1.2);
+			color: var(--text-primary);
+		}
+
+		p {
+			margin: 0;
+			@include fluid-text(sm, normal, 1.4);
+			color: var(--text-secondary);
+		}
+
+		.zodiac-picker {
+			background: var(--bg-tertiary);
+			border: 1px solid var(--border-color);
+			border-radius: radius(base);
+			padding: space(lg);
+		}
+	}
+
+	.scratch-cards {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: space(lg);
+
+		@include tmd-up {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.scratch-card {
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		transition: all 0.2s ease;
+
+		&.scratch-card--has-symbol {
+			border-color: var(--border-subtle);
+		}
+
+		&.scratch-card--complete {
+			border-color: var(--success-color);
+			box-shadow: 0 0 0 2px rgba(var(--color-success-rgb), 0.15);
+		}
+
+		.scratch-card-header {
+			padding: space(md);
+			background: var(--bg-quaternary);
+			border-bottom: 1px solid var(--border-color);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			h4 {
+				margin: 0;
+				@include fluid-text(base, medium, 1.2);
+				color: var(--text-primary);
+			}
+
+			.clear-card-btn {
+				background: transparent;
+				border: none;
+				color: var(--text-tertiary);
+				cursor: pointer;
+				@include fluid-text(xl, bold, 1);
+				padding: 0 space(sm);
+				transition: color 0.2s ease;
+
+				&:hover {
+					color: var(--danger-color);
+				}
+			}
+		}
+
+		.card-symbol {
+			padding: space(lg);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: space(sm);
+			background: var(--bg-quaternary);
+
+			svg {
+				width: 80px;
+				height: 80px;
+				color: var(--text-primary);
+			}
+
+			.symbol-name {
+				@include fluid-text(sm, medium, 1.2);
+				color: var(--text-secondary);
+			}
+		}
+
+		.card-count-input {
+			padding: space(lg);
+			display: flex;
+			flex-direction: column;
+			gap: space(md);
+
+			label {
+				@include fluid-text(sm, medium, 1.2);
+				color: var(--text-secondary);
+			}
+
+			.text-input-wrapper {
+				display: flex;
+				flex-direction: column;
+				gap: space(xs);
+
+				.scratch-count-input {
+					width: 100%;
+					padding: space(md);
+					background: transparent;
+					border: 1px solid var(--border-color);
+					border-radius: radius(sm);
+					color: var(--text-primary);
+					@include fluid-text(base, normal, 1.2);
+					text-align: center;
+					transition: border-color 0.2s ease;
+
+					&:focus {
+						outline: none;
+						border-color: var(--primary-color);
+						box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.15);
+					}
+
+					&.scratch-count-input--error {
+						border-color: var(--danger-color);
+
+						&:focus {
+							box-shadow: 0 0 0 2px rgba(var(--color-danger-rgb), 0.15);
+						}
+					}
+				}
+
+				.error-text {
+					@include fluid-text(xs, normal, 1.2);
+					color: var(--danger-color);
+				}
+			}
+
+			.slider-wrapper,
+			.stepper-wrapper,
+			.buttons-wrapper {
+				width: 100%;
+			}
+		}
+
+		.card-empty-state {
+			padding: space(xl);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 200px;
+
+			p {
+				margin: 0;
+				@include fluid-text(sm, normal, 1.2);
+				color: var(--text-tertiary);
+			}
+		}
+	}
+
+	.scratches-results {
+		display: flex;
+		flex-direction: column;
+		gap: space(lg);
+		background: var(--bg-tertiary);
+		border: 1px solid var(--success-color);
+		border-radius: radius(base);
+		padding: space(lg);
+		box-shadow: 0 0 0 2px rgba(var(--color-success-rgb), 0.15);
+
+		h3 {
+			margin: 0;
+			@include fluid-text(lg, medium, 1.2);
+			color: var(--text-primary);
+			text-align: center;
+		}
+
+		.result-sequence {
+			display: flex;
+			flex-direction: column;
+			gap: space(md);
+
+			@include tmd-up {
+				flex-direction: row;
+				justify-content: center;
+			}
+		}
+
+		.result-item {
+			display: flex;
+			align-items: center;
+			gap: space(md);
+			background: var(--bg-quaternary);
+			border: 1px solid var(--border-color);
+			border-radius: radius(base);
+			padding: space(md);
+
+			.result-symbol {
+				flex-shrink: 0;
+
+				svg {
+					width: 50px;
+					height: 50px;
+					color: var(--text-primary);
+				}
+			}
+
+			.result-info {
+				display: flex;
+				flex-direction: column;
+				gap: space(xs);
+
+				.result-name {
+					@include fluid-text(base, medium, 1.2);
+					color: var(--text-primary);
+				}
+
+				.result-count {
+					@include fluid-text(sm, normal, 1.2);
+					color: var(--text-secondary);
+				}
+			}
+		}
+	}
+}
+
 // Compact mode adjustments
 .base-section.compact {
 	.alastair-folly-section {
@@ -283,6 +527,50 @@
 
 		.helper-text {
 			padding: space(sm);
+		}
+	}
+
+	.scratches-section {
+		gap: space(md);
+
+		.scratch-cards {
+			gap: space(md);
+		}
+
+		.scratch-card {
+			.scratch-card-header {
+				padding: space(sm);
+			}
+
+			.card-symbol {
+				padding: space(md);
+
+				svg {
+					width: 60px;
+					height: 60px;
+				}
+			}
+
+			.card-count-input {
+				padding: space(sm);
+			}
+		}
+
+		.scratches-results {
+			gap: space(md);
+
+			.result-sequence {
+				gap: space(md);
+			}
+
+			.result-item {
+				padding: space(sm);
+
+				.result-symbol svg {
+					width: 40px;
+					height: 40px;
+				}
+			}
 		}
 	}
 }

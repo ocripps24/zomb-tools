@@ -119,6 +119,7 @@ export const MAP_STEPS = {
 			steps: {
 				alastairFolly: "/bo4/dead-of-the-night/alastair-folly",
 				atlas: "/bo4/dead-of-the-night/atlas",
+				scratches: "/bo4/dead-of-the-night/scratches",
 			},
 		},
 		ix: {
@@ -302,6 +303,10 @@ export const ROUTE_METADATA = {
 	[ROUTES.games.bo4.maps.classified]: {
 		title: "Classified",
 		documentTitle: "Classified Easter Eggs - COD Zombies Tools",
+	},
+	[ROUTES.games.bo4.maps.deadOfTheNight]: {
+		title: "Dead of the Night",
+		documentTitle: "Dead of the Night Easter Eggs - COD Zombies Tools",
 	},
 	[ROUTES.games.bo5.maps.mauerDerToten]: {
 		title: "Mauer der Toten",
