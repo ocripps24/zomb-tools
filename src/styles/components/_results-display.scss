@@ -193,13 +193,21 @@
 	}
 
 	&--incomplete {
-		border: 1px solid var(--border-subtle);
-		opacity: 0.6;
+		border: 2px solid var(--danger-color);
+
+		.result-number,
+		.result-label {
+			color: var(--danger-color);
+		}
 	}
 
 	&--pending {
-		border: 1px dashed var(--border-subtle);
-		opacity: 0.5;
+		border: 2px solid var(--warning-color);
+
+		.result-number,
+		.result-label {
+			color: var(--warning-color);
+		}
 	}
 
 	// Color scheme variants (applied to complete items)

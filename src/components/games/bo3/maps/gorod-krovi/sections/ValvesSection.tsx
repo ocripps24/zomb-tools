@@ -1,6 +1,6 @@
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
-import { LocationCard, ResultsDisplay } from "@/components/ui";
+import { ResultsDisplay } from "@/components/ui";
 import type { ResultItem } from "@/components/ui/ResultsDisplay";
 
 // Valve locations
@@ -262,6 +262,9 @@ const VALVE_SOLUTIONS: Record<string, Record<string, number | null>> = {
 interface ValvesData {
 	greenLight: string;
 	purpleCypher: string;
+	startingPositions: {
+		[locationId: string]: 1 | 2 | 3 | null;
+	};
 }
 
 function ValvesSection(props: BaseSectionProps<ValvesData>) {
@@ -272,6 +275,7 @@ function ValvesSection(props: BaseSectionProps<ValvesData>) {
 				defaultValue: {
 					greenLight: "",
 					purpleCypher: "",
+					startingPositions: {},
 				},
 				title: "Valves",
 				description:
@@ -282,31 +286,36 @@ function ValvesSection(props: BaseSectionProps<ValvesData>) {
 					items: [
 						{
 							label: "Steps",
-							text: "Record the locations of the Green Light and Purple Cypher. Activate the Generator at the Hatchery",
+							text: "Locate the Purple Cypher and optionally record starting postions of valves. Activate the Generator at the Hatchery to trigger the Green Light.",
 						},
 						{
-							label: "Armoury",
-							text: "Top floor - immediately to the left of the stairs",
-						},
-						{
-							label: "Infirmary",
-							text: "Middle Bunk Beds - Straight ahead when entering from Dragon Cmd.",
-						},
-						{
-							label: "Dragon Cmd",
-							text: "Balcony - right hand side",
-						},
-						{
-							label: "Dept. Store",
-							text: "Top floor - back of the room between the two stair cases",
-						},
-						{
-							label: "Supply Depot",
-							text: "Ground floor - underneath the central stair case",
-						},
-						{
-							label: "Tank Factory",
-							text: "Ground floor - straight ahead from lower entrance",
+							label: "Valve Locations",
+							nested: [
+								{
+									label: "Armoury",
+									text: "Top floor - immediately to the left of the stairs",
+								},
+								{
+									label: "Infirmary",
+									text: "Middle Bunk Beds - Straight ahead when entering from Dragon Cmd.",
+								},
+								{
+									label: "Dragon Cmd",
+									text: "Balcony - right hand side",
+								},
+								{
+									label: "Dept. Store",
+									text: "Top floor - back of the room between the two stair cases",
+								},
+								{
+									label: "Supply Depot",
+									text: "Ground floor - underneath the central stair case",
+								},
+								{
+									label: "Tank Factory",
+									text: "Ground floor - straight ahead from lower entrance",
+								},
+							],
 						},
 					],
 				},
@@ -324,17 +333,43 @@ function ValvesSection(props: BaseSectionProps<ValvesData>) {
 			{...props}
 		>
 			{({ data, setData }) => {
-				const handleGreenLightSelect = (locationId: string) => {
-					setData((prev: ValvesData) => ({
-						...prev,
-						greenLight: prev.greenLight === locationId ? "" : locationId,
-					}));
+				// Handle purple cypher/green light selection
+				const handleLocationTypeSelect = (
+					locationId: string,
+					type: "purple-cypher" | "green-light"
+				) => {
+					setData((prev: ValvesData) => {
+						if (type === "purple-cypher") {
+							// Toggle purple cypher
+							return {
+								...prev,
+								purpleCypher:
+									prev.purpleCypher === locationId ? "" : locationId,
+							};
+						} else {
+							// Toggle green light
+							return {
+								...prev,
+								greenLight: prev.greenLight === locationId ? "" : locationId,
+							};
+						}
+					});
 				};
 
-				const handlePurpleCypherSelect = (locationId: string) => {
+				// Handle starting position selection
+				const handleStartingPositionSelect = (
+					locationId: string,
+					position: 1 | 2 | 3
+				) => {
 					setData((prev: ValvesData) => ({
 						...prev,
-						purpleCypher: prev.purpleCypher === locationId ? "" : locationId,
+						startingPositions: {
+							...(prev.startingPositions || {}),
+							[locationId]:
+								prev.startingPositions?.[locationId] === position
+									? null
+									: position,
+						},
 					}));
 				};
 
@@ -349,93 +384,131 @@ function ValvesSection(props: BaseSectionProps<ValvesData>) {
 
 				const solution = getSolution();
 
-				// Build result items for ResultsDisplay
+				// Build result items for ResultsDisplay with color coding
 				const getResultItems = (): ResultItem[] => {
 					if (!solution) return [];
 
 					return VALVE_LOCATIONS.filter(
 						(location) => solution[location.id] !== null
-					).map((location) => ({
-						id: location.id,
-						value: solution[location.id]!.toString(),
-						label: location.name,
-						status: "complete" as const,
-					}));
-				};
+					).map((location) => {
+						const requiredPosition = solution[location.id]!;
+						const startingPosition = data.startingPositions?.[location.id];
 
-				// Check if a location is disabled based on current selections
-				const isLocationDisabled = (locationId: string, forCypher: boolean) => {
-					if (forCypher) {
-						// Can't select the same location as green light
-						return locationId === data.greenLight;
-					} else {
-						// Can't select the same location as purple cypher
-						return locationId === data.purpleCypher;
-					}
+						// Determine status based on position comparison
+						let status: "complete" | "incomplete" | "pending" = "pending";
+						if (startingPosition === null || startingPosition === undefined) {
+							status = "pending"; // Yellow - unknown
+						} else if (startingPosition === requiredPosition) {
+							status = "complete"; // Green - match
+						} else {
+							status = "incomplete"; // Red - mismatch
+						}
+
+						return {
+							id: location.id,
+							value: requiredPosition.toString(),
+							label: location.name,
+							status,
+							metadata: {
+								Start: startingPosition
+									? startingPosition.toString()
+									: "Unknown",
+							},
+						};
+					});
 				};
 
 				return (
 					<div className="valves-section">
-						{/* Location Selection Cards */}
-						<div className="valve-selection-grid">
-							{/* Green Light Selection */}
-							<div className="valve-selection-card">
-								<h3 className="selection-title">Green Light Location</h3>
-								<div className="location-grid">
-									{VALVE_LOCATIONS.map((location) => {
-										const disabled = isLocationDisabled(location.id, false);
-										return (
-											<LocationCard
-												key={location.id}
-												primaryText={location.name}
-												isCompleted={data.greenLight === location.id}
-												selectable={true}
-												isSelected={data.greenLight === location.id}
-												onSelect={
-													disabled
-														? undefined
-														: () => handleGreenLightSelect(location.id)
-												}
-												variant="default"
-												disabled={disabled}
-											/>
-										);
-									})}
-								</div>
-							</div>
+						{/* Unified Location Cards */}
+						<div className="valve-location-grid">
+							{VALVE_LOCATIONS.map((location) => {
+								const isPurpleCypher = data.purpleCypher === location.id;
+								const isGreenLight = data.greenLight === location.id;
+								const startingPosition = data.startingPositions?.[location.id];
 
-							{/* Purple Cypher Selection */}
-							<div className="valve-selection-card">
-								<h3 className="selection-title">Purple Cypher Location</h3>
-								<div className="location-grid">
-									{VALVE_LOCATIONS.map((location) => {
-										const disabled = isLocationDisabled(location.id, true);
-										return (
-											<LocationCard
-												key={location.id}
-												primaryText={location.name}
-												isCompleted={data.purpleCypher === location.id}
-												selectable={true}
-												isSelected={data.purpleCypher === location.id}
-												onSelect={
-													disabled
-														? undefined
-														: () => handlePurpleCypherSelect(location.id)
+								// Disable buttons based on selections
+								const purpleCypherDisabled =
+									(data.purpleCypher !== "" &&
+										data.purpleCypher !== location.id) ||
+									isGreenLight;
+								const greenLightDisabled =
+									(data.greenLight !== "" && data.greenLight !== location.id) ||
+									isPurpleCypher;
+
+								return (
+									<div key={location.id} className="valve-location-card">
+										<h4 className="valve-location-name">{location.name}</h4>
+
+										{/* Type Selection Buttons */}
+										<div className="valve-type-buttons">
+											<button
+												type="button"
+												className={`valve-type-btn ${
+													isPurpleCypher ? "valve-type-btn--selected" : ""
+												}`}
+												onClick={() =>
+													handleLocationTypeSelect(location.id, "purple-cypher")
 												}
-												variant="default"
-												disabled={disabled}
-											/>
-										);
-									})}
-								</div>
-							</div>
+												disabled={purpleCypherDisabled}
+											>
+												Purple Cypher
+											</button>
+											<button
+												type="button"
+												className={`valve-type-btn ${
+													isGreenLight ? "valve-type-btn--selected" : ""
+												}`}
+												onClick={() =>
+													handleLocationTypeSelect(location.id, "green-light")
+												}
+												disabled={greenLightDisabled}
+											>
+												Green Light
+											</button>
+										</div>
+
+										{/* Starting Position Buttons */}
+										<div className="valve-position-section">
+											<label className="valve-position-label">
+												Starting Position:
+											</label>
+											<div className="valve-position-buttons">
+												{([1, 2, 3] as const).map((position) => (
+													<button
+														key={position}
+														type="button"
+														className={`valve-position-btn ${
+															startingPosition === position
+																? "valve-position-btn--selected"
+																: ""
+														}`}
+														onClick={() =>
+															handleStartingPositionSelect(
+																location.id,
+																position
+															)
+														}
+													>
+														{position}
+													</button>
+												))}
+											</div>
+										</div>
+									</div>
+								);
+							})}
 						</div>
 
 						{/* Solution Display */}
 						<ResultsDisplay
 							variant="grid"
 							title="Valve Positions"
-							description=""
+							description={
+								solution
+									? "Required positions for each valve - Green = Already correct, Yellow = Unknown starting position, Red = Needs adjustment"
+									: ""
+							}
 							results={solution ? getResultItems() : []}
 							gridColumns={5}
 							colorScheme="success"

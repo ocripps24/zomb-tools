@@ -6,37 +6,132 @@
 
 // Valves section
 .valves-section {
-	// Valve selection grid - two columns for green light and purple canister
-	.valve-selection-grid {
-		// Mobile-first: Single column
-		@include grid(1, space(xl));
+	// Unified valve location grid
+	.valve-location-grid {
+		@include grid(1, space(lg));
 		margin-bottom: space(xl);
 
-		// Tablet and up: Two columns
-		@include tmd-up {
+		// Tablet: 2 columns
+		@include tsm-up {
 			grid-template-columns: repeat(2, 1fr);
+		}
+
+		// Desktop: 3 columns
+		@include tlg-up {
+			grid-template-columns: repeat(3, 1fr);
 		}
 	}
 
-	.valve-selection-card {
+	.valve-location-card {
 		@include flex-column;
 		gap: space(md);
+		padding: space(lg);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		background: var(--bg-tertiary);
 
-		.selection-title {
-			margin: 0 0 space(xs) 0;
+		.valve-location-name {
+			margin: 0;
 			color: var(--text-primary);
-			font-size: font-size(base);
+			font-size: font-size(lg);
 			font-weight: font-weight(semibold);
 			text-align: center;
-			padding-bottom: space(sm);
-			border-bottom: 1px solid var(--border-subtle);
 		}
 
-		.selection-description {
-			margin: 0 0 space(md) 0;
-			color: var(--text-secondary);
-			font-size: font-size(sm);
-			text-align: center;
+		// Type selection buttons (Purple Cypher / Green Light)
+		.valve-type-buttons {
+			display: flex;
+			gap: space(sm);
+			width: 100%;
+
+			.valve-type-btn {
+				flex: 1;
+				padding: space(sm) space(md);
+				border: 1px solid var(--border-subtle);
+				border-radius: radius(sm);
+				background: transparent;
+				color: var(--text-primary);
+				font-size: font-size(sm);
+				font-weight: font-weight(medium);
+				cursor: pointer;
+				transition: all 0.2s ease;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+				&:hover:not(:disabled) {
+					border-color: var(--primary-color);
+					background: var(--bg-tertiary);
+				}
+
+				// &:first-child:hover {
+				// 	border: 1px solid #9333ea;
+				// }
+
+				// Purple cypher selected state (first button)
+				&--selected:first-child {
+					border: 1px solid #9333ea;
+					background: #9333ea !important;
+					color: white;
+
+					// &:hover {
+					// 	border: 1px solid #9333ea;
+					// }
+				}
+
+				// Green light selected state (second button)
+				&--selected:last-child {
+					border: 1px solid var(--success-color);
+					background: var(--success-color) !important;
+					color: white;
+				}
+
+				&:disabled {
+					opacity: 0.5;
+					cursor: not-allowed;
+				}
+			}
+		}
+
+		// Position tracking section
+		.valve-position-section {
+			@include flex-column;
+			gap: space(sm);
+
+			.valve-position-label {
+				color: var(--text-secondary);
+				font-size: font-size(sm);
+				font-weight: font-weight(medium);
+				text-align: center;
+			}
+
+			.valve-position-buttons {
+				display: flex;
+				gap: space(sm);
+				justify-content: center;
+
+				.valve-position-btn {
+					flex: 0 1 auto;
+					min-width: 48px;
+					padding: space(sm) space(md);
+					border: 1px solid var(--border-subtle);
+					border-radius: radius(sm);
+					background: transparent;
+					color: var(--text-primary);
+					font-size: font-size(base);
+					font-weight: font-weight(semibold);
+					font-family: font-family(mono);
+					cursor: pointer;
+					box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+					transition: all 0.2s ease;
+
+					&:hover {
+						border-color: var(--text-primary);
+					}
+
+					&--selected {
+						border-color: var(--text-primary);
+					}
+				}
+			}
 		}
 	}
 
@@ -160,27 +255,34 @@
 
 // Compact mode styles for valves section
 .base-section.compact .valves-section {
-	.valve-selection-grid {
+	.valve-location-grid {
 		margin-bottom: space(md);
-		gap: space(lg);
+		gap: space(md);
 	}
 
-	.location-grid {
-		margin-top: space(md);
-		margin-bottom: space(md);
-	}
-
-	.valve-selection-card {
+	.valve-location-card {
 		gap: space(sm);
+		padding: space(md);
 
-		.selection-title {
-			margin-bottom: space(xs);
-			font-size: font-size(sm);
+		.valve-location-name {
+			font-size: font-size(base);
 		}
 
-		.selection-description {
-			margin-bottom: space(sm);
+		.valve-type-buttons .valve-type-btn {
+			padding: space(xs) space(sm);
 			font-size: font-size(xs);
+		}
+
+		.valve-position-section {
+			.valve-position-label {
+				font-size: font-size(xs);
+			}
+
+			.valve-position-buttons .valve-position-btn {
+				min-width: 40px;
+				padding: space(xs) space(sm);
+				font-size: font-size(sm);
+			}
 		}
 	}
 
