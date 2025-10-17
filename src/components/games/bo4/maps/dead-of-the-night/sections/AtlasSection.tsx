@@ -70,20 +70,16 @@ const TIPS_CONFIG = {
 	show: true,
 	items: [
 		{
-			label: "Location",
-			text: "The Atlas statue is located in the Library",
+			label: "Objective",
+			text: "Align the rings and mirrors so to focus the blue, green and red beams of light",
 		},
 		{
-			label: "Objective",
-			text: "Align the rings and mirrors so light hits all of them",
+			label: "Starting Position",
+			text: "The starting position of the rings has 6 possible configurations, choose yours to receive the inputs for the controls",
 		},
 		{
 			label: "Controls",
-			text: "Use the Left, Middle, and Right controls to adjust the ring positions. L = Left ring, M = Middle ring, R = Right ring",
-		},
-		{
-			label: "Note",
-			text: "The starting position of the rings changes each game. Select your starting configuration below to get the correct movements.",
+			text: "Use the Left, Middle, and Right control panels to adjust the ring positions",
 		},
 	],
 };

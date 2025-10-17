@@ -71,7 +71,7 @@ function CoreValue4Section(props: BaseSectionProps<CoreValue4Data>) {
 						},
 						{
 							label: "Fuse Box Puzzle",
-							text: "Each fuse box has 6 lights that change from red to green based on the Up/Down position",
+							text: "Each fuse box has 6 lights that change from red to green based on the Up/Down position. This tool will be updated to include a simpler solve using the starting sequence of Green/Red lights in a future update.",
 						},
 						{
 							label: "Objective",

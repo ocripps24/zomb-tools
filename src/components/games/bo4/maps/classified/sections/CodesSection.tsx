@@ -9,7 +9,6 @@ import {
 	DndContext,
 	closestCenter,
 	KeyboardSensor,
-	PointerSensor,
 	TouchSensor,
 	MouseSensor,
 	useSensor,
@@ -210,7 +209,8 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 								{ value: "compact", label: "Compact" },
 							],
 							note: "Compact mode reduces spacing and hides secondary information",
-							onChange: (value) => updateSetting("uiSize", value as "standard" | "compact"),
+							onChange: (value) =>
+								updateSetting("uiSize", value as "standard" | "compact"),
 						},
 					],
 				},
@@ -355,7 +355,8 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 											{getOrderedLocations().map((codeData) => {
 												const isSelected = selectedLocationId === codeData.id;
 												const isCompleted =
-													data.codes[`code${codeData.id}`]?.length === CODE_LENGTH;
+													data.codes[`code${codeData.id}`]?.length ===
+													CODE_LENGTH;
 
 												return (
 													<SortableLocationButton
@@ -402,13 +403,18 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 										? "Here are your codes in the correct sequence order:"
 										: "Codes collected so far in the correct sequence order:"
 								}
-								sequenceItems={getOrderedCodes().map((code): SequenceItem => ({
-									id: code.id.toString(),
-									order: code.order,
-									value: code.value || "----",
-									metadata: { map: code.map },
-									status: code.value && code.value.length === CODE_LENGTH ? "complete" : "pending",
-								}))}
+								sequenceItems={getOrderedCodes().map(
+									(code): SequenceItem => ({
+										id: code.id.toString(),
+										order: code.order,
+										value: code.value || "----",
+										metadata: { map: code.map },
+										status:
+											code.value && code.value.length === CODE_LENGTH
+												? "complete"
+												: "pending",
+									})
+								)}
 								showIncomplete={true}
 								totalExpected={4}
 								colorScheme="success"

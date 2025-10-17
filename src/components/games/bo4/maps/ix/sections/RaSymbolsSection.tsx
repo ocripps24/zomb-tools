@@ -89,8 +89,8 @@ function RaSymbolsSection(props: BaseSectionProps<RaSymbolsSectionData>) {
 					show: true,
 					items: [
 						{
-							label: "Symbol Location",
-							text: "The symbols appear randomly in the arena. Record them in the order you find them.",
+							label: "Steps",
+							text: "The symbols will appear on the column at the top of the Temple of Ra. Kill the special enemy types in the order corresponding to the symbols shown. ",
 						},
 					],
 				},

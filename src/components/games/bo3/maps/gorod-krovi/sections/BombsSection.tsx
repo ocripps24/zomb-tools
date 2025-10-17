@@ -14,32 +14,37 @@ const BOMB_LOCATIONS = {
 
 const TIPS = [
 	{
-		label: "Trophy Info",
-		text: "This step is represented by the Bomb trophy, second from left at the console. The screen will flash through sections of the map displaying the order",
+		label: "Steps",
+		text: "This challenge is represented by the Bomb trophy, second from left at the console. The screen will flash through sections of the map twice, record the order of locations shown during the second cycle.",
 	},
 	{
-		label: "Armoury",
-		text: "Downstairs on the way to Supply Depot",
-	},
-	{
-		label: "Supply Depot",
-		text: "Ahead and to the left of the ground-level entrance",
-	},
-	{
-		label: "Infirmary",
-		text: "Next to the lower staircase leading to the bunker",
-	},
-	{
-		label: "Tank Factory",
-		text: "Top floor - left hand room from the stairs",
-	},
-	{
-		label: "Dragon Command",
-		text: "Left hand side of the Balcony",
-	},
-	{
-		label: "Dept. Store",
-		text: "Ground floor behind the stairs",
+		label: "Locations",
+		nested: [
+			{
+				label: "Armoury",
+				text: "Downstairs on the way to Supply Depot",
+			},
+			{
+				label: "Supply Depot",
+				text: "Ahead and to the left of the ground-level entrance",
+			},
+			{
+				label: "Infirmary",
+				text: "Next to the lower staircase leading to the bunker",
+			},
+			{
+				label: "Tank Factory",
+				text: "Top floor - left hand room from the stairs",
+			},
+			{
+				label: "Dragon Command",
+				text: "Left hand side of the Balcony",
+			},
+			{
+				label: "Dept. Store",
+				text: "Ground floor behind the stairs",
+			},
+		],
 	},
 ];
 
@@ -65,10 +70,12 @@ function BombsSection(props: BaseSectionProps<BombsData>) {
 			}}
 			getProgress={(data: BombsData) => {
 				const bombCount = data.bombs?.length || 0;
+				// When 5 locations are selected, the 6th is automatically shown as final
+				const effectiveCount = bombCount === 5 ? 6 : bombCount;
 				return {
-					completed: bombCount,
+					completed: effectiveCount,
 					total: 6,
-					isComplete: bombCount === 6,
+					isComplete: effectiveCount === 6,
 				};
 			}}
 			{...props}
@@ -84,11 +91,21 @@ function BombsSection(props: BaseSectionProps<BombsData>) {
 					[setData]
 				);
 
+				// Get all available location names
+				const allLocationNames = Object.keys(BOMB_LOCATIONS);
+
+				// When 5 locations are selected, automatically show the 6th as the final location
+				const finalFixedLocation =
+					data.bombs.length === 5
+						? allLocationNames.find((loc) => !data.bombs.includes(loc))
+						: undefined;
+
 				return (
 					<OrderedLocationSection
 						locations={data.bombs}
 						locationLabels={BOMB_LOCATIONS}
 						onLocationsChange={handleLocationsChange}
+						finalFixedLocation={finalFixedLocation}
 					/>
 				);
 			}}
