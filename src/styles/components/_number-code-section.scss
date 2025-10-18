@@ -7,6 +7,9 @@
 
 .number-code-section {
 	// Uses standard section structure with section-header component
+	.movement-label {
+		display: none;
+	}
 }
 
 // Code Input sections
@@ -66,7 +69,7 @@
 .input-container {
 	// Full width for clean input styling
 	width: 100%;
-	max-width: 120px;
+	// max-width: 120px;
 	margin: 0 auto;
 }
 

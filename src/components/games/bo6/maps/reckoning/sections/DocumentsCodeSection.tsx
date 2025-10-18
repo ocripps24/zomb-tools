@@ -1,4 +1,3 @@
-import React from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import { ResultsDisplay } from "@/components/ui";
@@ -64,20 +63,41 @@ function DocumentsCodeSection(props: BaseSectionProps<DocumentsData>) {
 				storageKey: "reckoning-documents-data",
 				defaultValue: { selectedDocuments: [] },
 				title: "Documents Code",
-				description: "Select the 4 documents that are present in your game.",
-				resetButtonText: "Reset Documents"
+				description:
+					"Select the 4 documents that are present in your game. The order is always 6-1-3-4-5-2.",
+				resetButtonText: "Reset Documents",
+				tipsConfig: {
+					show: true,
+					items: [
+						{
+							label: "Order",
+							text: "The documents have a fixed order of 6-1-3-4-5-2",
+						},
+						{
+							label: "Locations",
+							nested: [
+								{
+									text: "3 documents are found in the Executive Office area with each document and thus number having a fixed spawn location",
+								},
+								{
+									text: " The final document is found in the teleportation room and can be any of the remaining numbers",
+								},
+							],
+						},
+					],
+				},
 			}}
 			getProgress={(data: DocumentsData) => {
 				const selectedCount = data.selectedDocuments?.length || 0;
 				return {
 					completed: selectedCount,
 					total: 4,
-					isComplete: selectedCount === 4
+					isComplete: selectedCount === 4,
 				};
 			}}
 			{...props}
 		>
-			{({ data, setData, progress }) => {
+			{({ data, setData }) => {
 				const handleDocumentToggle = (documentId: number) => {
 					setData((prev: DocumentsData) => {
 						const currentSelected = prev.selectedDocuments || [];
@@ -129,7 +149,9 @@ function DocumentsCodeSection(props: BaseSectionProps<DocumentsData>) {
 						{/* Document Selection Grid */}
 						<div className="documents-grid">
 							{DOCUMENTS.map((document) => {
-								const isSelected = data.selectedDocuments?.includes(document.id);
+								const isSelected = data.selectedDocuments?.includes(
+									document.id
+								);
 								const isDisabled = !isSelected && selectedCount >= 4;
 
 								return (
@@ -138,14 +160,18 @@ function DocumentsCodeSection(props: BaseSectionProps<DocumentsData>) {
 										className={`document-card ${
 											isSelected ? "document-card--selected" : ""
 										} ${isDisabled ? "document-card--disabled" : ""}`}
-										onClick={() => !isDisabled && handleDocumentToggle(document.id)}
+										onClick={() =>
+											!isDisabled && handleDocumentToggle(document.id)
+										}
 									>
 										<div className="document-number">#{document.number}</div>
 										<div className="document-info">
 											<h4 className="document-name">{document.name}</h4>
 											<p className="document-date">{document.date}</p>
 										</div>
-										<div className="document-status">{isSelected ? "✓" : "+"}</div>
+										<div className="document-status">
+											{isSelected ? "✓" : "+"}
+										</div>
 									</div>
 								);
 							})}
@@ -160,7 +186,9 @@ function DocumentsCodeSection(props: BaseSectionProps<DocumentsData>) {
 							codeNote={
 								selectedCount === 4
 									? `Enter this ${generatedCode.length}-digit code into the computer terminal in the teleportation room.`
-									: `Select ${4 - selectedCount} more document${4 - selectedCount !== 1 ? "s" : ""} to complete the code`
+									: `Select ${4 - selectedCount} more document${
+											4 - selectedCount !== 1 ? "s" : ""
+									  } to complete the code`
 							}
 							progressMode="replace"
 							progress={{

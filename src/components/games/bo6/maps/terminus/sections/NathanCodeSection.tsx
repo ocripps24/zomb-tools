@@ -56,7 +56,7 @@ function NathanCodeSection(props: BaseSectionProps<NumberCodeData>) {
 	return (
 		<NumberCodeSection
 			title="Nathan Code"
-			description="Collect three numbers from around the map to form the Nathan Code. The fields are displayed in the speedrun collection order."
+			description="Collect three numbers from around the map to form the Nathan Code."
 			locations={CODE_LOCATIONS}
 			storageKey="terminus-nathan-code-data"
 			codeFormat="concatenated"
@@ -64,6 +64,8 @@ function NathanCodeSection(props: BaseSectionProps<NumberCodeData>) {
 			resetButtonText="Reset Nathan Code"
 			finalCodeNote="Enter this code when prompted during the main quest."
 			tipsConfig={TIPS_CONFIG}
+			allowDisplayOrderToggle={true}
+			displayOrderLabel="Field Order"
 			{...props}
 		/>
 	);
