@@ -66,6 +66,7 @@ export const ROUTES = {
 			base: "/bo7",
 			maps: {
 				ashesOfTheDamned: "/bo7/ashes-of-the-damned",
+				astraMalorum: "/bo7/astra-malorum",
 			},
 		},
 	},

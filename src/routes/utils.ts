@@ -6,7 +6,7 @@
 import { ROUTES, MAP_STEPS, ROUTE_METADATA } from "./config";
 
 // Game and map type definitions
-export type GameId = "bo3" | "bo4" | "bo5" | "bo6" | "bo7";
+export type GameId = "bo1" | "bo3" | "bo4" | "bo5" | "bo6" | "bo7";
 export type MapId = string;
 export type StepId = string;
 
@@ -121,6 +121,7 @@ export const isRouteActive = (
  * Extract game ID from a route path
  */
 export const getGameIdFromPath = (path: string): GameId | null => {
+	if (path.startsWith("/bo1")) return "bo1";
 	if (path.startsWith("/bo3")) return "bo3";
 	if (path.startsWith("/bo4")) return "bo4";
 	if (path.startsWith("/bo5")) return "bo5";
@@ -172,11 +173,13 @@ export const isValidRoute = (path: string): boolean => {
 	// Check if path matches any of our defined routes
 	const allRoutes = [
 		ROUTES.home,
+		...Object.values(ROUTES.games.bo1.maps),
 		...Object.values(ROUTES.games.bo3.maps),
 		...Object.values(ROUTES.games.bo4.maps),
 		...Object.values(ROUTES.games.bo5.maps),
 		...Object.values(ROUTES.games.bo6.maps),
 		...Object.values(ROUTES.games.bo7.maps),
+		ROUTES.games.bo1.base,
 		ROUTES.games.bo3.base,
 		ROUTES.games.bo4.base,
 		ROUTES.games.bo5.base,
@@ -190,15 +193,20 @@ export const isValidRoute = (path: string): boolean => {
 /**
  * Get the navigation breadcrumb for a given path
  */
-export const getBreadcrumb = (path: string): Array<{ name: string; path: string }> => {
+export const getBreadcrumb = (
+	path: string
+): Array<{ name: string; path: string }> => {
 	const gameId = getGameIdFromPath(path);
 	const mapId = getMapIdFromPath(path);
 	const stepId = getStepIdFromPath(path);
 
-	const breadcrumb: Array<{ name: string; path: string }> = [{ name: "Home", path: ROUTES.home }];
+	const breadcrumb: Array<{ name: string; path: string }> = [
+		{ name: "Home", path: ROUTES.home },
+	];
 
 	if (gameId) {
 		const gameNames: Record<GameId, string> = {
+			bo1: "Black Ops 1",
 			bo3: "Black Ops 3",
 			bo4: "Black Ops 4",
 			bo5: "Cold War",

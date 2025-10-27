@@ -31,6 +31,20 @@ export const BO7_MAPS: BO7Map[] = [
 		// 	type: "",
 		// },
 	},
+	{
+		id: "astra-malorum",
+		name: "Astra Malorum",
+		status: "Coming Soon",
+		route: ROUTES.games.bo7.maps.astraMalorum,
+		component: null, // Add a valid component import if available
+		available: false,
+		tools: ["TBC"],
+		difficulty: "medium",
+		// guide: {
+		// 	url: "",
+		// 	type: "",
+		// },
+	},
 ];
 
 export const getBO7MapById = (mapId: string): BO7Map | null => {
