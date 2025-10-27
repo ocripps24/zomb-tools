@@ -6,6 +6,7 @@ import { GameSelection, MapSelection, NotFound } from "./components/pages";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import TermsAndConditions from "./components/pages/TermsAndConditions";
 import Roadmap from "./components/pages/Roadmap";
+import Moon from "./components/games/bo1/maps/moon/Moon";
 import GorodKrovi from "./components/games/bo3/maps/gorod-krovi/GorodKrovi";
 import ShadowsOfEvil from "./components/games/bo3/maps/shadows-of-evil/ShadowsOfEvil";
 import VoyageOfDespair from "./components/games/bo4/maps/voyage-of-despair/VoyageOfDespair";
@@ -63,7 +64,8 @@ function App() {
 
 			// Check if this is a known game/map combination
 			if (
-				(gameId === "bo3" ||
+				(gameId === "bo1" ||
+					gameId === "bo3" ||
 					gameId === "bo4" ||
 					gameId === "bo5" ||
 					gameId === "bo6" ||
@@ -81,7 +83,8 @@ function App() {
 	// Check if current route is a map page (has 3+ segments like /bo6/terminus/step)
 	const isMapPage =
 		location.pathname.split("/").filter(Boolean).length >= 2 &&
-		(location.pathname.includes("/bo3/") ||
+		(location.pathname.includes("/bo1/") ||
+			location.pathname.includes("/bo3/") ||
 			location.pathname.includes("/bo4/") ||
 			location.pathname.includes("/bo5/") ||
 			location.pathname.includes("/bo6/") ||
@@ -111,6 +114,16 @@ function App() {
 							<Route
 								path={ROUTES.termsAndConditions}
 								element={<TermsAndConditions />}
+							/>
+
+							{/* BO1 Routes */}
+							<Route
+								path={ROUTES.games.bo1.base}
+								element={<MapSelection gameId="bo1" />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.bo1.maps.moon}
+								element={<Moon />}
 							/>
 
 							{/* BO3 Routes */}

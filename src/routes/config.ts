@@ -18,6 +18,12 @@ export const ROUTES = {
 
 	// Game routes
 	games: {
+		bo1: {
+			base: "/bo1",
+			maps: {
+				moon: "/bo1/moon",
+			},
+		},
 		bo3: {
 			base: "/bo3",
 			maps: {
@@ -67,6 +73,14 @@ export const ROUTES = {
 
 // Map step routes configuration
 export const MAP_STEPS = {
+	bo1: {
+		moon: {
+			base: "/bo1/moon",
+			steps: {
+				samanthaSays: "/bo1/moon/samantha-says",
+			},
+		},
+	},
 	bo3: {
 		gorodKrovi: {
 			base: "/bo3/gorod-krovi",
@@ -190,6 +204,12 @@ export const MAP_STEPS = {
 // Route patterns for React Router (with wildcards)
 export const ROUTE_PATTERNS = {
 	games: {
+		bo1: {
+			base: "/bo1",
+			maps: {
+				moon: "/bo1/moon/*",
+			},
+		},
 		bo3: {
 			base: "/bo3",
 			maps: {
@@ -242,7 +262,7 @@ export const ROUTE_METADATA = {
 	"/": {
 		title: "COD Zombies Tools",
 		documentTitle:
-			"COD Zombies Tools - Easter Egg Solver for BO3 | BO4 | BO6 | BO7",
+			"COD Zombies Tools - Easter Egg Solver for BO1 | BO3 | BO4 | BO6 | BO7",
 	},
 	[ROUTES.roadmap]: {
 		title: "Development Roadmap",
@@ -255,6 +275,10 @@ export const ROUTE_METADATA = {
 	[ROUTES.termsAndConditions]: {
 		title: "Terms and Conditions",
 		documentTitle: "Terms and Conditions - COD Zombies Tools",
+	},
+	"/bo1": {
+		title: "Black Ops 1 - Select Map",
+		documentTitle: "BO1 Maps - COD Zombies Tools",
 	},
 	"/bo3": {
 		title: "Black Ops 3 - Select Map",
@@ -275,6 +299,10 @@ export const ROUTE_METADATA = {
 	"/bo7": {
 		title: "Black Ops 7 - Select Map",
 		documentTitle: "BO7 Maps - COD Zombies Tools",
+	},
+	[ROUTES.games.bo1.maps.moon]: {
+		title: "Moon",
+		documentTitle: "Moon Easter Eggs - COD Zombies Tools",
 	},
 	[ROUTES.games.bo3.maps.gorodKrovi]: {
 		title: "Gorod Krovi",
@@ -351,11 +379,13 @@ export type RouteMetadata = typeof ROUTE_METADATA;
 // Helper type for extracting route paths
 export type RoutePaths =
 	| typeof ROUTES.home
+	| typeof ROUTES.games.bo1.base
 	| typeof ROUTES.games.bo3.base
 	| typeof ROUTES.games.bo4.base
 	| typeof ROUTES.games.bo5.base
 	| typeof ROUTES.games.bo6.base
 	| typeof ROUTES.games.bo7.base
+	| (typeof ROUTES.games.bo1.maps)[keyof typeof ROUTES.games.bo1.maps]
 	| (typeof ROUTES.games.bo3.maps)[keyof typeof ROUTES.games.bo3.maps]
 	| (typeof ROUTES.games.bo4.maps)[keyof typeof ROUTES.games.bo4.maps]
 	| (typeof ROUTES.games.bo5.maps)[keyof typeof ROUTES.games.bo5.maps]

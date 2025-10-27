@@ -1,0 +1,292 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+.samantha-says {
+	&__terminals {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: space(md);
+		margin-bottom: space(lg);
+
+		// Tablet and up: Larger gaps
+		@include tmd-up {
+			gap: space(lg);
+			margin-bottom: space(xl);
+		}
+	}
+
+	&__terminal {
+		position: relative;
+		background: var(--bg-tertiary);
+		border: 3px solid var(--terminal-color);
+		border-radius: radius(base);
+		padding: space(lg) space(md);
+		cursor: pointer;
+		transition: all 0.2s ease;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: space(xs);
+		min-height: 80px;
+
+		// Tablet and up: More padding and larger
+		@include tmd-up {
+			padding: space(xl) space(lg);
+			gap: space(sm);
+			min-height: 100px;
+		}
+
+		&:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+		}
+
+		&:active {
+			transform: translateY(0);
+		}
+	}
+
+	&__terminal-number {
+		position: absolute;
+		top: 0;
+		right: 0;
+		background: var(--terminal-color);
+		color: var(--text-primary);
+		border-bottom-left-radius: 50%;
+		width: 20px;
+		height: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.75rem;
+		font-weight: 600;
+		transition: all 0.2s ease;
+
+		// Tablet and up: Larger badge
+		@include tlg-up {
+			width: 28px;
+			height: 28px;
+			font-size: 0.875rem;
+		}
+	}
+
+	&__terminal-name {
+		font-size: 1rem;
+		font-weight: 600;
+		color: var(--terminal-color);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+
+		@include tmd-up {
+			font-size: 1.125rem;
+		}
+	}
+}
+
+// Results display - custom terminal sequence display
+.samantha-says-results {
+	margin-top: space(xl);
+	padding: space(lg);
+	background: var(--bg-tertiary);
+	border-radius: radius(base);
+	border: 2px solid var(--border-color);
+
+	@include tmd-up {
+		padding: space(xl);
+	}
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: space(lg);
+		gap: space(md);
+
+		@include tmd-up {
+			margin-bottom: space(xl);
+		}
+	}
+
+	h3 {
+		margin: 0;
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: var(--text-primary);
+		flex: 1;
+
+		@include tmd-up {
+			font-size: 1.5rem;
+		}
+	}
+
+	&__undo {
+		display: flex;
+		align-items: center;
+		gap: space(xs);
+		padding: space(xs) space(sm);
+		background: transparent;
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		color: var(--text-secondary);
+		font-size: 0.875rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		white-space: nowrap;
+
+		@include tmd-up {
+			padding: space(sm) space(md);
+			font-size: 1rem;
+		}
+
+		svg {
+			width: 16px;
+			height: 16px;
+
+			@include tmd-up {
+				width: 18px;
+				height: 18px;
+			}
+		}
+
+		&:hover {
+			background: var(--bg-secondary);
+			border-color: var(--accent-color);
+			color: var(--accent-color);
+		}
+
+		&:active {
+			transform: scale(0.98);
+		}
+	}
+
+	&__sequence {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+		gap: space(sm);
+
+		@include tmd-up {
+			grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+			gap: space(md);
+		}
+	}
+
+	&__item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: space(sm);
+	}
+
+	.result-order {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--text-secondary);
+		text-align: center;
+	}
+
+	.result-box {
+		width: 100%;
+		background: var(--bg-tertiary);
+		border: 3px solid var(--result-color);
+		border-radius: radius(base);
+		padding: space(md);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: space(xs);
+		position: relative;
+
+		@include tmd-up {
+			padding: space(lg);
+		}
+	}
+
+	.result-number {
+		position: absolute;
+		top: 0;
+		right: 0;
+		background: var(--result-color);
+		color: var(--text-primary);
+		border-bottom-left-radius: 50%;
+		width: 20px;
+		height: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.75rem;
+		font-weight: 600;
+		transition: all 0.2s ease;
+
+		// Tablet and up: Larger badge
+		@include tlg-up {
+			width: 24px;
+			height: 24px;
+			font-size: 0.875rem;
+		}
+	}
+
+	.result-label {
+		font-size: 1rem;
+		font-weight: 600;
+		color: var(--result-color);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		// margin-top: space(md);
+
+		@include tmd-up {
+			font-size: 1.125rem;
+		}
+	}
+}
+
+// Compact mode adjustments
+.base-section.compact.samantha-says {
+	.samantha-says {
+		&__terminals {
+			gap: space(sm);
+			margin-bottom: space(md);
+
+			@include tmd-up {
+				gap: space(md);
+				margin-bottom: space(md);
+			}
+		}
+
+		&__terminal {
+			padding: space(md) space(sm);
+			min-height: 60px;
+
+			@include tmd-up {
+				padding: space(lg) space(md);
+				min-height: 80px;
+			}
+		}
+
+		&__terminal-number {
+			width: 16px;
+			height: 16px;
+			font-size: 0.625rem;
+
+			@include tlg-up {
+				width: 20px;
+				height: 20px;
+				font-size: 0.75rem;
+			}
+		}
+
+		&__terminal-name {
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+		}
+	}
+
+	.samantha-says-results {
+		margin-top: space(md);
+	}
+}

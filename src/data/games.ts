@@ -11,6 +11,15 @@ export interface Game {
 }
 
 export const GAMES: Record<string, Game> = {
+	bo1: {
+		id: "bo1",
+		name: "Black Ops 1",
+		fullName: "Call of Duty: Black Ops",
+		description: "Zombies mode speedrun tools and guides",
+		available: true,
+		releaseYear: 2010,
+		route: ROUTES.games.bo1.base,
+	},
 	bo3: {
 		id: "bo3",
 		name: "Black Ops 3",

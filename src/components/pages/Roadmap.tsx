@@ -21,6 +21,7 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 		date: "October 2025",
 		items: [
 			"Major design overhaul alongside further architectural improvements",
+			"BO1: Added Moon with a Samantha Says tool",
 			"BO3: Added Shadows of Evil and Gorod Krovi with other maps under review",
 			"BO4: Added IX and Dead of the Night (further updates planned)",
 			"BO5: Added Firebase Z and Mauer der Toten",
