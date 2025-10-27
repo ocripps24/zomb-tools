@@ -9,10 +9,131 @@
 	min-height: 100vh;
 	background: var(--bg-primary);
 	color: var(--text-primary);
+
+	// Map page backgrounds - uses map preview images as subtle backgrounds
+	&--map-page {
+		background: transparent; // Remove solid background for map pages
+
+		// Background image with opacity control
+		&::before {
+			content: "";
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: var(--bg-primary); // Solid color base
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+			z-index: -1;
+			pointer-events: none;
+		}
+
+		// Dimming overlay on top of image
+		&::after {
+			content: "";
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: var(--bg-primary);
+			opacity: 0.62; // Dims image to 8% visibility
+			z-index: 0;
+			pointer-events: none;
+		}
+
+		// Content above everything - use higher specificity
+		> .app-header,
+		> .app-main,
+		> footer {
+			position: relative;
+			z-index: 1;
+		}
+
+		// BO1 Maps
+		&[data-map="moon"]::before {
+			background-image: url("/src/assets/maps/bo1/moon-preview.jpg");
+		}
+
+		// BO3 Maps
+		&[data-map="gorod-krovi"]::before {
+			background-image: url("/src/assets/maps/bo3/gorod-krovi-preview.jpg");
+		}
+		&[data-map="shadows-of-evil"]::before {
+			background-image: url("/src/assets/maps/bo3/shadows-of-evil-preview.jpg");
+		}
+
+		// BO4 Maps
+		&[data-map="voyage-of-despair"]::before {
+			background-image: url("/src/assets/maps/bo4/voyage-of-despair-preview.jpg");
+		}
+		&[data-map="tag-der-toten"]::before {
+			background-image: url("/src/assets/maps/bo4/tag-der-toten-preview.jpg");
+		}
+		&[data-map="blood-of-the-dead"]::before {
+			background-image: url("/src/assets/maps/bo4/blood-of-the-dead-preview.jpg");
+		}
+		&[data-map="ix"]::before {
+			background-image: url("/src/assets/maps/bo4/ix-preview.jpg");
+		}
+		&[data-map="classified"]::before {
+			background-image: url("/src/assets/maps/bo4/classified-preview.jpg");
+		}
+		&[data-map="dead-of-the-night"]::before {
+			background-image: url("/src/assets/maps/bo4/dead-of-the-night-preview.jpg");
+		}
+		&[data-map="ancient-evil"]::before {
+			background-image: url("/src/assets/maps/bo4/ancient-evil-preview.jpg");
+		}
+		&[data-map="alpha-omega"]::before {
+			background-image: url("/src/assets/maps/bo4/alpha-omega-preview.jpg");
+		}
+
+		// BO5 Maps
+		&[data-map="firebase-z"]::before {
+			background-image: url("/src/assets/maps/bo5/firebase-z-preview.jpg");
+		}
+		&[data-map="mauer-der-toten"]::before {
+			background-image: url("/src/assets/maps/bo5/mauer-der-toten-preview.jpg");
+		}
+
+		// BO6 Maps
+		&[data-map="terminus"]::before {
+			background-image: url("/src/assets/maps/bo6/terminus-preview.jpg");
+		}
+		&[data-map="liberty-falls"]::before {
+			background-image: url("/src/assets/maps/bo6/liberty-falls-preview.jpg");
+		}
+		&[data-map="citadelle-des-morts"]::before {
+			background-image: url("/src/assets/maps/bo6/citadelle-des-morts-preview.jpg");
+		}
+		&[data-map="the-tomb"]::before {
+			background-image: url("/src/assets/maps/bo6/the-tomb-preview.jpg");
+		}
+		&[data-map="shattered-veil"]::before {
+			background-image: url("/src/assets/maps/bo6/shattered-veil-preview.jpg");
+		}
+		&[data-map="reckoning"]::before {
+			background-image: url("/src/assets/maps/bo6/reckoning-preview.jpg");
+		}
+
+		// BO7 Maps
+		&[data-map="ashes-of-the-damned"]::before {
+			background-image: url("/src/assets/maps/bo7/ashes-of-the-damned-preview.jpg");
+		}
+	}
 }
 
 .app-header {
 	background: transparent;
+
+	// Ensure header is clickable on map pages
+	.app--map-page & {
+		position: relative;
+		z-index: 10; // High z-index to ensure it's above overlays
+	}
 }
 
 .app-header h1 {
@@ -104,4 +225,9 @@
 .map-footer {
 	margin-top: 2rem;
 	padding-top: 1rem;
+}
+
+// Make body background transparent on map pages
+body:has(.app--map-page) {
+	background: transparent !important;
 }

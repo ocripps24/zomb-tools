@@ -90,8 +90,20 @@ function App() {
 			location.pathname.includes("/bo6/") ||
 			location.pathname.includes("/bo7/"));
 
+	// Extract map ID for background image
+	const getMapId = () => {
+		if (!isMapPage) return null;
+		const segments = location.pathname.split("/").filter(Boolean);
+		return segments[1] || null; // Second segment is the map ID (e.g., "moon", "terminus")
+	};
+
+	const mapId = getMapId();
+
 	return (
-		<div className={`app ${isMapPage ? "app--map-page" : ""}`}>
+		<div
+			className={`app ${isMapPage ? "app--map-page" : ""}`}
+			{...(mapId && { "data-map": mapId })}
+		>
 			<header className="app-header">
 				<NavBar title={getPageTitle()} />
 			</header>
