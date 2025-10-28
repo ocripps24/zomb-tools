@@ -143,6 +143,12 @@ export const MAP_STEPS = {
 				raSymbols: "/bo4/ix/ra-symbols",
 			},
 		},
+		bloodOfTheDead: {
+			base: "/bo4/blood-of-the-dead",
+			steps: {
+				powerHouse: "/bo4/blood-of-the-dead/power-house",
+			},
+		},
 	},
 	bo5: {
 		firebaseZ: {

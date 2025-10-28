@@ -48,11 +48,14 @@ export const BO4_MAPS: BO4Map[] = [
 	{
 		id: "blood-of-the-dead",
 		name: "Blood of the Dead",
-		status: "Coming November",
+		status: "Available",
 		route: ROUTES.games.bo4.maps.bloodOfTheDead,
-		component: null,
-		available: false,
-		tools: ["TBC"],
+		component: () =>
+			import(
+				"../../components/games/bo4/maps/blood-of-the-dead/BloodOfTheDead.tsx"
+			),
+		available: true,
+		tools: ["Power House"],
 		difficulty: "hard",
 	},
 	{

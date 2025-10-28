@@ -15,6 +15,7 @@ import AlphaOmega from "./components/games/bo4/maps/alpha-omega/AlphaOmega";
 import Classified from "./components/games/bo4/maps/classified/Classified";
 import DeadOfTheNight from "./components/games/bo4/maps/dead-of-the-night/DeadOfTheNight";
 import IX from "./components/games/bo4/maps/ix/IX";
+import BloodOfTheDead from "./components/games/bo4/maps/blood-of-the-dead/BloodOfTheDead";
 import FirebaseZ from "./components/games/bo5/maps/firebase-z/FirebaseZ";
 import MauerDerToten from "./components/games/bo5/maps/mauer-der-toten/MauerDerToten";
 import Terminus from "./components/games/bo6/maps/terminus/Terminus";
@@ -178,6 +179,10 @@ function App() {
 								element={<DeadOfTheNight />}
 							/>
 							<Route path={ROUTE_PATTERNS.games.bo4.maps.ix} element={<IX />} />
+							<Route
+								path={ROUTE_PATTERNS.games.bo4.maps.bloodOfTheDead}
+								element={<BloodOfTheDead />}
+							/>
 
 							{/* BO5 Routes */}
 							<Route

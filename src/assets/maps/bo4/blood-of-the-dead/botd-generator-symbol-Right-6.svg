@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44.3 88.92">
+  <g id="c" data-name="Layer 2">
+    <g id="d" data-name="Right 6">
+      <path d="M40.41,32.02H3.89s.03,11.36.76,15.06c.63,3.18,2.76,9.39,4.33,12.24,1.25,2.26,4.4,6.47,6.4,8.09,1.47,1.19,4.88,3.37,6.77,3.39s5.65-2.11,7.16-3.39c2.01-1.7,4.86-6.29,6.02-8.66,1.31-2.66,2.98-8.39,3.58-11.29.78-3.8,1.5-15.44,1.5-15.44Z" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <circle cx="3.89" cy="3.89" r="3.39" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <circle cx="40.41" cy="3.89" r="3.39" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <circle cx="22.15" cy="54.79" r="3.39" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <circle cx="22.15" cy="85.03" r="3.39" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <line x1="22.15" y1="32.02" x2="22.15" y2="7.28" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <line x1="3.89" y1="7.28" x2="3.89" y2="32.02" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <line x1="40.41" y1="7.28" x2="40.41" y2="32.02" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <line x1="22.15" y1="58.18" x2="22.15" y2="81.64" fill="none" stroke="#000" stroke-miterlimit="10"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 57.61 85.52">
+  <g id="c" data-name="Layer 2">
+    <g id="d" data-name="A">
+      <polyline points="18.71 7.95 28.88 .61 39.46 7.95" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <polyline points="18.71 77.27 29.09 84.89 39.46 77.27" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <line x1="28.88" y1=".61" x2="29.09" y2="84.89" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <circle cx="28.81" cy="41.48" r="28.31" fill="none" stroke="#000" stroke-miterlimit="10"/>
+    </g>
+  </g>
+</svg>

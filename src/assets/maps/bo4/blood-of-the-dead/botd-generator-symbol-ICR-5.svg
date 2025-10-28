@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.55 83.91">
+  <g id="c" data-name="Layer 2">
+    <g id="d" data-name="ICR 5">
+      <path d="M.53,69.86h36.52s-.03-11.36-.76-15.06c-.63-3.18-2.76-9.39-4.33-12.24-1.25-2.26-4.4-6.47-6.4-8.09-1.47-1.19-4.88-3.37-6.77-3.39s-5.65,2.11-7.16,3.39c-2.01,1.7-4.86,6.29-6.02,8.66-1.31,2.66-2.98,8.39-3.58,11.29-.78,3.8-1.5,15.44-1.5,15.44Z" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <circle cx="18.79" cy="3.89" r="3.39" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <circle cx="5.46" cy="15.41" r="3.39" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <circle cx="32.77" cy="15.41" r="3.39" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <circle cx="18.79" cy="73.25" r="3.39" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <circle cx="18.79" cy="80.02" r="3.39" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <line x1="18.79" y1="7.28" x2="18.79" y2="31.08" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <line x1="32.77" y1="18.8" x2="32.77" y2="44.2" fill="none" stroke="#000" stroke-miterlimit="10"/>
+      <line x1="5.46" y1="18.8" x2="5.61" y2="43.13" fill="none" stroke="#000" stroke-miterlimit="10"/>
+    </g>
+  </g>
+</svg>
