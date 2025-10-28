@@ -69,6 +69,10 @@ const HeroFooterGrid = () => {
 						))}
 					</ul>
 				</div>
+				<div className="hero-footer-grid__scroll">
+					<span className="hero-footer-grid__scroll-text">Scroll</span>
+					<div className="hero-footer-grid__scroll-line"></div>
+				</div>
 			</div>
 		</div>
 	);
