@@ -24,10 +24,10 @@ const HeroFooterGrid = () => {
 			<div className="hero-footer-grid__section">
 				<h3 className="hero-footer-grid__label">About</h3>
 				<div className="hero-footer-grid__content hero-footer-grid__content--about">
+					<p>Easter Egg tools for COD Zombies games.</p>
 					<p>
-						Tools to help you complete Easter Egg steps across the COD Zombies
-						franchise. This site is under active development with new maps and
-						features being added regularly.
+						This site is under active development with new maps and features
+						being added regularly. Submit feedback via the Roadmap page.
 					</p>
 					<ul className="hero-footer-grid__links">
 						<li>
@@ -41,7 +41,7 @@ const HeroFooterGrid = () => {
 
 			{/* Quick Links Section */}
 			<div className="hero-footer-grid__section">
-				<h3 className="hero-footer-grid__label">Games</h3>
+				<h3 className="hero-footer-grid__label">Featured Games</h3>
 				<div className="hero-footer-grid__content">
 					<ul className="hero-footer-grid__links">
 						{gameLinks.map((link) => (

@@ -14,7 +14,7 @@
 	z-index: 10;
 	border-top: 1px solid var(--border-color);
 
-	@include tmd-up {
+	@include tlg-up {
 		grid-template-columns: 1.2fr 0.8fr 0.8fr;
 	}
 
@@ -33,7 +33,7 @@
 		padding: space(md);
 		transform: translateY(25%);
 
-		@include tmd-up {
+		@include tlg-up {
 			grid-column: span 3;
 		}
 	}
@@ -108,7 +108,7 @@
 
 		&:nth-child(n + 2) {
 			display: none;
-			@include tmd-up {
+			@include tlg-up {
 				display: grid;
 			}
 		}
@@ -140,6 +140,10 @@
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
+
+			a {
+				font-weight: 600 !important;
+			}
 		}
 	}
 
@@ -164,7 +168,7 @@
 			transition: color var(--transition);
 			font-weight: 600;
 
-			@include tmd-up {
+			@include tlg-up {
 				font-weight: 400;
 			}
 

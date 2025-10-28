@@ -10,50 +10,63 @@ interface RoadmapEntry {
 // Roadmap data - organized chronologically (newest first)
 const ROADMAP_DATA: RoadmapEntry[] = [
 	{
+		date: "December & beyond",
+		items: [
+			"BO7: Planning to add Astra Malorum and future DLCs",
+			"BO2: Potential to add Die Rise, Buried",
+			"IW: Potential to add Attack of the Radioactive Thing",
+			"AW/WW2: I'm unfamiliar with these games but they will be reviewed in the fullness of time",
+			"Speedruns: the tools are not targeted to a specific player group, however, the UI toggles available at the bottom of each section contain: standard mode for more casual players and compact mode for speedrunners. Tools will be reviewed and refined for optimisations where possible. Feel free to provide specific feedback  via the Github issues page (link at bottom).",
+			"Content: The original purpose was just to provide solver tools but I do not rule out extending the content scope to interactive maps, full guides, etc",
+			"Devices: The site is designed for desktop but features a responsive design. Fixes and further UI improvements for smaller screens and mobile devices are planned",
+		],
+	},
+	{
 		date: "November 2025",
 		items: [
-			"BO4: Planning to add Blood of the Dead",
+			"BO4: Added Blood of the Dead",
 			"BO7: Planning to add Ashes of the Damned",
-			"Tweak some UI elements to be less bordery 🤪",
+			"UI: Planning to tweak some UI elements to be more consistent 🤪",
 		],
 	},
 	{
 		date: "October 2025",
 		items: [
-			"Major design overhaul alongside further architectural improvements",
+			"Design: Major design overhaul alongside further architectural improvements",
 			"BO1: Added Moon with a Samantha Says tool",
 			"BO3: Added Shadows of Evil and Gorod Krovi with other maps under review",
 			"BO4: Added IX and Dead of the Night (further updates planned)",
 			"BO5: Added Firebase Z and Mauer der Toten",
 			"BO6: Added The Tomb",
-			"Compact mode UI upgrades",
+			"UI: Compact mode UI upgrades",
 		],
 	},
 	{
 		date: "September 2025",
 		items: [
-			"Launched Reckoning map tools",
+			"App: Significant architecture improvements for better performance and maintainability",
 			"BO4: Added Alpha Omega, Classified",
-			"BO6: Added Liberty Falls",
+			"BO6: Added Reckoning, Liberty Falls",
 			"BO7: Added Ashes of the Damned placeholder",
-			"Various map upgrades and extensions",
+			"Misc: Various map upgrades and extensions",
 		],
 	},
 	{
 		date: "August 2025",
 		items: [
-			"Second design iteration with major architecture and component upgrades",
+			"Design: Second design iteration with major architecture and component upgrades",
 			"BO4: Added Tag der Toten",
 			"BO6: Added Citadelle des Morts, Reckoning, Shattered Veil",
-			"Improved code validation across all maps",
+			"Misc: Improved code validation across all maps",
 		],
 	},
 	{
 		date: "July 2025",
 		items: [
-			"Initial site beta with support for Voyage of Despair",
-			"Added Terminus",
-			"Architecture upgrades",
+			"Launch: beta launch of Zomb Tools",
+			"BO4: Added Voyage of Despair",
+			"BO6: Added Terminus",
+			"App: Architecture upgrades",
 		],
 	},
 ];
