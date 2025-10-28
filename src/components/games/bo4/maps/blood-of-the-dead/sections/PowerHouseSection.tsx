@@ -44,24 +44,97 @@ interface PowerHouseData {
 	selectedTVSymbols: string[];
 }
 
-const POWER_UNITS: PowerUnit[] = ["Front", "Pack", "ICR", "Box", "Left", "Right"];
+const POWER_UNITS: PowerUnit[] = [
+	"Front",
+	"Pack",
+	"ICR",
+	"Box",
+	"Left",
+	"Right",
+];
 
 const GENERATOR_SYMBOLS: GeneratorSymbol[] = [
-	{ location: "Box", id: 1, component: GenSymbolBox as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>> },
-	{ location: "Left", id: 2, component: GenSymbolLeft as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>> },
-	{ location: "Front", id: 3, component: GenSymbolFront as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>> },
-	{ location: "Pack", id: 4, component: GenSymbolPack as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>> },
-	{ location: "ICR", id: 5, component: GenSymbolICR as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>> },
-	{ location: "Right", id: 6, component: GenSymbolRight as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>> },
+	{
+		location: "Box",
+		id: 1,
+		component: GenSymbolBox as unknown as React.ComponentType<
+			React.SVGProps<SVGSVGElement>
+		>,
+	},
+	{
+		location: "Left",
+		id: 2,
+		component: GenSymbolLeft as unknown as React.ComponentType<
+			React.SVGProps<SVGSVGElement>
+		>,
+	},
+	{
+		location: "Front",
+		id: 3,
+		component: GenSymbolFront as unknown as React.ComponentType<
+			React.SVGProps<SVGSVGElement>
+		>,
+	},
+	{
+		location: "Pack",
+		id: 4,
+		component: GenSymbolPack as unknown as React.ComponentType<
+			React.SVGProps<SVGSVGElement>
+		>,
+	},
+	{
+		location: "ICR",
+		id: 5,
+		component: GenSymbolICR as unknown as React.ComponentType<
+			React.SVGProps<SVGSVGElement>
+		>,
+	},
+	{
+		location: "Right",
+		id: 6,
+		component: GenSymbolRight as unknown as React.ComponentType<
+			React.SVGProps<SVGSVGElement>
+		>,
+	},
 ];
 
 const TV_SYMBOLS: TVSymbol[] = [
-	{ id: "A", component: TVSymbolA as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>> },
-	{ id: "B", component: TVSymbolB as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>> },
-	{ id: "C", component: TVSymbolC as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>> },
-	{ id: "D", component: TVSymbolD as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>> },
-	{ id: "E", component: TVSymbolE as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>> },
-	{ id: "F", component: TVSymbolF as unknown as React.ComponentType<React.SVGProps<SVGSVGElement>> },
+	{
+		id: "A",
+		component: TVSymbolA as unknown as React.ComponentType<
+			React.SVGProps<SVGSVGElement>
+		>,
+	},
+	{
+		id: "B",
+		component: TVSymbolB as unknown as React.ComponentType<
+			React.SVGProps<SVGSVGElement>
+		>,
+	},
+	{
+		id: "C",
+		component: TVSymbolC as unknown as React.ComponentType<
+			React.SVGProps<SVGSVGElement>
+		>,
+	},
+	{
+		id: "D",
+		component: TVSymbolD as unknown as React.ComponentType<
+			React.SVGProps<SVGSVGElement>
+		>,
+	},
+	{
+		id: "E",
+		component: TVSymbolE as unknown as React.ComponentType<
+			React.SVGProps<SVGSVGElement>
+		>,
+	},
+	{
+		id: "F",
+		component: TVSymbolF as unknown as React.ComponentType<
+			React.SVGProps<SVGSVGElement>
+		>,
+	},
 ];
 
 function PowerHouseSection(props: BaseSectionProps<PowerHouseData>) {
@@ -81,19 +154,23 @@ function PowerHouseSection(props: BaseSectionProps<PowerHouseData>) {
 					items: [
 						{
 							label: "Setup",
-							text: "Get 3-digit code from Chronorium in Warden's House, enter at spiral staircase, blast red orb in Power House with shield, wait for ghost quote",
+							text: "Get 3-digit code from Chronorium in Warden's House, enter at spiral staircase, blast red orb in Power House with shield, wait for ghost quote.",
 						},
 						{
 							label: "Phase 1",
-							text: "At Building 64 generator, watch power units light up in sequence. Each round adds one unit (5 rounds total). Units can repeat.",
+							text: "At Building 64, watch power units light up in sequence. Each round adds one unit (5 rounds total). Units can repeat.",
 						},
 						{
 							label: "Phase 2",
-							text: "Note the 3 power units lit solidly (not flashing). Each has a symbol on paper - record these.",
+							text: "Note the 3 power units lit solidly (not flashing). Each corresponds to a symbol for the next phase. Collect punch card.",
 						},
 						{
 							label: "Phase 3",
-							text: "Collect punch card, insert in Model Industries terminal. Match symbols on 6 screens, select 3 that appear. In Power House, shield blast ghost at corresponding switches (ordered A-F left to right).",
+							text: "Insert punch card in Model Industries terminal. Interact with the screens showing the final generator symbols to obtain the next symbol set. In Power House, shield blast ghost at corresponding switches (ordered A-F left to right).",
+						},
+						{
+							label: "Phase 4",
+							text: "In Power House, shield blast ghost at the switches corresponding to your final symbol set (ordered A-F left to right).",
 						},
 					],
 				},
@@ -115,7 +192,9 @@ function PowerHouseSection(props: BaseSectionProps<PowerHouseData>) {
 				<>
 					{/* Phase 1: Simon Says */}
 					<div className="power-house-phase">
-						<h3 className="power-house-phase__title">Phase 1: Simon Says Sequence</h3>
+						<h3 className="power-house-phase__title">
+							Phase 1: Simon Says Sequence
+						</h3>
 						<p className="power-house-phase__description">
 							Click the power units in the order they light up (5 rounds total)
 						</p>
@@ -172,7 +251,9 @@ function PowerHouseSection(props: BaseSectionProps<PowerHouseData>) {
 
 					{/* Phase 2: Generator Symbols */}
 					<div className="power-house-phase">
-						<h3 className="power-house-phase__title">Phase 2: Generator Symbols</h3>
+						<h3 className="power-house-phase__title">
+							Phase 2: Generator Symbols
+						</h3>
 						<p className="power-house-phase__description">
 							Select the 3 power units that are lit solidly (not flashing)
 						</p>
@@ -180,12 +261,15 @@ function PowerHouseSection(props: BaseSectionProps<PowerHouseData>) {
 						<div className="power-unit-grid">
 							{POWER_UNITS.map((unit) => {
 								const isSelected = data.selectedPowerUnits.includes(unit);
-								const canSelect = data.selectedPowerUnits.length < 3 || isSelected;
+								const canSelect =
+									data.selectedPowerUnits.length < 3 || isSelected;
 
 								return (
 									<button
 										key={unit}
-										className={`power-unit-button ${isSelected ? "power-unit-button--selected" : ""} ${!canSelect ? "power-unit-button--disabled" : ""}`}
+										className={`power-unit-button ${
+											isSelected ? "power-unit-button--selected" : ""
+										} ${!canSelect ? "power-unit-button--disabled" : ""}`}
 										onClick={() => {
 											if (isSelected) {
 												setData({
@@ -197,7 +281,10 @@ function PowerHouseSection(props: BaseSectionProps<PowerHouseData>) {
 											} else if (canSelect) {
 												setData({
 													...data,
-													selectedPowerUnits: [...data.selectedPowerUnits, unit],
+													selectedPowerUnits: [
+														...data.selectedPowerUnits,
+														unit,
+													],
 												});
 											}
 										}}
@@ -214,13 +301,17 @@ function PowerHouseSection(props: BaseSectionProps<PowerHouseData>) {
 								<h4>Generator Symbols</h4>
 								<div className="generator-symbols-grid">
 									{data.selectedPowerUnits.map((unit) => {
-										const symbol = GENERATOR_SYMBOLS.find((s) => s.location === unit);
+										const symbol = GENERATOR_SYMBOLS.find(
+											(s) => s.location === unit
+										);
 										if (!symbol) return null;
 										const SymbolComponent = symbol.component;
 
 										return (
 											<div key={unit} className="generator-symbol-item">
-												<div className="generator-symbol-number">{symbol.id}</div>
+												<div className="generator-symbol-number">
+													{symbol.id}
+												</div>
 												<SymbolComponent className="generator-symbol-svg" />
 												<div className="generator-symbol-label">{unit}</div>
 											</div>
@@ -241,13 +332,16 @@ function PowerHouseSection(props: BaseSectionProps<PowerHouseData>) {
 						<div className="tv-symbols-grid">
 							{TV_SYMBOLS.map((symbol) => {
 								const isSelected = data.selectedTVSymbols.includes(symbol.id);
-								const canSelect = data.selectedTVSymbols.length < 3 || isSelected;
+								const canSelect =
+									data.selectedTVSymbols.length < 3 || isSelected;
 								const SymbolComponent = symbol.component;
 
 								return (
 									<button
 										key={symbol.id}
-										className={`tv-symbol-button ${isSelected ? "tv-symbol-button--selected" : ""} ${!canSelect ? "tv-symbol-button--disabled" : ""}`}
+										className={`tv-symbol-button ${
+											isSelected ? "tv-symbol-button--selected" : ""
+										} ${!canSelect ? "tv-symbol-button--disabled" : ""}`}
 										onClick={() => {
 											if (isSelected) {
 												setData({
@@ -259,7 +353,10 @@ function PowerHouseSection(props: BaseSectionProps<PowerHouseData>) {
 											} else if (canSelect) {
 												setData({
 													...data,
-													selectedTVSymbols: [...data.selectedTVSymbols, symbol.id],
+													selectedTVSymbols: [
+														...data.selectedTVSymbols,
+														symbol.id,
+													],
 												});
 											}
 										}}
@@ -290,7 +387,9 @@ function PowerHouseSection(props: BaseSectionProps<PowerHouseData>) {
 									})}
 								</div>
 								<p className="power-house-instruction">
-									Shoot the ghost at switches {[...data.selectedTVSymbols].sort().join(", ")} (left to right: A-F)
+									Shoot the ghost at switches{" "}
+									{[...data.selectedTVSymbols].sort().join(", ")} (left to
+									right: A-F)
 								</p>
 							</div>
 						)}

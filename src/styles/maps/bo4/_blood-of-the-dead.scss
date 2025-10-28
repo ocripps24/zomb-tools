@@ -2,405 +2,267 @@
 @use "../../abstracts/functions" as *;
 @use "../../abstracts/mixins" as *;
 
-.power-house-phase {
-	margin-bottom: space(2xl);
+.power-house {
+	.power-house-phase {
+		margin-bottom: space(2xl);
 
-	&:last-of-type {
-		margin-bottom: space(xl);
-	}
+		&:last-of-type {
+			margin-bottom: space(xl);
+		}
 
-	&__title {
-		margin: 0 0 space(sm) 0;
-		font-size: 1.25rem;
-		font-weight: 600;
-		color: var(--text-primary);
+		&__title {
+			margin: 0 0 space(sm) 0;
+			font-size: 1.25rem;
+			font-weight: 600;
+			color: var(--text-primary);
 
-		@include tmd-up {
-			font-size: 1.5rem;
+			@include tmd-up {
+				font-size: 1.5rem;
+			}
+		}
+
+		&__description {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-secondary);
+			font-size: 0.9375rem;
+		}
+
+		&__controls {
+			display: flex;
+			flex-direction: column;
+			gap: space(md);
+		}
+
+		&__instruction {
+			margin-top: space(md);
+			padding: space(md);
+			background: var(--bg-secondary);
+			border-radius: radius(base);
+			border-left: 3px solid var(--accent-color);
+			color: var(--text-primary);
+			font-weight: 500;
 		}
 	}
 
-	&__description {
-		margin: 0 0 space(lg) 0;
-		color: var(--text-secondary);
-		font-size: 0.9375rem;
+	// Power Unit Grid (Phase 1 & 2)
+	.power-unit-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: space(md);
+
+		@include tmd-up {
+			grid-template-columns: repeat(6, 1fr);
+			gap: space(lg);
+		}
 	}
 
-	&__controls {
+	.power-unit-button {
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		padding: space(lg) space(md);
+		color: var(--text-primary);
+		font-size: 0.9375rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.2s ease;
+
+		@include tmd-up {
+			padding: space(lg);
+			font-size: 1rem;
+		}
+
+		&:hover:not(:disabled) {
+			border-color: var(--accent-color);
+			transform: translateY(-2px);
+		}
+
+		&:active:not(:disabled) {
+			transform: translateY(0);
+		}
+
+		&--selected {
+			border-color: var(--success-color);
+			background: rgba(var(--success-color-rgb, 34, 197, 94), 0.1);
+		}
+
+		&--disabled {
+			opacity: 0.4;
+			cursor: not-allowed;
+		}
+
+		&:disabled {
+			cursor: not-allowed;
+		}
+	}
+
+	// Undo Button
+	.power-house-undo {
+		padding: space(xs) space(md);
+		background: transparent;
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		color: var(--text-secondary);
+		font-size: 0.875rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		white-space: nowrap;
+
+		&:hover {
+			background: var(--bg-secondary);
+			border-color: var(--accent-color);
+			color: var(--accent-color);
+		}
+
+		&:active {
+			transform: scale(0.98);
+		}
+	}
+
+	// Results Section
+	.power-house-results {
+		margin-top: space(xl);
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border-radius: radius(base);
+		border: 2px solid var(--border-color);
+
+		@include tmd-up {
+			padding: space(xl);
+		}
+
+		&__header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: space(lg);
+			gap: space(md);
+		}
+
+		h4 {
+			margin: 0;
+			font-size: 1.125rem;
+			font-weight: 600;
+			color: var(--text-primary);
+		}
+	}
+
+	// Simon Says Sequence Display
+	.power-house-sequence {
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		gap: space(md);
+
+		@include tmd-up {
+			gap: space(lg);
+		}
+	}
+
+	.power-house-sequence-item {
+		position: relative;
 		display: flex;
 		flex-direction: column;
-		gap: space(md);
-	}
-
-	&__instruction {
-		margin-top: space(md);
-		padding: space(md);
-		background: var(--bg-secondary);
-		border-radius: radius(base);
-		border-left: 3px solid var(--accent-color);
-		color: var(--text-primary);
-		font-weight: 500;
-	}
-}
-
-// Power Unit Grid (Phase 1 & 2)
-.power-unit-grid {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: space(md);
-
-	@include tmd-up {
-		grid-template-columns: repeat(6, 1fr);
-		gap: space(lg);
-	}
-}
-
-.power-unit-button {
-	background: var(--bg-tertiary);
-	border: 2px solid var(--border-color);
-	border-radius: radius(base);
-	padding: space(lg) space(md);
-	color: var(--text-primary);
-	font-size: 0.9375rem;
-	font-weight: 600;
-	cursor: pointer;
-	transition: all 0.2s ease;
-
-	@include tmd-up {
-		padding: space(xl) space(lg);
-		font-size: 1rem;
-	}
-
-	&:hover:not(:disabled) {
-		border-color: var(--accent-color);
-		transform: translateY(-2px);
-	}
-
-	&:active:not(:disabled) {
-		transform: translateY(0);
-	}
-
-	&--selected {
-		border-color: var(--success-color);
-		background: rgba(var(--success-color-rgb, 34, 197, 94), 0.1);
-	}
-
-	&--disabled {
-		opacity: 0.4;
-		cursor: not-allowed;
-	}
-
-	&:disabled {
-		cursor: not-allowed;
-	}
-}
-
-// Undo Button
-.power-house-undo {
-	padding: space(xs) space(md);
-	background: transparent;
-	border: 1px solid var(--border-color);
-	border-radius: radius(base);
-	color: var(--text-secondary);
-	font-size: 0.875rem;
-	font-weight: 500;
-	cursor: pointer;
-	transition: all 0.2s ease;
-	white-space: nowrap;
-
-	&:hover {
-		background: var(--bg-secondary);
-		border-color: var(--accent-color);
-		color: var(--accent-color);
-	}
-
-	&:active {
-		transform: scale(0.98);
-	}
-}
-
-// Results Section
-.power-house-results {
-	margin-top: space(xl);
-	padding: space(lg);
-	background: var(--bg-tertiary);
-	border-radius: radius(base);
-	border: 2px solid var(--border-color);
-
-	@include tmd-up {
-		padding: space(xl);
-	}
-
-	&__header {
-		display: flex;
-		justify-content: space-between;
 		align-items: center;
-		margin-bottom: space(lg);
-		gap: space(md);
-	}
-
-	h4 {
-		margin: 0;
-		font-size: 1.125rem;
-		font-weight: 600;
-		color: var(--text-primary);
-	}
-}
-
-// Simon Says Sequence Display
-.power-house-sequence {
-	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	gap: space(md);
-
-	@include tmd-up {
-		gap: space(lg);
-	}
-}
-
-.power-house-sequence-item {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: space(xs);
-	padding: space(md);
-	background: transparent;
-	border-radius: radius(base);
-	border: 1px solid var(--border-color);
-
-	@include tmd-up {
-		padding: space(lg);
-	}
-
-	.sequence-number {
-		font-size: 0.75rem;
-		font-weight: 600;
-		color: var(--text-secondary);
-	}
-
-	.sequence-unit {
-		font-size: 1rem;
-		font-weight: 600;
-		color: var(--text-primary);
+		gap: space(xs);
+		padding: space(md);
+		background: transparent;
+		border-radius: radius(base);
+		border: 1px solid var(--border-color);
+		overflow: hidden;
 
 		@include tmd-up {
-			font-size: 1.125rem;
+			padding: space(lg);
 		}
-	}
-}
 
-// Generator Symbols Grid
-.generator-symbols-grid {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: space(md);
-
-	@include tmd-up {
-		gap: space(lg);
-	}
-}
-
-.generator-symbol-item {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: space(sm);
-	padding: space(lg);
-	background: transparent;
-	border-radius: radius(base);
-	border: 2px solid var(--success-color);
-
-	@include tmd-up {
-		padding: space(xl);
-	}
-}
-
-.generator-symbol-number {
-	position: absolute;
-	top: space(xs);
-	right: space(xs);
-	background: var(--success-color);
-	color: var(--bg-primary);
-	border-radius: 50%;
-	width: 24px;
-	height: 24px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 0.75rem;
-	font-weight: 700;
-
-	@include tmd-up {
-		width: 28px;
-		height: 28px;
-		font-size: 0.875rem;
-	}
-}
-
-.generator-symbol-svg {
-	width: 100%;
-	height: auto;
-	max-width: 80px;
-	max-height: 80px;
-
-	@include tmd-up {
-		max-width: 100px;
-		max-height: 100px;
-	}
-
-	* {
-		fill: none;
-		stroke: var(--success-color);
-	}
-}
-
-.generator-symbol-label {
-	font-size: 0.875rem;
-	font-weight: 600;
-	color: var(--text-secondary);
-	text-transform: uppercase;
-
-	@include tmd-up {
-		font-size: 1rem;
-	}
-}
-
-// TV Symbols Grid
-.tv-symbols-grid {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: space(md);
-
-	@include tmd-up {
-		grid-template-columns: repeat(6, 1fr);
-		gap: space(lg);
-	}
-}
-
-.tv-symbol-button {
-	position: relative;
-	background: var(--bg-tertiary);
-	border: 2px solid var(--border-color);
-	border-radius: radius(base);
-	padding: space(lg);
-	cursor: pointer;
-	transition: all 0.2s ease;
-	aspect-ratio: 1;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-
-	@include tmd-up {
-		padding: space(xl);
-	}
-
-	&:hover:not(:disabled) {
-		border-color: var(--accent-color);
-		transform: translateY(-2px);
-	}
-
-	&:active:not(:disabled) {
-		transform: translateY(0);
-	}
-
-	&--selected {
-		border-color: var(--success-color);
-		background: rgba(var(--success-color-rgb, 34, 197, 94), 0.1);
-
-		.tv-symbol-id {
-			background: var(--success-color);
+		.sequence-number {
+			position: absolute;
+			top: 0;
+			right: 0;
+			background: var(--accent-color);
 			color: var(--bg-primary);
+			border-bottom-left-radius: 50%;
+			width: 20px;
+			height: 20px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 0.75rem;
+			font-weight: 600;
+			transition: all 0.2s ease;
+
+			@include tlg-up {
+				width: 28px;
+				height: 28px;
+				font-size: 0.875rem;
+			}
+		}
+
+		.sequence-unit {
+			font-size: 1rem;
+			font-weight: 600;
+			color: var(--text-primary);
+
+			@include tmd-up {
+				font-size: 1.125rem;
+			}
 		}
 	}
 
-	&--disabled {
-		opacity: 0.4;
-		cursor: not-allowed;
+	// Generator Symbols Grid
+	.generator-symbols-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: space(md);
+		margin-top: space(md);
+
+		@include tmd-up {
+			gap: space(lg);
+		}
 	}
 
-	&:disabled {
-		cursor: not-allowed;
-	}
-}
+	.generator-symbol-item {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: space(sm);
+		padding: space(lg);
+		background: transparent;
+		border-radius: radius(base);
+		border: 2px solid var(--success-color);
 
-.tv-symbol-id {
-	position: absolute;
-	top: space(xs);
-	right: space(xs);
-	background: var(--bg-secondary);
-	color: var(--text-primary);
-	border-radius: 50%;
-	width: 24px;
-	height: 24px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 0.75rem;
-	font-weight: 700;
-	border: 1px solid var(--border-color);
-	transition: all 0.2s ease;
-
-	@include tmd-up {
-		width: 28px;
-		height: 28px;
-		font-size: 0.875rem;
-	}
-}
-
-.tv-symbol-svg {
-	width: 100%;
-	height: auto;
-	max-width: 60px;
-	max-height: 60px;
-
-	@include tmd-up {
-		max-width: 80px;
-		max-height: 80px;
+		@include tmd-up {
+			padding: space(xl);
+		}
 	}
 
-	* {
-		fill: none;
-		stroke: var(--text-primary);
-	}
-}
-
-// TV Symbols Result Display
-.tv-symbols-result {
-	display: flex;
-	gap: space(lg);
-	justify-content: center;
-	margin-bottom: space(lg);
-
-	@include tmd-up {
-		gap: space(xl);
-	}
-}
-
-.tv-symbol-result-item {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: space(lg);
-	background: transparent;
-	border-radius: radius(base);
-	border: 2px solid var(--success-color);
-
-	@include tmd-up {
-		padding: space(xl);
-	}
-
-	.tv-symbol-id {
+	.generator-symbol-number {
 		position: absolute;
-		top: space(xs);
-		right: space(xs);
+		top: 0;
+		right: 0;
 		background: var(--success-color);
-		color: var(--bg-primary);
+		color: var(--text-primary);
+		border-bottom-left-radius: 50%;
+		width: 20px;
+		height: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.75rem;
+		font-weight: 600;
+		transition: all 0.2s ease;
+
+		@include tlg-up {
+			width: 28px;
+			height: 28px;
+			font-size: 0.875rem;
+		}
 	}
 
-	.tv-symbol-svg {
+	.generator-symbol-svg {
+		width: 100%;
+		height: auto;
 		max-width: 80px;
 		max-height: 80px;
 
@@ -412,6 +274,170 @@
 		* {
 			fill: none;
 			stroke: var(--success-color);
+		}
+	}
+
+	.generator-symbol-label {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--text-secondary);
+		text-transform: uppercase;
+
+		@include tmd-up {
+			font-size: 1rem;
+		}
+	}
+
+	// TV Symbols Grid
+	.tv-symbols-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: space(md);
+
+		@include tmd-up {
+			grid-template-columns: repeat(6, 1fr);
+			gap: space(lg);
+		}
+	}
+
+	.tv-symbol-button {
+		position: relative;
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		padding: space(lg);
+		cursor: pointer;
+		transition: all 0.2s ease;
+		aspect-ratio: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+
+		@include tmd-up {
+			padding: space(xl);
+		}
+
+		&:hover:not(:disabled) {
+			border-color: var(--accent-color);
+			transform: translateY(-2px);
+		}
+
+		&:active:not(:disabled) {
+			transform: translateY(0);
+		}
+
+		&--selected {
+			border-color: var(--success-color);
+			background: rgba(var(--success-color-rgb, 34, 197, 94), 0.1);
+
+			.tv-symbol-id {
+				background: var(--success-color);
+				color: var(--text-primary);
+			}
+		}
+
+		&--disabled {
+			opacity: 0.4;
+			cursor: not-allowed;
+
+			.tv-symbol-id {
+				display: none;
+			}
+		}
+
+		&:disabled {
+			cursor: not-allowed;
+		}
+	}
+
+	.tv-symbol-id {
+		position: absolute;
+		top: 0;
+		right: 0;
+		background: var(--accent-color);
+		color: var(--bg-primary);
+		border-bottom-left-radius: 50%;
+		width: 20px;
+		height: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.75rem;
+		font-weight: 600;
+		transition: all 0.2s ease;
+
+		@include tlg-up {
+			width: 28px;
+			height: 28px;
+			font-size: 0.875rem;
+		}
+	}
+
+	.tv-symbol-svg {
+		width: 100%;
+		height: auto;
+		max-width: 60px;
+		max-height: 60px;
+
+		@include tmd-up {
+			max-width: 80px;
+			max-height: 80px;
+		}
+
+		* {
+			fill: none;
+			stroke: var(--text-primary);
+		}
+	}
+
+	// TV Symbols Result Display
+	.tv-symbols-result {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: space(md);
+		margin: space(md) 0;
+
+		@include tmd-up {
+			gap: space(lg);
+		}
+	}
+
+	.tv-symbol-result-item {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: space(lg);
+		background: transparent;
+		border-radius: radius(base);
+		border: 2px solid var(--success-color);
+
+		@include tmd-up {
+			padding: space(xl);
+		}
+
+		.tv-symbol-id {
+			top: 0;
+			right: 0;
+			background: var(--success-color);
+			color: var(--bg-primary);
+		}
+
+		.tv-symbol-svg {
+			max-width: 80px;
+			max-height: 80px;
+
+			@include tmd-up {
+				max-width: 100px;
+				max-height: 100px;
+			}
+
+			* {
+				fill: none;
+				stroke: var(--success-color);
+			}
 		}
 	}
 }

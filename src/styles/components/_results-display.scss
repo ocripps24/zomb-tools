@@ -423,7 +423,7 @@
 .sequence-number {
 	position: absolute;
 	top: 0;
-	left: 0;
+	right: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -434,7 +434,7 @@
 	font-weight: font-weight(bold);
 	font-size: font-size(lg);
 	flex-shrink: 0;
-	border-bottom-right-radius: radius(md);
+	border-bottom-left-radius: radius(md);
 
 	@include tmd-up {
 		font-size: font-size(xl);
