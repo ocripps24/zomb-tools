@@ -1,6 +1,7 @@
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import ResultsDisplay from "@/components/ui/ResultsDisplay";
+import { createUiSizeSetting } from "@/utils/settingsHelpers";
 
 // Import pig-pen symbols for first letters
 import PigPenF from "@/assets/symbols/pig-pen/pig-pen-f.svg";
@@ -69,6 +70,8 @@ const PARTS = [
 ];
 
 function SerumSection(props: BaseSectionProps<SerumData>) {
+	const uiSizeSetting = createUiSizeSetting();
+
 	return (
 		<BaseSection
 			config={{
@@ -98,7 +101,10 @@ function SerumSection(props: BaseSectionProps<SerumData>) {
 						},
 					],
 				},
-				hasCompactMode: true,
+				settingsConfig: {
+					show: true,
+					settings: [uiSizeSetting],
+				},
 			}}
 			getProgress={(data: SerumData) => ({
 				completed: data.selectedParts.length,
@@ -117,7 +123,7 @@ function SerumSection(props: BaseSectionProps<SerumData>) {
 						setData({
 							selectedParts: data.selectedParts.slice(0, index),
 						});
-					} else if (data.selectedParts.length < 5) {
+					} else if (data.selectedParts.length < 3) {
 						// Add this part to the selection
 						setData({
 							selectedParts: [...data.selectedParts, partId],
@@ -138,7 +144,7 @@ function SerumSection(props: BaseSectionProps<SerumData>) {
 									const SymbolComponent = part.symbol;
 									const selectionOrder = getPartSelectionOrder(part.id);
 									const isSelected = selectionOrder !== null;
-									const canSelect = data.selectedParts.length < 5 || isSelected;
+									const canSelect = data.selectedParts.length < 3 || isSelected;
 
 									return (
 										<button
@@ -173,14 +179,17 @@ function SerumSection(props: BaseSectionProps<SerumData>) {
 							<ResultsDisplay
 								variant="sequence"
 								showIncomplete={true}
-								totalExpected={5}
-								results={data.selectedParts.map((partId, index) => {
+								totalExpected={3}
+								sequenceItems={data.selectedParts.map((partId, index) => {
 									const part = PARTS.find((p) => p.id === partId);
 									return {
 										id: partId,
+										order: index + 1,
 										value: part?.name || "",
-										label: `${index + 1}. ${part?.codename}`,
 										image: part?.image,
+										metadata: {
+											codename: part?.codename || "",
+										},
 									};
 								})}
 							/>
