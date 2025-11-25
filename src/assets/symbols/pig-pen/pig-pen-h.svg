@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 309.13 303.65">
   <g id="c" data-name="Layer 1">
-    <polyline id="d" data-name="pig-pen-h" points="299.13 303.65 299.13 10 10 10 10 303.65" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="20"/>
+    <polyline id="d" data-name="pig-pen-h" points="299.13 303.65 299.13 10 10 10 10 303.65" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="20"/>
   </g>
 </svg>

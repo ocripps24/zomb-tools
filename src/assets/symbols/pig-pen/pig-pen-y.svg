@@ -2,8 +2,8 @@
 <svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 302.39 301">
   <g id="c" data-name="Layer 1">
     <g id="d" data-name="pig-pen-y">
-      <polyline points="298.05 291.99 4.4 150.48 292.97 8.98" fill="none" stroke="#000" stroke-linejoin="bevel" stroke-width="20"/>
-      <circle cx="161.41" cy="150.48" r="35"/>
+      <polyline points="298.05 291.99 4.4 150.48 292.97 8.98" fill="none" stroke="currentColor" stroke-linejoin="bevel" stroke-width="20"/>
+      <circle cx="161.41" cy="150.48" r="35" fill="currentColor"/>
     </g>
   </g>
 </svg>

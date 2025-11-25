@@ -2,8 +2,8 @@
 <svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 313.65 309.13">
   <g id="c" data-name="Layer 1">
     <g id="d" data-name="pig-pen-n">
-      <rect x="10" y="10" width="293.65" height="289.13" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="20"/>
-      <circle cx="158.23" cy="154.56" r="36.57"/>
+      <rect x="10" y="10" width="293.65" height="289.13" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="20"/>
+      <circle cx="158.23" cy="154.56" r="36.57" fill="currentColor"/>
     </g>
   </g>
 </svg>
