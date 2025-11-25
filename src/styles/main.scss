@@ -29,6 +29,7 @@
 @use "components/selection-cards";
 @use "components/location-card";
 @use "components/symbol-picker";
+@use "components/multi-select-symbol-picker";
 @use "components/number-code-section";
 @use "components/number-pad";
 @use "components/results-display";
@@ -76,6 +77,7 @@
 @use "maps/bo6/liberty-falls";
 @use "maps/bo6/citadelle-des-morts";
 @use "maps/bo6/the-tomb";
+@use "maps/bo7/ashes-of-the-damned";
 
 html,
 body {

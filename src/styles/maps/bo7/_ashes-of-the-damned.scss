@@ -1,0 +1,559 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+// ============================================================================
+// Serum Section
+// ============================================================================
+
+.serum-section {
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr); // Mobile: 2 columns
+		gap: space(sm);
+		margin-bottom: space(lg);
+
+		// Phone md and up: 5 columns
+		@include pmd-up {
+			grid-template-columns: repeat(5, 1fr);
+		}
+
+		// Tablet and up: Better spacing
+		@include tmd-up {
+			gap: space(md);
+			margin-bottom: space(xl);
+		}
+	}
+
+	&__part {
+		position: relative;
+		background: transparent;
+		border: 2px solid var(--border-color);
+		border-radius: radius(base);
+		padding: space(sm);
+		cursor: pointer;
+		transition: all 0.2s ease;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: space(xs);
+
+		// Mobile: 5th item spans 2 columns (to center odd item in 2-column layout)
+		&:nth-child(5) {
+			grid-column: span 2;
+
+			// Reset span on larger screens
+			@include pmd-up {
+				grid-column: auto;
+			}
+		}
+
+		@include tmd-up {
+			padding: space(md);
+			gap: space(sm);
+		}
+
+		&:hover:not(&--disabled) {
+			border-color: var(--accent-color);
+			transform: translateY(-2px);
+		}
+
+		&--selected {
+			border-color: var(--accent-color) !important;
+			background: rgba(var(--accent-color-rgb), 0.1);
+
+			.serum-section__part-order {
+				background: var(--accent-color);
+				color: var(--bg-primary);
+			}
+		}
+
+		&--disabled {
+			opacity: 0.4;
+			cursor: not-allowed;
+		}
+	}
+
+	&__part-order {
+		position: absolute;
+		top: 0;
+		right: 0;
+		border: 1px solid var(--border-primary);
+		border-bottom-left-radius: 50%;
+		width: 24px;
+		height: 24px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--text-primary);
+		transition: all 0.2s ease;
+
+		@include tlg-up {
+			width: 32px;
+			height: 32px;
+			font-size: 1rem;
+		}
+	}
+
+	&__symbol-wrapper {
+		width: 100%;
+		height: 80px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		@include tmd-up {
+			height: 100px;
+		}
+	}
+
+	&__symbol {
+		width: 100%;
+		height: 100%;
+		max-width: 60px;
+		max-height: 60px;
+		object-fit: contain;
+
+		@include tmd-up {
+			max-width: 80px;
+			max-height: 80px;
+		}
+	}
+
+	&__part-info {
+		width: 100%;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		gap: space(xs);
+	}
+
+	&__codename {
+		font-weight: 600;
+		font-size: 0.875rem;
+		color: var(--text-primary);
+
+		@include tmd-up {
+			font-size: 1rem;
+		}
+	}
+
+	&__name {
+		font-size: 0.75rem;
+		color: var(--text-secondary);
+		line-height: 1.2;
+
+		@include tmd-up {
+			font-size: 0.875rem;
+		}
+	}
+}
+
+// Compact mode adjustments for Serum Section
+.base-section.compact .serum-section {
+	&__grid {
+		gap: space(xs);
+		margin-bottom: space(md);
+
+		@include tmd-up {
+			gap: space(sm);
+			margin-bottom: space(lg);
+		}
+	}
+
+	&__part {
+		padding: space(xs);
+		gap: space(xs);
+
+		@include tmd-up {
+			padding: space(sm);
+		}
+	}
+
+	&__part-order {
+		width: 20px;
+		height: 20px;
+		font-size: 0.75rem;
+
+		@include tlg-up {
+			width: 24px;
+			height: 24px;
+			font-size: 0.875rem;
+		}
+	}
+
+	&__symbol-wrapper {
+		height: 60px;
+
+		@include tmd-up {
+			height: 80px;
+		}
+	}
+
+	&__symbol {
+		max-width: 50px;
+		max-height: 50px;
+
+		@include tmd-up {
+			max-width: 60px;
+			max-height: 60px;
+		}
+	}
+
+	&__name {
+		display: none; // Hide names in compact mode
+	}
+}
+
+// ============================================================================
+// Rocket Launch Section
+// ============================================================================
+
+.rocket-launch-section {
+	&__instructions {
+		margin-bottom: space(md);
+		padding: space(md);
+		background: var(--bg-tertiary);
+		border-radius: radius(base);
+		border: 1px solid var(--border-color);
+
+		p {
+			margin: 0;
+			color: var(--text-secondary);
+			font-size: 0.875rem;
+		}
+	}
+
+	&__results {
+		margin-top: space(lg);
+	}
+
+	&__confirmed,
+	&__multiple {
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border: 2px solid var(--accent-color);
+		border-radius: radius(base);
+
+		h4,
+		h5 {
+			margin-top: 0;
+			margin-bottom: space(md);
+			color: var(--accent-color);
+		}
+
+		p {
+			color: var(--text-secondary);
+			margin-bottom: space(md);
+		}
+	}
+
+	&__word-display {
+		margin-bottom: space(lg);
+		padding: space(md);
+		background: rgba(var(--accent-color-rgb), 0.1);
+		border-radius: radius(base);
+		text-align: center;
+
+		.word-title {
+			font-size: 1.5rem;
+			font-weight: 700;
+			color: var(--accent-color);
+			margin-bottom: space(md);
+
+			@include tmd-up {
+				font-size: 2rem;
+			}
+		}
+
+		.word-symbols {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: space(sm);
+
+			&__item {
+				width: 40px;
+				height: 40px;
+
+				@include tmd-up {
+					width: 50px;
+					height: 50px;
+				}
+
+				.symbol-icon {
+					width: 100%;
+					height: 100%;
+				}
+			}
+		}
+	}
+
+	&__numbers {
+		h5 {
+			margin-bottom: space(md);
+		}
+
+		.numbers-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: space(sm);
+
+			@include tmd-up {
+				grid-template-columns: repeat(6, 1fr);
+				gap: space(md);
+			}
+
+			.number-cell {
+				background: var(--bg-tertiary);
+				border: 2px solid var(--accent-color);
+				border-radius: radius(base);
+				padding: space(md);
+				text-align: center;
+
+				.number-label {
+					font-size: 0.75rem;
+					color: var(--text-secondary);
+					margin-bottom: space(xs);
+				}
+
+				.number-value {
+					font-size: 1.5rem;
+					font-weight: 700;
+					color: var(--accent-color);
+					font-variant-numeric: tabular-nums;
+
+					@include tmd-up {
+						font-size: 2rem;
+					}
+				}
+			}
+		}
+	}
+
+	&__multiple {
+		.possible-words {
+			display: flex;
+			flex-wrap: wrap;
+			gap: space(sm);
+
+			.possible-word {
+				padding: space(sm) space(md);
+				background: var(--bg-secondary);
+				border: 1px solid var(--border-color);
+				border-radius: radius(base);
+				font-weight: 600;
+				color: var(--text-primary);
+			}
+		}
+	}
+
+	// Cheat Sheet Mode
+	&--cheat-sheet {
+		.cheat-sheet {
+			display: flex;
+			flex-direction: column;
+			gap: space(sm);
+			margin-bottom: space(lg);
+
+			&__row {
+				display: grid;
+				grid-template-columns: 1fr; // Mobile: Stack
+				gap: space(sm);
+				align-items: center;
+				padding: space(md);
+				background: transparent;
+				border: 2px solid var(--border-color);
+				border-radius: radius(base);
+				cursor: pointer;
+				transition: all 0.2s ease;
+				text-align: left;
+
+				// Tablet and up: Horizontal layout
+				@include tmd-up {
+					grid-template-columns: 1fr 2fr 2fr;
+					gap: space(md);
+				}
+
+				&:hover {
+					border-color: var(--accent-color);
+					background: rgba(var(--accent-color-rgb), 0.05);
+				}
+
+				&--selected {
+					border-color: var(--accent-color) !important;
+					background: rgba(var(--accent-color-rgb), 0.1) !important;
+				}
+			}
+
+			&__word {
+				font-size: 1rem; // Mobile
+				font-weight: 700;
+				color: var(--text-primary);
+
+				@include tmd-up {
+					font-size: 1.125rem;
+				}
+			}
+
+			&__symbols {
+				display: flex;
+				align-items: center;
+				gap: space(xs);
+				flex-wrap: wrap;
+			}
+
+			&__symbol {
+				width: 30px;
+				height: 30px;
+
+				@include tmd-up {
+					width: 36px;
+					height: 36px;
+				}
+
+				.symbol-icon {
+					width: 100%;
+					height: 100%;
+				}
+			}
+
+			&__numbers {
+				font-size: 0.875rem; // Mobile
+				font-weight: 600;
+				color: var(--text-secondary);
+				font-variant-numeric: tabular-nums;
+
+				@include tmd-up {
+					font-size: 1rem;
+				}
+			}
+		}
+	}
+}
+
+// Compact mode adjustments for Rocket Launch Section
+.base-section.compact .rocket-launch-section {
+	&__instructions {
+		padding: space(sm);
+		margin-bottom: space(sm);
+
+		p {
+			font-size: 0.8125rem;
+		}
+	}
+
+	&__results {
+		margin-top: space(md);
+	}
+
+	&__confirmed,
+	&__multiple {
+		padding: space(md);
+
+		h4,
+		h5 {
+			margin-bottom: space(sm);
+		}
+
+		p {
+			margin-bottom: space(sm);
+		}
+	}
+
+	&__word-display {
+		padding: space(sm);
+		margin-bottom: space(md);
+
+		.word-title {
+			font-size: 1.25rem;
+			margin-bottom: space(sm);
+
+			@include tmd-up {
+				font-size: 1.5rem;
+			}
+		}
+
+		.word-symbols {
+			gap: space(xs);
+
+			&__item {
+				width: 30px;
+				height: 30px;
+
+				@include tmd-up {
+					width: 40px;
+					height: 40px;
+				}
+			}
+		}
+	}
+
+	&__numbers {
+		.numbers-grid {
+			gap: space(xs);
+
+			@include tmd-up {
+				gap: space(sm);
+			}
+
+			.number-cell {
+				padding: space(sm);
+
+				.number-label {
+					font-size: 0.6875rem;
+					margin-bottom: space(xs);
+				}
+
+				.number-value {
+					font-size: 1.25rem;
+
+					@include tmd-up {
+						font-size: 1.5rem;
+					}
+				}
+			}
+		}
+	}
+
+	&--cheat-sheet {
+		.cheat-sheet {
+			gap: space(xs);
+			margin-bottom: space(md);
+
+			&__row {
+				padding: space(sm);
+				gap: space(sm);
+			}
+
+			&__word {
+				font-size: 0.875rem; // Mobile
+
+				@include tmd-up {
+					font-size: 1rem;
+				}
+			}
+
+			&__symbol {
+				width: 24px;
+				height: 24px;
+
+				@include tmd-up {
+					width: 28px;
+					height: 28px;
+				}
+			}
+
+			&__numbers {
+				font-size: 0.8125rem; // Mobile
+
+				@include tmd-up {
+					font-size: 0.875rem;
+				}
+			}
+		}
+	}
+}
