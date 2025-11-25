@@ -63,8 +63,13 @@ const WORDS = [
 	},
 ];
 
-// Create pig-pen symbol mappings
-const PIG_PEN_SYMBOLS: MultiSelectSymbol[] = [
+// Calculate which letters appear in any of the words
+const USED_LETTERS = new Set(
+	WORDS.flatMap((word) => word.letters.map((l) => l.toLowerCase()))
+);
+
+// All pig-pen symbol mappings
+const ALL_SYMBOLS = [
 	{ letter: "A", component: PigPenA },
 	{ letter: "B", component: PigPenB },
 	{ letter: "C", component: PigPenC },
@@ -91,7 +96,13 @@ const PIG_PEN_SYMBOLS: MultiSelectSymbol[] = [
 	{ letter: "X", component: PigPenX },
 	{ letter: "Y", component: PigPenY },
 	{ letter: "Z", component: PigPenZ },
-].map((symbol) => ({
+];
+
+// Filter to only show symbols that appear in the words (15 unique letters)
+// This creates a more compact 2-row layout instead of 3 rows
+const PIG_PEN_SYMBOLS: MultiSelectSymbol[] = ALL_SYMBOLS.filter((symbol) =>
+	USED_LETTERS.has(symbol.letter.toLowerCase())
+).map((symbol) => ({
 	id: symbol.letter.toLowerCase(),
 	label: symbol.letter,
 	component: symbol.component as unknown as React.ComponentType<
@@ -239,7 +250,6 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 									symbols={PIG_PEN_SYMBOLS}
 									selectedSymbols={data.selectedSymbols}
 									onSymbolClick={handleSymbolSelect}
-									columns={13}
 									showLabel={true}
 								/>
 
@@ -247,7 +257,7 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 								{data.selectedSymbols.length > 0 && (
 									<div className="rocket-launch-section__results">
 										{confirmedWord ? (
-											<div className="rocket-launch-section__confirmed">
+											<div className="rocket-launch-section__confirmed rocket-launch-section__result--success">
 												<h4>Word Identified</h4>
 												<div className="rocket-launch-section__word-display">
 													<div className="word-title">{confirmedWord.word}</div>
@@ -284,8 +294,8 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 													</div>
 												</div>
 											</div>
-										) : (
-											<div className="rocket-launch-section__multiple">
+										) : possibleWords.length > 0 ? (
+											<div className="rocket-launch-section__multiple rocket-launch-section__result--warning">
 												<h4>Possible Words</h4>
 												<p>
 													Select more symbols to narrow down to a single word
@@ -297,6 +307,19 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 														</div>
 													))}
 												</div>
+											</div>
+										) : (
+											<div className="rocket-launch-section__error rocket-launch-section__result--error">
+												<h4>No Matching Words</h4>
+												<p className="error-message">
+													The selected symbols do not match any of the 4 possible
+													words. Please review your selections.
+												</p>
+												<p className="error-suggestion">
+													<strong>Tip:</strong> Each word uses only certain
+													letters. Try deselecting some symbols to see possible
+													matches.
+												</p>
 											</div>
 										)}
 									</div>
