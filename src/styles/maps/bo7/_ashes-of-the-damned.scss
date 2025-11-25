@@ -116,6 +116,7 @@
 		max-width: 60px;
 		max-height: 60px;
 		object-fit: contain;
+		color: white;
 
 		@include tmd-up {
 			max-width: 80px;
@@ -213,6 +214,54 @@
 // ============================================================================
 
 .rocket-launch-section {
+	// Custom styling for MultiSelectSymbolPicker in this section
+	// 15 symbols (only used letters) in 9-column grid creates ~2 rows for compact layout
+	.multi-select-symbol-picker {
+		grid-template-columns: repeat(8, 1fr);
+		gap: space(xs);
+
+		@include tmd-up {
+			gap: space(md);
+		}
+
+		@include dsm-up {
+			grid-template-columns: repeat(15, 1fr);
+			gap: space(sm);
+		}
+
+		&__symbol {
+			padding: space(xs);
+			min-height: 0; // Allow flex items to shrink below content size
+
+			@include plg-up {
+				padding: space(sm);
+			}
+
+			@include tsm-up {
+				padding: space(md);
+			}
+
+			@include dsm-up {
+				padding: space(sm);
+			}
+		}
+
+		&__icon {
+			width: 100%;
+			height: auto; // Let height be determined by width and aspect ratio
+			max-width: none;
+			max-height: none;
+			object-fit: contain;
+			flex-shrink: 0; // Prevent icon from shrinking
+			color: var(--text-primary); // Color for SVG symbols
+		}
+
+		&__label {
+			display: none; // Hide labels on all screen sizes
+			flex-shrink: 0; // Prevent label from shrinking
+		}
+	}
+
 	&__instructions {
 		margin-bottom: space(md);
 		padding: space(md);
@@ -235,13 +284,13 @@
 	&__multiple {
 		padding: space(lg);
 		background: var(--bg-tertiary);
-		border: 2px solid var(--accent-color);
+		border: 2px solid var(--success-color);
 		border-radius: radius(base);
 
 		h4,
 		h5 {
 			margin-top: 0;
-			margin-bottom: space(md);
+			margin-bottom: space(sm);
 			color: var(--accent-color);
 		}
 
@@ -252,11 +301,20 @@
 	}
 
 	&__word-display {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		margin-bottom: space(lg);
 		padding: space(md);
 		background: rgba(var(--accent-color-rgb), 0.1);
 		border-radius: radius(base);
 		text-align: center;
+
+		@include tlg-up {
+			flex-direction: row;
+			justify-content: center;
+			gap: 2rem;
+		}
 
 		.word-title {
 			font-size: 1.5rem;
@@ -267,6 +325,12 @@
 			@include tmd-up {
 				font-size: 2rem;
 			}
+
+			@include tlg-up {
+				margin-bottom: -0.25rem;
+				font-size: 3rem;
+				line-height: 1;
+			}
 		}
 
 		.word-symbols {
@@ -276,12 +340,12 @@
 			gap: space(sm);
 
 			&__item {
-				width: 40px;
-				height: 40px;
+				width: 30px;
+				height: 30px;
 
 				@include tmd-up {
-					width: 50px;
-					height: 50px;
+					width: 37px;
+					height: 37px;
 				}
 
 				.symbol-icon {
@@ -309,7 +373,7 @@
 
 			.number-cell {
 				background: var(--bg-tertiary);
-				border: 2px solid var(--accent-color);
+				border: 2px solid var(--success-color);
 				border-radius: radius(base);
 				padding: space(md);
 				text-align: center;
@@ -342,11 +406,104 @@
 
 			.possible-word {
 				padding: space(sm) space(md);
-				background: var(--bg-secondary);
+				// background: var(--bg-secondary);
 				border: 1px solid var(--border-color);
 				border-radius: radius(base);
 				font-weight: 600;
 				color: var(--text-primary);
+			}
+		}
+	}
+
+	// State-based result styling
+	&__result--success {
+		border-color: var(--success-color) !important;
+		background: var(--location-card-completed-bg) !important;
+
+		h4 {
+			color: var(--success-color) !important;
+		}
+
+		.word-title {
+			color: var(--success-color) !important;
+		}
+
+		.number-cell {
+			border-color: var(--success-color) !important;
+
+			.number-value {
+				color: var(--success-color) !important;
+			}
+		}
+	}
+
+	&__result--warning {
+		border-color: var(--warning-color) !important;
+		background: rgba(217, 175, 6, 0.05) !important;
+
+		h4 {
+			color: var(--warning-color) !important;
+		}
+
+		p {
+			color: var(--text-secondary);
+		}
+	}
+
+	&__result--error {
+		border-color: var(--danger-color) !important;
+		background: rgba(220, 38, 38, 0.05) !important;
+	}
+
+	// Error message styling
+	&__error {
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border: 2px solid var(--danger-color);
+		border-radius: radius(base);
+
+		h4 {
+			margin: 0 0 space(sm) 0;
+			color: var(--danger-color);
+			font-size: 1.125rem;
+			font-weight: 500;
+
+			@include tmd-up {
+				font-size: 1.25rem;
+			}
+		}
+
+		.error-message {
+			margin: 0 0 space(md) 0;
+			color: var(--text-primary);
+			font-size: 0.875rem;
+			line-height: 1.4;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+
+			strong {
+				color: var(--danger-color);
+				font-weight: 500;
+			}
+		}
+
+		.error-suggestion {
+			margin: 0;
+			padding: space(sm) 0 0;
+			border-top: 1px solid var(--border-subtle);
+			color: var(--text-secondary);
+			font-size: 0.8125rem;
+			line-height: 1.4;
+
+			@include tmd-up {
+				font-size: 0.875rem;
+			}
+
+			strong {
+				color: var(--text-primary);
+				font-weight: 500;
 			}
 		}
 	}
@@ -384,7 +541,7 @@
 				}
 
 				&--selected {
-					border-color: var(--accent-color) !important;
+					border-color: var(--success-color) !important;
 					background: rgba(var(--accent-color-rgb), 0.1) !important;
 				}
 			}
@@ -418,6 +575,7 @@
 				.symbol-icon {
 					width: 100%;
 					height: 100%;
+					color: var(--text-primary);
 				}
 			}
 
@@ -437,6 +595,27 @@
 
 // Compact mode adjustments for Rocket Launch Section
 .base-section.compact .rocket-launch-section {
+	// Compact mode for MultiSelectSymbolPicker
+	.multi-select-symbol-picker {
+		gap: space(xs);
+
+		&__symbol {
+			padding: space(xs);
+		}
+
+		&__icon {
+			// Icon scales with container
+		}
+
+		&__label {
+			font-size: 0.6875rem;
+
+			@include tmd-up {
+				font-size: 0.75rem;
+			}
+		}
+	}
+
 	&__instructions {
 		padding: space(sm);
 		margin-bottom: space(sm);
@@ -451,12 +630,12 @@
 	}
 
 	&__confirmed,
-	&__multiple {
+	&__multiple,
+	&__error {
 		padding: space(md);
 
-		h4,
-		h5 {
-			margin-bottom: space(sm);
+		h4 {
+			display: none;
 		}
 
 		p {
@@ -469,11 +648,10 @@
 		margin-bottom: space(md);
 
 		.word-title {
-			font-size: 1.25rem;
-			margin-bottom: space(sm);
+			font-size: 2rem;
 
 			@include tmd-up {
-				font-size: 1.5rem;
+				font-size: 2.5rem;
 			}
 		}
 

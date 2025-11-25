@@ -4,6 +4,7 @@ export interface MultiSelectSymbol {
 	id: string;
 	component: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 	label?: string;
+	disabled?: boolean;
 }
 
 export interface MultiSelectSymbolPickerProps {
@@ -24,16 +25,20 @@ function MultiSelectSymbolPicker({
 	symbols,
 	selectedSymbols,
 	onSymbolClick,
-	columns = 13,
+	columns,
 	showLabel = false,
 	className = "",
 }: MultiSelectSymbolPickerProps) {
 	return (
 		<div
 			className={`multi-select-symbol-picker ${className}`}
-			style={{
-				gridTemplateColumns: `repeat(${columns}, 1fr)`,
-			}}
+			style={
+				columns !== undefined
+					? {
+							gridTemplateColumns: `repeat(${columns}, 1fr)`,
+					  }
+					: undefined
+			}
 		>
 			{symbols.map((symbol) => {
 				const SymbolComponent = symbol.component;

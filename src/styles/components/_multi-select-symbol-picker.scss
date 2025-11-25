@@ -4,6 +4,7 @@
 
 .multi-select-symbol-picker {
 	display: grid;
+	grid-template-columns: repeat(8, 1fr); // Default: 8 columns
 	gap: space(sm);
 	margin-bottom: space(lg);
 
@@ -37,7 +38,7 @@
 		}
 
 		&--selected {
-			border-color: var(--accent-color) !important;
+			border-color: var(--success-color) !important;
 			background: rgba(var(--accent-color-rgb), 0.1);
 		}
 	}
