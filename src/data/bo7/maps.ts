@@ -20,16 +20,15 @@ export const BO7_MAPS: BO7Map[] = [
 	{
 		id: "ashes-of-the-damned",
 		name: "Ashes of the Damned",
-		status: "Coming Soon",
+		status: "Available",
 		route: ROUTES.games.bo7.maps.ashesOfTheDamned,
-		component: null, // Add a valid component import if available
-		available: false,
-		tools: ["TBC"],
+		component: () =>
+			import(
+				"../../components/games/bo7/maps/ashes-of-the-damned/AshesOfTheDamned"
+			),
+		available: true,
+		tools: ["Serum", "Rocket Launch"],
 		difficulty: "medium",
-		// guide: {
-		// 	url: "",
-		// 	type: "",
-		// },
 	},
 	{
 		id: "astra-malorum",

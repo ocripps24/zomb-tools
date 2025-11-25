@@ -24,6 +24,7 @@ import ShatteredVeil from "./components/games/bo6/maps/shattered-veil/ShatteredV
 import LibertyFalls from "./components/games/bo6/maps/liberty-falls/LibertyFalls";
 import CitadelleDesMorts from "./components/games/bo6/maps/citadelle-des-morts/CitadelleDesMorts";
 import TheTomb from "./components/games/bo6/maps/the-tomb/TheTomb";
+import AshesOfTheDamned from "./components/games/bo7/maps/ashes-of-the-damned/AshesOfTheDamned";
 import CookieConsentBanner from "./components/ui/CookieConsentBanner";
 import { useConsent } from "./contexts/ConsentContext";
 import { ROUTES, ROUTE_PATTERNS, getRouteMetadata } from "./routes";
@@ -232,6 +233,10 @@ function App() {
 							<Route
 								path={ROUTES.games.bo7.base}
 								element={<MapSelection gameId="bo7" />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.bo7.maps.ashesOfTheDamned}
+								element={<AshesOfTheDamned />}
 							/>
 
 							{/* 404 */}

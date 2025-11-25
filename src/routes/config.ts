@@ -206,6 +206,15 @@ export const MAP_STEPS = {
 			},
 		},
 	},
+	bo7: {
+		ashesOfTheDamned: {
+			base: "/bo7/ashes-of-the-damned",
+			steps: {
+				serum: "/bo7/ashes-of-the-damned/serum",
+				rocketLaunch: "/bo7/ashes-of-the-damned/rocket-launch",
+			},
+		},
+	},
 } as const;
 
 // Route patterns for React Router (with wildcards)
