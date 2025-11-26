@@ -4,17 +4,20 @@ import { ROUTES } from "@/routes";
 const HeroFooterGrid = () => {
 	// Quick links to game pages
 	const gameLinks = [
-		{ name: "Black Ops 3", route: ROUTES.games.bo3.base },
-		{ name: "Black Ops 4", route: ROUTES.games.bo4.base },
-		{ name: "Black Ops 6", route: ROUTES.games.bo6.base },
 		{ name: "Black Ops 7", route: ROUTES.games.bo7.base },
+		{ name: "Black Ops 6", route: ROUTES.games.bo6.base },
+		{ name: "Black Ops 4", route: ROUTES.games.bo4.base },
+		{ name: "Black Ops 3", route: ROUTES.games.bo3.base },
 	];
 
 	// Featured map links
 	const mapLinks = [
+		{
+			name: "Ashes of the Damned",
+			route: ROUTES.games.bo7.maps.ashesOfTheDamned,
+		},
 		{ name: "Reckoning", route: ROUTES.games.bo6.maps.reckoning },
 		{ name: "Terminus", route: ROUTES.games.bo6.maps.terminus },
-		{ name: "Tag der Toten", route: ROUTES.games.bo4.maps.tagDerToten },
 		{ name: "Gorod Krovi", route: ROUTES.games.bo3.maps.gorodKrovi },
 	];
 
