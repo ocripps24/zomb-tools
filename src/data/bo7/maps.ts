@@ -40,7 +40,7 @@ export const BO7_MAPS: BO7Map[] = [
 				"../../components/games/bo7/maps/astra-malorum/AstraMalorum"
 			),
 		available: true,
-		tools: ["OSCAR Code"],
+		tools: ["OSCAR Code", "Books"],
 		difficulty: "medium",
 	},
 ];

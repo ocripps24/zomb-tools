@@ -218,6 +218,7 @@ export const MAP_STEPS = {
 			base: "/bo7/astra-malorum",
 			steps: {
 				oscarCode: "/bo7/astra-malorum/oscar-code",
+				books: "/bo7/astra-malorum/books",
 			},
 		},
 	},

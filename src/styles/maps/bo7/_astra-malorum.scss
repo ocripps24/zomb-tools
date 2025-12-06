@@ -74,21 +74,22 @@
 
 		&__order {
 			position: absolute;
-			top: space(xs);
-			right: space(xs);
+			top: 0;
+			right: 0;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			width: 28px;
+			min-width: 28px;
 			height: 28px;
+			padding: 0 space(xs);
 			background: var(--accent-color);
 			color: var(--bg-primary);
-			border-radius: radius(full);
+			border-radius: 0 0 0 radius(base);
 			font-weight: 700;
 			font-size: 0.875rem;
 
 			@include tmd-up {
-				width: 32px;
+				min-width: 32px;
 				height: 32px;
 				font-size: 1rem;
 			}
@@ -146,6 +147,14 @@
 
 		h4 {
 			color: var(--success-color) !important;
+			text-align: center;
+		}
+
+		// Remove border from inner ResultsDisplay to avoid double border
+		.results-display {
+			border: none !important;
+			background: transparent !important;
+			padding: 0 !important;
 		}
 
 		.code-instruction {
@@ -212,6 +221,189 @@
 }
 
 // ============================================================================
+// Books Section
+// ============================================================================
+
+.books-section {
+	&__instructions {
+		padding: space(md);
+		margin-bottom: space(lg);
+		background: var(--bg-tertiary);
+		border-radius: radius(base);
+		text-align: center;
+
+		p {
+			margin: 0;
+			color: var(--text-secondary);
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+		}
+	}
+
+	.shelf-sets {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: space(md);
+		margin-bottom: space(lg);
+
+		@include tmd-up {
+			grid-template-columns: repeat(3, 1fr);
+			gap: space(lg);
+		}
+	}
+
+	.shelf-set {
+		background: var(--bg-tertiary);
+		border: 2px solid var(--border-color);
+		border-radius: radius(base);
+		padding: space(md);
+
+		@include tmd-up {
+			padding: space(lg);
+		}
+
+		&__header {
+			margin-bottom: space(md);
+			padding-bottom: space(sm);
+			border-bottom: 1px solid var(--border-subtle);
+			text-align: center;
+
+			h4 {
+				margin: 0;
+				color: var(--text-primary);
+				font-size: 1rem;
+
+				@include tmd-up {
+					font-size: 1.125rem;
+				}
+			}
+		}
+
+		&__books {
+			display: flex;
+			flex-direction: column;
+			gap: space(sm);
+		}
+	}
+
+	.book-button {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: space(md);
+		background: transparent;
+		border: 2px solid var(--border-color);
+		border-radius: radius(base);
+		cursor: pointer;
+		transition: all var(--transition);
+		text-align: left;
+
+		@include tmd-up {
+			padding: space(lg);
+		}
+
+		&:hover {
+			border-color: var(--accent-color);
+			background: var(--location-card-hover-bg);
+		}
+
+		&--selected {
+			border-color: var(--success-color);
+			background: var(--location-card-completed-bg);
+
+			.book-button__title {
+				color: var(--success-color);
+				font-weight: 600;
+			}
+		}
+
+		&__title {
+			font-size: 0.875rem;
+			color: var(--text-primary);
+			font-weight: 500;
+			line-height: 1.4;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+		}
+
+		&__checkmark {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 24px;
+			height: 24px;
+			background: var(--success-color);
+			color: var(--bg-primary);
+			border-radius: radius(full);
+			font-weight: 700;
+			font-size: 1rem;
+			flex-shrink: 0;
+			margin-left: space(sm);
+
+			@include tmd-up {
+				width: 28px;
+				height: 28px;
+				font-size: 1.125rem;
+			}
+		}
+	}
+
+	// Results section
+	&__results {
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border: 2px solid var(--accent-color);
+		border-radius: radius(base);
+		margin-top: space(lg);
+
+		h4 {
+			margin: 0 0 space(md) 0;
+			color: var(--accent-color);
+			font-size: 1.125rem;
+			text-align: center;
+
+			@include tmd-up {
+				font-size: 1.25rem;
+			}
+		}
+	}
+
+	// Success state
+	&__result--success {
+		border-color: var(--success-color) !important;
+		background: var(--location-card-completed-bg) !important;
+
+		h4 {
+			color: var(--success-color) !important;
+		}
+
+		// Remove border from inner ResultsDisplay to avoid double border
+		.results-display {
+			border: none !important;
+			background: transparent !important;
+			padding: 0 !important;
+		}
+
+		.interaction-instruction {
+			color: var(--text-secondary);
+			text-align: center;
+			margin: space(md) 0 0;
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+		}
+	}
+}
+
+// ============================================================================
 // Compact Mode
 // ============================================================================
 
@@ -244,12 +436,12 @@
 		}
 
 		&__order {
-			width: 24px;
+			min-width: 24px;
 			height: 24px;
 			font-size: 0.75rem;
 
 			@include tmd-up {
-				width: 28px;
+				min-width: 28px;
 				height: 28px;
 				font-size: 0.875rem;
 			}
@@ -304,6 +496,92 @@
 
 			&__position {
 				font-size: 0.75rem;
+			}
+		}
+	}
+}
+
+.base-section.compact .books-section {
+	&__instructions {
+		padding: space(sm);
+		margin-bottom: space(md);
+
+		p {
+			font-size: 0.8125rem;
+		}
+	}
+
+	.shelf-sets {
+		gap: space(md);
+		margin-bottom: space(md);
+	}
+
+	.shelf-set {
+		padding: space(sm);
+
+		@include tmd-up {
+			padding: space(md);
+		}
+
+		&__header {
+			margin-bottom: space(sm);
+
+			h4 {
+				font-size: 1rem;
+
+				@include tmd-up {
+					font-size: 1.125rem;
+				}
+			}
+		}
+
+		&__books {
+			gap: space(xs);
+
+			@include tmd-up {
+				gap: space(sm);
+			}
+		}
+	}
+
+	.book-button {
+		padding: space(sm);
+
+		@include tmd-up {
+			padding: space(md);
+		}
+
+		&__title {
+			font-size: 0.8125rem;
+
+			@include tmd-up {
+				font-size: 0.875rem;
+			}
+		}
+
+		&__checkmark {
+			width: 20px;
+			height: 20px;
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				width: 24px;
+				height: 24px;
+				font-size: 1rem;
+			}
+		}
+	}
+
+	&__results {
+		padding: space(md);
+		margin-top: space(md);
+
+		h4 {
+			margin-bottom: space(sm);
+			font-size: 1rem;
+
+			@include tmd-up {
+				font-size: 1.125rem;
 			}
 		}
 	}

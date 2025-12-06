@@ -31,6 +31,7 @@
 		bottom: 20px;
 		gap: space(lg);
 		padding: 0 space(xl);
+		max-width: 80vw;
 	}
 
 	// Back button
@@ -165,6 +166,8 @@
 		.step-tab {
 			background: transparent;
 			border: none;
+			// Allow tabs to grow to fit content instead of equal sizing
+			flex: 0 1 auto;
 
 			&:hover,
 			&:focus {

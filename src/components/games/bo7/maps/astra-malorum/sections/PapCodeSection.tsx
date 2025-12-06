@@ -29,7 +29,7 @@ function PapCodeSection(props: BaseSectionProps<PapCodeData>) {
 				defaultValue: { selectedPlanets: [] },
 				title: "OSCAR Code",
 				description:
-					"Follow O.S.C.A.R around and listen for him to say three planets. Select them in the order he says them.",
+					"Follow O.S.C.A.R around and wait for him to say three planets. Select them in the order he says them.",
 				resetButtonText: "Clear Code",
 				tipsConfig: {
 					show: true,
@@ -101,13 +101,6 @@ function PapCodeSection(props: BaseSectionProps<PapCodeData>) {
 
 				return (
 					<div className="pap-code-section">
-						<div className="pap-code-section__instructions">
-							<p>
-								Click on the planets in the order O.S.C.A.R says them (you need
-								3 planets)
-							</p>
-						</div>
-
 						<div className="planet-grid">
 							{PLANETS.map((planet) => {
 								const selectionIndex = data.selectedPlanets.indexOf(planet.id);
@@ -123,7 +116,9 @@ function PapCodeSection(props: BaseSectionProps<PapCodeData>) {
 										onClick={() => handlePlanetClick(planet.id)}
 									>
 										{isSelected && (
-											<span className="planet-button__order">{orderNumber}</span>
+											<span className="planet-button__order">
+												{orderNumber}
+											</span>
 										)}
 										<span className="planet-button__name">{planet.name}</span>
 										<span className="planet-button__position">
@@ -136,9 +131,7 @@ function PapCodeSection(props: BaseSectionProps<PapCodeData>) {
 
 						{/* Results Display */}
 						{hasSelection && (
-							<div
-								className={`pap-code-section__results ${resultStateClass}`}
-							>
+							<div className={`pap-code-section__results ${resultStateClass}`}>
 								{isComplete ? (
 									<div className="pap-code-section__complete">
 										<h4>OSCAR Code</h4>
@@ -146,28 +139,30 @@ function PapCodeSection(props: BaseSectionProps<PapCodeData>) {
 											variant="sequence"
 											showIncomplete={true}
 											totalExpected={3}
-											sequenceItems={data.selectedPlanets.map((planetId, index) => {
-												const planet = PLANETS.find((p) => p.id === planetId);
-												return {
-													id: planetId,
-													order: index + 1,
-													value: planet?.position.toString() || "",
-													metadata: {
-														planet: planet?.name || "",
-													},
-												};
-											})}
+											sequenceItems={data.selectedPlanets.map(
+												(planetId, index) => {
+													const planet = PLANETS.find((p) => p.id === planetId);
+													return {
+														id: planetId,
+														order: index + 1,
+														value: planet?.position.toString() || "",
+														metadata: {
+															planet: planet?.name || "",
+														},
+													};
+												}
+											)}
 										/>
 										<p className="code-instruction">
-											Enter this code to access the Pack-a-Punch machine
+											Enter this code in a terminal on a column in the PAP room.
 										</p>
 									</div>
 								) : (
 									<div className="pap-code-section__partial">
-										<h4>
-											Selected Planets ({data.selectedPlanets.length}/3)
-										</h4>
-										<p>Select {3 - data.selectedPlanets.length} more planet(s)</p>
+										<h4>Selected Planets ({data.selectedPlanets.length}/3)</h4>
+										<p>
+											Select {3 - data.selectedPlanets.length} more planet(s)
+										</p>
 										<div className="partial-planets">
 											{data.selectedPlanets.map((planetId, index) => {
 												const planet = PLANETS.find((p) => p.id === planetId);
