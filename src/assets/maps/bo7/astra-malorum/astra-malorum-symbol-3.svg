@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 357.33 511.44">
+  <g id="c" data-name="Layer 1">
+    <g id="d" data-name="astra-malorum-symbol-3">
+      <polygon points="240.59 511.44 201.68 511.44 36.02 156.18 74.92 155.75 240.59 511.44"/>
+      <polygon points="158.58 511.44 119.67 511.44 285.33 155.75 324.24 156.18 158.58 511.44"/>
+      <polygon points="120.95 0 159.85 0 325.51 355.26 286.61 355.68 120.95 0"/>
+      <polygon points="202.96 0 241.86 0 76.2 355.68 37.3 355.26 202.96 0"/>
+      <circle cx="178.67" cy="255.72" r="116.15" fill="none" stroke-miterlimit="10" stroke-width="30"/>
+      <rect y="239.85" width="357.33" height="39.5"/>
+    </g>
+  </g>
+</svg>

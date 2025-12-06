@@ -3,6 +3,8 @@ import type { MapStep } from "@/hooks";
 import { getBO7MapById } from "@/data/bo7/maps";
 import PapCodeSection from "./sections/PapCodeSection";
 import BooksSection from "./sections/BooksSection";
+import TeleporterSection from "./sections/TeleporterSection";
+import OrganSection from "./sections/OrganSection";
 
 const STEPS: MapStep[] = [
 	{
@@ -16,6 +18,18 @@ const STEPS: MapStep[] = [
 		name: "Books",
 		path: "/bo7/astra-malorum/books",
 		component: BooksSection,
+	},
+	{
+		id: "teleporter",
+		name: "Teleporter",
+		path: "/bo7/astra-malorum/teleporter",
+		component: TeleporterSection,
+	},
+	{
+		id: "organ",
+		name: "Organ / Mars",
+		path: "/bo7/astra-malorum/organ",
+		component: OrganSection,
 	},
 ];
 

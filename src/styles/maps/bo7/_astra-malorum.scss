@@ -404,6 +404,562 @@
 }
 
 // ============================================================================
+// Teleporter Section
+// ============================================================================
+
+.teleporter-section {
+	.coordinates-block,
+	.paper-data-block {
+		margin-bottom: space(xl);
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border: 2px solid var(--border-color);
+		border-radius: radius(base);
+
+		h3 {
+			margin: 0 0 space(xs) 0;
+			color: var(--text-primary);
+			font-size: 1.25rem;
+
+			@include tmd-up {
+				font-size: 1.5rem;
+			}
+		}
+
+		.block-description {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-secondary);
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+		}
+	}
+
+	// Number button input
+	.number-input {
+		display: flex;
+		flex-direction: column;
+		gap: space(lg);
+		align-items: center;
+
+		@include tmd-up {
+			flex-direction: row;
+			justify-content: center;
+		}
+	}
+
+	.number-row {
+		display: flex;
+		gap: space(xs);
+		flex-wrap: wrap;
+		justify-content: center;
+
+		@include tmd-up {
+			gap: space(sm);
+		}
+	}
+
+	.number-btn {
+		width: 40px;
+		height: 40px;
+		padding: 0;
+		background: transparent;
+		border: 2px solid var(--border-color);
+		border-radius: radius(base);
+		color: var(--text-primary);
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all var(--transition);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		@include tmd-up {
+			width: 48px;
+			height: 48px;
+			font-size: 1.125rem;
+		}
+
+		&:hover:not(:disabled) {
+			border-color: var(--accent-color);
+			background: var(--location-card-hover-bg);
+		}
+
+		&:disabled {
+			opacity: 0.3;
+			cursor: not-allowed;
+		}
+
+		&--backspace {
+			background: var(--bg-primary);
+		}
+	}
+
+	.number-display {
+		display: flex;
+		gap: space(sm);
+		justify-content: center;
+		flex: 1;
+	}
+
+	.digit-slot {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 60px;
+		height: 80px;
+		background: transparent;
+		border: 2px solid var(--border-color);
+		border-radius: radius(base);
+		font-size: 2rem;
+		font-weight: 700;
+		color: var(--text-primary);
+
+		@include tmd-up {
+			width: 70px;
+			height: 90px;
+			font-size: 2.5rem;
+		}
+	}
+
+	// Text input
+	.text-input {
+		.code-input {
+			width: 100%;
+			max-width: 400px;
+			padding: space(lg);
+			background: transparent;
+			border: 2px solid var(--border-color);
+			border-radius: radius(base);
+			color: var(--text-primary);
+			font-size: 1.5rem;
+			font-weight: 600;
+			text-align: center;
+			transition: all var(--transition);
+
+			&::placeholder {
+				color: var(--text-secondary);
+				opacity: 0.5;
+			}
+
+			&:focus {
+				outline: none;
+				border-color: var(--accent-color);
+				background: var(--location-card-hover-bg);
+			}
+
+			@include tmd-up {
+				font-size: 2rem;
+			}
+		}
+	}
+
+	// Paper data - planet columns
+	.planet-directions {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: space(md);
+
+		@include tmd-up {
+			grid-template-columns: repeat(3, 1fr);
+			gap: space(lg);
+		}
+	}
+
+	.planet-column {
+		background: transparent;
+		border: 2px solid var(--border-color);
+		border-radius: radius(base);
+		padding: space(md);
+
+		@include tmd-up {
+			padding: space(lg);
+		}
+	}
+
+	.planet-name {
+		margin: 0 0 space(md) 0;
+		padding-bottom: space(sm);
+		border-bottom: 1px solid var(--border-subtle);
+		color: var(--text-primary);
+		font-size: 1.125rem;
+		text-align: center;
+
+		@include tmd-up {
+			font-size: 1.25rem;
+		}
+	}
+
+	.direction-buttons {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: space(sm);
+	}
+
+	.direction-btn {
+		padding: space(md);
+		background: transparent;
+		border: 2px solid var(--border-color);
+		border-radius: radius(base);
+		color: var(--text-primary);
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all var(--transition);
+
+		@include tmd-up {
+			padding: space(lg);
+			font-size: 1.125rem;
+		}
+
+		&:hover:not(:disabled) {
+			border-color: var(--accent-color);
+			background: var(--location-card-hover-bg);
+		}
+
+		&--selected {
+			border-color: var(--success-color);
+			background: var(--location-card-completed-bg);
+			color: var(--success-color);
+		}
+
+		&:disabled {
+			opacity: 0.3;
+			cursor: not-allowed;
+		}
+	}
+
+	// Results
+	&__results {
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border: 2px solid var(--success-color);
+		border-radius: radius(base);
+
+		.result-block {
+			&:not(:last-child) {
+				margin-bottom: space(xl);
+				padding-bottom: space(lg);
+				border-bottom: 1px solid var(--border-subtle);
+			}
+
+			h4 {
+				margin: 0 0 space(md) 0;
+				color: var(--success-color);
+				font-size: 1.125rem;
+				text-align: center;
+
+				@include tmd-up {
+					font-size: 1.25rem;
+				}
+			}
+		}
+
+		.coordinate-result {
+			text-align: center;
+			font-size: 2rem;
+			font-weight: 700;
+			color: var(--success-color);
+			letter-spacing: 0.1em;
+
+			@include tmd-up {
+				font-size: 2.5rem;
+			}
+		}
+
+		// Remove border from inner ResultsDisplay
+		.results-display {
+			border: none !important;
+			background: transparent !important;
+			padding: 0 !important;
+		}
+	}
+}
+
+// ============================================================================
+// Organ Section
+// ============================================================================
+
+.organ-section {
+	.symbol-picker-block,
+	.sequence-display-block {
+		margin-bottom: space(xl);
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border: 2px solid var(--border-color);
+		border-radius: radius(base);
+
+		h3 {
+			margin: 0 0 space(xs) 0;
+			color: var(--text-primary);
+			font-size: 1.25rem;
+
+			@include tmd-up {
+				font-size: 1.5rem;
+			}
+		}
+
+		.block-description {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-secondary);
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+		}
+	}
+
+	// Symbol picker
+	.symbol-picker {
+		display: flex;
+		flex-wrap: wrap;
+		gap: space(md);
+		justify-content: center;
+
+		@include tmd-up {
+			flex-wrap: nowrap;
+			gap: space(lg);
+		}
+	}
+
+	.symbol-btn {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex: 1;
+		min-width: 80px;
+		height: 80px;
+		padding: space(sm);
+		background: transparent;
+		border: 2px solid var(--border-color);
+		border-radius: radius(base);
+		cursor: pointer;
+		transition: all var(--transition);
+		overflow: hidden;
+
+		@include tmd-up {
+			min-width: 100px;
+			height: 100px;
+			padding: space(md);
+		}
+
+		&:hover:not(:disabled) {
+			border-color: var(--accent-color);
+			background: var(--location-card-hover-bg);
+		}
+
+		&:disabled {
+			opacity: 0.3;
+			cursor: not-allowed;
+		}
+
+		&--disabled {
+			opacity: 0.3;
+		}
+
+		&--static {
+			background: transparent;
+
+			&:hover:not(:disabled) {
+				background: var(--location-card-hover-bg);
+			}
+		}
+
+		&__order {
+			position: absolute;
+			top: 0;
+			right: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-width: 28px;
+			height: 28px;
+			padding: 0 space(xs);
+			background: var(--accent-color);
+			color: var(--bg-primary);
+			border-radius: 0 0 0 radius(base);
+			font-weight: 700;
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				min-width: 32px;
+				height: 32px;
+				font-size: 1rem;
+			}
+		}
+
+		&__content {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+
+	.symbol-icon {
+		width: 100%;
+		height: 100%;
+		fill: var(--text-primary);
+		stroke: var(--text-primary);
+	}
+
+	.static-indicator {
+		color: var(--text-primary);
+		font-weight: 700;
+		font-size: 0.75rem;
+		text-align: center;
+
+		@include tmd-up {
+			font-size: 0.875rem;
+		}
+	}
+
+	// Sequence display
+	.sequence-slots {
+		display: flex;
+		flex-wrap: wrap;
+		gap: space(md);
+		justify-content: center;
+		margin-bottom: space(lg);
+	}
+
+	.sequence-slot {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 80px;
+		height: 80px;
+		padding: space(sm);
+		background: var(--bg-tertiary);
+		border: 2px solid var(--success-color);
+		border-radius: radius(base);
+
+		@include tmd-up {
+			width: 100px;
+			height: 100px;
+			padding: space(md);
+		}
+
+		.symbol-icon {
+			width: 100%;
+			height: 100%;
+			fill: var(--success-color);
+		}
+
+		.static-indicator {
+			color: var(--success-color);
+		}
+
+		&--empty {
+			border-color: var(--border-color);
+			border-style: dashed;
+			background: transparent;
+
+			.sequence-slot__number {
+				color: var(--text-secondary);
+			}
+		}
+
+		&__number {
+			position: absolute;
+			top: -10px;
+			right: -10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-width: 24px;
+			height: 24px;
+			padding: 0 space(xs);
+			background: var(--success-color);
+			color: var(--bg-primary);
+			border-radius: radius(full);
+			font-weight: 700;
+			font-size: 0.75rem;
+
+			@include tmd-up {
+				min-width: 28px;
+				height: 28px;
+				font-size: 0.875rem;
+			}
+		}
+	}
+
+	.remove-last-btn {
+		display: block;
+		margin: 0 auto;
+		padding: space(sm) space(lg);
+		background: transparent;
+		border: 2px solid var(--border-color);
+		border-radius: radius(base);
+		color: var(--text-primary);
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all var(--transition);
+
+		&:hover:not(:disabled) {
+			border-color: var(--accent-color);
+			background: var(--location-card-hover-bg);
+		}
+
+		&:disabled {
+			opacity: 0.3;
+			cursor: not-allowed;
+		}
+	}
+
+	// Results
+	&__results {
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border: 2px solid var(--success-color);
+		border-radius: radius(base);
+
+		h4 {
+			margin: 0 0 space(md) 0;
+			color: var(--success-color);
+			font-size: 1.125rem;
+			text-align: center;
+
+			@include tmd-up {
+				font-size: 1.25rem;
+			}
+		}
+
+		.result-instruction {
+			color: var(--text-secondary);
+			text-align: center;
+			margin: 0 0 space(lg) 0;
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+		}
+
+		// Remove border from inner ResultsDisplay
+		.results-display {
+			border: none !important;
+			background: transparent !important;
+			padding: 0 !important;
+		}
+
+		// Style SVG symbols in results
+		.sequence-image-svg {
+			fill: var(--success-color);
+			stroke: var(--success-color);
+		}
+	}
+}
+
+// ============================================================================
 // Compact Mode
 // ============================================================================
 

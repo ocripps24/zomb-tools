@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 511.44">
+  <g id="c" data-name="Layer 1">
+    <g id="d" data-name="astra-malorum-symbol-2">
+      <g>
+        <polygon points="476.53 511.44 420.59 511.44 182.39 .61 238.32 0 476.53 511.44"/>
+        <polygon points="99.41 511.44 43.47 511.44 281.67 0 337.61 .61 99.41 511.44"/>
+      </g>
+      <rect y="328.79" width="520" height="43.08"/>
+      <path d="M25.65,308.88h45.18s28.8,162.07,189.33,162.07,194.67-162.07,194.67-162.07h39.53s-25.98,202.16-234.35,202.16S25.65,308.88,25.65,308.88Z"/>
+      <circle cx="260" cy="293.2" r="24.95"/>
+    </g>
+  </g>
+</svg>
