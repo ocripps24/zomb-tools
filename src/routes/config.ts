@@ -214,6 +214,12 @@ export const MAP_STEPS = {
 				rocketLaunch: "/bo7/ashes-of-the-damned/rocket-launch",
 			},
 		},
+		astraMalorum: {
+			base: "/bo7/astra-malorum",
+			steps: {
+				oscarCode: "/bo7/astra-malorum/oscar-code",
+			},
+		},
 	},
 } as const;
 
@@ -268,6 +274,7 @@ export const ROUTE_PATTERNS = {
 			base: "/bo7",
 			maps: {
 				ashesOfTheDamned: "/bo7/ashes-of-the-damned/*",
+				astraMalorum: "/bo7/astra-malorum/*",
 			},
 		},
 	},

@@ -25,6 +25,7 @@ import LibertyFalls from "./components/games/bo6/maps/liberty-falls/LibertyFalls
 import CitadelleDesMorts from "./components/games/bo6/maps/citadelle-des-morts/CitadelleDesMorts";
 import TheTomb from "./components/games/bo6/maps/the-tomb/TheTomb";
 import AshesOfTheDamned from "./components/games/bo7/maps/ashes-of-the-damned/AshesOfTheDamned";
+import AstraMalorum from "./components/games/bo7/maps/astra-malorum/AstraMalorum";
 import CookieConsentBanner from "./components/ui/CookieConsentBanner";
 import { useConsent } from "./contexts/ConsentContext";
 import { ROUTES, ROUTE_PATTERNS, getRouteMetadata } from "./routes";
@@ -237,6 +238,10 @@ function App() {
 							<Route
 								path={ROUTE_PATTERNS.games.bo7.maps.ashesOfTheDamned}
 								element={<AshesOfTheDamned />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.bo7.maps.astraMalorum}
+								element={<AstraMalorum />}
 							/>
 
 							{/* 404 */}

@@ -10,7 +10,7 @@ interface RoadmapEntry {
 // Roadmap data - organized chronologically (newest first)
 const ROADMAP_DATA: RoadmapEntry[] = [
 	{
-		date: "December & beyond",
+		date: "2026",
 		items: [
 			"BO7: Planning to add Astra Malorum and future DLCs",
 			"BO2: Potential to add Die Rise, Buried",
@@ -20,6 +20,10 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 			"Content: The original purpose was just to provide solver tools but I do not rule out extending the content scope to interactive maps, full guides, etc",
 			"Devices: The site is designed for desktop but features a responsive design. Fixes and further UI improvements for smaller screens and mobile devices are planned",
 		],
+	},
+	{
+		date: "December 2025",
+		items: ["BO7: Added Astra Malorum"],
 	},
 	{
 		date: "November 2025",

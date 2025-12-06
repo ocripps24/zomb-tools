@@ -1,0 +1,310 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+// ============================================================================
+// Pap Code Section
+// ============================================================================
+
+.pap-code-section {
+	&__instructions {
+		padding: space(md);
+		margin-bottom: space(lg);
+		background: var(--bg-tertiary);
+		border-radius: radius(base);
+		text-align: center;
+
+		p {
+			margin: 0;
+			color: var(--text-secondary);
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+		}
+	}
+
+	// Planet grid
+	.planet-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: space(sm);
+		margin-bottom: space(lg);
+
+		@include tmd-up {
+			grid-template-columns: repeat(4, 1fr);
+			gap: space(md);
+		}
+	}
+
+	.planet-button {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: space(md);
+		background: var(--bg-tertiary);
+		border: 2px solid var(--border-color);
+		border-radius: radius(base);
+		cursor: pointer;
+		transition: all var(--transition);
+		min-height: 100px;
+
+		@include tmd-up {
+			min-height: 120px;
+			padding: space(lg);
+		}
+
+		&:hover {
+			border-color: var(--accent-color);
+			background: var(--location-card-hover-bg);
+		}
+
+		&--selected {
+			border-color: var(--accent-color);
+			background: var(--location-card-selected-bg);
+
+			.planet-button__name {
+				color: var(--accent-color);
+				font-weight: 600;
+			}
+		}
+
+		&__order {
+			position: absolute;
+			top: space(xs);
+			right: space(xs);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 28px;
+			height: 28px;
+			background: var(--accent-color);
+			color: var(--bg-primary);
+			border-radius: radius(full);
+			font-weight: 700;
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				width: 32px;
+				height: 32px;
+				font-size: 1rem;
+			}
+		}
+
+		&__name {
+			font-size: 1rem;
+			font-weight: 500;
+			color: var(--text-primary);
+			margin-bottom: space(xs);
+
+			@include tmd-up {
+				font-size: 1.125rem;
+			}
+		}
+
+		&__position {
+			font-size: 0.75rem;
+			color: var(--text-secondary);
+
+			@include tmd-up {
+				font-size: 0.875rem;
+			}
+		}
+	}
+
+	// Results section
+	&__results {
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border: 2px solid var(--accent-color);
+		border-radius: radius(base);
+		margin-top: space(lg);
+
+		h4 {
+			margin: 0 0 space(md) 0;
+			color: var(--accent-color);
+			font-size: 1.125rem;
+
+			@include tmd-up {
+				font-size: 1.25rem;
+			}
+		}
+
+		p {
+			color: var(--text-secondary);
+			margin-bottom: space(md);
+		}
+	}
+
+	// Success state
+	&__result--success {
+		border-color: var(--success-color) !important;
+		background: var(--location-card-completed-bg) !important;
+
+		h4 {
+			color: var(--success-color) !important;
+		}
+
+		.code-instruction {
+			color: var(--text-secondary);
+			text-align: center;
+			margin: space(md) 0 0;
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+		}
+	}
+
+	// Warning state (partial selection)
+	&__result--warning {
+		border-color: var(--warning-color) !important;
+		background: rgba(217, 175, 6, 0.05) !important;
+
+		h4 {
+			color: var(--warning-color) !important;
+		}
+
+		p {
+			color: var(--text-secondary);
+		}
+	}
+
+	// Partial selection display
+	&__partial {
+		.partial-planets {
+			display: flex;
+			flex-direction: column;
+			gap: space(sm);
+		}
+
+		.partial-planet {
+			display: flex;
+			align-items: center;
+			gap: space(sm);
+			padding: space(sm) space(md);
+			background: var(--bg-primary);
+			border: 1px solid var(--border-color);
+			border-radius: radius(base);
+
+			&__order {
+				font-weight: 700;
+				color: var(--warning-color);
+				min-width: 24px;
+			}
+
+			&__name {
+				font-weight: 500;
+				color: var(--text-primary);
+			}
+
+			&__position {
+				font-size: 0.875rem;
+				color: var(--text-secondary);
+				margin-left: auto;
+			}
+		}
+	}
+}
+
+// ============================================================================
+// Compact Mode
+// ============================================================================
+
+.base-section.compact .pap-code-section {
+	&__instructions {
+		padding: space(sm);
+		margin-bottom: space(md);
+
+		p {
+			font-size: 0.8125rem;
+		}
+	}
+
+	.planet-grid {
+		gap: space(xs);
+		margin-bottom: space(md);
+
+		@include tmd-up {
+			gap: space(sm);
+		}
+	}
+
+	.planet-button {
+		min-height: 80px;
+		padding: space(sm);
+
+		@include tmd-up {
+			min-height: 90px;
+			padding: space(md);
+		}
+
+		&__order {
+			width: 24px;
+			height: 24px;
+			font-size: 0.75rem;
+
+			@include tmd-up {
+				width: 28px;
+				height: 28px;
+				font-size: 0.875rem;
+			}
+		}
+
+		&__name {
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+		}
+
+		&__position {
+			font-size: 0.6875rem;
+
+			@include tmd-up {
+				font-size: 0.75rem;
+			}
+		}
+	}
+
+	&__results {
+		padding: space(md);
+		margin-top: space(md);
+
+		h4 {
+			margin-bottom: space(sm);
+			font-size: 1rem;
+
+			@include tmd-up {
+				font-size: 1.125rem;
+			}
+		}
+
+		p {
+			margin-bottom: space(sm);
+		}
+	}
+
+	&__partial {
+		.partial-planets {
+			gap: space(xs);
+		}
+
+		.partial-planet {
+			padding: space(xs) space(sm);
+
+			&__name {
+				font-size: 0.875rem;
+			}
+
+			&__position {
+				font-size: 0.75rem;
+			}
+		}
+	}
+}

@@ -33,16 +33,15 @@ export const BO7_MAPS: BO7Map[] = [
 	{
 		id: "astra-malorum",
 		name: "Astra Malorum",
-		status: "Coming Soon",
+		status: "Available",
 		route: ROUTES.games.bo7.maps.astraMalorum,
-		component: null, // Add a valid component import if available
-		available: false,
-		tools: ["TBC"],
+		component: () =>
+			import(
+				"../../components/games/bo7/maps/astra-malorum/AstraMalorum"
+			),
+		available: true,
+		tools: ["OSCAR Code"],
 		difficulty: "medium",
-		// guide: {
-		// 	url: "",
-		// 	type: "",
-		// },
 	},
 ];
 
