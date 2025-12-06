@@ -13,11 +13,14 @@ const HeroFooterGrid = () => {
 	// Featured map links
 	const mapLinks = [
 		{
+			name: "Astra Malorum",
+			route: ROUTES.games.bo7.maps.astraMalorum,
+		},
+		{
 			name: "Ashes of the Damned",
 			route: ROUTES.games.bo7.maps.ashesOfTheDamned,
 		},
 		{ name: "Reckoning", route: ROUTES.games.bo6.maps.reckoning },
-		{ name: "Terminus", route: ROUTES.games.bo6.maps.terminus },
 		{ name: "Gorod Krovi", route: ROUTES.games.bo3.maps.gorodKrovi },
 	];
 
