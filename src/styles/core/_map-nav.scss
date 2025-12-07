@@ -2,14 +2,27 @@
 @use "../abstracts/functions" as *;
 @use "../abstracts/mixins" as *;
 
-// Bottom Map Navigation - Glassmorphism sticky nav
-.bottom-map-nav {
-	// Positioning: Fixed 20px from bottom, centered horizontally
+// Map Navigation - Glassmorphism floating navbar for map pages
+.map-nav {
+	// Positioning: Mobile bottom, Desktop top
 	position: fixed;
-	bottom: 10px;
+	bottom: 10px; // Mobile: bottom
 	left: 50%;
 	transform: translateX(-50%);
-	z-index: 9999;
+	z-index: 10000; // Higher than global nav to ensure it's on top
+	transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+	will-change: transform, opacity; // Create own compositing layer
+
+	// Start hidden, slide in on map pages
+	opacity: 0;
+	transform: translate(-50%, 100%); // Mobile: slide up from bottom
+	pointer-events: none;
+
+	.app--map-page & {
+		opacity: 1;
+		transform: translateX(-50%);
+		pointer-events: auto;
+	}
 
 	// Layout
 	display: flex;
@@ -28,10 +41,16 @@
 	box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
 	@include tmd-up {
-		bottom: 40px;
+		top: 30px; // Desktop: top
+		bottom: auto; // Override mobile bottom
+		transform: translate(-50%, -100%); // Desktop: slide down from top
 		gap: space(lg);
 		padding: 0 space(xl);
 		max-width: 80vw;
+
+		.app--map-page & {
+			transform: translateX(-50%);
+		}
 	}
 
 	// Back button

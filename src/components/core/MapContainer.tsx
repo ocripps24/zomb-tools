@@ -1,4 +1,4 @@
-import BottomMapNav from "./BottomMapNav";
+import MapNav from "./MapNav";
 import YouTubeGuideSection from "@/components/ui/YouTubeGuideSection";
 import { useMapState, MapStep } from "@/hooks";
 import { AnimatePresence, motion } from "framer-motion";
@@ -103,8 +103,8 @@ export function MapContainer({
 				{guide && <YouTubeGuideSection guide={guide} mapName={mapName} />}
 			</div>
 
-			{/* Bottom Navigation */}
-			<BottomMapNav
+			{/* Map Navigation */}
+			<MapNav
 				backTo={backTo}
 				backLabel={getGameName(backTo)}
 				onReset={handleReset}

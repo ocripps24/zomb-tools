@@ -4,16 +4,19 @@
 
 // Navigation component styles - Glassmorphism floating navbar
 .nav {
-	// Positioning: Fixed 20px from top, centered horizontally
+	// Positioning: Fixed 30px from top, centered horizontally
 	position: fixed;
-	top: 20px;
+	top: 30px;
 	left: 50%;
 	transform: translateX(-50%);
-	z-index: 1000;
+	z-index: 9999;
+	transition: transform 0.3s ease-out, opacity 0.3s ease-out;
 
-	// On map pages, make it non-sticky (absolute positioning)
+	// On map pages, hide the global nav
 	.app--map-page & {
-		position: absolute;
+		transform: translate(-50%, -100%);
+		opacity: 0;
+		pointer-events: none;
 	}
 
 	// Layout

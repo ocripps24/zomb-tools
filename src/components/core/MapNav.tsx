@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ChevronIcon from "@/assets/icons/chevron.svg";
 import StepNavigation, { Step } from "./StepNavigation";
 
-interface BottomMapNavProps {
+interface MapNavProps {
 	// Navigation
 	backTo: string;
 	backLabel: string; // e.g., "BO6 Maps"
@@ -19,7 +19,7 @@ interface BottomMapNavProps {
 	isLastStep: boolean;
 }
 
-const BottomMapNav: React.FC<BottomMapNavProps> = ({
+const MapNav: React.FC<MapNavProps> = ({
 	backTo,
 	backLabel,
 	onReset,
@@ -42,20 +42,20 @@ const BottomMapNav: React.FC<BottomMapNavProps> = ({
 	};
 
 	return (
-		<nav className="bottom-map-nav" aria-label="Map Navigation">
+		<nav className="map-nav" aria-label="Map Navigation">
 			{/* Back Button */}
-			<Link to={backTo} className="bottom-map-nav__back">
-				<span className="bottom-map-nav__back-icon">
+			<Link to={backTo} className="map-nav__back">
+				<span className="map-nav__back-icon">
 					<ChevronIcon />
 				</span>
-				<span className="bottom-map-nav__back-text">{backLabel}</span>
+				<span className="map-nav__back-text">{backLabel}</span>
 			</Link>
 
 			{/* Navigation Controls */}
-			<div className="bottom-map-nav__controls">
+			<div className="map-nav__controls">
 				{/* Previous Button */}
 				<button
-					className="bottom-map-nav__chevron bottom-map-nav__chevron--prev"
+					className="map-nav__chevron map-nav__chevron--prev"
 					onClick={onPrevious}
 					disabled={isFirstStep}
 					aria-label="Previous step"
@@ -64,9 +64,9 @@ const BottomMapNav: React.FC<BottomMapNavProps> = ({
 				</button>
 
 				{/* Step Navigation - Desktop: Tabs, Mobile: Counter */}
-				<div className="bottom-map-nav__steps">
+				<div className="map-nav__steps">
 					{/* Desktop: Full step tabs */}
-					<div className="bottom-map-nav__steps-desktop">
+					<div className="map-nav__steps-desktop">
 						<StepNavigation
 							steps={steps}
 							activeStep={activeStep}
@@ -75,8 +75,8 @@ const BottomMapNav: React.FC<BottomMapNavProps> = ({
 					</div>
 
 					{/* Mobile: Simple counter */}
-					<div className="bottom-map-nav__steps-mobile">
-						<span className="bottom-map-nav__counter">
+					<div className="map-nav__steps-mobile">
+						<span className="map-nav__counter">
 							{activeStep + 1} of {steps.length}
 						</span>
 					</div>
@@ -84,7 +84,7 @@ const BottomMapNav: React.FC<BottomMapNavProps> = ({
 
 				{/* Next Button */}
 				<button
-					className="bottom-map-nav__chevron bottom-map-nav__chevron--next"
+					className="map-nav__chevron map-nav__chevron--next"
 					onClick={onNext}
 					disabled={isLastStep}
 					aria-label="Next step"
@@ -96,14 +96,14 @@ const BottomMapNav: React.FC<BottomMapNavProps> = ({
 			{/* Reset Button */}
 			<button
 				onClick={handleReset}
-				className="bottom-map-nav__reset"
+				className="map-nav__reset"
 				aria-label="Reset all data"
 			>
-				<span className="bottom-map-nav__reset-icon">🗑️</span>
-				<span className="bottom-map-nav__reset-text">Reset All Data</span>
+				<span className="map-nav__reset-icon">🗑️</span>
+				<span className="map-nav__reset-text">Reset All Data</span>
 			</button>
 		</nav>
 	);
 };
 
-export default BottomMapNav;
+export default MapNav;
