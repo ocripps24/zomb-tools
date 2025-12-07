@@ -9,7 +9,7 @@
 	bottom: 10px;
 	left: 50%;
 	transform: translateX(-50%);
-	z-index: 1000;
+	z-index: 9999;
 
 	// Layout
 	display: flex;
@@ -28,7 +28,7 @@
 	box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
 	@include tmd-up {
-		bottom: 20px;
+		bottom: 40px;
 		gap: space(lg);
 		padding: 0 space(xl);
 		max-width: 80vw;
@@ -40,20 +40,20 @@
 		align-items: center;
 		gap: space(xs);
 		// Mobile: Less padding on left
-		padding: space(xs) space(md) space(xs) space(xs);
+		padding: space(xs) space(sm) space(xs) space(xs);
 		background: transparent;
 		border: none;
 		border-radius: 20px;
 		color: var(--text-primary);
 		text-decoration: none;
-		font-size: 18px;
+		font-size: 16px;
 		font-weight: 500;
 		transition: all var(--transition);
 		cursor: pointer;
 
 		// Desktop: Normal padding
 		@include tmd-up {
-			padding: space(xs) space(md);
+			padding: space(xs) space(sm);
 		}
 
 		&:hover,
@@ -94,6 +94,8 @@
 		gap: space(sm);
 		flex: 1;
 		justify-content: center;
+		min-width: 0; // Allow shrinking below content size
+		overflow: hidden;
 	}
 
 	// Chevron buttons
@@ -101,7 +103,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 40px;
+		width: 30px;
 		height: 40px;
 		padding: 0;
 		background: transparent;
@@ -144,6 +146,9 @@
 		position: relative;
 		display: flex;
 		align-items: center;
+		flex: 1;
+		min-width: 0; // Allow shrinking
+		overflow: hidden;
 	}
 
 	// Desktop: Show full step navigation
@@ -152,6 +157,8 @@
 
 		@include tmd-up {
 			display: block;
+			flex: 1;
+			overflow: hidden;
 		}
 
 		// Override step navigation styles for bottom nav
@@ -161,13 +168,23 @@
 
 		.step-tabs {
 			border: none; // No border for bottom nav
+			flex-wrap: nowrap;
+			overflow: hidden;
 		}
 
 		.step-tab {
 			background: transparent;
 			border: none;
-			// Allow tabs to grow to fit content instead of equal sizing
-			flex: 0 1 auto;
+			// Allow tabs to shrink and grow, but prioritize fitting within container
+			flex: 1 1 auto;
+			min-width: 0;
+			max-width: 200px;
+
+			.step-name {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
 
 			&:hover,
 			&:focus {
@@ -208,14 +225,14 @@
 		border: none;
 		border-radius: 20px;
 		color: var(--text-primary);
-		font-size: 18px;
+		font-size: 16px;
 		font-weight: 500;
 		transition: all var(--transition);
 		cursor: pointer;
 
 		// Desktop: Normal padding
 		@include tmd-up {
-			padding: space(xs) space(md);
+			padding: space(xs) space(sm);
 		}
 
 		&:hover,

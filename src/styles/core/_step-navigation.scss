@@ -14,7 +14,7 @@
 
 .step-tabs {
 	display: flex;
-	gap: 0.5rem;
+	gap: 0.25rem;
 	align-items: center;
 }
 
@@ -23,7 +23,7 @@
 	border: none;
 	color: var(--text-primary);
 	// Mobile: More compact padding
-	padding: space(xs) space(md);
+	padding: space(xs) space(sm);
 	@include fluid-text(sm, medium, 1.3);
 	cursor: pointer;
 	flex: 1; // Equal size on desktop - all tabs get equal space
@@ -37,7 +37,7 @@
 
 	// Desktop: More spacious padding
 	@include tmd-up {
-		padding: space(sm) space(lg);
+		padding: space(sm) space(md);
 		@include fluid-text(base, medium, 1.3);
 	}
 
@@ -76,7 +76,7 @@
 
 // Mobile responsive behavior - Keep tabs on one row
 .step-tab {
-	// Mobile: Inactive tabs show only numbers, minimal padding
+	// Mobile/Tablet: Inactive tabs show only numbers, minimal padding
 	&:not(.step-tab--active) {
 		flex: 0 0 auto; // Don't grow, minimal size
 		// padding: space(sm) space(md);
@@ -86,17 +86,18 @@
 		}
 	}
 
-	// Mobile: Active tab expanded with number and name
+	// Mobile/Tablet: Active tab expanded with number and name
 	&.step-tab--active {
 		flex: 1; // Expand to fill remaining space
 
 		.step-name {
 			display: block; // Show name on active tab
+			white-space: nowrap; // Never truncate active tab
 		}
 	}
 
-	// Tablet and up: All tabs get equal space and show both number and name
-	@include tmd-up {
+	// Desktop small and up: All tabs get equal space and show both number and name
+	@include dsm-up {
 		// Override mobile behavior - all tabs equal size
 		&:not(.step-tab--active) {
 			flex: 1; // Equal size on desktop
