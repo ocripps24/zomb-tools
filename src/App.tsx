@@ -26,7 +26,12 @@ import CitadelleDesMorts from "./components/games/bo6/maps/citadelle-des-morts/C
 import TheTomb from "./components/games/bo6/maps/the-tomb/TheTomb";
 import AshesOfTheDamned from "./components/games/bo7/maps/ashes-of-the-damned/AshesOfTheDamned";
 import AstraMalorum from "./components/games/bo7/maps/astra-malorum/AstraMalorum";
+import DashboardList from "./components/dashboard/DashboardList";
+import DashboardBuilder from "./components/dashboard/DashboardBuilder";
+import DashboardView from "./components/dashboard/DashboardView";
+import DashboardEditor from "./components/dashboard/DashboardEditor";
 import CookieConsentBanner from "./components/ui/CookieConsentBanner";
+import GlobalSettings from "./components/ui/GlobalSettings";
 import { useConsent } from "./contexts/ConsentContext";
 import { ROUTES, ROUTE_PATTERNS, getRouteMetadata } from "./routes";
 import "./styles/main.scss";
@@ -93,6 +98,17 @@ function App() {
 			location.pathname.includes("/bo6/") ||
 			location.pathname.includes("/bo7/"));
 
+	// Check if current route is a dashboard view
+	// Dashboard view URLs are like /dashboard/{id} (not /dashboard/new or /dashboard/base)
+	const isDashboardView =
+		location.pathname.startsWith("/dashboard/") &&
+		!location.pathname.startsWith("/dashboard/new") &&
+		location.pathname !== "/dashboard" &&
+		location.pathname !== "/dashboard/";
+
+	// Show settings widget on map pages and dashboard views only
+	const showSettings = isMapPage || isDashboardView;
+
 	// Extract map ID for background image
 	const getMapId = () => {
 		if (!isMapPage) return null;
@@ -124,6 +140,12 @@ function App() {
 							{/* Info Routes */}
 							<Route path={ROUTES.roadmap} element={<Roadmap />} />
 
+
+							{/* Dashboard Routes */}
+							<Route path={ROUTES.dashboard.base} element={<DashboardList />} />
+							<Route path={ROUTES.dashboard.new} element={<DashboardBuilder />} />
+							<Route path={ROUTES.dashboard.view(":id")} element={<DashboardView />} />
+							<Route path={ROUTES.dashboard.edit(":id")} element={<DashboardEditor />} />
 							{/* Legal Routes */}
 							<Route path={ROUTES.privacyPolicy} element={<PrivacyPolicy />} />
 							<Route
@@ -253,6 +275,8 @@ function App() {
 
 			<Footer onResetConsent={resetConsent} />
 
+			{/* Show settings widget only on map pages and dashboard views */}
+			{showSettings && <GlobalSettings />}
 			<CookieConsentBanner />
 		</div>
 	);

@@ -16,6 +16,15 @@ export const ROUTES = {
 	privacyPolicy: "/privacy-policy",
 	termsAndConditions: "/terms-and-conditions",
 
+	// Dashboard routes
+	dashboard: {
+		base: "/dashboard",
+		new: "/dashboard/new",
+		view: (id: string) => `/dashboard/${id}`,
+		edit: (id: string) => `/dashboard/${id}/edit`,
+		share: (encodedData: string) => `/dashboard/share/${encodedData}`,
+	},
+
 	// Game routes
 	games: {
 		bo1: {

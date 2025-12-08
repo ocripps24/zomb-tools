@@ -618,12 +618,7 @@
 	}
 
 	&__instructions {
-		padding: space(sm);
-		margin-bottom: space(sm);
-
-		p {
-			font-size: 0.8125rem;
-		}
+		display: none;
 	}
 
 	&__results {

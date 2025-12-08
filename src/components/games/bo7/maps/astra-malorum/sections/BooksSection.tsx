@@ -1,7 +1,7 @@
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import { ResultsDisplay } from "@/components/ui";
-import { createUiSizeSetting } from "@/utils/settingsHelpers";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 interface BooksData {
 	selectedBooks: string[];
@@ -39,7 +39,14 @@ const SHELF_SETS = [
 ] as const;
 
 function BooksSection(props: BaseSectionProps<BooksData>) {
-	const uiSizeSetting = createUiSizeSetting();
+	// Register this section's settings (none besides global uiSize for now)
+	// Settings are managed by the global floating widget
+	useSectionSettings({
+		mapId: "astra-malorum",
+		sectionId: "books",
+		sectionName: "Books",
+		settings: [], // No custom settings for this section
+	});
 
 	return (
 		<BaseSection
@@ -74,10 +81,6 @@ function BooksSection(props: BaseSectionProps<BooksData>) {
 							text: "Teleporter room (machine) and adjacent library (shelves)",
 						},
 					],
-				},
-				settingsConfig: {
-					show: true,
-					settings: [uiSizeSetting],
 				},
 			}}
 			getProgress={(data: BooksData) => {

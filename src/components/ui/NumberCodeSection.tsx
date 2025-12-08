@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import ResultsDisplay from "./ResultsDisplay";
 import MovementSlider from "./MovementSlider";
 import type { TipsConfig } from "./TipsSection";
-import { createUiSizeSetting } from "@/utils/settingsHelpers";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 // Types for the generic number code section
 export interface NumberCodeLocation {
@@ -68,33 +67,87 @@ function NumberCodeSection({
     return defaultData;
   };
 
-  // Load initial settings from localStorage
-  const getInitialSettings = () => {
-    try {
-      const saved = localStorage.getItem(`${storageKey}-settings`);
-      if (saved) {
-        const settings = JSON.parse(saved);
-        return {
-          inputMethod: settings.inputMethod || "text",
-          displayOrder: settings.displayOrder || "entry",
-        };
-      }
-    } catch (e) {
-      console.error("Failed to parse number code settings:", e);
+  // Extract mapId and sectionId from storageKey
+  // Expected format: "map-name-section-name-data" -> mapId: "map-name", sectionId: "section-name"
+  const parseStorageKey = (key: string) => {
+    const parts = key.replace(/-data$/, "").split("-");
+    // Try to intelligently split - most keys are like "map-section-data"
+    // For multi-word maps/sections, we need to find the best split point
+    // Common patterns: "liberty-falls-bank-vault-data", "terminus-nathan-code-data"
+
+    // Simple heuristic: if we have exactly 2 parts, use them directly
+    if (parts.length === 2) {
+      return { mapId: parts[0], sectionId: parts[1] };
     }
-    return { inputMethod: "text", displayOrder: "entry" };
+
+    // Otherwise, assume first part(s) are map, last part(s) are section
+    // Try to find common section suffixes
+    const sectionSuffixes = ["code", "vault", "safe", "door", "clock", "scratches"];
+    let splitIndex = -1;
+
+    for (let i = parts.length - 1; i >= 0; i--) {
+      if (sectionSuffixes.includes(parts[i])) {
+        splitIndex = i - 1; // Split before the suffix word
+        break;
+      }
+    }
+
+    if (splitIndex > 0) {
+      return {
+        mapId: parts.slice(0, splitIndex + 1).join("-"),
+        sectionId: parts.slice(splitIndex + 1).join("-")
+      };
+    }
+
+    // Fallback: first half is map, second half is section
+    const midpoint = Math.floor(parts.length / 2);
+    return {
+      mapId: parts.slice(0, midpoint).join("-"),
+      sectionId: parts.slice(midpoint).join("-")
+    };
   };
 
-  const initialSettings = getInitialSettings();
-  const [inputMethod, setInputMethod] = useState(initialSettings.inputMethod);
-  const [displayOrder, setDisplayOrder] = useState(initialSettings.displayOrder);
-  const uiSizeSetting = createUiSizeSetting();
+  const { mapId, sectionId } = parseStorageKey(storageKey);
 
-  // Save settings to localStorage when they change
-  const saveSettings = (method: string, order: string) => {
-    const settings = { inputMethod: method, displayOrder: order };
-    localStorage.setItem(`${storageKey}-settings`, JSON.stringify(settings));
-  };
+  // Build settings array dynamically
+  const settingsArray = [
+    {
+      id: "input-method",
+      label: "Input Method",
+      defaultValue: "text",
+      options: [
+        { value: "text", label: "Text Input (number fields)" },
+        { value: "slider", label: "Sliders (range controls)" },
+      ],
+      note: "How you input the numbers",
+    },
+    ...(allowDisplayOrderToggle
+      ? [
+          {
+            id: "display-order",
+            label: displayOrderLabel,
+            defaultValue: "entry",
+            options: [
+              { value: "entry", label: "Entry Order (final code order)" },
+              { value: "collection", label: "Collection Order (speedrun order)" },
+            ],
+            note: "Order in which to display the input fields",
+          },
+        ]
+      : []),
+  ];
+
+  // Register with the global settings system
+  const { getSetting } = useSectionSettings({
+    mapId,
+    sectionId,
+    sectionName: title,
+    settings: settingsArray,
+  });
+
+  // Get settings values
+  const inputMethod = getSetting("input-method", "text") as string;
+  const displayOrder = getSetting("display-order", "entry") as string;
 
   return (
     <BaseSection
@@ -105,46 +158,6 @@ function NumberCodeSection({
         description,
         resetButtonText: resetButtonText || `Reset ${title}`,
         tipsConfig: tipsConfig,
-        settingsConfig: {
-          show: true,
-          title: "Input Preferences",
-          description: "Customize how you input numbers.",
-          settings: [
-            {
-              id: "input-method",
-              label: "Input Method",
-              value: inputMethod,
-              options: [
-                { value: "text", label: "Text Input (number fields)" },
-                { value: "slider", label: "Sliders (range controls)" },
-              ],
-              note: "How you input the numbers",
-              onChange: (value) => {
-                setInputMethod(value);
-                saveSettings(value, displayOrder);
-              },
-            },
-            ...(allowDisplayOrderToggle
-              ? [
-                  {
-                    id: "display-order",
-                    label: displayOrderLabel,
-                    value: displayOrder,
-                    options: [
-                      { value: "entry", label: "Entry Order (final code order)" },
-                      { value: "collection", label: "Collection Order (speedrun order)" },
-                    ],
-                    note: "Order in which to display the input fields",
-                    onChange: (value: string) => {
-                      setDisplayOrder(value);
-                      saveSettings(inputMethod, value);
-                    },
-                  },
-                ]
-              : []),
-            uiSizeSetting,
-          ],
-        },
       }}
       getProgress={(data: NumberCodeData) => {
         const completedCount = locations.filter(

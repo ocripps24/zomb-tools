@@ -26,7 +26,8 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 		items: [
 			"BO7: Added Astra Malorum",
 			"UI: Moved the Map Navigation to the top for easier access as some people weren't noticing it at the bottom 🤪",
-			"Feature: Working on building a dashboard system where you will be able to select which sections you want to have so that they appear on a single page. This feature will be better for speedrunners and enable the potential for building a single page for Super runs.",
+			"Feature: Dashboard system that enables the creation of custom views so multiple map sections from multiple maps can be shown on a single page. This should help with speedruns and especially Supers.",
+			"Feature: Settings have been unified into a context-aware global settings widget that will control settings across all sections and maps.",
 		],
 	},
 	{

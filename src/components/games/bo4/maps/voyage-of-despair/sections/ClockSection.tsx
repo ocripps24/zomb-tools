@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import { SymbolPicker } from "@/components/ui";
@@ -6,7 +6,7 @@ import { MovementSlider } from "@/components/ui";
 import { MovementStepper } from "@/components/ui";
 import { MovementButtons } from "@/components/ui";
 import { SYMBOL_ICONS, SYMBOL_NAMES } from "./SymbolIcons";
-import { createUiSizeSetting } from "@/utils/settingsHelpers";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 const CLOCK_LOCATIONS = [
 	{ id: "mailrooms", name: "Mailrooms" },
@@ -98,36 +98,40 @@ interface ClocksData {
 }
 
 function ClockSection(props: BaseSectionProps<ClocksData>) {
-	// Load initial UI preferences from localStorage
-	const getInitialSettings = () => {
-		try {
-			const saved = localStorage.getItem("voyage-clocks-settings");
-			if (saved) {
-				const settings = JSON.parse(saved);
-				return {
-					displayFormat: settings.displayFormat || "time",
-					inputMethod: settings.inputMethod || "sliders",
-				};
-			}
-		} catch (e) {
-			console.error("Failed to parse clock settings:", e);
-		}
-		return { displayFormat: "time", inputMethod: "sliders" };
-	};
+	// Register with the global settings system
+	const { getSetting } = useSectionSettings({
+		mapId: "voyage-of-despair",
+		sectionId: "clock",
+		sectionName: "Clock Locations & Times",
+		settings: [
+			{
+				id: "display-format",
+				label: "Display Format",
+				defaultValue: "time",
+				options: [
+					{ value: "time", label: "Time Format (01:45)" },
+					{ value: "movements", label: "Movement Format (+1/-3)" },
+				],
+				note: "How times are displayed throughout the interface",
+			},
+			{
+				id: "input-method",
+				label: "Input Method",
+				defaultValue: "sliders",
+				options: [
+					{ value: "sliders", label: "Sliders (range controls)" },
+					{ value: "steppers", label: "Steppers (+/- buttons)" },
+					{ value: "buttons", label: "Button Grid" },
+					{ value: "text", label: "Text Fields" },
+				],
+				note: "How you input time values for each clock location",
+			},
+		],
+	});
 
-	// UI preference states
-	const initialSettings = getInitialSettings();
-	const [displayFormat, setDisplayFormat] = useState(
-		initialSettings.displayFormat
-	);
-	const [inputMethod, setInputMethod] = useState(initialSettings.inputMethod);
-	const uiSizeSetting = createUiSizeSetting();
-
-	// Save UI preferences to localStorage when they change
-	useEffect(() => {
-		const settings = { displayFormat, inputMethod };
-		localStorage.setItem("voyage-clocks-settings", JSON.stringify(settings));
-	}, [displayFormat, inputMethod]);
+	// Get settings values
+	const displayFormat = getSetting("display-format", "time") as "time" | "movements";
+	const inputMethod = getSetting("input-method", "sliders") as string;
 
 	return (
 		<BaseSection
@@ -138,39 +142,6 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 				description:
 					"Record times and symbols for active clocks. Enter hour and minute separately. Each symbol can only be used once.",
 				resetButtonText: "Reset Clocks",
-				settingsConfig: {
-					show: true,
-					title: "Clock Input Preferences",
-					description:
-						"Customize how you input clock times and how they are displayed.",
-					settings: [
-						{
-							id: "display-format",
-							label: "Display Format",
-							value: displayFormat,
-							options: [
-								{ value: "time", label: "Time Format (01:45)" },
-								{ value: "movements", label: "Movement Format (+1/-3)" },
-							],
-							note: "How times are displayed throughout the interface",
-							onChange: (value) => setDisplayFormat(value),
-						},
-						{
-							id: "input-method",
-							label: "Input Method",
-							value: inputMethod,
-							options: [
-								{ value: "sliders", label: "Sliders (range controls)" },
-								{ value: "steppers", label: "Steppers (+/- buttons)" },
-								{ value: "buttons", label: "Button Grid" },
-								{ value: "text", label: "Text Fields" },
-							],
-							note: "How you input time values for each clock location",
-							onChange: (value) => setInputMethod(value),
-						},
-						uiSizeSetting,
-					],
-				},
 			}}
 			getProgress={(data: ClocksData) => {
 				const completeClocks = Object.values(data.clocks || {}).filter(

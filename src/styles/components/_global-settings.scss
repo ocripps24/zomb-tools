@@ -1,0 +1,204 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+// Global Settings Widget
+.global-settings {
+	position: fixed;
+	bottom: space(xl);
+	right: space(xl);
+	z-index: 10002; // Higher than map-nav (10000) and nav (9999) to stay on top of all content
+
+	@include mobile {
+		bottom: space(md);
+		right: space(md);
+	}
+
+	&__toggle {
+		display: flex;
+		align-items: center;
+		gap: space(sm);
+		padding: space(md) space(lg);
+		background: var(--accent-color);
+		color: black;
+		border: none;
+		border-radius: radius(full);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+		cursor: pointer;
+		transition: all var(--transition);
+		@include fluid-text(base, semibold, 1);
+
+		&:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+		}
+
+		&:active {
+			transform: translateY(0);
+		}
+
+		.settings-icon {
+			@include fluid-text(lg, normal, 1);
+		}
+
+		.settings-label {
+			@include mobile {
+				display: none;
+			}
+		}
+	}
+
+	&__panel {
+		position: absolute;
+		bottom: calc(100% + space(md));
+		right: 0;
+		width: 400px;
+		max-width: calc(100vw - space(xl) * 2);
+		max-height: 600px;
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(lg);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+
+		@include mobile {
+			width: calc(100vw - space(md) * 2);
+			max-height: calc(100vh - space(md) * 3 - 60px);
+		}
+	}
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: space(lg);
+		border-bottom: 1px solid var(--border-color);
+		background: var(--bg-tertiary);
+
+		h3 {
+			@include fluid-text(lg, semibold, 1.3);
+			color: var(--text-primary);
+			margin: 0;
+		}
+	}
+
+	&__close {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		padding: 0;
+		background: transparent;
+		border: 1px solid var(--border-color);
+		border-radius: radius(sm);
+		color: var(--text-secondary);
+		cursor: pointer;
+		transition: all var(--transition);
+
+		&:hover {
+			background: var(--danger-color);
+			border-color: var(--danger-color);
+			color: white;
+		}
+	}
+
+	&__content {
+		overflow-y: auto;
+		padding: space(lg);
+		flex: 1;
+	}
+
+	&__section {
+		margin-bottom: space(xl);
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		h4 {
+			@include fluid-text(base, semibold, 1.3);
+			color: var(--text-primary);
+			margin: 0 0 space(md) 0;
+			padding-bottom: space(sm);
+			border-bottom: 1px solid var(--border-color);
+		}
+
+		.section-description {
+			@include fluid-text(sm, normal, 1.5);
+			color: var(--text-secondary);
+			margin: 0 0 space(md) 0;
+		}
+	}
+
+	&__empty {
+		text-align: center;
+		padding: space(2xl);
+
+		p {
+			@include fluid-text(sm, normal, 1.5);
+			color: var(--text-secondary);
+			margin: 0;
+		}
+	}
+
+	&__info {
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(sm);
+		margin-top: space(lg);
+
+		p {
+			@include fluid-text(sm, normal, 1.5);
+			color: var(--text-secondary);
+			margin: 0;
+		}
+	}
+}
+
+// Setting Item
+.setting-item {
+	margin-bottom: space(md);
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	label {
+		display: block;
+		@include fluid-text(sm, semibold, 1.4);
+		color: var(--text-primary);
+		margin-bottom: space(xs);
+	}
+
+	select {
+		width: 100%;
+		@include fluid-text(base, normal, 1.5);
+		padding: space(sm) space(md);
+		background: var(--bg-primary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(sm);
+		color: var(--text-primary);
+		cursor: pointer;
+		transition: border-color var(--transition);
+
+		&:focus {
+			outline: none;
+			border-color: var(--accent-color);
+		}
+
+		&:hover {
+			border-color: var(--accent-color);
+		}
+	}
+
+	.setting-note {
+		@include fluid-text(xs, normal, 1.4);
+		color: var(--text-tertiary);
+		margin: space(xs) 0 0 0;
+		font-style: italic;
+	}
+}

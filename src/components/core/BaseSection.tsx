@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import SectionHeader from "./SectionHeader";
 import TipsSection from "@/components/ui/TipsSection";
-import SettingsSection from "@/components/ui/SettingsSection";
 import type { TipsConfig } from "@/components/ui/TipsSection";
 import type { SettingsConfig } from "@/components/ui/SettingsSection";
 import { usePersistedState } from "@/hooks";
@@ -23,6 +22,8 @@ export interface BaseSectionProps<T = any> {
 	totalSteps?: number;
 	/** Optional YouTube guide from map */
 	guide?: Guide;
+	/** Optional storage key override (for dashboards with isolated storage) */
+	storageKey?: string;
 }
 
 // Progress tracking interface
@@ -115,15 +116,20 @@ export function BaseSection<T = any>({
 	onSectionReset,
 	children,
 	guide,
+	storageKey: storageKeyOverride,
 }: BaseSectionWrapperProps<T>) {
 	// Get global settings for compact mode
-	const { settings, getCompactClass, updateSetting } = useGlobalSettings();
+	const { getCompactClass } = useGlobalSettings();
+
+	// Use storageKey override from props (for dashboards) or fall back to config
+	const effectiveStorageKey = storageKeyOverride || config.storageKey;
+
 	const {
 		data,
 		setData,
 		reset: resetStorage,
 	} = usePersistedState<T>({
-		storageKey: config.storageKey,
+		storageKey: effectiveStorageKey,
 		defaultValue: config.defaultValue,
 		onChange,
 		debug: config.debug || false,
@@ -140,32 +146,8 @@ export function BaseSection<T = any>({
 		}
 	};
 
-	// Always show settings with at minimum a compact mode toggle
-	const finalSettingsConfig: SettingsConfig = (() => {
-		// If custom settings exist, use them as-is
-		if (config.settingsConfig) {
-			return config.settingsConfig;
-		}
-
-		// Auto-generate compact mode toggle for all sections
-		return {
-			show: true,
-			title: "Section Settings",
-			settings: [
-				{
-					id: "ui-size",
-					label: "UI Density",
-					value: settings.uiSize,
-					options: [
-						{ value: "standard", label: "Standard" },
-						{ value: "compact", label: "Compact" },
-					],
-					note: "Compact mode reduces spacing and hides secondary information",
-					onChange: (value) => updateSetting("uiSize", value as "standard" | "compact"),
-				},
-			],
-		};
-	})();
+	// Settings are now managed by the global floating widget
+	// This section no longer renders its own settings panel
 
 	// Generate section class name from title (e.g., "Staff Upgrade" -> "staff-upgrade")
 	const sectionClassName = config.title
@@ -192,8 +174,7 @@ export function BaseSection<T = any>({
 					<TipsSection config={config.tipsConfig} title={config.tipsTitle} />
 				)}
 
-				{/* Always render settings section with at minimum compact mode toggle */}
-				<SettingsSection config={finalSettingsConfig} />
+				{/* Settings are now managed globally via floating widget */}
 			</div>
 		</div>
 	);
@@ -252,6 +233,8 @@ export function createSection<T = any>(options: {
 				getProgress={options.getProgress}
 				onSectionReset={options.onSectionReset}
 				{...props}
+				// Pass through storageKey override if provided
+				storageKey={props.storageKey}
 			>
 				{options.renderContent}
 			</BaseSection>

@@ -45,6 +45,10 @@
 @use "components/glass-hero";
 @use "components/hero-footer-grid";
 @use "components/reference-images";
+@use "components/dashboard-form";
+@use "components/confirm-dialog";
+@use "components/share-dialog";
+@use "components/global-settings";
 
 // 5. Layout Components - structural layout elements
 @use "layout/nav";
@@ -58,6 +62,8 @@
 @use "pages/game-selection";
 @use "pages/legal-pages";
 @use "pages/roadmap";
+@use "pages/dashboard";
+@use "pages/dashboard-view";
 
 // 8. Maps - map-specific styles
 @use "maps/bo1/moon";

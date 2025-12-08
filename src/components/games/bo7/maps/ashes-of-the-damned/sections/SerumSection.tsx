@@ -1,7 +1,7 @@
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import ResultsDisplay from "@/components/ui/ResultsDisplay";
-import { createUiSizeSetting } from "@/utils/settingsHelpers";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 // Import pig-pen symbols for first letters
 import PigPenF from "@/assets/symbols/pig-pen/pig-pen-f.svg";
@@ -70,7 +70,13 @@ const PARTS = [
 ];
 
 function SerumSection(props: BaseSectionProps<SerumData>) {
-	const uiSizeSetting = createUiSizeSetting();
+	// Register with the global settings system (no custom settings needed)
+	useSectionSettings({
+		mapId: "ashes-of-the-damned",
+		sectionId: "serum",
+		sectionName: "Serum Trial",
+		settings: [],
+	});
 
 	return (
 		<BaseSection
@@ -100,10 +106,6 @@ function SerumSection(props: BaseSectionProps<SerumData>) {
 							text: "Serum crafting table at Cosmodrone",
 						},
 					],
-				},
-				settingsConfig: {
-					show: true,
-					settings: [uiSizeSetting],
 				},
 			}}
 			getProgress={(data: SerumData) => ({

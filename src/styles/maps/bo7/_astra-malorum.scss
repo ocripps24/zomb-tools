@@ -46,7 +46,7 @@
 		justify-content: center;
 		padding: space(md);
 		background: var(--bg-tertiary);
-		border: 2px solid var(--border-color);
+		border: 1px solid var(--border-color);
 		border-radius: radius(base);
 		cursor: pointer;
 		transition: all var(--transition);
@@ -257,7 +257,7 @@
 
 	.shelf-set {
 		background: var(--bg-tertiary);
-		border: 2px solid var(--border-color);
+		border: 1px solid var(--border-color);
 		border-radius: radius(base);
 		padding: space(md);
 
@@ -296,7 +296,7 @@
 		justify-content: space-between;
 		padding: space(md);
 		background: transparent;
-		border: 2px solid var(--border-color);
+		border: 1px solid var(--border-color);
 		border-radius: radius(base);
 		cursor: pointer;
 		transition: all var(--transition);
@@ -411,9 +411,9 @@
 	.coordinates-block,
 	.paper-data-block {
 		margin-bottom: space(xl);
-		padding: space(lg);
+		padding: space(lg) 0;
 		background: var(--bg-tertiary);
-		border: 2px solid var(--border-color);
+		// border: 1px solid var(--border-color);
 		border-radius: radius(base);
 
 		h3 {
@@ -466,7 +466,7 @@
 		height: 40px;
 		padding: 0;
 		background: transparent;
-		border: 2px solid var(--border-color);
+		border: 1px solid var(--border-color);
 		border-radius: radius(base);
 		color: var(--text-primary);
 		font-size: 1rem;
@@ -512,7 +512,7 @@
 		width: 60px;
 		height: 80px;
 		background: transparent;
-		border: 2px solid var(--border-color);
+		border: 1px solid var(--border-color);
 		border-radius: radius(base);
 		font-size: 2rem;
 		font-weight: 700;
@@ -532,7 +532,7 @@
 			max-width: 400px;
 			padding: space(lg);
 			background: transparent;
-			border: 2px solid var(--border-color);
+			border: 1px solid var(--border-color);
 			border-radius: radius(base);
 			color: var(--text-primary);
 			font-size: 1.5rem;
@@ -571,7 +571,7 @@
 
 	.planet-column {
 		background: transparent;
-		border: 2px solid var(--border-color);
+		border: 1px solid var(--border-color);
 		border-radius: radius(base);
 		padding: space(md);
 
@@ -602,7 +602,7 @@
 	.direction-btn {
 		padding: space(md);
 		background: transparent;
-		border: 2px solid var(--border-color);
+		border: 1px solid var(--border-color);
 		border-radius: radius(base);
 		color: var(--text-primary);
 		font-size: 1rem;
@@ -687,9 +687,9 @@
 	.symbol-picker-block,
 	.sequence-display-block {
 		margin-bottom: space(xl);
-		padding: space(lg);
+		padding: space(lg) 0;
 		background: var(--bg-tertiary);
-		border: 2px solid var(--border-color);
+		// border: 1px solid var(--border-color);
 		border-radius: radius(base);
 
 		h3 {
@@ -736,7 +736,7 @@
 		height: 80px;
 		padding: space(sm);
 		background: transparent;
-		border: 2px solid var(--border-color);
+		border: 1px solid var(--border-color);
 		border-radius: radius(base);
 		cursor: pointer;
 		transition: all var(--transition);

@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { NumberPad } from "@/components/ui";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 // Data interface for this section
 interface ClocksData {
@@ -85,7 +85,27 @@ const getSetById = (id: number) => {
 };
 
 function ClocksSection(props: BaseSectionProps<ClocksData>) {
-	const [inputMethod, setInputMethod] = useState<"keypad" | "text">("keypad");
+	// Register with the global settings system
+	const { getSetting } = useSectionSettings({
+		mapId: "alpha-omega",
+		sectionId: "clocks",
+		sectionName: "Clocks",
+		settings: [
+			{
+				id: "time-input-method",
+				label: "Time Entry",
+				defaultValue: "keypad",
+				options: [
+					{ value: "keypad", label: "Number Keypad" },
+					{ value: "text", label: "Text Input" },
+				],
+				note: "Choose how to enter times (HH:MM format)",
+			}
+		],
+	});
+
+	// Get input method from settings
+	const inputMethod = getSetting("time-input-method", "keypad") as "keypad" | "text";
 
 	return (
 		<BaseSection
@@ -117,24 +137,6 @@ function ClocksSection(props: BaseSectionProps<ClocksData>) {
 						{
 							label: "Final House",
 							text: "The final house time will be shown when you interact with the clock in that house",
-						},
-					],
-				},
-				settingsConfig: {
-					show: true,
-					title: "Input Preferences",
-					description: "Customize how you input the final house time.",
-					settings: [
-						{
-							id: "time-input-method",
-							label: "Time Entry",
-							value: inputMethod,
-							options: [
-								{ value: "keypad", label: "Number Keypad" },
-								{ value: "text", label: "Text Input" },
-							],
-							note: "Choose how to enter times (HH:MM format)",
-							onChange: (value) => setInputMethod(value as "keypad" | "text"),
 						},
 					],
 				},

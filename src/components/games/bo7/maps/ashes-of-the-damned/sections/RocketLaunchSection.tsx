@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import MultiSelectSymbolPicker from "@/components/ui/MultiSelectSymbolPicker";
 import type { MultiSelectSymbol } from "@/components/ui/MultiSelectSymbolPicker";
-import { createUiSizeSetting } from "@/utils/settingsHelpers";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 // Import all pig-pen symbols
 import PigPenA from "@/assets/symbols/pig-pen/pig-pen-a.svg";
@@ -111,10 +110,27 @@ const PIG_PEN_SYMBOLS: MultiSelectSymbol[] = ALL_SYMBOLS.filter((symbol) =>
 }));
 
 function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
-	const [displayMode, setDisplayMode] = useState<"symbol-select" | "cheat-sheet">(
-		"symbol-select"
-	);
-	const uiSizeSetting = createUiSizeSetting();
+	// Register with the global settings system
+	const { getSetting } = useSectionSettings({
+		mapId: "ashes-of-the-damned",
+		sectionId: "rocket-launch",
+		sectionName: "Rocket Launch",
+		settings: [
+			{
+				id: "display-mode",
+				label: "Display Mode",
+				defaultValue: "symbol-select",
+				options: [
+					{ value: "symbol-select", label: "Symbol Select" },
+					{ value: "cheat-sheet", label: "Cheat Sheet" },
+				],
+				note: "Symbol Select: Progressive elimination. Cheat Sheet: Quick reference.",
+			},
+		],
+	});
+
+	// Get display mode from settings
+	const displayMode = getSetting("display-mode", "symbol-select") as "symbol-select" | "cheat-sheet";
 
 	return (
 		<BaseSection
@@ -147,26 +163,6 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 							label: "Location",
 							text: "Launch control room at Cosmodrone",
 						},
-					],
-				},
-				settingsConfig: {
-					show: true,
-					title: "Display Settings",
-					description: "Choose how you want to solve this section",
-					settings: [
-						{
-							id: "display-mode",
-							label: "Display Mode",
-							value: displayMode,
-							options: [
-								{ value: "symbol-select", label: "Symbol Select" },
-								{ value: "cheat-sheet", label: "Cheat Sheet" },
-							],
-							note: "Symbol Select: Progressive elimination. Cheat Sheet: Quick reference.",
-							onChange: (value) =>
-								setDisplayMode(value as "symbol-select" | "cheat-sheet"),
-						},
-						uiSizeSetting,
 					],
 				},
 			}}

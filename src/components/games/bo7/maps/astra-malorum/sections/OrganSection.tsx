@@ -1,7 +1,7 @@
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import { ResultsDisplay } from "@/components/ui";
-import { createUiSizeSetting } from "@/utils/settingsHelpers";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 // Import symbols
 import Symbol1 from "@/assets/maps/bo7/astra-malorum/astra-malorum-symbol-1.svg";
@@ -55,7 +55,13 @@ const SYMBOLS = [
 ];
 
 function OrganSection(props: BaseSectionProps<OrganData>) {
-	const uiSizeSetting = createUiSizeSetting();
+	// Register with the global settings system (no custom settings needed)
+	useSectionSettings({
+		mapId: "astra-malorum",
+		sectionId: "organ",
+		sectionName: "Organ / Mars",
+		settings: [],
+	});
 
 	return (
 		<BaseSection
@@ -82,10 +88,6 @@ function OrganSection(props: BaseSectionProps<OrganData>) {
 							text: "Travel to Mars and interact with the 5 columns in the sequence shown, replacing STATIC with the missing symbol",
 						},
 					],
-				},
-				settingsConfig: {
-					show: true,
-					settings: [uiSizeSetting],
 				},
 			}}
 			getProgress={(data: OrganData) => {
@@ -193,23 +195,37 @@ function OrganSection(props: BaseSectionProps<OrganData>) {
 						</div>
 
 						{/* Results Display */}
-						{isComplete && missingSymbol && (
+						{data.sequence.length > 0 && (
 							<div className="organ-section__results">
-								<h4>Mars Column Sequence</h4>
+								<h4>{isComplete ? "Mars Column Sequence" : "Current Sequence"}</h4>
 								<p className="result-instruction">
-									Interact with the columns on Mars in this order (STATIC has
-									been replaced with the missing symbol):
+									{isComplete
+										? "Interact with the columns on Mars in this order (STATIC has been replaced with the missing symbol):"
+										: "Your current sequence from the organ (continue adding symbols):"}
 								</p>
 
 								<ResultsDisplay
 									variant="sequence"
-									showIncomplete={false}
+									showIncomplete={true}
 									totalExpected={5}
 									sequenceItems={data.sequence.map((item, index) => {
-										// Replace static with the missing symbol
-										const displayId = item === "static" ? missingSymbol : item;
-										const symbol = SYMBOLS.find((s) => s.id === displayId);
+										// Only replace static with the missing symbol when complete
+										const displayId =
+											item === "static" && isComplete && missingSymbol
+												? missingSymbol
+												: item;
 
+										// Handle STATIC display
+										if (displayId === "static") {
+											return {
+												id: `${index}-static`,
+												order: index + 1,
+												value: "TBC",
+											};
+										}
+
+										// Handle symbol display
+										const symbol = SYMBOLS.find((s) => s.id === displayId);
 										return {
 											id: `${index}-${displayId}`,
 											order: index + 1,
