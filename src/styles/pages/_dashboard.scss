@@ -4,12 +4,20 @@
 
 // Dashboard List Page
 .dashboard-list {
+	position: relative;
+	z-index: 100;
 	max-width: 1200px;
 	margin: 0 auto;
 	padding: space(2xl) space(lg);
 	background: var(--bg-tertiary);
 	border: 1px solid var(--border-color);
 	border-radius: radius(lg);
+	// background-color: var(--border-color);
+	// backdrop-filter: blur(blurs(2xl));
+	// border: 1px solid var(--border-color);
+	// border-radius: radius(lg);
+	// padding: space(xl);
+	// box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 
 	@include tmd-up {
 		padding: space(3xl) space(xl);

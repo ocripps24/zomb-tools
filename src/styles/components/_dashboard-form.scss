@@ -6,6 +6,8 @@
 // Shared styles for both creating and editing dashboards
 .dashboard-builder,
 .dashboard-editor {
+	position: relative;
+	z-index: 100;
 	max-width: 1400px;
 	margin: 0 auto;
 	padding: space(2xl) space(lg);

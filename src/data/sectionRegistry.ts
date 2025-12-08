@@ -1,10 +1,88 @@
 import type { SectionRegistry, SectionRegistryEntry } from "@/types/dashboard";
 
-// Import Astra Malorum sections
-import PapCodeSection from "@/components/games/bo7/maps/astra-malorum/sections/PapCodeSection";
-import BooksSection from "@/components/games/bo7/maps/astra-malorum/sections/BooksSection";
-import TeleporterSection from "@/components/games/bo7/maps/astra-malorum/sections/TeleporterSection";
-import OrganSection from "@/components/games/bo7/maps/astra-malorum/sections/OrganSection";
+// ===== BO7 Imports =====
+// Astra Malorum
+import AstraPapCodeSection from "@/components/games/bo7/maps/astra-malorum/sections/PapCodeSection";
+import AstraBooksSection from "@/components/games/bo7/maps/astra-malorum/sections/BooksSection";
+import AstraTeleporterSection from "@/components/games/bo7/maps/astra-malorum/sections/TeleporterSection";
+import AstraOrganSection from "@/components/games/bo7/maps/astra-malorum/sections/OrganSection";
+
+// Ashes of the Damned
+import AshesRocketLaunchSection from "@/components/games/bo7/maps/ashes-of-the-damned/sections/RocketLaunchSection";
+import AshesSerumSection from "@/components/games/bo7/maps/ashes-of-the-damned/sections/SerumSection";
+
+// ===== BO6 Imports =====
+// Terminus
+import TerminusBeamCodeSection from "@/components/games/bo6/maps/terminus/sections/BeamCodeSection";
+import TerminusNathanCodeSection from "@/components/games/bo6/maps/terminus/sections/NathanCodeSection";
+
+// Liberty Falls
+import LibertyFallsVaultCodeSection from "@/components/games/bo6/maps/liberty-falls/sections/VaultCodeSection";
+
+// Citadelle des Morts
+import CitadelleTrapsSection from "@/components/games/bo6/maps/citadelle-des-morts/sections/TrapsSection";
+import CitadelleRavenSwordSection from "@/components/games/bo6/maps/citadelle-des-morts/sections/RavenSwordSection";
+
+// Shattered Veil
+import ShatteredVeilSafeCodeSection from "@/components/games/bo6/maps/shattered-veil/sections/SafeCodeSection";
+import ShatteredVeilChalkboardCodeSection from "@/components/games/bo6/maps/shattered-veil/sections/ChalkboardCodeSection";
+
+// The Tomb
+import TheTombStaffUpgrade from "@/components/games/bo6/maps/the-tomb/sections/StaffUpgrade";
+
+// Reckoning
+import ReckoningDoorCodeSection from "@/components/games/bo6/maps/reckoning/sections/DoorCodeSection";
+import ReckoningDocumentsCodeSection from "@/components/games/bo6/maps/reckoning/sections/DocumentsCodeSection";
+
+// ===== BO5 Imports =====
+// Mauer der Toten
+import MauerSafeCodeSection from "@/components/games/bo5/maps/mauer-der-toten/sections/SafeCodeSection";
+
+// Firebase Z
+import FirebaseZDartboardSection from "@/components/games/bo5/maps/firebase-z/sections/DartboardSection";
+
+// ===== BO4 Imports =====
+// Voyage of Despair
+import VoyageClockSection from "@/components/games/bo4/maps/voyage-of-despair/sections/ClockSection";
+import VoyageOutletSection from "@/components/games/bo4/maps/voyage-of-despair/sections/OutletSection";
+import VoyagePlanetSection from "@/components/games/bo4/maps/voyage-of-despair/sections/PlanetSection";
+
+// IX
+import IxRaSymbolsSection from "@/components/games/bo4/maps/ix/sections/RaSymbolsSection";
+
+// Blood of the Dead
+import BloodPowerHouseSection from "@/components/games/bo4/maps/blood-of-the-dead/sections/PowerHouseSection";
+
+// Classified
+import ClassifiedCodesSection from "@/components/games/bo4/maps/classified/sections/CodesSection";
+
+// Dead of the Night
+import DeadAlastairFollySection from "@/components/games/bo4/maps/dead-of-the-night/sections/AlastairFollySection";
+import DeadScratchesSection from "@/components/games/bo4/maps/dead-of-the-night/sections/ScratchesSection";
+
+// Alpha Omega
+import AlphaClocksSection from "@/components/games/bo4/maps/alpha-omega/sections/ClocksSection";
+import AlphaCoreValue3Section from "@/components/games/bo4/maps/alpha-omega/sections/CoreValue3Section";
+import AlphaCoreValue4Section from "@/components/games/bo4/maps/alpha-omega/sections/CoreValue4Section";
+import AlphaUnlockAdamSection from "@/components/games/bo4/maps/alpha-omega/sections/UnlockAdamSection";
+
+// Tag der Toten
+import TagOrbLocationsSection from "@/components/games/bo4/maps/tag-der-toten/sections/OrbLocationsSection";
+import TagSealOfDualitySection from "@/components/games/bo4/maps/tag-der-toten/sections/SealOfDualitySection";
+import TagTotemsSection from "@/components/games/bo4/maps/tag-der-toten/sections/TotemsSection";
+import TagApothicanOfferingsSection from "@/components/games/bo4/maps/tag-der-toten/sections/ApothicanOfferingsSection";
+
+// ===== BO3 Imports =====
+// Gorod Krovi
+import GorodKroviValvesSection from "@/components/games/bo3/maps/gorod-krovi/sections/ValvesSection";
+import GorodKroviBombsSection from "@/components/games/bo3/maps/gorod-krovi/sections/BombsSection";
+
+// Shadows of Evil
+import ShadowsEggSymbols from "@/components/games/bo3/maps/shadows-of-evil/sections/EggSymbols";
+
+// ===== BO1 Imports =====
+// Moon
+import MoonSamanthaSays from "@/components/games/bo1/maps/moon/sections/SamanthaSays";
 
 /**
  * Central registry of all available sections across all games and maps.
@@ -14,11 +92,31 @@ import OrganSection from "@/components/games/bo7/maps/astra-malorum/sections/Org
  */
 export const SECTION_REGISTRY: SectionRegistry = {
 	bo7: {
+		"ashes-of-the-damned": {
+			"rocket-launch": {
+				id: "rocket-launch",
+				name: "Rocket Launch",
+				component: AshesRocketLaunchSection,
+				gameId: "bo7",
+				gameName: "Black Ops 7",
+				mapId: "ashes-of-the-damned",
+				mapName: "Ashes of the Damned",
+			},
+			serum: {
+				id: "serum",
+				name: "Serum",
+				component: AshesSerumSection,
+				gameId: "bo7",
+				gameName: "Black Ops 7",
+				mapId: "ashes-of-the-damned",
+				mapName: "Ashes of the Damned",
+			},
+		},
 		"astra-malorum": {
-			"oscar-code": {
-				id: "oscar-code",
+			"pap-code": {
+				id: "pap-code",
 				name: "OSCAR Code",
-				component: PapCodeSection,
+				component: AstraPapCodeSection,
 				gameId: "bo7",
 				gameName: "Black Ops 7",
 				mapId: "astra-malorum",
@@ -27,7 +125,7 @@ export const SECTION_REGISTRY: SectionRegistry = {
 			books: {
 				id: "books",
 				name: "Books",
-				component: BooksSection,
+				component: AstraBooksSection,
 				gameId: "bo7",
 				gameName: "Black Ops 7",
 				mapId: "astra-malorum",
@@ -36,7 +134,7 @@ export const SECTION_REGISTRY: SectionRegistry = {
 			teleporter: {
 				id: "teleporter",
 				name: "Teleporter",
-				component: TeleporterSection,
+				component: AstraTeleporterSection,
 				gameId: "bo7",
 				gameName: "Black Ops 7",
 				mapId: "astra-malorum",
@@ -45,16 +143,348 @@ export const SECTION_REGISTRY: SectionRegistry = {
 			organ: {
 				id: "organ",
 				name: "Organ / Mars",
-				component: OrganSection,
+				component: AstraOrganSection,
 				gameId: "bo7",
 				gameName: "Black Ops 7",
 				mapId: "astra-malorum",
 				mapName: "Astra Malorum",
 			},
 		},
-		// TODO: Add other BO7 maps as they're created
 	},
-	// TODO: Add other games (bo6, bo5, bo4, bo3, bo1)
+	bo6: {
+		terminus: {
+			"beam-code": {
+				id: "beam-code",
+				name: "Beam Code",
+				component: TerminusBeamCodeSection,
+				gameId: "bo6",
+				gameName: "Black Ops 6",
+				mapId: "terminus",
+				mapName: "Terminus",
+			},
+			"nathan-code": {
+				id: "nathan-code",
+				name: "Nathan's Code",
+				component: TerminusNathanCodeSection,
+				gameId: "bo6",
+				gameName: "Black Ops 6",
+				mapId: "terminus",
+				mapName: "Terminus",
+			},
+		},
+		"liberty-falls": {
+			"vault-code": {
+				id: "vault-code",
+				name: "Vault Code",
+				component: LibertyFallsVaultCodeSection,
+				gameId: "bo6",
+				gameName: "Black Ops 6",
+				mapId: "liberty-falls",
+				mapName: "Liberty Falls",
+			},
+		},
+		"citadelle-des-morts": {
+			traps: {
+				id: "traps",
+				name: "Traps",
+				component: CitadelleTrapsSection,
+				gameId: "bo6",
+				gameName: "Black Ops 6",
+				mapId: "citadelle-des-morts",
+				mapName: "Citadelle des Morts",
+			},
+			"raven-sword": {
+				id: "raven-sword",
+				name: "Raven Sword",
+				component: CitadelleRavenSwordSection,
+				gameId: "bo6",
+				gameName: "Black Ops 6",
+				mapId: "citadelle-des-morts",
+				mapName: "Citadelle des Morts",
+			},
+		},
+		"the-tomb": {
+			"staff-upgrade": {
+				id: "staff-upgrade",
+				name: "Staff Upgrade",
+				component: TheTombStaffUpgrade,
+				gameId: "bo6",
+				gameName: "Black Ops 6",
+				mapId: "the-tomb",
+				mapName: "The Tomb",
+			},
+		},
+		"shattered-veil": {
+			"safe-code": {
+				id: "safe-code",
+				name: "Safe Code",
+				component: ShatteredVeilSafeCodeSection,
+				gameId: "bo6",
+				gameName: "Black Ops 6",
+				mapId: "shattered-veil",
+				mapName: "Shattered Veil",
+			},
+			"chalkboard-code": {
+				id: "chalkboard-code",
+				name: "Chalkboard Code",
+				component: ShatteredVeilChalkboardCodeSection,
+				gameId: "bo6",
+				gameName: "Black Ops 6",
+				mapId: "shattered-veil",
+				mapName: "Shattered Veil",
+			},
+		},
+		reckoning: {
+			"door-code": {
+				id: "door-code",
+				name: "Door Code",
+				component: ReckoningDoorCodeSection,
+				gameId: "bo6",
+				gameName: "Black Ops 6",
+				mapId: "reckoning",
+				mapName: "Reckoning",
+			},
+			"documents-code": {
+				id: "documents-code",
+				name: "Documents Code",
+				component: ReckoningDocumentsCodeSection,
+				gameId: "bo6",
+				gameName: "Black Ops 6",
+				mapId: "reckoning",
+				mapName: "Reckoning",
+			},
+		},
+	},
+	bo5: {
+		"mauer-der-toten": {
+			"safe-code": {
+				id: "safe-code",
+				name: "Safe Code",
+				component: MauerSafeCodeSection,
+				gameId: "bo5",
+				gameName: "Black Ops Cold War",
+				mapId: "mauer-der-toten",
+				mapName: "Mauer der Toten",
+			},
+		},
+		"firebase-z": {
+			dartboard: {
+				id: "dartboard",
+				name: "Dartboard",
+				component: FirebaseZDartboardSection,
+				gameId: "bo5",
+				gameName: "Black Ops Cold War",
+				mapId: "firebase-z",
+				mapName: "Firebase Z",
+			},
+		},
+	},
+	bo4: {
+		"voyage-of-despair": {
+			clock: {
+				id: "clock",
+				name: "Clock",
+				component: VoyageClockSection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "voyage-of-despair",
+				mapName: "Voyage of Despair",
+			},
+			outlet: {
+				id: "outlet",
+				name: "Outlet",
+				component: VoyageOutletSection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "voyage-of-despair",
+				mapName: "Voyage of Despair",
+			},
+			planet: {
+				id: "planet",
+				name: "Planet",
+				component: VoyagePlanetSection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "voyage-of-despair",
+				mapName: "Voyage of Despair",
+			},
+		},
+		ix: {
+			"ra-symbols": {
+				id: "ra-symbols",
+				name: "Ra Symbols",
+				component: IxRaSymbolsSection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "ix",
+				mapName: "IX",
+			},
+		},
+		"blood-of-the-dead": {
+			"power-house": {
+				id: "power-house",
+				name: "Power House",
+				component: BloodPowerHouseSection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "blood-of-the-dead",
+				mapName: "Blood of the Dead",
+			},
+		},
+		classified: {
+			codes: {
+				id: "codes",
+				name: "Codes",
+				component: ClassifiedCodesSection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "classified",
+				mapName: "Classified",
+			},
+		},
+		"dead-of-the-night": {
+			"alastair-folly": {
+				id: "alastair-folly",
+				name: "Alastair's Folly",
+				component: DeadAlastairFollySection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "dead-of-the-night",
+				mapName: "Dead of the Night",
+			},
+			scratches: {
+				id: "scratches",
+				name: "Scratches",
+				component: DeadScratchesSection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "dead-of-the-night",
+				mapName: "Dead of the Night",
+			},
+		},
+		"alpha-omega": {
+			clocks: {
+				id: "clocks",
+				name: "Clocks",
+				component: AlphaClocksSection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "alpha-omega",
+				mapName: "Alpha Omega",
+			},
+			"core-value-3": {
+				id: "core-value-3",
+				name: "Core Value 3",
+				component: AlphaCoreValue3Section,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "alpha-omega",
+				mapName: "Alpha Omega",
+			},
+			"core-value-4": {
+				id: "core-value-4",
+				name: "Core Value 4",
+				component: AlphaCoreValue4Section,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "alpha-omega",
+				mapName: "Alpha Omega",
+			},
+			"unlock-adam": {
+				id: "unlock-adam",
+				name: "Unlock A.D.A.M.",
+				component: AlphaUnlockAdamSection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "alpha-omega",
+				mapName: "Alpha Omega",
+			},
+		},
+		"tag-der-toten": {
+			"orb-locations": {
+				id: "orb-locations",
+				name: "Orb Locations",
+				component: TagOrbLocationsSection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "tag-der-toten",
+				mapName: "Tag der Toten",
+			},
+			"seal-of-duality": {
+				id: "seal-of-duality",
+				name: "Seal of Duality",
+				component: TagSealOfDualitySection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "tag-der-toten",
+				mapName: "Tag der Toten",
+			},
+			totems: {
+				id: "totems",
+				name: "Totems",
+				component: TagTotemsSection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "tag-der-toten",
+				mapName: "Tag der Toten",
+			},
+			"apothican-offerings": {
+				id: "apothican-offerings",
+				name: "Apothican Offerings",
+				component: TagApothicanOfferingsSection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "tag-der-toten",
+				mapName: "Tag der Toten",
+			},
+		},
+	},
+	bo3: {
+		"gorod-krovi": {
+			valves: {
+				id: "valves",
+				name: "Valves",
+				component: GorodKroviValvesSection,
+				gameId: "bo3",
+				gameName: "Black Ops 3",
+				mapId: "gorod-krovi",
+				mapName: "Gorod Krovi",
+			},
+			bombs: {
+				id: "bombs",
+				name: "Bombs",
+				component: GorodKroviBombsSection,
+				gameId: "bo3",
+				gameName: "Black Ops 3",
+				mapId: "gorod-krovi",
+				mapName: "Gorod Krovi",
+			},
+		},
+		"shadows-of-evil": {
+			"egg-symbols": {
+				id: "egg-symbols",
+				name: "Egg Symbols",
+				component: ShadowsEggSymbols,
+				gameId: "bo3",
+				gameName: "Black Ops 3",
+				mapId: "shadows-of-evil",
+				mapName: "Shadows of Evil",
+			},
+		},
+	},
+	bo1: {
+		moon: {
+			"samantha-says": {
+				id: "samantha-says",
+				name: "Samantha Says",
+				component: MoonSamanthaSays,
+				gameId: "bo1",
+				gameName: "Black Ops 1",
+				mapId: "moon",
+				mapName: "Moon",
+			},
+		},
+	},
 };
 
 /**

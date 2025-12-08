@@ -4,6 +4,8 @@ import { useDashboards } from "@/hooks/useDashboards";
 import { ROUTES } from "@/routes/config";
 import SectionSelector from "./SectionSelector";
 import SelectedSectionsList from "./SelectedSectionsList";
+import GlassHero from "@/components/ui/GlassHero";
+import beamsImage from "@/assets/images/beams-bkg-v2.png";
 import type { DashboardSection } from "@/types/dashboard";
 
 /**
@@ -111,13 +113,24 @@ export default function DashboardBuilder() {
 	};
 
 	return (
-		<div className="dashboard-builder">
-			<header className="dashboard-builder__header">
-				<h1>Create Dashboard</h1>
-				<p>
-					Select sections from any map to create a custom multi-section view
-				</p>
-			</header>
+		<>
+			{/* Full-viewport background image with fluted glass effect */}
+			<GlassHero
+				imageSrc={beamsImage}
+				glassIntensity={50}
+				glassSegments={60}
+				glassMode="mouse"
+				glassMotion={0.75}
+				fixed={true}
+			/>
+
+			<div className="dashboard-builder">
+				<header className="dashboard-builder__header">
+					<h1>Create Dashboard</h1>
+					<p>
+						Select sections from any map to create a custom multi-section view
+					</p>
+				</header>
 
 			<div className="dashboard-builder__form">
 				<div className="dashboard-builder__details">
@@ -189,5 +202,6 @@ export default function DashboardBuilder() {
 				</div>
 			</div>
 		</div>
+		</>
 	);
 }

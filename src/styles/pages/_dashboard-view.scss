@@ -4,6 +4,8 @@
 
 // Dashboard View Page
 .dashboard-view {
+	position: relative;
+	z-index: 100;
 	max-width: 1400px;
 	margin: 0 auto;
 	padding: space(lg);

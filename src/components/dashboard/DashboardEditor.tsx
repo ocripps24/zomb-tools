@@ -4,6 +4,8 @@ import { useDashboards } from "@/hooks/useDashboards";
 import { ROUTES } from "@/routes/config";
 import SectionSelector from "./SectionSelector";
 import SelectedSectionsList from "./SelectedSectionsList";
+import GlassHero from "@/components/ui/GlassHero";
+import beamsImage from "@/assets/images/beams-bkg-v2.png";
 import type { DashboardSection } from "@/types/dashboard";
 
 /**
@@ -156,38 +158,69 @@ export default function DashboardEditor() {
 	// Loading state
 	if (isLoading) {
 		return (
-			<div className="dashboard-editor">
-				<div className="dashboard-editor__loading">
-					<p>Loading dashboard...</p>
+			<>
+				<GlassHero
+					imageSrc={beamsImage}
+					glassIntensity={50}
+					glassSegments={60}
+					glassMode="mouse"
+					glassMotion={0.75}
+					fixed={true}
+				/>
+				<div className="dashboard-editor">
+					<div className="dashboard-editor__loading">
+						<p>Loading dashboard...</p>
+					</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 
 	// Not found state
 	if (notFound) {
 		return (
-			<div className="dashboard-editor">
-				<div className="dashboard-editor__not-found">
-					<h1>Dashboard Not Found</h1>
-					<p>The dashboard you're trying to edit doesn't exist.</p>
-					<button
-						className="btn btn-primary"
-						onClick={() => navigate(ROUTES.dashboard.base)}
-					>
-						Back to Dashboards
-					</button>
+			<>
+				<GlassHero
+					imageSrc={beamsImage}
+					glassIntensity={50}
+					glassSegments={60}
+					glassMode="mouse"
+					glassMotion={0.75}
+					fixed={true}
+				/>
+				<div className="dashboard-editor">
+					<div className="dashboard-editor__not-found">
+						<h1>Dashboard Not Found</h1>
+						<p>The dashboard you're trying to edit doesn't exist.</p>
+						<button
+							className="btn btn-primary"
+							onClick={() => navigate(ROUTES.dashboard.base)}
+						>
+							Back to Dashboards
+						</button>
+					</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 
 	return (
-		<div className="dashboard-editor">
-			<header className="dashboard-editor__header">
-				<h1>Edit Dashboard</h1>
-				<p>Modify your dashboard's name, description, and sections</p>
-			</header>
+		<>
+			{/* Full-viewport background image with fluted glass effect */}
+			<GlassHero
+				imageSrc={beamsImage}
+				glassIntensity={50}
+				glassSegments={60}
+				glassMode="mouse"
+				glassMotion={0.75}
+				fixed={true}
+			/>
+
+			<div className="dashboard-editor">
+				<header className="dashboard-editor__header">
+					<h1>Edit Dashboard</h1>
+					<p>Modify your dashboard's name, description, and sections</p>
+				</header>
 
 			<div className="dashboard-editor__form">
 				<div className="dashboard-editor__details">
@@ -256,5 +289,6 @@ export default function DashboardEditor() {
 				</div>
 			</div>
 		</div>
+		</>
 	);
 }

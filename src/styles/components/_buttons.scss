@@ -5,7 +5,7 @@
 // Button components - Mobile First
 .btn {
 	background: var(--btn-secondary-bg);
-	border: 2px solid var(--border-color);
+	border: 1px solid var(--border-color);
 	color: var(--btn-secondary-text);
 	border-radius: var(--radius);
 	// Mobile: Compact horizontal padding
@@ -17,7 +17,7 @@
 	text-decoration: none;
 	display: inline-block;
 	text-align: center;
-	
+
 	// Tablet and up: More spacious horizontal padding
 	@include tmd-up {
 		padding: 0.75rem 1.5rem;
@@ -146,7 +146,7 @@
 .symbol-btn {
 	@include touch-target(52px);
 	@include flex-center;
-	border: 2px solid var(--border-color);
+	border: 1px solid var(--border-color);
 	border-radius: radius(base);
 	background-color: var(--bg-primary);
 	color: var(--text-secondary);

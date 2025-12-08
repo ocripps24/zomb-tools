@@ -195,23 +195,37 @@ function OrganSection(props: BaseSectionProps<OrganData>) {
 						</div>
 
 						{/* Results Display */}
-						{isComplete && missingSymbol && (
+						{data.sequence.length > 0 && (
 							<div className="organ-section__results">
-								<h4>Mars Column Sequence</h4>
+								<h4>{isComplete ? "Mars Column Sequence" : "Current Sequence"}</h4>
 								<p className="result-instruction">
-									Interact with the columns on Mars in this order (STATIC has
-									been replaced with the missing symbol):
+									{isComplete
+										? "Interact with the columns on Mars in this order (STATIC has been replaced with the missing symbol):"
+										: "Your current sequence from the organ (continue adding symbols):"}
 								</p>
 
 								<ResultsDisplay
 									variant="sequence"
-									showIncomplete={false}
+									showIncomplete={true}
 									totalExpected={5}
 									sequenceItems={data.sequence.map((item, index) => {
-										// Replace static with the missing symbol
-										const displayId = item === "static" ? missingSymbol : item;
-										const symbol = SYMBOLS.find((s) => s.id === displayId);
+										// Only replace static with the missing symbol when complete
+										const displayId =
+											item === "static" && isComplete && missingSymbol
+												? missingSymbol
+												: item;
 
+										// Handle STATIC display
+										if (displayId === "static") {
+											return {
+												id: `${index}-static`,
+												order: index + 1,
+												value: "TBC",
+											};
+										}
+
+										// Handle symbol display
+										const symbol = SYMBOLS.find((s) => s.id === displayId);
 										return {
 											id: `${index}-${displayId}`,
 											order: index + 1,

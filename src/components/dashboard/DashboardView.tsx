@@ -38,31 +38,38 @@ export default function DashboardView() {
 	const handleResetAllData = () => {
 		if (!dashboard) return;
 
-		console.log('=== RESET ALL DATA DEBUG ===');
-		console.log('Dashboard ID:', dashboard.id);
-		console.log('Dashboard sections:', dashboard.sections);
+		console.log("=== RESET ALL DATA DEBUG ===");
+		console.log("Dashboard ID:", dashboard.id);
+		console.log("Dashboard sections:", dashboard.sections);
 
 		// Log all localStorage keys BEFORE removal
 		const allKeys = Object.keys(localStorage);
-		console.log('All localStorage keys BEFORE removal:', allKeys);
-		const dashboardKeysBefore = allKeys.filter(key => key.startsWith(dashboard.id));
-		console.log('Dashboard-specific keys BEFORE removal:', dashboardKeysBefore);
+		console.log("All localStorage keys BEFORE removal:", allKeys);
+		const dashboardKeysBefore = allKeys.filter((key) =>
+			key.startsWith(dashboard.id)
+		);
+		console.log("Dashboard-specific keys BEFORE removal:", dashboardKeysBefore);
 
 		// Clear all dashboard section data from localStorage
 		dashboard.sections.forEach((section) => {
 			const storageKey = `${dashboard.id}-${section.mapId}-${section.sectionId}-data`;
-			console.log('Attempting to remove storage key:', storageKey);
-			console.log('Key exists before removal:', localStorage.getItem(storageKey) !== null);
+			console.log("Attempting to remove storage key:", storageKey);
+			console.log(
+				"Key exists before removal:",
+				localStorage.getItem(storageKey) !== null
+			);
 			localStorage.removeItem(storageKey);
 		});
 
 		// Log what's left AFTER removal
-		const dashboardKeysAfter = Object.keys(localStorage).filter(key => key.startsWith(dashboard.id));
-		console.log('Dashboard-specific keys AFTER removal:', dashboardKeysAfter);
+		const dashboardKeysAfter = Object.keys(localStorage).filter((key) =>
+			key.startsWith(dashboard.id)
+		);
+		console.log("Dashboard-specific keys AFTER removal:", dashboardKeysAfter);
 
 		// Close dialog - DON'T reload yet so we can see console
 		setResetConfirmOpen(false);
-		console.log('=== Data cleared. Refresh page manually to see changes ===');
+		console.log("=== Data cleared. Refresh page manually to see changes ===");
 		// window.location.reload();
 	};
 
@@ -71,7 +78,10 @@ export default function DashboardView() {
 			<div className="dashboard-view">
 				<div className="dashboard-view__not-found">
 					<h1>Dashboard Not Found</h1>
-					<p>The dashboard you're looking for doesn't exist or has been deleted.</p>
+					<p>
+						The dashboard you're looking for doesn't exist or has been
+						deleted.
+					</p>
 					<Link to={ROUTES.dashboard.base} className="btn btn-primary">
 						Back to Dashboards
 					</Link>
@@ -82,69 +92,104 @@ export default function DashboardView() {
 
 	return (
 		<div className="dashboard-view">
-			<header className="dashboard-view__header">
-				<div className="dashboard-view__header-content">
-					<div className="dashboard-view__title-group">
-						<h1>{dashboard.name}</h1>
-						{dashboard.description && <p>{dashboard.description}</p>}
-					</div>
+				<header className="dashboard-view__header">
+					<div className="dashboard-view__header-content">
+						<div className="dashboard-view__title-group">
+							<h1>{dashboard.name}</h1>
+							{dashboard.description && <p>{dashboard.description}</p>}
+						</div>
 
-					<div className="dashboard-view__actions">
-						<Link
-							to={ROUTES.dashboard.base}
-							className="btn btn-secondary btn-sm"
-						>
-							← All Dashboards
-						</Link>
-						<button
-							type="button"
-							onClick={() => setResetConfirmOpen(true)}
-							className="btn btn-secondary btn-sm"
-						>
-							Reset All Data
-						</button>
-						<button
-							type="button"
-							onClick={() => setShareDialogOpen(true)}
-							className="btn btn-secondary btn-sm"
-						>
-							Share
-						</button>
+						<div className="dashboard-view__actions">
+							<Link
+								to={ROUTES.dashboard.base}
+								className="btn btn-secondary btn-sm"
+							>
+								← All Dashboards
+							</Link>
+							<button
+								type="button"
+								onClick={() => setResetConfirmOpen(true)}
+								className="btn btn-secondary btn-sm"
+							>
+								Reset All Data
+							</button>
+							<button
+								type="button"
+								onClick={() => setShareDialogOpen(true)}
+								className="btn btn-secondary btn-sm"
+							>
+								Share
+							</button>
+							<Link
+								to={ROUTES.dashboard.edit(dashboard.id)}
+								className="btn btn-secondary btn-sm"
+							>
+								Edit
+							</Link>
+						</div>
+					</div>
+				</header>
+
+				{sortedSections.length === 0 ? (
+					<div className="dashboard-view__empty">
+						<h2>No Sections</h2>
+						<p>This dashboard doesn't have any sections yet.</p>
 						<Link
 							to={ROUTES.dashboard.edit(dashboard.id)}
-							className="btn btn-secondary btn-sm"
+							className="btn btn-primary"
 						>
-							Edit
+							Add Sections
 						</Link>
 					</div>
-				</div>
-			</header>
+				) : (
+					<div className="dashboard-view__sections">
+						{sortedSections.map((section, index) => {
+							const registryEntry = getSectionByPath(
+								section.gameId,
+								section.mapId,
+								section.sectionId
+							);
 
-			{sortedSections.length === 0 ? (
-				<div className="dashboard-view__empty">
-					<h2>No Sections</h2>
-					<p>This dashboard doesn't have any sections yet.</p>
-					<Link
-						to={ROUTES.dashboard.edit(dashboard.id)}
-						className="btn btn-primary"
-					>
-						Add Sections
-					</Link>
-				</div>
-			) : (
-				<div className="dashboard-view__sections">
-					{sortedSections.map((section, index) => {
-						const registryEntry = getSectionByPath(
-							section.gameId,
-							section.mapId,
-							section.sectionId
-						);
+							if (!registryEntry) {
+								return (
+									<div
+										key={`${section.gameId}-${section.mapId}-${section.sectionId}`}
+										className="dashboard-section dashboard-section--missing"
+									>
+										<div className="dashboard-section__context">
+											<span className="section-order">{index + 1}</span>
+											<span className="game-name">{section.gameName}</span>
+											<span className="separator">›</span>
+											<span className="map-name">{section.mapName}</span>
+										</div>
+										<div className="dashboard-section__missing-content">
+											<h3>Section Not Available</h3>
+											<p>
+												The section "{section.sectionName}" is no longer
+												available. It may have been removed or renamed.
+											</p>
+										</div>
+									</div>
+								);
+							}
 
-						if (!registryEntry) {
+							const SectionComponent = registryEntry.component;
+
+							// Create isolated storage key for this dashboard section
+							const storageKey = `${dashboard.id}-${section.mapId}-${section.sectionId}-data`;
+
+							// Props for the section component
+							const sectionProps: BaseSectionProps = {
+								storageKey,
+								// No navigation props since this is a dashboard view
+								currentStep: index + 1,
+								totalSteps: sortedSections.length,
+							};
+
 							return (
 								<div
 									key={`${section.gameId}-${section.mapId}-${section.sectionId}`}
-									className="dashboard-section dashboard-section--missing"
+									className="dashboard-section"
 								>
 									<div className="dashboard-section__context">
 										<span className="section-order">{index + 1}</span>
@@ -152,69 +197,34 @@ export default function DashboardView() {
 										<span className="separator">›</span>
 										<span className="map-name">{section.mapName}</span>
 									</div>
-									<div className="dashboard-section__missing-content">
-										<h3>Section Not Available</h3>
-										<p>
-											The section "{section.sectionName}" is no longer available.
-											It may have been removed or renamed.
-										</p>
+
+									<div className="dashboard-section__content">
+										<SectionComponent {...sectionProps} />
 									</div>
 								</div>
 							);
-						}
+						})}
+					</div>
+				)}
 
-						const SectionComponent = registryEntry.component;
+				{/* Share Dialog */}
+				<ShareDialog
+					isOpen={shareDialogOpen}
+					dashboard={dashboard}
+					onClose={() => setShareDialogOpen(false)}
+				/>
 
-						// Create isolated storage key for this dashboard section
-						const storageKey = `${dashboard.id}-${section.mapId}-${section.sectionId}-data`;
-
-						// Props for the section component
-						const sectionProps: BaseSectionProps = {
-							storageKey,
-							// No navigation props since this is a dashboard view
-							currentStep: index + 1,
-							totalSteps: sortedSections.length,
-						};
-
-						return (
-							<div
-								key={`${section.gameId}-${section.mapId}-${section.sectionId}`}
-								className="dashboard-section"
-							>
-								<div className="dashboard-section__context">
-									<span className="section-order">{index + 1}</span>
-									<span className="game-name">{section.gameName}</span>
-									<span className="separator">›</span>
-									<span className="map-name">{section.mapName}</span>
-								</div>
-
-								<div className="dashboard-section__content">
-									<SectionComponent {...sectionProps} />
-								</div>
-							</div>
-						);
-					})}
-				</div>
-			)}
-
-			{/* Share Dialog */}
-			<ShareDialog
-				isOpen={shareDialogOpen}
-				dashboard={dashboard}
-				onClose={() => setShareDialogOpen(false)}
-			/>
-
-			{/* Reset All Data Confirmation */}
-			<ConfirmDialog
-				isOpen={resetConfirmOpen}
-				title="Reset All Dashboard Data"
-				message={`Are you sure you want to reset all section data for "${dashboard.name}"? This will clear all saved progress for every section in this dashboard. This action cannot be undone.`}
-				confirmText="Reset All Data"
-				cancelText="Cancel"
-				variant="danger"
-				onConfirm={handleResetAllData}
-				onCancel={() => setResetConfirmOpen(false)}
-			/>
-		</div>
+				{/* Reset All Data Confirmation */}
+				<ConfirmDialog
+					isOpen={resetConfirmOpen}
+					title="Reset All Dashboard Data"
+					message={`Are you sure you want to reset all section data for "${dashboard.name}"? This will clear all saved progress for every section in this dashboard. This action cannot be undone.`}
+					confirmText="Reset All Data"
+					cancelText="Cancel"
+					variant="danger"
+					onConfirm={handleResetAllData}
+					onCancel={() => setResetConfirmOpen(false)}
+				/>
+			</div>
 	);
 }
