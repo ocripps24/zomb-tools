@@ -23,6 +23,7 @@ const NavBar: React.FC<{ title?: string }> = () => {
 		location.pathname.startsWith(`/${game.id}`)
 	);
 	const isHome = location.pathname === "/";
+	const isDashboard = location.pathname.startsWith("/dashboard");
 
 	// Close dropdown when clicking outside
 	useEffect(() => {
@@ -72,6 +73,13 @@ const NavBar: React.FC<{ title?: string }> = () => {
 							{game.name}
 						</button>
 					))}
+				<button
+					className={`nav__link${isDashboard ? " nav__link--active" : ""}`}
+					onClick={() => navigate(ROUTES.dashboard.base)}
+					aria-label="Dashboards"
+				>
+					Dashboards
+				</button>
 				</div>
 
 				{/* Mobile: Dropdown menu */}

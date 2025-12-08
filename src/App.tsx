@@ -26,6 +26,7 @@ import CitadelleDesMorts from "./components/games/bo6/maps/citadelle-des-morts/C
 import TheTomb from "./components/games/bo6/maps/the-tomb/TheTomb";
 import AshesOfTheDamned from "./components/games/bo7/maps/ashes-of-the-damned/AshesOfTheDamned";
 import AstraMalorum from "./components/games/bo7/maps/astra-malorum/AstraMalorum";
+import DashboardList from "./components/dashboard/DashboardList";
 import CookieConsentBanner from "./components/ui/CookieConsentBanner";
 import { useConsent } from "./contexts/ConsentContext";
 import { ROUTES, ROUTE_PATTERNS, getRouteMetadata } from "./routes";
@@ -124,6 +125,9 @@ function App() {
 							{/* Info Routes */}
 							<Route path={ROUTES.roadmap} element={<Roadmap />} />
 
+
+							{/* Dashboard Routes */}
+							<Route path={ROUTES.dashboard.base} element={<DashboardList />} />
 							{/* Legal Routes */}
 							<Route path={ROUTES.privacyPolicy} element={<PrivacyPolicy />} />
 							<Route
