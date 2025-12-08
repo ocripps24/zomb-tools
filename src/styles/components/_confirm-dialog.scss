@@ -1,0 +1,112 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+.confirm-dialog {
+	border: none;
+	border-radius: var(--border-radius-lg);
+	padding: 0;
+	box-shadow: var(--shadow-xl);
+	background: var(--bg-secondary);
+
+	// Mobile-first base styles
+	width: 95%;
+	max-width: none;
+
+	&::backdrop {
+		background: rgba(0, 0, 0, 0.6);
+		backdrop-filter: blur(4px);
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: space(lg);
+	}
+
+	&__header {
+		padding: space(md) space(md) 0;
+
+		h2 {
+			margin: 0;
+			font-size: var(--font-size-xl);
+			color: var(--text-primary);
+		}
+	}
+
+	&__body {
+		padding: 0 space(md);
+
+		p {
+			margin: 0;
+			color: var(--text-secondary);
+			line-height: 1.6;
+		}
+	}
+
+	&__footer {
+		display: flex;
+		flex-direction: column-reverse;
+		justify-content: flex-end;
+		gap: space(sm);
+		padding: 0 space(md) space(md);
+
+		.btn {
+			width: 100%;
+		}
+	}
+
+	// Variant styles
+	&--danger {
+		.confirm-dialog__header h2 {
+			color: var(--danger-color);
+		}
+	}
+
+	&--warning {
+		.confirm-dialog__header h2 {
+			color: var(--warning-color);
+		}
+	}
+
+	// Tablet and up
+	@include tsm-up {
+		max-width: 500px;
+		width: 90%;
+
+		&__header {
+			padding: space(lg) space(lg) 0;
+		}
+
+		&__body {
+			padding: 0 space(lg);
+		}
+
+		&__footer {
+			flex-direction: row;
+			gap: space(md);
+			padding: 0 space(lg) space(lg);
+
+			.btn {
+				width: auto;
+				min-width: 100px;
+			}
+		}
+	}
+}
+
+// Danger button style
+.btn-danger {
+	background: var(--danger-color);
+	color: white;
+	border: 1px solid var(--danger-color);
+
+	&:hover {
+		background: color-adjust(var(--danger-color), 10%);
+		border-color: color-adjust(var(--danger-color), 10%);
+	}
+
+	&:active {
+		background: color-adjust(var(--danger-color), -10%);
+	}
+}

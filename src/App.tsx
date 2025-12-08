@@ -29,6 +29,7 @@ import AstraMalorum from "./components/games/bo7/maps/astra-malorum/AstraMalorum
 import DashboardList from "./components/dashboard/DashboardList";
 import DashboardBuilder from "./components/dashboard/DashboardBuilder";
 import DashboardView from "./components/dashboard/DashboardView";
+import DashboardEditor from "./components/dashboard/DashboardEditor";
 import CookieConsentBanner from "./components/ui/CookieConsentBanner";
 import GlobalSettings from "./components/ui/GlobalSettings";
 import { useConsent } from "./contexts/ConsentContext";
@@ -142,8 +143,9 @@ function App() {
 
 							{/* Dashboard Routes */}
 							<Route path={ROUTES.dashboard.base} element={<DashboardList />} />
-						<Route path={ROUTES.dashboard.view(":id")} element={<DashboardView />} />
-						<Route path={ROUTES.dashboard.new} element={<DashboardBuilder />} />
+							<Route path={ROUTES.dashboard.new} element={<DashboardBuilder />} />
+							<Route path={ROUTES.dashboard.view(":id")} element={<DashboardView />} />
+							<Route path={ROUTES.dashboard.edit(":id")} element={<DashboardEditor />} />
 							{/* Legal Routes */}
 							<Route path={ROUTES.privacyPolicy} element={<PrivacyPolicy />} />
 							<Route

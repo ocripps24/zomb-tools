@@ -1,6 +1,10 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDashboards } from "@/hooks/useDashboards";
 import { ROUTES } from "@/routes/config";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import ShareDialog from "@/components/ui/ShareDialog";
+import type { Dashboard } from "@/types/dashboard";
 
 /**
  * Dashboard List Page
@@ -8,15 +12,25 @@ import { ROUTES } from "@/routes/config";
  */
 export default function DashboardList() {
 	const { dashboards, isLoading, deleteDashboard } = useDashboards();
+	const [deleteConfirm, setDeleteConfirm] = useState<{
+		id: string;
+		name: string;
+	} | null>(null);
+	const [shareDashboard, setShareDashboard] = useState<Dashboard | null>(null);
 
-	const handleDelete = (id: string, name: string) => {
-		if (
-			window.confirm(
-				`Are you sure you want to delete "${name}"? This will also delete all associated section data.`
-			)
-		) {
-			deleteDashboard(id);
+	const handleDeleteClick = (id: string, name: string) => {
+		setDeleteConfirm({ id, name });
+	};
+
+	const handleDeleteConfirm = () => {
+		if (deleteConfirm) {
+			deleteDashboard(deleteConfirm.id);
+			setDeleteConfirm(null);
 		}
+	};
+
+	const handleDeleteCancel = () => {
+		setDeleteConfirm(null);
 	};
 
 	if (isLoading) {
@@ -98,6 +112,13 @@ export default function DashboardList() {
 								>
 									View
 								</Link>
+								<button
+									type="button"
+									onClick={() => setShareDashboard(dashboard)}
+									className="btn btn-secondary btn-sm"
+								>
+									Share
+								</button>
 								<Link
 									to={ROUTES.dashboard.edit(dashboard.id)}
 									className="btn btn-secondary btn-sm"
@@ -105,7 +126,8 @@ export default function DashboardList() {
 									Edit
 								</Link>
 								<button
-									onClick={() => handleDelete(dashboard.id, dashboard.name)}
+									type="button"
+									onClick={() => handleDeleteClick(dashboard.id, dashboard.name)}
 									className="btn btn-danger btn-sm"
 								>
 									Delete
@@ -115,6 +137,29 @@ export default function DashboardList() {
 					))}
 				</div>
 			)}
+
+			{/* Delete Confirmation Dialog */}
+			<ConfirmDialog
+				isOpen={deleteConfirm !== null}
+				title="Delete Dashboard"
+				message={
+					deleteConfirm
+						? `Are you sure you want to delete "${deleteConfirm.name}"? This will also delete all associated section data. This action cannot be undone.`
+						: ""
+				}
+				confirmText="Delete"
+				cancelText="Cancel"
+				variant="danger"
+				onConfirm={handleDeleteConfirm}
+				onCancel={handleDeleteCancel}
+			/>
+
+			{/* Share Dialog */}
+			<ShareDialog
+				isOpen={shareDashboard !== null}
+				dashboard={shareDashboard}
+				onClose={() => setShareDashboard(null)}
+			/>
 		</div>
 	);
 }

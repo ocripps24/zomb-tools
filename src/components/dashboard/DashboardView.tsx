@@ -1,9 +1,10 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDashboards } from "@/hooks/useDashboards";
 import { getSectionByPath } from "@/data/sectionRegistry";
 import { ROUTES } from "@/routes/config";
 import { useGlobalSettings } from "@/hooks/useGlobalSettings";
+import ShareDialog from "@/components/ui/ShareDialog";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 
 /**
@@ -14,6 +15,7 @@ export default function DashboardView() {
 	const { id } = useParams<{ id: string }>();
 	const { getDashboard } = useDashboards();
 	const { settings, updateSetting } = useGlobalSettings();
+	const [shareDialogOpen, setShareDialogOpen] = useState(false);
 
 	// Force compact mode for dashboard views (optimal for speedrunners)
 	useEffect(() => {
@@ -60,6 +62,13 @@ export default function DashboardView() {
 						>
 							← All Dashboards
 						</Link>
+						<button
+							type="button"
+							onClick={() => setShareDialogOpen(true)}
+							className="btn btn-secondary btn-sm"
+						>
+							Share
+						</button>
 						<Link
 							to={ROUTES.dashboard.edit(dashboard.id)}
 							className="btn btn-secondary btn-sm"
@@ -146,6 +155,13 @@ export default function DashboardView() {
 					})}
 				</div>
 			)}
+
+			{/* Share Dialog */}
+			<ShareDialog
+				isOpen={shareDialogOpen}
+				dashboard={dashboard}
+				onClose={() => setShareDialogOpen(false)}
+			/>
 		</div>
 	);
 }
