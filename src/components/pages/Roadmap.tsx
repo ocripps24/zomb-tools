@@ -12,7 +12,7 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 	{
 		date: "2026",
 		items: [
-			"BO7: Planning to add Astra Malorum and future DLCs",
+			"BO7: Planning to add all future DLCs",
 			"BO2: Potential to add Die Rise, Buried",
 			"IW: Potential to add Attack of the Radioactive Thing",
 			"AW/WW2: I'm unfamiliar with these games but they will be reviewed in the fullness of time",
@@ -23,7 +23,11 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 	},
 	{
 		date: "December 2025",
-		items: ["BO7: Added Astra Malorum"],
+		items: [
+			"BO7: Added Astra Malorum",
+			"UI: Moved the Map Navigation to the top for easier access as some people weren't noticing it at the bottom 🤪",
+			"Feature: Working on building a dashboard system where you will be able to select which sections you want to have so that they appear on a single page. This feature will be better for speedrunners and enable the potential for building a single page for Super runs.",
+		],
 	},
 	{
 		date: "November 2025",

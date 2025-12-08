@@ -24,7 +24,7 @@ const SHELF_SETS = [
 		books: [
 			{ id: "the-unknowable-void", title: "The Unknowable Void" },
 			{ id: "echos-of-andromeda", title: "Echos of Andromeda" },
-			{ id: "ashes-and-bones", title: "Ashes and Bones" },
+			{ id: "ashes-and-bones", title: "Ash and Bone" },
 		],
 	},
 	{

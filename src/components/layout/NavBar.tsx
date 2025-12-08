@@ -5,8 +5,10 @@ import MrPeeksLogo from "@/assets/icons/mr-peeks-head-logo.svg";
 import ChevronIcon from "@/assets/icons/chevron.svg";
 
 const games = [
+	{ id: "bo1", name: "BO1" },
 	{ id: "bo3", name: "BO3" },
 	{ id: "bo4", name: "BO4" },
+	{ id: "bo5", name: "CW" },
 	{ id: "bo6", name: "BO6" },
 	{ id: "bo7", name: "BO7" },
 ];
@@ -25,17 +27,17 @@ const NavBar: React.FC<{ title?: string }> = () => {
 	// Close dropdown when clicking outside
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
-			const dropdown = document.querySelector('.nav__dropdown');
+			const dropdown = document.querySelector(".nav__dropdown");
 			if (dropdown && !dropdown.contains(event.target as Node)) {
 				setIsDropdownOpen(false);
 			}
 		};
 
 		if (isDropdownOpen) {
-			document.addEventListener('click', handleClickOutside);
+			document.addEventListener("click", handleClickOutside);
 		}
 
-		return () => document.removeEventListener('click', handleClickOutside);
+		return () => document.removeEventListener("click", handleClickOutside);
 	}, [isDropdownOpen]);
 
 	return (
@@ -62,7 +64,9 @@ const NavBar: React.FC<{ title?: string }> = () => {
 									? " nav__link--active"
 									: ""
 							}`}
-							onClick={() => navigate(getGameRoute(game.id as 'bo3' | 'bo4' | 'bo6' | 'bo7'))}
+							onClick={() =>
+								navigate(getGameRoute(game.id as "bo3" | "bo4" | "bo6" | "bo7"))
+							}
 							aria-label={game.name}
 						>
 							{game.name}
@@ -73,7 +77,9 @@ const NavBar: React.FC<{ title?: string }> = () => {
 				{/* Mobile: Dropdown menu */}
 				<div className="nav__dropdown">
 					<button
-						className={`nav__link nav__dropdown-toggle${activeGame ? " nav__link--active" : ""}`}
+						className={`nav__link nav__dropdown-toggle${
+							activeGame ? " nav__link--active" : ""
+						}`}
 						onClick={(e) => {
 							e.stopPropagation();
 							setIsDropdownOpen(!isDropdownOpen);
@@ -82,7 +88,11 @@ const NavBar: React.FC<{ title?: string }> = () => {
 						aria-expanded={isDropdownOpen}
 					>
 						<span>Games</span>
-						<span className={`nav__chevron${isDropdownOpen ? " nav__chevron--open" : ""}`}>
+						<span
+							className={`nav__chevron${
+								isDropdownOpen ? " nav__chevron--open" : ""
+							}`}
+						>
 							<ChevronIcon />
 						</span>
 					</button>
@@ -98,7 +108,9 @@ const NavBar: React.FC<{ title?: string }> = () => {
 											: ""
 									}`}
 									onClick={() => {
-										navigate(getGameRoute(game.id as 'bo3' | 'bo4' | 'bo6' | 'bo7'));
+										navigate(
+											getGameRoute(game.id as "bo3" | "bo4" | "bo6" | "bo7")
+										);
 										setIsDropdownOpen(false);
 									}}
 								>
