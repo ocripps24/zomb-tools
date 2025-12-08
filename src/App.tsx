@@ -27,6 +27,8 @@ import TheTomb from "./components/games/bo6/maps/the-tomb/TheTomb";
 import AshesOfTheDamned from "./components/games/bo7/maps/ashes-of-the-damned/AshesOfTheDamned";
 import AstraMalorum from "./components/games/bo7/maps/astra-malorum/AstraMalorum";
 import DashboardList from "./components/dashboard/DashboardList";
+import DashboardBuilder from "./components/dashboard/DashboardBuilder";
+import DashboardView from "./components/dashboard/DashboardView";
 import CookieConsentBanner from "./components/ui/CookieConsentBanner";
 import { useConsent } from "./contexts/ConsentContext";
 import { ROUTES, ROUTE_PATTERNS, getRouteMetadata } from "./routes";
@@ -128,6 +130,8 @@ function App() {
 
 							{/* Dashboard Routes */}
 							<Route path={ROUTES.dashboard.base} element={<DashboardList />} />
+						<Route path={ROUTES.dashboard.view(":id")} element={<DashboardView />} />
+						<Route path={ROUTES.dashboard.new} element={<DashboardBuilder />} />
 							{/* Legal Routes */}
 							<Route path={ROUTES.privacyPolicy} element={<PrivacyPolicy />} />
 							<Route

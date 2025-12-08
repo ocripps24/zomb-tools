@@ -1,0 +1,203 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+// Dashboard View Page
+.dashboard-view {
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: space(lg);
+
+	@include tmd-up {
+		padding: space(xl);
+		margin: 7.5rem auto 4rem;
+	}
+
+	&__header {
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(lg);
+		padding: space(xl) space(lg);
+		margin-bottom: space(2xl);
+
+		@include tmd-up {
+			padding: space(2xl) space(xl);
+		}
+	}
+
+	&__header-content {
+		display: flex;
+		flex-direction: column;
+		gap: space(lg);
+
+		@include tmd-up {
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: flex-start;
+		}
+	}
+
+	&__title-group {
+		flex: 1;
+
+		h1 {
+			@include fluid-text(3xl, bold, 1.2);
+			color: var(--text-primary);
+			margin: 0 0 space(sm) 0;
+		}
+
+		p {
+			@include fluid-text(base, normal, 1.5);
+			color: var(--text-secondary);
+			margin: 0;
+		}
+	}
+
+	&__actions {
+		display: flex;
+		gap: space(sm);
+		flex-shrink: 0;
+	}
+
+	&__not-found,
+	&__empty {
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(lg);
+		padding: space(4xl) space(lg);
+		text-align: center;
+		max-width: 600px;
+		margin: 0 auto;
+
+		h1,
+		h2 {
+			@include fluid-text(2xl, semibold, 1.3);
+			color: var(--text-primary);
+			margin: 0 0 space(md) 0;
+		}
+
+		p {
+			@include fluid-text(base, normal, 1.6);
+			color: var(--text-secondary);
+			margin: 0 0 space(xl) 0;
+		}
+	}
+
+	&__sections {
+		display: flex;
+		flex-direction: column;
+		gap: space(2xl);
+	}
+}
+
+// Individual Dashboard Section
+.dashboard-section {
+	background: transparent;
+	border: none;
+	border-radius: 0;
+	overflow: visible;
+
+	&--missing {
+		.dashboard-section__context {
+			background: var(--bg-secondary);
+			border-bottom-color: var(--danger-color);
+		}
+	}
+
+	&__context {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: space(xs);
+		padding: space(md) space(lg);
+		background: var(--bg-secondary);
+		border-bottom: 1px solid var(--border-color);
+
+		.section-order {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 28px;
+			height: 28px;
+			background: var(--accent-color);
+			color: white;
+			border-radius: radius(full);
+			@include fluid-text(sm, bold, 1);
+			flex-shrink: 0;
+			margin-right: space(xs);
+		}
+
+		.game-name {
+			@include fluid-text(sm, semibold, 1.4);
+			color: var(--text-primary);
+		}
+
+		.separator {
+			@include fluid-text(sm, normal, 1.4);
+			color: var(--text-tertiary);
+		}
+
+		.map-name {
+			@include fluid-text(sm, medium, 1.4);
+			color: var(--text-secondary);
+		}
+
+		// Desktop: unwrap and adjust spacing
+		@include tmd-up {
+			flex-wrap: nowrap;
+			gap: space(sm);
+
+			.section-order {
+				margin-right: 0;
+			}
+		}
+	}
+
+	&__content {
+		// Wrapper that mimics map-content styling for sections
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(lg);
+		overflow: hidden;
+	}
+
+	&__missing-content {
+		padding: space(2xl) space(lg);
+		text-align: center;
+
+		h3 {
+			@include fluid-text(xl, semibold, 1.3);
+			color: var(--danger-color);
+			margin: 0 0 space(md) 0;
+		}
+
+		p {
+			@include fluid-text(base, normal, 1.6);
+			color: var(--text-secondary);
+			margin: 0;
+		}
+	}
+}
+
+// Compact mode adjustments for dashboard sections
+.base-section.compact {
+	.dashboard-section {
+		margin-bottom: space(lg);
+	}
+
+	.dashboard-section__context {
+		padding: space(sm) space(md);
+
+		.section-order {
+			width: 24px;
+			height: 24px;
+			font-size: text-size(xs);
+		}
+
+		.game-name,
+		.map-name,
+		.separator {
+			font-size: text-size(xs);
+		}
+	}
+}

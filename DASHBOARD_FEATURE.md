@@ -6,7 +6,7 @@ This feature enables speedrunners to create custom multi-section views that comb
 
 ## Implementation Approach: Hybrid (Dashboard + Widget)
 
-### Phase 1: Dashboard Route (Core Feature) ✅ CURRENT FOCUS
+### Phase 1: Dashboard Route (Core Feature) 🚧 IN PROGRESS
 - Create `/dashboard` route for building custom multi-section views
 - Support cross-map sections (Super EE runs)
 - Drag-and-drop section ordering
@@ -387,28 +387,71 @@ export function DashboardBuilder() {
 
 ## Implementation Phases
 
-### Phase 1.1: Foundation (Week 1)
-- [ ] Create section registry (`src/data/sectionRegistry.ts`)
-- [ ] Create dashboard data structures & types
-- [ ] Create `useDashboards` hook
-- [ ] Set up routing for `/dashboard/*`
-- [ ] Create basic DashboardList page
+### Phase 1.1: Foundation ✅ COMPLETED
+- [x] Create section registry (`src/data/sectionRegistry.ts`)
+- [x] Create dashboard data structures & types (`src/types/dashboard.ts`)
+- [x] Create `useDashboards` hook (`src/hooks/useDashboards.ts`)
+- [x] Set up routing for `/dashboard/*` in `routes/config.ts`
+- [x] Create basic DashboardList page (`src/components/dashboard/DashboardList.tsx`)
+- [x] Add navigation link to NavBar
+- [x] Create SCSS styling for dashboard list (`src/styles/pages/_dashboard.scss`)
 
-### Phase 1.2: Builder (Week 2)
-- [ ] Create SectionSelector component (tree view)
-- [ ] Create SelectedSectionsList component (drag-and-drop)
-- [ ] Create DashboardBuilder page
-- [ ] Implement drag-and-drop with @dnd-kit
-- [ ] Add validation (prevent duplicates, require name)
+**Files Created:**
+- `/src/types/dashboard.ts` - TypeScript interfaces for Dashboard, DashboardSection, SectionRegistry
+- `/src/data/sectionRegistry.ts` - Central registry with all 4 Astra Malorum sections
+- `/src/hooks/useDashboards.ts` - CRUD operations with localStorage persistence
+- `/src/components/dashboard/DashboardList.tsx` - Dashboard list page with cards
+- `/src/styles/pages/_dashboard.scss` - Dashboard list styling
 
-### Phase 1.3: Viewer (Week 3)
-- [ ] Create DashboardView page
-- [ ] Implement section rendering with isolated data
-- [ ] Add section context headers (game/map name)
-- [ ] Handle missing sections gracefully
-- [ ] Add navigation between dashboards
+**Files Modified:**
+- `/src/routes/config.ts` - Added dashboard routes object
+- `/src/App.tsx` - Added DashboardList route
+- `/src/components/layout/NavBar.tsx` - Added "Dashboards" navigation link
+- `/src/styles/main.scss` - Imported dashboard styles
 
-### Phase 1.4: Polish (Week 4)
+### Phase 1.2: Builder ✅ COMPLETED
+- [x] Create SectionSelector component (tree view)
+- [x] Create SelectedSectionsList component (drag-and-drop)
+- [x] Create DashboardBuilder page
+- [x] Implement drag-and-drop with @dnd-kit
+- [x] Add validation (prevent duplicates, require name)
+- [x] Add SCSS styling for builder components
+
+**Files Created:**
+- `/src/components/dashboard/DashboardBuilder.tsx` - Dashboard creation form with validation
+- `/src/components/dashboard/SectionSelector.tsx` - Tree view (Game > Map > Section)
+- `/src/components/dashboard/SelectedSectionsList.tsx` - Drag-drop sortable list
+- `/src/styles/components/_dashboard-builder.scss` - Complete builder styling
+
+**Files Modified:**
+- `/src/App.tsx` - Added DashboardBuilder route for `/dashboard/new`
+- `/src/styles/main.scss` - Imported dashboard-builder styles
+
+### Phase 1.3: Viewer ✅ COMPLETED
+- [x] Create DashboardView page
+- [x] Implement section rendering with isolated data
+- [x] Add section context headers (game/map name)
+- [x] Handle missing sections gracefully
+- [x] Add navigation between dashboards
+- [x] Test with multiple sections from different maps
+
+**Files Created:**
+- `/src/components/dashboard/DashboardView.tsx` - Dashboard viewer with section rendering
+- `/src/styles/pages/_dashboard-view.scss` - Dashboard view styling
+
+**Files Modified:**
+- `/src/App.tsx` - Added DashboardView route for `/dashboard/:id`
+- `/src/styles/main.scss` - Imported dashboard-view styles
+
+**Key Features:**
+- Renders all sections in order with isolated storage keys
+- Shows game/map context for each section
+- Handles missing sections gracefully with error messages
+- Navigation back to dashboard list and to edit mode
+- Empty state for dashboards with no sections
+- Fully responsive layout
+
+### Phase 1.4: Polish 🔜 NEXT
 - [ ] Create DashboardEditor page (modify existing dashboards)
 - [ ] Add delete confirmation
 - [ ] Create ShareDialog component (URL encoding)
