@@ -77,13 +77,12 @@ export default function DashboardView() {
 		return (
 			<div className="dashboard-view">
 				<div className="dashboard-view__not-found">
-					<h1>Dashboard Not Found</h1>
+					<h1>Layout Not Found</h1>
 					<p>
-						The dashboard you're looking for doesn't exist or has been
-						deleted.
+						The layout you're looking for doesn't exist or has been deleted.
 					</p>
 					<Link to={ROUTES.dashboard.base} className="btn btn-primary">
-						Back to Dashboards
+						Back to Layouts
 					</Link>
 				</div>
 			</div>
@@ -92,104 +91,69 @@ export default function DashboardView() {
 
 	return (
 		<div className="dashboard-view">
-				<header className="dashboard-view__header">
-					<div className="dashboard-view__header-content">
-						<div className="dashboard-view__title-group">
-							<h1>{dashboard.name}</h1>
-							{dashboard.description && <p>{dashboard.description}</p>}
-						</div>
-
-						<div className="dashboard-view__actions">
-							<Link
-								to={ROUTES.dashboard.base}
-								className="btn btn-secondary btn-sm"
-							>
-								← All Dashboards
-							</Link>
-							<button
-								type="button"
-								onClick={() => setResetConfirmOpen(true)}
-								className="btn btn-secondary btn-sm"
-							>
-								Reset All Data
-							</button>
-							<button
-								type="button"
-								onClick={() => setShareDialogOpen(true)}
-								className="btn btn-secondary btn-sm"
-							>
-								Share
-							</button>
-							<Link
-								to={ROUTES.dashboard.edit(dashboard.id)}
-								className="btn btn-secondary btn-sm"
-							>
-								Edit
-							</Link>
-						</div>
+			<header className="dashboard-view__header">
+				<div className="dashboard-view__header-content">
+					<div className="dashboard-view__title-group">
+						<h1>{dashboard.name}</h1>
+						{dashboard.description && <p>{dashboard.description}</p>}
 					</div>
-				</header>
 
-				{sortedSections.length === 0 ? (
-					<div className="dashboard-view__empty">
-						<h2>No Sections</h2>
-						<p>This dashboard doesn't have any sections yet.</p>
+					<div className="dashboard-view__actions">
+						<Link
+							to={ROUTES.dashboard.base}
+							className="btn btn-secondary btn-sm"
+						>
+							← All Layouts
+						</Link>
+						<button
+							type="button"
+							onClick={() => setResetConfirmOpen(true)}
+							className="btn btn-secondary btn-sm"
+						>
+							Reset All Data
+						</button>
+						<button
+							type="button"
+							onClick={() => setShareDialogOpen(true)}
+							className="btn btn-secondary btn-sm"
+						>
+							Share
+						</button>
 						<Link
 							to={ROUTES.dashboard.edit(dashboard.id)}
-							className="btn btn-primary"
+							className="btn btn-secondary btn-sm"
 						>
-							Add Sections
+							Edit
 						</Link>
 					</div>
-				) : (
-					<div className="dashboard-view__sections">
-						{sortedSections.map((section, index) => {
-							const registryEntry = getSectionByPath(
-								section.gameId,
-								section.mapId,
-								section.sectionId
-							);
+				</div>
+			</header>
 
-							if (!registryEntry) {
-								return (
-									<div
-										key={`${section.gameId}-${section.mapId}-${section.sectionId}`}
-										className="dashboard-section dashboard-section--missing"
-									>
-										<div className="dashboard-section__context">
-											<span className="section-order">{index + 1}</span>
-											<span className="game-name">{section.gameName}</span>
-											<span className="separator">›</span>
-											<span className="map-name">{section.mapName}</span>
-										</div>
-										<div className="dashboard-section__missing-content">
-											<h3>Section Not Available</h3>
-											<p>
-												The section "{section.sectionName}" is no longer
-												available. It may have been removed or renamed.
-											</p>
-										</div>
-									</div>
-								);
-							}
+			{sortedSections.length === 0 ? (
+				<div className="dashboard-view__empty">
+					<h2>No Sections</h2>
+					<p>This layout doesn't have any sections yet.</p>
+					<Link
+						to={ROUTES.dashboard.edit(dashboard.id)}
+						className="btn btn-primary"
+					>
+						Add Sections
+					</Link>
+				</div>
+			) : (
+				<div className="dashboard-view__sections">
+					{sortedSections.map((section, index) => {
+						const registryEntry = getSectionByPath(
+							section.gameId,
+							section.mapId,
+							section.sectionId
+						);
 
-							const SectionComponent = registryEntry.component;
-
-							// Create isolated storage key for this dashboard section
-							const storageKey = `${dashboard.id}-${section.mapId}-${section.sectionId}-data`;
-
-							// Props for the section component
-							const sectionProps: BaseSectionProps = {
-								storageKey,
-								// No navigation props since this is a dashboard view
-								currentStep: index + 1,
-								totalSteps: sortedSections.length,
-							};
-
+						if (!registryEntry) {
 							return (
 								<div
 									key={`${section.gameId}-${section.mapId}-${section.sectionId}`}
-									className="dashboard-section"
+									className="dashboard-section dashboard-section--missing"
 								>
 									<div className="dashboard-section__context">
 										<span className="section-order">{index + 1}</span>
@@ -197,34 +161,69 @@ export default function DashboardView() {
 										<span className="separator">›</span>
 										<span className="map-name">{section.mapName}</span>
 									</div>
-
-									<div className="dashboard-section__content">
-										<SectionComponent {...sectionProps} />
+									<div className="dashboard-section__missing-content">
+										<h3>Section Not Available</h3>
+										<p>
+											The section "{section.sectionName}" is no longer
+											available. It may have been removed or renamed.
+										</p>
 									</div>
 								</div>
 							);
-						})}
-					</div>
-				)}
+						}
 
-				{/* Share Dialog */}
-				<ShareDialog
-					isOpen={shareDialogOpen}
-					dashboard={dashboard}
-					onClose={() => setShareDialogOpen(false)}
-				/>
+						const SectionComponent = registryEntry.component;
 
-				{/* Reset All Data Confirmation */}
-				<ConfirmDialog
-					isOpen={resetConfirmOpen}
-					title="Reset All Dashboard Data"
-					message={`Are you sure you want to reset all section data for "${dashboard.name}"? This will clear all saved progress for every section in this dashboard. This action cannot be undone.`}
-					confirmText="Reset All Data"
-					cancelText="Cancel"
-					variant="danger"
-					onConfirm={handleResetAllData}
-					onCancel={() => setResetConfirmOpen(false)}
-				/>
-			</div>
+						// Create isolated storage key for this dashboard section
+						const storageKey = `${dashboard.id}-${section.mapId}-${section.sectionId}-data`;
+
+						// Props for the section component
+						const sectionProps: BaseSectionProps = {
+							storageKey,
+							// No navigation props since this is a dashboard view
+							currentStep: index + 1,
+							totalSteps: sortedSections.length,
+						};
+
+						return (
+							<div
+								key={`${section.gameId}-${section.mapId}-${section.sectionId}`}
+								className="dashboard-section"
+							>
+								<div className="dashboard-section__context">
+									<span className="section-order">{index + 1}</span>
+									<span className="game-name">{section.gameName}</span>
+									<span className="separator">›</span>
+									<span className="map-name">{section.mapName}</span>
+								</div>
+
+								<div className="dashboard-section__content">
+									<SectionComponent {...sectionProps} />
+								</div>
+							</div>
+						);
+					})}
+				</div>
+			)}
+
+			{/* Share Dialog */}
+			<ShareDialog
+				isOpen={shareDialogOpen}
+				dashboard={dashboard}
+				onClose={() => setShareDialogOpen(false)}
+			/>
+
+			{/* Reset All Data Confirmation */}
+			<ConfirmDialog
+				isOpen={resetConfirmOpen}
+				title="Reset All Layout Data"
+				message={`Are you sure you want to reset all section data for "${dashboard.name}"? This will clear all saved progress for every section in this layout. This action cannot be undone.`}
+				confirmText="Reset All Data"
+				cancelText="Cancel"
+				variant="danger"
+				onConfirm={handleResetAllData}
+				onCancel={() => setResetConfirmOpen(false)}
+			/>
+		</div>
 	);
 }

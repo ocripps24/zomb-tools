@@ -125,7 +125,7 @@ export default function ShareDialog({
 		>
 			<div className="share-dialog__content">
 				<header className="share-dialog__header">
-					<h2>Share Dashboard</h2>
+					<h2>Share Layout</h2>
 					<button
 						type="button"
 						className="close-btn"
@@ -140,7 +140,7 @@ export default function ShareDialog({
 					{dashboard && (
 						<>
 							<p className="share-dialog__description">
-								Share this link to allow others to import your dashboard
+								Share this link to allow others to import your layout
 								configuration:
 							</p>
 
@@ -173,7 +173,7 @@ export default function ShareDialog({
 
 							<div className="share-dialog__note">
 								<p>
-									<strong>Note:</strong> This URL contains your dashboard
+									<strong>Note:</strong> This URL contains your layout
 									configuration (name, description, and selected sections). It
 									does not include any saved data from the sections themselves.
 								</p>

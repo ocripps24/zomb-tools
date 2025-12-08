@@ -73,13 +73,13 @@ const NavBar: React.FC<{ title?: string }> = () => {
 							{game.name}
 						</button>
 					))}
-				<button
-					className={`nav__link${isDashboard ? " nav__link--active" : ""}`}
-					onClick={() => navigate(ROUTES.dashboard.base)}
-					aria-label="Dashboards"
-				>
-					Dashboards
-				</button>
+					<button
+						className={`nav__link${isDashboard ? " nav__link--active" : ""}`}
+						onClick={() => navigate(ROUTES.dashboard.base)}
+						aria-label="Dashboards"
+					>
+						Speedruns
+					</button>
 				</div>
 
 				{/* Mobile: Dropdown menu */}

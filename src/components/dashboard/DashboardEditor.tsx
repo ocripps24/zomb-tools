@@ -15,7 +15,12 @@ import type { DashboardSection } from "@/types/dashboard";
 export default function DashboardEditor() {
 	const { id } = useParams<{ id: string }>();
 	const navigate = useNavigate();
-	const { getDashboard, updateDashboard, dashboards, isLoading: dashboardsLoading } = useDashboards();
+	const {
+		getDashboard,
+		updateDashboard,
+		dashboards,
+		isLoading: dashboardsLoading,
+	} = useDashboards();
 
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
@@ -43,7 +48,10 @@ export default function DashboardEditor() {
 
 		const dashboard = getDashboard(id);
 		if (!dashboard) {
-			console.error(`Dashboard not found. ID: "${id}", Available dashboards:`, dashboards);
+			console.error(
+				`Dashboard not found. ID: "${id}", Available dashboards:`,
+				dashboards
+			);
 			setNotFound(true);
 			setIsLoading(false);
 			return;
@@ -218,77 +226,77 @@ export default function DashboardEditor() {
 
 			<div className="dashboard-editor">
 				<header className="dashboard-editor__header">
-					<h1>Edit Dashboard</h1>
-					<p>Modify your dashboard's name, description, and sections</p>
+					<h1>Edit Layout</h1>
+					<p>Modify your layout's name, description, and sections</p>
 				</header>
 
-			<div className="dashboard-editor__form">
-				<div className="dashboard-editor__details">
-					<div className="form-group">
-						<label htmlFor="dashboard-name">Dashboard Name *</label>
-						<input
-							id="dashboard-name"
-							type="text"
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-							placeholder="e.g., Astra Malorum Speed Run"
-							className={errors.name ? "error" : ""}
-						/>
-						{errors.name && <span className="error-text">{errors.name}</span>}
-					</div>
-
-					<div className="form-group">
-						<label htmlFor="dashboard-description">
-							Description (optional)
-						</label>
-						<textarea
-							id="dashboard-description"
-							value={description}
-							onChange={(e) => setDescription(e.target.value)}
-							placeholder="Describe what this dashboard is for..."
-							rows={3}
-						/>
-					</div>
-				</div>
-
-				<div className="dashboard-editor__content">
-					<div className="dashboard-editor__selector">
-						<h2>Available Sections</h2>
-						<SectionSelector
-							onSelectSection={handleAddSection}
-							selectedSections={selectedSections}
-						/>
-					</div>
-
-					<div className="dashboard-editor__selected">
-						<div className="selected-header">
-							<h2>Selected Sections</h2>
-							<span className="section-count">
-								{selectedSections.length}{" "}
-								{selectedSections.length === 1 ? "section" : "sections"}
-							</span>
+				<div className="dashboard-editor__form">
+					<div className="dashboard-editor__details">
+						<div className="form-group">
+							<label htmlFor="dashboard-name">Layout Name *</label>
+							<input
+								id="dashboard-name"
+								type="text"
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+								placeholder="e.g., Astra Malorum Speed Run"
+								className={errors.name ? "error" : ""}
+							/>
+							{errors.name && <span className="error-text">{errors.name}</span>}
 						</div>
-						{errors.sections && (
-							<p className="error-text">{errors.sections}</p>
-						)}
-						<SelectedSectionsList
-							sections={selectedSections}
-							onRemove={handleRemoveSection}
-							onReorder={handleReorder}
-						/>
-					</div>
-				</div>
 
-				<div className="dashboard-editor__actions">
-					<button className="btn btn-secondary" onClick={handleCancel}>
-						Cancel
-					</button>
-					<button className="btn btn-primary" onClick={handleSave}>
-						Save Changes
-					</button>
+						<div className="form-group">
+							<label htmlFor="dashboard-description">
+								Description (optional)
+							</label>
+							<textarea
+								id="dashboard-description"
+								value={description}
+								onChange={(e) => setDescription(e.target.value)}
+								placeholder="Describe what this dashboard is for..."
+								rows={3}
+							/>
+						</div>
+					</div>
+
+					<div className="dashboard-editor__content">
+						<div className="dashboard-editor__selector">
+							<h2>Available Sections</h2>
+							<SectionSelector
+								onSelectSection={handleAddSection}
+								selectedSections={selectedSections}
+							/>
+						</div>
+
+						<div className="dashboard-editor__selected">
+							<div className="selected-header">
+								<h2>Selected Sections</h2>
+								<span className="section-count">
+									{selectedSections.length}{" "}
+									{selectedSections.length === 1 ? "section" : "sections"}
+								</span>
+							</div>
+							{errors.sections && (
+								<p className="error-text">{errors.sections}</p>
+							)}
+							<SelectedSectionsList
+								sections={selectedSections}
+								onRemove={handleRemoveSection}
+								onReorder={handleReorder}
+							/>
+						</div>
+					</div>
+
+					<div className="dashboard-editor__actions">
+						<button className="btn btn-secondary" onClick={handleCancel}>
+							Cancel
+						</button>
+						<button className="btn btn-primary" onClick={handleSave}>
+							Save Changes
+						</button>
+					</div>
 				</div>
 			</div>
-		</div>
 		</>
 	);
 }

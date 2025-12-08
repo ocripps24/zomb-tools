@@ -57,13 +57,13 @@ export default function DashboardList() {
 
 			<div className="dashboard-list">
 				<header className="dashboard-list__header">
-					<h1>Dashboards</h1>
+					<h1>Layout Builder</h1>
 					<p>
 						Create custom multi-section views for speedruns and Super Easter Egg
 						runs
 					</p>
 					<Link to={ROUTES.dashboard.new} className="btn btn-primary">
-						+ Create New Dashboard
+						+ Create New Layout
 					</Link>
 				</header>
 

@@ -126,82 +126,82 @@ export default function DashboardBuilder() {
 
 			<div className="dashboard-builder">
 				<header className="dashboard-builder__header">
-					<h1>Create Dashboard</h1>
+					<h1>Create Layout</h1>
 					<p>
 						Select sections from any map to create a custom multi-section view
 					</p>
 				</header>
 
-			<div className="dashboard-builder__form">
-				<div className="dashboard-builder__details">
-					<div className="form-group">
-						<label htmlFor="dashboard-name">Dashboard Name *</label>
-						<input
-							id="dashboard-name"
-							type="text"
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-							placeholder="e.g., Astra Malorum Speed Run"
-							className={errors.name ? "error" : ""}
-						/>
-						{errors.name && <span className="error-text">{errors.name}</span>}
-					</div>
-
-					<div className="form-group">
-						<label htmlFor="dashboard-description">
-							Description (optional)
-						</label>
-						<textarea
-							id="dashboard-description"
-							value={description}
-							onChange={(e) => setDescription(e.target.value)}
-							placeholder="Describe what this dashboard is for..."
-							rows={3}
-						/>
-					</div>
-				</div>
-
-				<div className="dashboard-builder__content">
-					<div className="dashboard-builder__selector">
-						<h2>Available Sections</h2>
-						<SectionSelector
-							onSelectSection={handleAddSection}
-							selectedSections={selectedSections}
-						/>
-					</div>
-
-					<div className="dashboard-builder__selected">
-						<div className="selected-header">
-							<h2>Selected Sections</h2>
-							<span className="section-count">
-								{selectedSections.length}{" "}
-								{selectedSections.length === 1 ? "section" : "sections"}
-							</span>
+				<div className="dashboard-builder__form">
+					<div className="dashboard-builder__details">
+						<div className="form-group">
+							<label htmlFor="dashboard-name">Layout Name *</label>
+							<input
+								id="dashboard-name"
+								type="text"
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+								placeholder="e.g., Astra Malorum Speed Run"
+								className={errors.name ? "error" : ""}
+							/>
+							{errors.name && <span className="error-text">{errors.name}</span>}
 						</div>
-						{errors.sections && (
-							<p className="error-text">{errors.sections}</p>
-						)}
-						<SelectedSectionsList
-							sections={selectedSections}
-							onRemove={handleRemoveSection}
-							onReorder={handleReorder}
-						/>
-					</div>
-				</div>
 
-				<div className="dashboard-builder__actions">
-					<button
-						className="btn btn-secondary"
-						onClick={() => navigate(ROUTES.dashboard.base)}
-					>
-						Cancel
-					</button>
-					<button className="btn btn-primary" onClick={handleSave}>
-						Create Dashboard
-					</button>
+						<div className="form-group">
+							<label htmlFor="dashboard-description">
+								Description (optional)
+							</label>
+							<textarea
+								id="dashboard-description"
+								value={description}
+								onChange={(e) => setDescription(e.target.value)}
+								placeholder="Describe what this dashboard is for..."
+								rows={3}
+							/>
+						</div>
+					</div>
+
+					<div className="dashboard-builder__content">
+						<div className="dashboard-builder__selector">
+							<h2>Available Sections</h2>
+							<SectionSelector
+								onSelectSection={handleAddSection}
+								selectedSections={selectedSections}
+							/>
+						</div>
+
+						<div className="dashboard-builder__selected">
+							<div className="selected-header">
+								<h2>Selected Sections</h2>
+								<span className="section-count">
+									{selectedSections.length}{" "}
+									{selectedSections.length === 1 ? "section" : "sections"}
+								</span>
+							</div>
+							{errors.sections && (
+								<p className="error-text">{errors.sections}</p>
+							)}
+							<SelectedSectionsList
+								sections={selectedSections}
+								onRemove={handleRemoveSection}
+								onReorder={handleReorder}
+							/>
+						</div>
+					</div>
+
+					<div className="dashboard-builder__actions">
+						<button
+							className="btn btn-secondary"
+							onClick={() => navigate(ROUTES.dashboard.base)}
+						>
+							Cancel
+						</button>
+						<button className="btn btn-primary" onClick={handleSave}>
+							Create Layout
+						</button>
+					</div>
 				</div>
 			</div>
-		</div>
 		</>
 	);
 }
