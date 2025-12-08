@@ -221,7 +221,7 @@
 
 	&__badge {
 		@include fluid-text(xs, medium, 1.2);
-		padding: space(2xs) space(sm);
+		padding: space(xs) space(sm);
 		background: var(--accent-color);
 		color: white;
 		border-radius: radius(sm);
@@ -355,7 +355,7 @@
 	&__details {
 		display: flex;
 		flex-direction: column;
-		gap: space(2xs);
+		gap: space(xs);
 		flex: 1;
 		min-width: 0; // Allow text truncation
 	}
