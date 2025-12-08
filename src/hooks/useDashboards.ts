@@ -92,7 +92,7 @@ export function useDashboards() {
 			if (dashboard) {
 				// Remove all dashboard section data
 				dashboard.sections.forEach((section) => {
-					const storageKey = `dashboard-${id}-${section.mapId}-${section.sectionId}-data`;
+					const storageKey = `${id}-${section.mapId}-${section.sectionId}-data`;
 					localStorage.removeItem(storageKey);
 				});
 			}

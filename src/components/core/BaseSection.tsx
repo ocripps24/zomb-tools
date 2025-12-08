@@ -22,6 +22,8 @@ export interface BaseSectionProps<T = any> {
 	totalSteps?: number;
 	/** Optional YouTube guide from map */
 	guide?: Guide;
+	/** Optional storage key override (for dashboards with isolated storage) */
+	storageKey?: string;
 }
 
 // Progress tracking interface
@@ -114,15 +116,20 @@ export function BaseSection<T = any>({
 	onSectionReset,
 	children,
 	guide,
+	storageKey: storageKeyOverride,
 }: BaseSectionWrapperProps<T>) {
 	// Get global settings for compact mode
 	const { getCompactClass } = useGlobalSettings();
+
+	// Use storageKey override from props (for dashboards) or fall back to config
+	const effectiveStorageKey = storageKeyOverride || config.storageKey;
+
 	const {
 		data,
 		setData,
 		reset: resetStorage,
 	} = usePersistedState<T>({
-		storageKey: config.storageKey,
+		storageKey: effectiveStorageKey,
 		defaultValue: config.defaultValue,
 		onChange,
 		debug: config.debug || false,
@@ -226,6 +233,8 @@ export function createSection<T = any>(options: {
 				getProgress={options.getProgress}
 				onSectionReset={options.onSectionReset}
 				{...props}
+				// Pass through storageKey override if provided
+				storageKey={props.storageKey}
 			>
 				{options.renderContent}
 			</BaseSection>

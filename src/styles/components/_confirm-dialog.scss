@@ -3,8 +3,12 @@
 @use "../abstracts/mixins" as *;
 
 .confirm-dialog {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	border: none;
-	border-radius: var(--border-radius-lg);
+	border-radius: radius(base);
 	padding: 0;
 	box-shadow: var(--shadow-xl);
 	background: var(--bg-secondary);
@@ -39,7 +43,7 @@
 
 		p {
 			margin: 0;
-			color: var(--text-secondary);
+			color: black;
 			line-height: 1.6;
 		}
 	}

@@ -5,6 +5,7 @@ import { getSectionByPath } from "@/data/sectionRegistry";
 import { ROUTES } from "@/routes/config";
 import { useGlobalSettings } from "@/hooks/useGlobalSettings";
 import ShareDialog from "@/components/ui/ShareDialog";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 
 /**
@@ -16,6 +17,7 @@ export default function DashboardView() {
 	const { getDashboard } = useDashboards();
 	const { settings, updateSetting } = useGlobalSettings();
 	const [shareDialogOpen, setShareDialogOpen] = useState(false);
+	const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
 
 	// Force compact mode for dashboard views (optimal for speedrunners)
 	useEffect(() => {
@@ -31,6 +33,38 @@ export default function DashboardView() {
 		if (!dashboard) return [];
 		return [...dashboard.sections].sort((a, b) => a.order - b.order);
 	}, [dashboard]);
+
+	// Handle resetting all section data for this dashboard
+	const handleResetAllData = () => {
+		if (!dashboard) return;
+
+		console.log('=== RESET ALL DATA DEBUG ===');
+		console.log('Dashboard ID:', dashboard.id);
+		console.log('Dashboard sections:', dashboard.sections);
+
+		// Log all localStorage keys BEFORE removal
+		const allKeys = Object.keys(localStorage);
+		console.log('All localStorage keys BEFORE removal:', allKeys);
+		const dashboardKeysBefore = allKeys.filter(key => key.startsWith(dashboard.id));
+		console.log('Dashboard-specific keys BEFORE removal:', dashboardKeysBefore);
+
+		// Clear all dashboard section data from localStorage
+		dashboard.sections.forEach((section) => {
+			const storageKey = `${dashboard.id}-${section.mapId}-${section.sectionId}-data`;
+			console.log('Attempting to remove storage key:', storageKey);
+			console.log('Key exists before removal:', localStorage.getItem(storageKey) !== null);
+			localStorage.removeItem(storageKey);
+		});
+
+		// Log what's left AFTER removal
+		const dashboardKeysAfter = Object.keys(localStorage).filter(key => key.startsWith(dashboard.id));
+		console.log('Dashboard-specific keys AFTER removal:', dashboardKeysAfter);
+
+		// Close dialog - DON'T reload yet so we can see console
+		setResetConfirmOpen(false);
+		console.log('=== Data cleared. Refresh page manually to see changes ===');
+		// window.location.reload();
+	};
 
 	if (!dashboard) {
 		return (
@@ -62,6 +96,13 @@ export default function DashboardView() {
 						>
 							← All Dashboards
 						</Link>
+						<button
+							type="button"
+							onClick={() => setResetConfirmOpen(true)}
+							className="btn btn-secondary btn-sm"
+						>
+							Reset All Data
+						</button>
 						<button
 							type="button"
 							onClick={() => setShareDialogOpen(true)}
@@ -125,10 +166,10 @@ export default function DashboardView() {
 						const SectionComponent = registryEntry.component;
 
 						// Create isolated storage key for this dashboard section
-						const storageKey = `dashboard-${dashboard.id}-${section.mapId}-${section.sectionId}-data`;
+						const storageKey = `${dashboard.id}-${section.mapId}-${section.sectionId}-data`;
 
 						// Props for the section component
-						const sectionProps: BaseSectionProps & { storageKey?: string } = {
+						const sectionProps: BaseSectionProps = {
 							storageKey,
 							// No navigation props since this is a dashboard view
 							currentStep: index + 1,
@@ -161,6 +202,18 @@ export default function DashboardView() {
 				isOpen={shareDialogOpen}
 				dashboard={dashboard}
 				onClose={() => setShareDialogOpen(false)}
+			/>
+
+			{/* Reset All Data Confirmation */}
+			<ConfirmDialog
+				isOpen={resetConfirmOpen}
+				title="Reset All Dashboard Data"
+				message={`Are you sure you want to reset all section data for "${dashboard.name}"? This will clear all saved progress for every section in this dashboard. This action cannot be undone.`}
+				confirmText="Reset All Data"
+				cancelText="Cancel"
+				variant="danger"
+				onConfirm={handleResetAllData}
+				onCancel={() => setResetConfirmOpen(false)}
 			/>
 		</div>
 	);

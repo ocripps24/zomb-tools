@@ -3,11 +3,15 @@
 @use "../abstracts/mixins" as *;
 
 .share-dialog {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	border: none;
-	border-radius: var(--border-radius-lg);
+	border-radius: radius(base);
 	padding: 0;
 	box-shadow: var(--shadow-xl);
-	background: var(--bg-secondary);
+	background: #6b7280;
 
 	// Mobile-first base styles
 	width: 95%;
@@ -93,7 +97,7 @@
 
 		.section-count {
 			margin-top: space(xs);
-			color: var(--text-tertiary);
+			color: var(--text-primary);
 		}
 	}
 

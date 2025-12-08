@@ -2,8 +2,10 @@
 @use "../abstracts/functions" as *;
 @use "../abstracts/mixins" as *;
 
-// Dashboard Builder Page
-.dashboard-builder {
+// Dashboard Builder & Editor Pages
+// Shared styles for both creating and editing dashboards
+.dashboard-builder,
+.dashboard-editor {
 	max-width: 1400px;
 	margin: 0 auto;
 	padding: space(2xl) space(lg);
@@ -342,7 +344,7 @@
 		width: 32px;
 		height: 32px;
 		background: var(--accent-color);
-		color: white;
+		color: black;
 		border-radius: radius(full);
 		@include fluid-text(sm, bold, 1);
 		flex-shrink: 0;
