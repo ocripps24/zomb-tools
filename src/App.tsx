@@ -30,6 +30,7 @@ import DashboardList from "./components/dashboard/DashboardList";
 import DashboardBuilder from "./components/dashboard/DashboardBuilder";
 import DashboardView from "./components/dashboard/DashboardView";
 import CookieConsentBanner from "./components/ui/CookieConsentBanner";
+import GlobalSettings from "./components/ui/GlobalSettings";
 import { useConsent } from "./contexts/ConsentContext";
 import { ROUTES, ROUTE_PATTERNS, getRouteMetadata } from "./routes";
 import "./styles/main.scss";
@@ -95,6 +96,17 @@ function App() {
 			location.pathname.includes("/bo5/") ||
 			location.pathname.includes("/bo6/") ||
 			location.pathname.includes("/bo7/"));
+
+	// Check if current route is a dashboard view
+	// Dashboard view URLs are like /dashboard/{id} (not /dashboard/new or /dashboard/base)
+	const isDashboardView =
+		location.pathname.startsWith("/dashboard/") &&
+		!location.pathname.startsWith("/dashboard/new") &&
+		location.pathname !== "/dashboard" &&
+		location.pathname !== "/dashboard/";
+
+	// Show settings widget on map pages and dashboard views only
+	const showSettings = isMapPage || isDashboardView;
 
 	// Extract map ID for background image
 	const getMapId = () => {
@@ -261,6 +273,8 @@ function App() {
 
 			<Footer onResetConsent={resetConsent} />
 
+			{/* Show settings widget only on map pages and dashboard views */}
+			{showSettings && <GlobalSettings />}
 			<CookieConsentBanner />
 		</div>
 	);

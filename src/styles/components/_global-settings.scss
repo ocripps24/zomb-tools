@@ -2,12 +2,12 @@
 @use "../abstracts/functions" as *;
 @use "../abstracts/mixins" as *;
 
-// Dashboard Settings Widget
-.dashboard-settings {
+// Global Settings Widget
+.global-settings {
 	position: fixed;
 	bottom: space(xl);
 	right: space(xl);
-	z-index: 1000;
+	z-index: 10002; // Higher than map-nav (10000) and nav (9999) to stay on top of all content
 
 	@include mobile {
 		bottom: space(md);
@@ -20,7 +20,7 @@
 		gap: space(sm);
 		padding: space(md) space(lg);
 		background: var(--accent-color);
-		color: white;
+		color: black;
 		border: none;
 		border-radius: radius(full);
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -75,7 +75,7 @@
 		align-items: center;
 		padding: space(lg);
 		border-bottom: 1px solid var(--border-color);
-		background: var(--bg-secondary);
+		background: var(--bg-tertiary);
 
 		h3 {
 			@include fluid-text(lg, semibold, 1.3);

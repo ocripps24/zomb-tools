@@ -4,7 +4,6 @@ import { useDashboards } from "@/hooks/useDashboards";
 import { getSectionByPath } from "@/data/sectionRegistry";
 import { ROUTES } from "@/routes/config";
 import { useGlobalSettings } from "@/hooks/useGlobalSettings";
-import DashboardSettings from "./DashboardSettings";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 
 /**
@@ -147,9 +146,6 @@ export default function DashboardView() {
 					})}
 				</div>
 			)}
-
-			{/* Floating settings widget */}
-			<DashboardSettings />
 		</div>
 	);
 }

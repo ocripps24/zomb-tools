@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { ConsentProvider } from "./contexts/ConsentContext";
+import { SettingsRegistryProvider } from "./contexts/SettingsRegistryContext";
 import "./styles/main.scss";
 import { initTheme } from "./utils/theme.js";
 
@@ -29,7 +30,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<BrowserRouter {...router}>
 			<ConsentProvider>
-				<App />
+				<SettingsRegistryProvider>
+					<App />
+				</SettingsRegistryProvider>
 			</ConsentProvider>
 		</BrowserRouter>
 	</React.StrictMode>

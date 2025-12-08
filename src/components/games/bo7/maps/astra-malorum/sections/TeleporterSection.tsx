@@ -1,7 +1,6 @@
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
-import { useState } from "react";
-import { createUiSizeSetting } from "@/utils/settingsHelpers";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 interface TeleporterData {
 	marsCoordinates: string;
@@ -18,8 +17,27 @@ type Direction = "NW" | "NE" | "SE" | "SW";
 const DIRECTIONS: Direction[] = ["NW", "NE", "SE", "SW"];
 
 function TeleporterSection(props: BaseSectionProps<TeleporterData>) {
-	const [inputMethod, setInputMethod] = useState<"buttons" | "text">("buttons");
-	const uiSizeSetting = createUiSizeSetting();
+	// Register settings with the global settings system
+	const { getSetting, updateSetting } = useSectionSettings({
+		mapId: "astra-malorum",
+		sectionId: "teleporter",
+		sectionName: "Teleporter",
+		settings: [
+			{
+				id: "input-method",
+				label: "Coordinate Input",
+				defaultValue: "buttons",
+				options: [
+					{ value: "buttons", label: "Number Buttons" },
+					{ value: "text", label: "Text Input" },
+				],
+				note: "Choose how to enter Mars coordinates",
+			},
+		],
+	});
+
+	// Get input method from settings
+	const inputMethod = getSetting("input-method", "buttons") as "buttons" | "text";
 
 	return (
 		<BaseSection
@@ -51,25 +69,6 @@ function TeleporterSection(props: BaseSectionProps<TeleporterData>) {
 						{
 							label: "Location",
 							text: "Telescope and papers are located around the map",
-						},
-					],
-				},
-				settingsConfig: {
-					show: true,
-					title: "Input Preferences",
-					description: "Choose your preferred input method",
-					settings: [
-						uiSizeSetting,
-						{
-							id: "input-method",
-							label: "Coordinate Input",
-							value: inputMethod,
-							options: [
-								{ value: "buttons", label: "Number Buttons" },
-								{ value: "text", label: "Text Input" },
-							],
-							onChange: (value) =>
-								setInputMethod(value as "buttons" | "text"),
 						},
 					],
 				},
