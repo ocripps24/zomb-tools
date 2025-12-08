@@ -1,7 +1,7 @@
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import { ResultsDisplay } from "@/components/ui";
-import { createUiSizeSetting } from "@/utils/settingsHelpers";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 interface PapCodeData {
 	selectedPlanets: string[];
@@ -20,7 +20,13 @@ const PLANETS = [
 ] as const;
 
 function PapCodeSection(props: BaseSectionProps<PapCodeData>) {
-	const uiSizeSetting = createUiSizeSetting();
+	// Register with the global settings system (no custom settings needed)
+	useSectionSettings({
+		mapId: "astra-malorum",
+		sectionId: "oscar-code",
+		sectionName: "OSCAR Code",
+		settings: [],
+	});
 
 	return (
 		<BaseSection
@@ -55,10 +61,6 @@ function PapCodeSection(props: BaseSectionProps<PapCodeData>) {
 							text: "O.S.C.A.R patrols various locations around the map",
 						},
 					],
-				},
-				settingsConfig: {
-					show: true,
-					settings: [uiSizeSetting],
 				},
 			}}
 			getProgress={(data: PapCodeData) => {

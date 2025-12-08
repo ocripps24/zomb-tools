@@ -4,7 +4,7 @@ import type { SequenceItem } from "@/components/ui/ResultsDisplay";
 import { BaseSection } from "@/components/core";
 import { NumberPad } from "@/components/ui";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
-import { useGlobalSettings } from "@/hooks/useGlobalSettings";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 import {
 	DndContext,
 	closestCenter,
@@ -145,9 +145,29 @@ interface CodesSectionData {
 }
 
 function CodesSection(props: BaseSectionProps<CodesSectionData>) {
-	const [inputType, setInputType] = useState<"keypad" | "text">("keypad");
 	const [selectedLocationId, setSelectedLocationId] = useState<number>(1); // Default to first location
-	const { settings, updateSetting } = useGlobalSettings();
+
+	// Register with the global settings system
+	const { getSetting } = useSectionSettings({
+		mapId: "classified",
+		sectionId: "codes",
+		sectionName: "Project Skadi",
+		settings: [
+			{
+				id: "inputType",
+				label: "Input Type",
+				defaultValue: "keypad",
+				options: [
+					{ value: "keypad", label: "Keypad" },
+					{ value: "text", label: "Text Input" },
+				],
+				note: "Choose your preferred input method for the 4-digit codes",
+			},
+		],
+	});
+
+	// Get input type from settings
+	const inputType = getSetting("inputType", "keypad") as "keypad" | "text";
 
 	// Drag and drop sensors with better touch support
 	const sensors = useSensors(
@@ -182,37 +202,6 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 				tipsConfig: {
 					show: true,
 					items: TIPS,
-				},
-				settingsConfig: {
-					show: true,
-					title: "Input Preferences",
-					description:
-						"Customize how you input the 4-digit codes and adjust the UI layout.",
-					settings: [
-						{
-							id: "inputType",
-							label: "Input Type",
-							value: inputType,
-							options: [
-								{ value: "keypad", label: "Keypad" },
-								{ value: "text", label: "Text Input" },
-							],
-							note: "Choose your preferred input method for the 4-digit codes",
-							onChange: (value) => setInputType(value as "keypad" | "text"),
-						},
-						{
-							id: "ui-size",
-							label: "UI Density",
-							value: settings.uiSize,
-							options: [
-								{ value: "standard", label: "Standard" },
-								{ value: "compact", label: "Compact" },
-							],
-							note: "Compact mode reduces spacing and hides secondary information",
-							onChange: (value) =>
-								updateSetting("uiSize", value as "standard" | "compact"),
-						},
-					],
 				},
 			}}
 			getProgress={(data: CodesSectionData) => {

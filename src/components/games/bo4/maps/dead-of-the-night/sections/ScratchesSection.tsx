@@ -1,11 +1,10 @@
-import { useState } from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import { SymbolPicker, ResultsDisplay } from "@/components/ui";
 import { MovementSlider } from "@/components/ui";
 import { MovementStepper } from "@/components/ui";
 import { MovementButtons } from "@/components/ui";
-import { createUiSizeSetting } from "@/utils/settingsHelpers";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 import type { SequenceItem } from "@/components/ui/ResultsDisplay";
 
 // Import zodiac symbols
@@ -124,36 +123,29 @@ const MIN_SCRATCHES = 7;
 const MAX_SCRATCHES = 15;
 
 function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
-	// Load initial settings from localStorage
-	const getInitialSettings = () => {
-		try {
-			const saved = localStorage.getItem(
-				"dead-of-the-night-scratches-settings"
-			);
-			if (saved) {
-				const settings = JSON.parse(saved);
-				return {
-					inputMethod: settings.inputMethod || "sliders",
-				};
+	// Register with the global settings system
+	const { getSetting } = useSectionSettings({
+		mapId: "dead-of-the-night",
+		sectionId: "scratches",
+		sectionName: "Scratches",
+		settings: [
+			{
+				id: "input-method",
+				label: "Input Method",
+				defaultValue: "sliders",
+				options: [
+					{ value: "sliders", label: "Sliders (range controls)" },
+					{ value: "steppers", label: "Steppers (+/- buttons)" },
+					{ value: "buttons", label: "Button Grid" },
+					{ value: "text", label: "Text Input" },
+				],
+				note: "How you input scratch mark totals (7-15)",
 			}
-		} catch (e) {
-			console.error("Failed to parse scratches settings:", e);
-		}
-		return { inputMethod: "sliders" };
-	};
+		],
+	});
 
-	const initialSettings = getInitialSettings();
-	const [inputMethod, setInputMethod] = useState(initialSettings.inputMethod);
-	const uiSizeSetting = createUiSizeSetting();
-
-	// Save settings to localStorage when they change
-	const saveSettings = (method: string) => {
-		const settings = { inputMethod: method };
-		localStorage.setItem(
-			"dead-of-the-night-scratches-settings",
-			JSON.stringify(settings)
-		);
-	};
+	// Get input method from settings
+	const inputMethod = getSetting("input-method", "sliders") as string;
 
 	return (
 		<BaseSection
@@ -189,30 +181,6 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 							label: "Final Solution",
 							text: "Enter the symbols into the greenhouse telescope from smallest to largest scratch count",
 						},
-					],
-				},
-				settingsConfig: {
-					show: true,
-					title: "Input Preferences",
-					description: "Customize how you input scratch mark counts.",
-					settings: [
-						{
-							id: "input-method",
-							label: "Input Method",
-							value: inputMethod,
-							options: [
-								{ value: "sliders", label: "Sliders (range controls)" },
-								{ value: "steppers", label: "Steppers (+/- buttons)" },
-								{ value: "buttons", label: "Button Grid" },
-								{ value: "text", label: "Text Input" },
-							],
-							note: "How you input scratch mark totals (7-15)",
-							onChange: (value) => {
-								setInputMethod(value);
-								saveSettings(value);
-							},
-						},
-						uiSizeSetting,
 					],
 				},
 			}}

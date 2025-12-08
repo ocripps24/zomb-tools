@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { NumberPad, ResultsDisplay } from "@/components/ui";
 import type { ResultItem } from "@/components/ui/ResultsDisplay";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 // Data interface for this section  
 interface CoreValue3Data {
@@ -12,13 +12,33 @@ interface CoreValue3Data {
 }
 
 function CoreValue3Section(props: BaseSectionProps<CoreValue3Data>) {
-  const [inputMethod, setInputMethod] = useState<"keypad" | "text">("keypad");
+  // Register with the global settings system
+  const { getSetting } = useSectionSettings({
+    mapId: "alpha-omega",
+    sectionId: "core-value-3",
+    sectionName: "Core Value 3",
+    settings: [
+      {
+        id: "input-method",
+        label: "Code Entry",
+        defaultValue: "keypad",
+        options: [
+          { value: "keypad", label: "Number Keypad" },
+          { value: "text", label: "Text Input" }
+        ],
+        note: "Choose your preferred method for entering 4-digit codes",
+      }
+    ],
+  });
+
+  // Get input method from settings
+  const inputMethod = getSetting("input-method", "keypad") as "keypad" | "text";
 
   return (
     <BaseSection
       config={{
         storageKey: "alpha-omega-core-value-3-data",
-        defaultValue: { 
+        defaultValue: {
           code1: "",
           code2: "",
           code3: ""
@@ -38,7 +58,7 @@ function CoreValue3Section(props: BaseSectionProps<CoreValue3Data>) {
               text: "Turn a zombie in front of the painting to the left of the teleporter in Beds"
             },
             {
-              label: "Green House Painting", 
+              label: "Green House Painting",
               text: "Turn a zombie in front of the painting at the top of the stairs in Green House"
             },
             {
@@ -51,24 +71,6 @@ function CoreValue3Section(props: BaseSectionProps<CoreValue3Data>) {
             }
           ]
         },
-        settingsConfig: {
-          show: true,
-          title: "Input Preferences",
-          description: "Customize how you input the painting codes.",
-          settings: [
-            {
-              id: "input-method",
-              label: "Code Entry",
-              value: inputMethod,
-              options: [
-                { value: "keypad", label: "Number Keypad" },
-                { value: "text", label: "Text Input" }
-              ],
-              note: "Choose your preferred method for entering 4-digit codes",
-              onChange: (value) => setInputMethod(value as "keypad" | "text")
-            }
-          ]
-        }
       }}
       getProgress={(data: CoreValue3Data) => {
         const codes = [data.code1, data.code2, data.code3];

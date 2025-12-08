@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { NumberPad, ResultsDisplay } from "@/components/ui";
 import type { ResultItem } from "@/components/ui/ResultsDisplay";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 // Data interface for this section
 interface UnlockAdamData {
@@ -49,7 +49,27 @@ const CODE_INFO = [
 ];
 
 function UnlockAdamSection(props: BaseSectionProps<UnlockAdamData>) {
-	const [inputMethod, setInputMethod] = useState<"keypad" | "text">("keypad");
+	// Register with the global settings system
+	const { getSetting } = useSectionSettings({
+		mapId: "alpha-omega",
+		sectionId: "unlock-adam",
+		sectionName: "Unlock A.D.A.M",
+		settings: [
+			{
+				id: "input-method",
+				label: "Entry Format",
+				defaultValue: "keypad",
+				options: [
+					{ value: "keypad", label: "Keypad (touch buttons)" },
+					{ value: "text", label: "Text Entry (keyboard input)" }
+				],
+				note: "Choose your preferred method for entering codes",
+			}
+		],
+	});
+
+	// Get input method from settings
+	const inputMethod = getSetting("input-method", "keypad") as "keypad" | "text";
 
 	return (
 		<BaseSection
@@ -90,24 +110,6 @@ function UnlockAdamSection(props: BaseSectionProps<UnlockAdamData>) {
 						}
 					]
 				},
-				settingsConfig: {
-					show: true,
-					title: "Code Entry Preferences",
-					description: "Customize how you input the 4-digit codes for Rushmore.",
-					settings: [
-						{
-							id: "input-method",
-							label: "Entry Format",
-							value: inputMethod,
-							options: [
-								{ value: "keypad", label: "Keypad (touch buttons)" },
-								{ value: "text", label: "Text Entry (keyboard input)" }
-							],
-							note: "Choose your preferred method for entering codes",
-							onChange: (value) => setInputMethod(value as "keypad" | "text")
-						}
-					]
-				}
 			}}
 			getProgress={(data: UnlockAdamData) => {
 				// Code1 is always complete (readonly), only count user-entered codes for progress

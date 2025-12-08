@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
-import { createUiSizeSetting } from "@/utils/settingsHelpers";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 // Complete periodic table (118 elements) with grid positions
 const PERIODIC_TABLE = [
@@ -179,8 +178,27 @@ interface DoorData {
 }
 
 function DoorCodeSection(props: BaseSectionProps<DoorData>) {
-	const [inputMethod, setInputMethod] = useState<"text" | "buttons">("buttons");
-	const uiSizeSetting = createUiSizeSetting();
+	// Register with the global settings system
+	const { getSetting } = useSectionSettings({
+		mapId: "reckoning",
+		sectionId: "door",
+		sectionName: "T1 Bioweapons Lab Door Code",
+		settings: [
+			{
+				id: "input-method",
+				label: "Screen Input Format",
+				defaultValue: "buttons",
+				options: [
+					{ value: "buttons", label: "Buttons" },
+					{ value: "text", label: "Text Input" },
+				],
+				note: "Choose your preferred method for entering screen words",
+			}
+		],
+	});
+
+	// Get input method from settings
+	const inputMethod = getSetting("input-method", "buttons") as "text" | "buttons";
 
 	return (
 		<BaseSection
@@ -191,25 +209,6 @@ function DoorCodeSection(props: BaseSectionProps<DoorData>) {
 				description:
 					"Enter the words displayed on the screens in the T1 Mutant Research Lab area.",
 				resetButtonText: "Reset Door Code",
-				settingsConfig: {
-					show: true,
-					title: "Input Preferences",
-					description: "Customize how you enter the screen words and adjust UI density.",
-					settings: [
-						{
-							id: "input-method",
-							label: "Screen Input Format",
-							value: inputMethod,
-							options: [
-								{ value: "buttons", label: "Buttons" },
-								{ value: "text", label: "Text Input" },
-							],
-							note: "Choose your preferred method for entering screen words",
-							onChange: (value) => setInputMethod(value as "text" | "buttons"),
-						},
-						uiSizeSetting,
-					],
-				},
 			}}
 			getProgress={(data: DoorData) => {
 				const hasScreen1 = Boolean(data.screen1?.trim());

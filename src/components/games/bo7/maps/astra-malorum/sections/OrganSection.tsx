@@ -1,7 +1,7 @@
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import { ResultsDisplay } from "@/components/ui";
-import { createUiSizeSetting } from "@/utils/settingsHelpers";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 // Import symbols
 import Symbol1 from "@/assets/maps/bo7/astra-malorum/astra-malorum-symbol-1.svg";
@@ -55,7 +55,13 @@ const SYMBOLS = [
 ];
 
 function OrganSection(props: BaseSectionProps<OrganData>) {
-	const uiSizeSetting = createUiSizeSetting();
+	// Register with the global settings system (no custom settings needed)
+	useSectionSettings({
+		mapId: "astra-malorum",
+		sectionId: "organ",
+		sectionName: "Organ / Mars",
+		settings: [],
+	});
 
 	return (
 		<BaseSection
@@ -82,10 +88,6 @@ function OrganSection(props: BaseSectionProps<OrganData>) {
 							text: "Travel to Mars and interact with the 5 columns in the sequence shown, replacing STATIC with the missing symbol",
 						},
 					],
-				},
-				settingsConfig: {
-					show: true,
-					settings: [uiSizeSetting],
 				},
 			}}
 			getProgress={(data: OrganData) => {
