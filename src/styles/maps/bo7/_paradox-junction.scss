@@ -1,0 +1,456 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+// ============================================================================
+// Piano Notes Section
+// ============================================================================
+
+.piano-notes-section {
+	// Location grid
+	.location-note-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: space(sm);
+		margin-bottom: space(xl);
+
+		@include tmd-up {
+			grid-template-columns: repeat(4, 1fr);
+			gap: space(md);
+		}
+	}
+
+	.location-note-card {
+		display: flex;
+		flex-direction: column;
+		gap: space(xs);
+		padding: space(md);
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		transition: border-color var(--transition), box-shadow var(--transition);
+
+		@include tmd-up {
+			padding: space(md) space(lg);
+		}
+
+		&--assigned {
+			border-color: var(--accent-color);
+		}
+
+		// Active = the location currently being identified
+		&--active {
+			border-color: var(--accent-color);
+			border-width: 2px;
+			box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-color) 20%, transparent);
+		}
+
+		&__header {
+			display: flex;
+			align-items: center;
+			gap: space(xs);
+		}
+
+		&__drag-handle {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0 2px;
+			background: transparent;
+			border: none;
+			color: var(--text-secondary);
+			font-size: 0.625rem;
+			letter-spacing: -1px;
+			cursor: grab;
+			touch-action: none;
+			flex-shrink: 0;
+			transition: color var(--transition);
+			line-height: 1;
+
+			&:hover {
+				color: var(--text-primary);
+			}
+
+			&:active {
+				cursor: grabbing;
+			}
+		}
+
+		&__short {
+			font-size: 0.875rem;
+			font-weight: 600;
+			color: var(--text-primary);
+			flex: 1;
+			min-width: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+		}
+
+		&__clear {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 20px;
+			height: 20px;
+			padding: 0;
+			background: transparent;
+			border: 1px solid var(--border-color);
+			border-radius: radius(full);
+			color: var(--text-secondary);
+			font-size: 0.875rem;
+			line-height: 1;
+			cursor: pointer;
+			flex-shrink: 0;
+			transition: all var(--transition);
+
+			&:hover {
+				border-color: var(--error-color, #ef4444);
+				color: var(--error-color, #ef4444);
+			}
+		}
+
+		&__long {
+			font-size: 0.6875rem;
+			color: var(--text-secondary);
+			line-height: 1.3;
+
+			@include tmd-up {
+				font-size: 0.75rem;
+			}
+		}
+
+		&__picker {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 3px;
+			margin-top: space(xs);
+
+			@include tmd-up {
+				gap: space(xs);
+			}
+		}
+	}
+
+	// Note number buttons
+	.note-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 26px;
+		height: 26px;
+		padding: 0;
+		background: transparent;
+		border: 1px solid var(--border-color);
+		border-radius: radius(sm);
+		color: var(--text-primary);
+		font-size: 0.75rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all var(--transition);
+		flex-shrink: 0;
+
+		@include tmd-up {
+			width: 28px;
+			height: 28px;
+			font-size: 0.8125rem;
+		}
+
+		&:hover:not(:disabled) {
+			border-color: var(--accent-color);
+			background: var(--location-card-hover-bg);
+		}
+
+		&--selected {
+			background: var(--accent-color);
+			border-color: var(--accent-color);
+			color: var(--bg-primary);
+
+			&:hover {
+				opacity: 0.85;
+			}
+		}
+
+		&--used {
+			opacity: 0.25;
+			cursor: not-allowed;
+		}
+
+		&--filtered {
+			opacity: 0.15;
+			cursor: not-allowed;
+		}
+	}
+
+	// ── Visual Note Identifier ──────────────────────────────────────────────
+
+	.note-visual-block {
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		margin-bottom: space(xl);
+		transition: border-color var(--transition);
+
+		@include tmd-up {
+			padding: space(xl);
+		}
+
+		h3 {
+			margin: 0 0 space(xs) 0;
+			color: var(--text-primary);
+			font-size: 1.125rem;
+
+			@include tmd-up {
+				font-size: 1.25rem;
+			}
+		}
+
+		&__description {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-secondary);
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+		}
+
+		&--filtered {
+			border-color: var(--accent-color);
+		}
+	}
+
+	.note-visual-grid {
+		display: flex;
+		flex-wrap: wrap;
+		gap: space(sm);
+		justify-content: center;
+		margin-bottom: space(md);
+
+		@include tmd-up {
+			flex-wrap: nowrap;
+			gap: space(md);
+			justify-content: center;
+		}
+	}
+
+	.note-visual-btn {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: space(xs);
+		padding: space(sm) space(md);
+		background: transparent;
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		cursor: pointer;
+		transition: all var(--transition);
+		flex: 1;
+		min-width: 48px;
+		max-width: 80px;
+
+		@include tmd-up {
+			padding: space(md);
+		}
+
+		&:hover {
+			border-color: var(--accent-color);
+			background: var(--location-card-hover-bg);
+		}
+
+		&--active {
+			border-color: var(--accent-color);
+			background: var(--location-card-selected-bg);
+		}
+
+		&--dimmed {
+			opacity: 0.2;
+		}
+
+		&--used {
+			opacity: 0.25;
+			cursor: not-allowed;
+		}
+
+		&__label {
+			font-size: 0.75rem;
+			font-weight: 700;
+			color: var(--text-primary);
+			line-height: 1;
+		}
+	}
+
+	.note-visual-icon {
+		width: 28px;
+		height: 42px;
+		fill: var(--text-primary);
+		display: block;
+
+		@include tmd-up {
+			width: 34px;
+			height: 50px;
+		}
+	}
+
+	.note-visual-clear {
+		display: block;
+		margin: 0 auto;
+		padding: space(xs) space(lg);
+		background: transparent;
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		color: var(--text-secondary);
+		font-size: 0.875rem;
+		cursor: pointer;
+		transition: all var(--transition);
+
+		&:hover {
+			border-color: var(--accent-color);
+			color: var(--text-primary);
+		}
+	}
+
+	// ── Piano Sequence ──────────────────────────────────────────────────────
+
+	.piano-sequence-block {
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		text-align: center;
+
+		@include tmd-up {
+			padding: space(xl);
+		}
+
+		h3 {
+			margin: 0 0 space(xs) 0;
+			color: var(--text-primary);
+			font-size: 1.125rem;
+
+			@include tmd-up {
+				font-size: 1.25rem;
+			}
+		}
+
+		&__description {
+			margin: 0 0 space(lg) 0;
+			color: var(--text-secondary);
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+		}
+
+		&__sequence {
+			font-size: 1.75rem;
+			font-weight: 700;
+			color: var(--accent-color);
+			letter-spacing: 0.05em;
+
+			@include tmd-up {
+				font-size: 2.5rem;
+			}
+		}
+	}
+}
+
+// ============================================================================
+// Compact Mode
+// ============================================================================
+
+.base-section.compact .piano-notes-section {
+	.location-note-grid {
+		gap: space(xs);
+		margin-bottom: space(lg);
+
+		@include tmd-up {
+			gap: space(sm);
+		}
+	}
+
+	.location-note-card {
+		padding: space(sm);
+		gap: 2px;
+
+		@include tmd-up {
+			padding: space(sm) space(md);
+		}
+
+		&__short {
+			font-size: 0.8125rem;
+
+			@include tmd-up {
+				font-size: 0.875rem;
+			}
+		}
+
+		&__long {
+			font-size: 0.625rem;
+
+			@include tmd-up {
+				font-size: 0.6875rem;
+			}
+		}
+	}
+
+	.note-visual-block {
+		padding: space(md);
+		margin-bottom: space(lg);
+
+		h3 {
+			font-size: 1rem;
+		}
+
+		&__description {
+			margin-bottom: space(md);
+			font-size: 0.8125rem;
+		}
+	}
+
+	.note-visual-btn {
+		padding: space(xs) space(sm);
+		min-width: 40px;
+	}
+
+	.note-visual-icon {
+		width: 22px;
+		height: 34px;
+
+		@include tmd-up {
+			width: 26px;
+			height: 40px;
+		}
+	}
+
+	.piano-sequence-block {
+		padding: space(md);
+
+		h3 {
+			font-size: 1rem;
+
+			@include tmd-up {
+				font-size: 1.125rem;
+			}
+		}
+
+		&__description {
+			margin-bottom: space(md);
+			font-size: 0.8125rem;
+		}
+
+		&__sequence {
+			font-size: 1.5rem;
+
+			@include tmd-up {
+				font-size: 2rem;
+			}
+		}
+	}
+}

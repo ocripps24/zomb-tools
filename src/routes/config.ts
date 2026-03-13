@@ -76,6 +76,7 @@ export const ROUTES = {
 			maps: {
 				ashesOfTheDamned: "/bo7/ashes-of-the-damned",
 				astraMalorum: "/bo7/astra-malorum",
+				paradoxJunction: "/bo7/paradox-junction",
 			},
 		},
 	},
@@ -232,6 +233,12 @@ export const MAP_STEPS = {
 				organ: "/bo7/astra-malorum/organ",
 			},
 		},
+		paradoxJunction: {
+			base: "/bo7/paradox-junction",
+			steps: {
+				pianoNotes: "/bo7/paradox-junction/piano-notes",
+			},
+		},
 	},
 } as const;
 
@@ -287,6 +294,7 @@ export const ROUTE_PATTERNS = {
 			maps: {
 				ashesOfTheDamned: "/bo7/ashes-of-the-damned/*",
 				astraMalorum: "/bo7/astra-malorum/*",
+				paradoxJunction: "/bo7/paradox-junction/*",
 			},
 		},
 	},
@@ -402,6 +410,14 @@ export const ROUTE_METADATA = {
 	[ROUTES.games.bo7.maps.ashesOfTheDamned]: {
 		title: "Ashes of the Damned",
 		documentTitle: "Ashes of the Damned Easter Eggs - COD Zombies Tools",
+	},
+	[ROUTES.games.bo7.maps.astraMalorum]: {
+		title: "Astra Malorum",
+		documentTitle: "Astra Malorum Easter Eggs - COD Zombies Tools",
+	},
+	[ROUTES.games.bo7.maps.paradoxJunction]: {
+		title: "Paradox Junction",
+		documentTitle: "Paradox Junction Easter Eggs - COD Zombies Tools",
 	},
 } as const;
 

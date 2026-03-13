@@ -26,6 +26,7 @@ import CitadelleDesMorts from "./components/games/bo6/maps/citadelle-des-morts/C
 import TheTomb from "./components/games/bo6/maps/the-tomb/TheTomb";
 import AshesOfTheDamned from "./components/games/bo7/maps/ashes-of-the-damned/AshesOfTheDamned";
 import AstraMalorum from "./components/games/bo7/maps/astra-malorum/AstraMalorum";
+import ParadoxJunction from "./components/games/bo7/maps/paradox-junction/ParadoxJunction";
 import DashboardList from "./components/dashboard/DashboardList";
 import DashboardBuilder from "./components/dashboard/DashboardBuilder";
 import DashboardView from "./components/dashboard/DashboardView";
@@ -264,6 +265,10 @@ function App() {
 							<Route
 								path={ROUTE_PATTERNS.games.bo7.maps.astraMalorum}
 								element={<AstraMalorum />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.bo7.maps.paradoxJunction}
+								element={<ParadoxJunction />}
 							/>
 
 							{/* 404 */}

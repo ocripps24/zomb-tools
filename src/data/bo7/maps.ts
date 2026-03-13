@@ -43,6 +43,19 @@ export const BO7_MAPS: BO7Map[] = [
 		tools: ["OSCAR Code", "Books", "Teleporter", "Organ / Mars"],
 		difficulty: "medium",
 	},
+	{
+		id: "paradox-junction",
+		name: "Paradox Junction",
+		status: "Available",
+		route: ROUTES.games.bo7.maps.paradoxJunction,
+		component: () =>
+			import(
+				"../../components/games/bo7/maps/paradox-junction/ParadoxJunction"
+			),
+		available: true,
+		tools: ["Piano Notes"],
+		difficulty: "medium",
+	},
 ];
 
 export const getBO7MapById = (mapId: string): BO7Map | null => {
