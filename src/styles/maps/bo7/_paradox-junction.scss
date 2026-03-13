@@ -28,10 +28,12 @@
 		background: var(--bg-tertiary);
 		border: 1px solid var(--border-color);
 		border-radius: radius(base);
-		transition: border-color var(--transition), box-shadow var(--transition);
+		transition:
+			border-color var(--transition),
+			box-shadow var(--transition);
 
 		@include tmd-up {
-			padding: space(md) space(lg);
+			padding: space(md) 1.2rem;
 		}
 
 		&--assigned {
@@ -42,7 +44,8 @@
 		&--active {
 			border-color: var(--accent-color);
 			border-width: 2px;
-			box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-color) 20%, transparent);
+			box-shadow: 0 0 0 2px
+				color-mix(in srgb, var(--accent-color) 20%, transparent);
 		}
 
 		&__header {
@@ -125,8 +128,8 @@
 		}
 
 		&__picker {
-			display: flex;
-			flex-wrap: wrap;
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
 			gap: 3px;
 			margin-top: space(xs);
 
@@ -141,8 +144,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 26px;
-		height: 26px;
+		width: 100%;
+		height: 32px;
 		padding: 0;
 		background: transparent;
 		border: 1px solid var(--border-color);
@@ -153,12 +156,6 @@
 		cursor: pointer;
 		transition: all var(--transition);
 		flex-shrink: 0;
-
-		@include tmd-up {
-			width: 28px;
-			height: 28px;
-			font-size: 0.8125rem;
-		}
 
 		&:hover:not(:disabled) {
 			border-color: var(--accent-color);
@@ -392,11 +389,7 @@
 		}
 
 		&__long {
-			font-size: 0.625rem;
-
-			@include tmd-up {
-				font-size: 0.6875rem;
-			}
+			display: none;
 		}
 	}
 
