@@ -11,6 +11,9 @@ import AstraOrganSection from "@/components/games/bo7/maps/astra-malorum/section
 import AshesRocketLaunchSection from "@/components/games/bo7/maps/ashes-of-the-damned/sections/RocketLaunchSection";
 import AshesSerumSection from "@/components/games/bo7/maps/ashes-of-the-damned/sections/SerumSection";
 
+// Paradox Junction
+import ParadoxPianoNotesSection from "@/components/games/bo7/maps/paradox-junction/sections/PianoNotesSection";
+
 // ===== BO6 Imports =====
 // Terminus
 import TerminusBeamCodeSection from "@/components/games/bo6/maps/terminus/sections/BeamCodeSection";
@@ -110,6 +113,17 @@ export const SECTION_REGISTRY: SectionRegistry = {
 				gameName: "Black Ops 7",
 				mapId: "ashes-of-the-damned",
 				mapName: "Ashes of the Damned",
+			},
+		},
+		"paradox-junction": {
+			"piano-notes": {
+				id: "piano-notes",
+				name: "Piano Notes",
+				component: ParadoxPianoNotesSection,
+				gameId: "bo7",
+				gameName: "Black Ops 7",
+				mapId: "paradox-junction",
+				mapName: "Paradox Junction",
 			},
 		},
 		"astra-malorum": {

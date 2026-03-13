@@ -22,6 +22,13 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 		],
 	},
 	{
+		date: "March 2026",
+		items: [
+			"BO7: Added Paradox Junction",
+			"UI: Slight increase in max-width for map sections to allow for better use of space on larger screens",
+		],
+	},
+	{
 		date: "December 2025",
 		items: [
 			"BO7: Added Astra Malorum",
