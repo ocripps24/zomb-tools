@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 151.13 221.36">
+  <g id="c" data-name="Layer 1">
+    <g id="d" data-name="Stave">
+      <rect y="18.07" width="151.13" height="11.86"/>
+      <rect y="65.93" width="151.13" height="11.86"/>
+      <rect y="113.79" width="151.13" height="11.86"/>
+      <rect y="161.65" width="151.13" height="11.86"/>
+      <rect y="209.51" width="151.13" height="11.86"/>
+    </g>
+    <circle id="e" data-name="Note" cx="75.56" cy="24" r="24"/>
+  </g>
+</svg>
