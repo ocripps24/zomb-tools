@@ -56,6 +56,16 @@ export const BO7_MAPS: BO7Map[] = [
 		tools: ["Piano Notes"],
 		difficulty: "medium",
 	},
+	{
+		id: "totenreich",
+		name: "Totenreich",
+		status: "Coming Soon",
+		route: "",
+		component: null,
+		available: false,
+		tools: [],
+		difficulty: "medium",
+	},
 ];
 
 export const getBO7MapById = (mapId: string): BO7Map | null => {
