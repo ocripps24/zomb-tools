@@ -312,6 +312,112 @@
 		}
 	}
 
+	// ── Rename Locations Panel ──────────────────────────────────────────────
+
+	.rename-locations-panel {
+		margin-top: space(xl);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		overflow: hidden;
+
+		&__toggle {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+			padding: space(md) space(lg);
+			background: var(--bg-tertiary);
+			border: none;
+			color: var(--text-primary);
+			font-size: 0.875rem;
+			font-weight: 600;
+			cursor: pointer;
+			text-align: left;
+			transition: background var(--transition);
+
+			&:hover {
+				background: var(--location-card-hover-bg);
+			}
+		}
+
+		&__chevron {
+			font-size: 0.875rem;
+			transition: transform var(--transition);
+			color: var(--text-secondary);
+
+			&--open {
+				transform: rotate(180deg);
+			}
+		}
+
+		&__body {
+			padding: space(lg);
+			background: var(--bg-tertiary);
+			border-top: 1px solid var(--border-color);
+		}
+
+		&__grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: space(sm);
+
+			@include tmd-up {
+				grid-template-columns: repeat(2, 1fr);
+				gap: space(md);
+			}
+		}
+
+		&__field {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+		}
+
+		&__label {
+			font-size: 0.75rem;
+			color: var(--text-secondary);
+			font-weight: 500;
+		}
+
+		&__input {
+			padding: space(xs) space(sm);
+			background: transparent;
+			border: 1px solid var(--border-color);
+			border-radius: radius(sm);
+			color: var(--text-primary);
+			font-size: 0.875rem;
+			font-family: inherit;
+			transition: border-color var(--transition);
+
+			&:focus {
+				outline: none;
+				border-color: var(--accent-color);
+			}
+
+			&::placeholder {
+				color: var(--text-secondary);
+				opacity: 0.6;
+			}
+		}
+
+		&__reset {
+			margin-top: space(md);
+			padding: space(xs) space(md);
+			background: transparent;
+			border: 1px solid var(--border-color);
+			border-radius: radius(sm);
+			color: var(--text-secondary);
+			font-size: 0.8125rem;
+			cursor: pointer;
+			transition: all var(--transition);
+
+			&:hover {
+				border-color: var(--accent-color);
+				color: var(--text-primary);
+			}
+		}
+	}
+
 	// ── Piano Sequence ──────────────────────────────────────────────────────
 
 	.piano-sequence-block {

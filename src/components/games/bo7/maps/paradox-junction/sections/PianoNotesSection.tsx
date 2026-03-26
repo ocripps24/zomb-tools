@@ -30,24 +30,28 @@ import Note7Svg from "@/assets/maps/bo7/paradox-junction/paradox-junction-note-7
 type NoteSvg = React.ComponentType<React.SVGProps<SVGSVGElement>>;
 
 // 5 unique visual appearances — shared notes labelled with all their numbers
-const NOTE_VISUALS: { id: string; svg: NoteSvg; group: number[]; label: string }[] =
-	[
-		{ id: "1", svg: Note1Svg as unknown as NoteSvg, group: [1], label: "1" },
-		{
-			id: "2-5",
-			svg: Note25Svg as unknown as NoteSvg,
-			group: [2, 5],
-			label: "2-5",
-		},
-		{ id: "3", svg: Note3Svg as unknown as NoteSvg, group: [3], label: "3" },
-		{
-			id: "4-6-8",
-			svg: Note468Svg as unknown as NoteSvg,
-			group: [4, 6, 8],
-			label: "4-6-8",
-		},
-		{ id: "7", svg: Note7Svg as unknown as NoteSvg, group: [7], label: "7" },
-	];
+const NOTE_VISUALS: {
+	id: string;
+	svg: NoteSvg;
+	group: number[];
+	label: string;
+}[] = [
+	{ id: "1", svg: Note1Svg as unknown as NoteSvg, group: [1], label: "1" },
+	{
+		id: "2-5",
+		svg: Note25Svg as unknown as NoteSvg,
+		group: [2, 5],
+		label: "2-5",
+	},
+	{ id: "3", svg: Note3Svg as unknown as NoteSvg, group: [3], label: "3" },
+	{
+		id: "4-6-8",
+		svg: Note468Svg as unknown as NoteSvg,
+		group: [4, 6, 8],
+		label: "4-6-8",
+	},
+	{ id: "7", svg: Note7Svg as unknown as NoteSvg, group: [7], label: "7" },
+];
 
 const LOCATIONS = [
 	{ id: "bunker", short: "Bunker", long: "Bunker (Green House Garden)" },
@@ -74,8 +78,8 @@ const LOCATIONS = [
 
 // Suggested walkthrough order
 const DEFAULT_ORDER = [
-	"bus",
 	"bunker",
+	"bus",
 	"double-points",
 	"mini-golf",
 	"exfil",
@@ -89,6 +93,7 @@ const PIANO_SEQUENCE = [8, 6, 7, 5, 6, 5, 3, 5];
 interface PianoNotesData {
 	locationNotes: Record<string, number | null>;
 	locationOrder: string[];
+	locationNames?: Record<string, string>;
 }
 
 const DEFAULT_VALUE: PianoNotesData = {
@@ -100,7 +105,7 @@ const DEFAULT_VALUE: PianoNotesData = {
 
 interface SortableCardProps {
 	locationId: string;
-	short: string;
+	displayName: string;
 	long: string;
 	assignedNote: number | null;
 	isActive: boolean;
@@ -112,7 +117,7 @@ interface SortableCardProps {
 
 function SortableLocationCard({
 	locationId,
-	short,
+	displayName,
 	long,
 	assignedNote,
 	isActive,
@@ -121,8 +126,14 @@ function SortableLocationCard({
 	onAssign,
 	onClear,
 }: SortableCardProps) {
-	const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-		useSortable({ id: locationId });
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		transform,
+		transition,
+		isDragging,
+	} = useSortable({ id: locationId });
 
 	const style = {
 		transform: CSS.Transform.toString(transform),
@@ -150,7 +161,7 @@ function SortableLocationCard({
 				>
 					⋮⋮
 				</button>
-				<span className="location-note-card__short">{short}</span>
+				<span className="location-note-card__short">{displayName}</span>
 				{assignedNote !== null && (
 					<button
 						className="location-note-card__clear"
@@ -167,9 +178,7 @@ function SortableLocationCard({
 					const isSelected = assignedNote === num;
 					const isUsedElsewhere = !isSelected && usedNumbers.has(num);
 					const isFilteredOut =
-						activeGroup !== null &&
-						!activeGroup.includes(num) &&
-						!isSelected;
+						activeGroup !== null && !activeGroup.includes(num) && !isSelected;
 					return (
 						<button
 							key={num}
@@ -197,6 +206,7 @@ function SortableLocationCard({
 
 function PianoNotesSection(props: BaseSectionProps<PianoNotesData>) {
 	const [activeFilter, setActiveFilter] = useState<string | null>(null);
+	const [showRenamePanel, setShowRenamePanel] = useState(false);
 
 	const sensors = useSensors(
 		useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
@@ -205,7 +215,7 @@ function PianoNotesSection(props: BaseSectionProps<PianoNotesData>) {
 		}),
 		useSensor(KeyboardSensor, {
 			coordinateGetter: sortableKeyboardCoordinates,
-		})
+		}),
 	);
 
 	useSectionSettings({
@@ -222,7 +232,7 @@ function PianoNotesSection(props: BaseSectionProps<PianoNotesData>) {
 				defaultValue: DEFAULT_VALUE,
 				title: "Piano Notes",
 				description:
-					"Find each musical note around the map in the Present and count how many times it flashes to determine its number (1–8). Assign each location below, then head to the Past to play the piano.",
+					"Find each musical note around the map in the Present and count how many times it flashes to determine its number (1–8). Assign each location below, then head to the Past to play the piano. FOR ROSS: LOCATION NAMES CAN BE CHANGED IN THE RENAME LOCATIONS PANEL BELOW!",
 				resetButtonText: "Clear All",
 				tipsConfig: {
 					show: true,
@@ -244,7 +254,7 @@ function PianoNotesSection(props: BaseSectionProps<PianoNotesData>) {
 			}}
 			getProgress={(data: PianoNotesData) => {
 				const completed = Object.values(data.locationNotes).filter(
-					(v) => v !== null
+					(v) => v !== null,
 				).length;
 				return { completed, total: 8, isComplete: completed === 8 };
 			}}
@@ -253,10 +263,28 @@ function PianoNotesSection(props: BaseSectionProps<PianoNotesData>) {
 			{({ data, setData }) => {
 				const locationOrder = data.locationOrder ?? DEFAULT_ORDER;
 
+				const getDisplayName = (locationId: string) => {
+					const location = LOCATIONS.find((l) => l.id === locationId);
+					return (
+						data.locationNames?.[locationId] || location?.short || locationId
+					);
+				};
+
+				const handleRenameLocation = (locationId: string, name: string) => {
+					setData({
+						...data,
+						locationNames: { ...data.locationNames, [locationId]: name },
+					});
+				};
+
+				const handleResetNames = () => {
+					setData({ ...data, locationNames: {} });
+				};
+
 				const usedNumbers = new Set(
 					Object.values(data.locationNotes).filter(
-						(v): v is number => v !== null
-					)
+						(v): v is number => v !== null,
+					),
 				);
 
 				// First unassigned location in the current order
@@ -279,19 +307,17 @@ function PianoNotesSection(props: BaseSectionProps<PianoNotesData>) {
 					// Autocomplete the 8th location when 7 are assigned
 					if (!isDeselecting) {
 						const assignedCount = Object.values(newNotes).filter(
-							(v) => v !== null
+							(v) => v !== null,
 						).length;
 						if (assignedCount === 7) {
 							const unassignedId = LOCATIONS.find(
-								(l) => newNotes[l.id] === null
+								(l) => newNotes[l.id] === null,
 							)?.id;
 							const usedNums = new Set(
-								Object.values(newNotes).filter(
-									(v): v is number => v !== null
-								)
+								Object.values(newNotes).filter((v): v is number => v !== null),
 							);
 							const remainingNum = [1, 2, 3, 4, 5, 6, 7, 8].find(
-								(n) => !usedNums.has(n)
+								(n) => !usedNums.has(n),
 							);
 							if (unassignedId !== undefined && remainingNum !== undefined) {
 								newNotes[unassignedId] = remainingNum;
@@ -356,25 +382,19 @@ function PianoNotesSection(props: BaseSectionProps<PianoNotesData>) {
 							>
 								<div className="location-note-grid">
 									{locationOrder.map((locationId) => {
-										const location = LOCATIONS.find(
-											(l) => l.id === locationId
-										);
+										const location = LOCATIONS.find((l) => l.id === locationId);
 										if (!location) return null;
 										return (
 											<SortableLocationCard
 												key={locationId}
 												locationId={locationId}
-												short={location.short}
+												displayName={getDisplayName(locationId)}
 												long={location.long}
-												assignedNote={
-													data.locationNotes[locationId] ?? null
-												}
+												assignedNote={data.locationNotes[locationId] ?? null}
 												isActive={locationId === activeLocationId}
 												activeGroup={activeGroup}
 												usedNumbers={usedNumbers}
-												onAssign={(num) =>
-													handleAssign(locationId, num)
-												}
+												onAssign={(num) => handleAssign(locationId, num)}
 												onClear={() =>
 													setData({
 														...data,
@@ -405,10 +425,9 @@ function PianoNotesSection(props: BaseSectionProps<PianoNotesData>) {
 								{NOTE_VISUALS.map((visual) => {
 									const NoteComponent = visual.svg;
 									const isActive = activeFilter === visual.id;
-									const isDimmed =
-										activeFilter !== null && !isActive;
+									const isDimmed = activeFilter !== null && !isActive;
 									const isFullyUsed = visual.group.every((n) =>
-										usedNumbers.has(n)
+										usedNumbers.has(n),
 									);
 									return (
 										<button
@@ -452,6 +471,60 @@ function PianoNotesSection(props: BaseSectionProps<PianoNotesData>) {
 							<div className="piano-sequence-block__sequence">
 								{PIANO_SEQUENCE.join(" - ")}
 							</div>
+						</div>
+
+						{/* Rename locations panel */}
+						<div className="rename-locations-panel">
+							<button
+								className="rename-locations-panel__toggle"
+								onClick={() => setShowRenamePanel((v) => !v)}
+								type="button"
+							>
+								<span>Rename Locations</span>
+								<span
+									className={`rename-locations-panel__chevron${showRenamePanel ? " rename-locations-panel__chevron--open" : ""}`}
+								>
+									▾
+								</span>
+							</button>
+							{showRenamePanel && (
+								<div className="rename-locations-panel__body">
+									<div className="rename-locations-panel__grid">
+										{LOCATIONS.map((location) => (
+											<div
+												key={location.id}
+												className="rename-locations-panel__field"
+											>
+												<label
+													htmlFor={`rename-${location.id}`}
+													className="rename-locations-panel__label"
+												>
+													{location.long}
+												</label>
+												<input
+													id={`rename-${location.id}`}
+													type="text"
+													className="rename-locations-panel__input"
+													value={
+														data.locationNames?.[location.id] ?? location.short
+													}
+													onChange={(e) =>
+														handleRenameLocation(location.id, e.target.value)
+													}
+													placeholder={location.short}
+												/>
+											</div>
+										))}
+									</div>
+									<button
+										className="rename-locations-panel__reset"
+										onClick={handleResetNames}
+										type="button"
+									>
+										Reset to defaults
+									</button>
+								</div>
+							)}
 						</div>
 					</div>
 				);

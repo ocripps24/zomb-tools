@@ -25,6 +25,7 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 		date: "March 2026",
 		items: [
 			"BO7: Added Paradox Junction",
+			"UI: Added functionality to rename locations for the piano notes in Paradox Junction.",
 			"UI: Slight increase in max-width for map sections to allow for better use of space on larger screens",
 		],
 	},
