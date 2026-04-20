@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ROUTES, getGameRoute } from "@/routes";
+import { ROUTES, getGameRoute, type GameId } from "@/routes";
 import MrPeeksLogo from "@/assets/icons/mr-peeks-head-logo.svg";
 import ChevronIcon from "@/assets/icons/chevron.svg";
 
 const games = [
 	{ id: "bo1", name: "BO1" },
 	{ id: "bo3", name: "BO3" },
+	{ id: "iw", name: "IW" },
 	{ id: "bo4", name: "BO4" },
 	{ id: "bo5", name: "CW" },
 	{ id: "bo6", name: "BO6" },
@@ -20,7 +21,7 @@ const NavBar: React.FC<{ title?: string }> = () => {
 
 	// Determine active game by path
 	const activeGame = games.find((game) =>
-		location.pathname.startsWith(`/${game.id}`)
+		location.pathname.startsWith(`/${game.id}`),
 	);
 	const isHome = location.pathname === "/";
 	const isDashboard = location.pathname.startsWith("/dashboard");
@@ -66,7 +67,9 @@ const NavBar: React.FC<{ title?: string }> = () => {
 									: ""
 							}`}
 							onClick={() =>
-								navigate(getGameRoute(game.id as "bo3" | "bo4" | "bo6" | "bo7"))
+								navigate(
+									getGameRoute(game.id as GameId),
+								)
 							}
 							aria-label={game.name}
 						>
@@ -117,7 +120,9 @@ const NavBar: React.FC<{ title?: string }> = () => {
 									}`}
 									onClick={() => {
 										navigate(
-											getGameRoute(game.id as "bo3" | "bo4" | "bo6" | "bo7")
+											getGameRoute(
+												game.id as GameId,
+											),
 										);
 										setIsDropdownOpen(false);
 									}}
