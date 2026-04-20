@@ -1,0 +1,241 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+// Poster location mapping panel
+.morse-poster-mapping {
+	margin-bottom: space(lg);
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-md);
+	background: var(--bg-tertiary);
+	overflow: hidden;
+
+	&__toggle {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		gap: space(sm);
+		padding: space(md) space(lg);
+		background: transparent;
+		border: none;
+		color: var(--text-primary);
+		font-size: 0.95rem;
+		font-weight: 500;
+		cursor: pointer;
+		text-align: left;
+
+		&:hover {
+			background: var(--bg-hover);
+		}
+
+		span:first-child {
+			flex: 1;
+		}
+	}
+
+	&__badge {
+		font-size: 0.7rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--text-secondary);
+		padding: 2px 6px;
+		border: 1px solid var(--border-color);
+		border-radius: var(--radius-sm);
+	}
+
+	&__chevron {
+		color: var(--text-secondary);
+		font-size: 0.75rem;
+	}
+
+	&__body {
+		padding: space(md) space(lg) space(lg);
+		border-top: 1px solid var(--border-color);
+	}
+
+	&__hint {
+		color: var(--text-secondary);
+		font-size: 0.875rem;
+		margin: 0 0 space(md);
+	}
+
+	&__grid {
+		display: flex;
+		flex-direction: column;
+		gap: space(sm);
+	}
+
+	&__row {
+		display: flex;
+		align-items: center;
+		gap: space(md);
+	}
+
+	&__location {
+		flex: 1;
+		font-size: 0.9rem;
+		color: var(--text-primary);
+		min-width: 0;
+	}
+
+	&__select {
+		background: var(--bg-primary);
+		border: 1px solid var(--border-color);
+		border-radius: var(--radius-sm);
+		color: var(--text-primary);
+		font-size: 0.875rem;
+		padding: 4px 8px;
+		min-width: 130px;
+		cursor: pointer;
+
+		&:focus {
+			outline: 2px solid var(--accent-color);
+			outline-offset: 1px;
+		}
+	}
+}
+
+// Section prompt text
+.morse-code-section__prompt {
+	color: var(--text-secondary);
+	font-size: 0.9rem;
+	margin: 0 0 space(md);
+}
+
+// Morse code card grid
+.morse-cards {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: space(md);
+	margin-bottom: space(lg);
+
+	@media (max-width: 600px) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@media (max-width: 380px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.morse-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: space(sm);
+	padding: space(md);
+	background: var(--bg-tertiary);
+	border: 2px solid var(--border-color);
+	border-radius: var(--radius-md);
+	cursor: pointer;
+	transition: border-color var(--transition), background var(--transition);
+	text-align: center;
+
+	&:hover {
+		border-color: var(--accent-color);
+		background: var(--bg-hover);
+	}
+
+	&--selected {
+		border-color: var(--accent-color);
+		background: var(--accent-color-subtle, color-mix(in srgb, var(--accent-color) 12%, transparent));
+	}
+
+	&__number {
+		font-size: 1.75rem;
+		font-weight: 700;
+		color: var(--text-primary);
+		font-variant-numeric: tabular-nums;
+		line-height: 1;
+	}
+
+	&__sequence {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		width: 100%;
+	}
+
+	&__digit {
+		font-family: monospace;
+		font-size: 0.85rem;
+		color: var(--text-secondary);
+		letter-spacing: 0.1em;
+		padding: 2px 4px;
+		border-radius: var(--radius-sm);
+
+		&--highlight {
+			color: var(--accent-color);
+			background: var(--accent-color-subtle, color-mix(in srgb, var(--accent-color) 12%, transparent));
+			font-weight: 600;
+		}
+	}
+
+	&__note {
+		font-size: 0.7rem;
+		color: var(--text-secondary);
+		line-height: 1.3;
+		padding-top: space(xs);
+		border-top: 1px solid var(--border-color);
+		width: 100%;
+	}
+}
+
+// Result panel
+.morse-result {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: space(sm);
+	padding: space(md) space(lg);
+	border-radius: var(--radius-md);
+	border: 1px solid var(--border-color);
+	background: var(--bg-tertiary);
+
+	&--exact {
+		border-color: var(--success-color, #4caf50);
+	}
+
+	&__label {
+		font-weight: 600;
+		color: var(--text-primary);
+		font-size: 1rem;
+	}
+
+	&__location {
+		font-size: 1rem;
+		color: var(--success-color, #4caf50);
+		font-weight: 600;
+	}
+
+	&__hint {
+		color: var(--text-secondary);
+		font-size: 0.9rem;
+	}
+
+	&__candidates {
+		display: flex;
+		flex-direction: column;
+		gap: space(xs);
+		width: 100%;
+
+		span {
+			color: var(--text-secondary);
+			font-size: 0.875rem;
+		}
+
+		ul {
+			margin: 0;
+			padding-left: 1.25rem;
+			display: flex;
+			flex-wrap: wrap;
+			gap: space(xs) space(lg);
+
+			li {
+				color: var(--text-primary);
+				font-size: 0.9rem;
+			}
+		}
+	}
+}
