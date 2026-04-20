@@ -134,20 +134,6 @@ const NavBar: React.FC<{ title?: string }> = () => {
 					)}
 				</div>
 
-				{/* Theme toggle - hidden for now but keeping code */}
-				{/* <span className="nav__separator" />
-				<button
-					className="nav__link nav__link--theme"
-					onClick={handleThemeToggle}
-					aria-label={`Switch to ${
-						currentTheme === THEMES.DARK ? "light" : "dark"
-					} mode`}
-					title={`Switch to ${
-						currentTheme === THEMES.DARK ? "light" : "dark"
-					} mode`}
-				>
-					{currentTheme === THEMES.DARK ? "☀️" : "🌙"}
-				</button> */}
 			</div>
 		</nav>
 	);
