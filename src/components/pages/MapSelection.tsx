@@ -8,6 +8,7 @@ import { BO4_MAPS, type BO4Map } from "@/data/bo4/maps";
 import { BO5_MAPS, type BO5Map } from "@/data/bo5/maps";
 import { BO6_MAPS, type BO6Map } from "@/data/bo6/maps";
 import { BO7_MAPS, type BO7Map } from "@/data/bo7/maps";
+import { IW_MAPS, type IWMap } from "@/data/iw/maps";
 import GlassHero from "@/components/ui/GlassHero";
 import beamsImage from "@/assets/images/beams-bkg-v2.png";
 
@@ -49,7 +50,7 @@ const getPreview = (gameId: string, mapId: string): string | null => {
 
 const getMapsByGame = (
 	gameId: string
-): (BO1Map | BO3Map | BO4Map | BO5Map | BO6Map | BO7Map)[] => {
+): (BO1Map | BO3Map | BO4Map | BO5Map | BO6Map | BO7Map | IWMap)[] => {
 	switch (gameId) {
 		case "bo1":
 			return BO1_MAPS;
@@ -63,6 +64,8 @@ const getMapsByGame = (
 			return BO6_MAPS;
 		case "bo7":
 			return BO7_MAPS;
+		case "iw":
+			return IW_MAPS;
 		default:
 			return [];
 	}

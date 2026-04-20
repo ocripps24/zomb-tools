@@ -24,6 +24,7 @@ import ShatteredVeil from "./components/games/bo6/maps/shattered-veil/ShatteredV
 import LibertyFalls from "./components/games/bo6/maps/liberty-falls/LibertyFalls";
 import CitadelleDesMorts from "./components/games/bo6/maps/citadelle-des-morts/CitadelleDesMorts";
 import TheTomb from "./components/games/bo6/maps/the-tomb/TheTomb";
+import ShaolinShuffle from "./components/games/iw/maps/shaolin-shuffle/ShaolinShuffle";
 import AshesOfTheDamned from "./components/games/bo7/maps/ashes-of-the-damned/AshesOfTheDamned";
 import AstraMalorum from "./components/games/bo7/maps/astra-malorum/AstraMalorum";
 import ParadoxJunction from "./components/games/bo7/maps/paradox-junction/ParadoxJunction";
@@ -78,7 +79,8 @@ function App() {
 					gameId === "bo4" ||
 					gameId === "bo5" ||
 					gameId === "bo6" ||
-					gameId === "bo7") &&
+					gameId === "bo7" ||
+				gameId === "iw") &&
 				mapId
 			) {
 				return `/${gameId}/${mapId}`;
@@ -97,7 +99,8 @@ function App() {
 			location.pathname.includes("/bo4/") ||
 			location.pathname.includes("/bo5/") ||
 			location.pathname.includes("/bo6/") ||
-			location.pathname.includes("/bo7/"));
+			location.pathname.includes("/bo7/") ||
+		location.pathname.includes("/iw/"));
 
 	// Check if current route is a dashboard view
 	// Dashboard view URLs are like /dashboard/{id} (not /dashboard/new or /dashboard/base)
@@ -251,6 +254,16 @@ function App() {
 							<Route
 								path={ROUTE_PATTERNS.games.bo6.maps.theTomb}
 								element={<TheTomb />}
+							/>
+
+							{/* IW Routes */}
+							<Route
+								path={ROUTES.games.iw.base}
+								element={<MapSelection gameId="iw" />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.iw.maps.shaolinShuffle}
+								element={<ShaolinShuffle />}
 							/>
 
 							{/* BO7 Routes */}

@@ -65,6 +65,15 @@ export const GAMES: Record<string, Game> = {
 		releaseYear: 2025,
 		route: ROUTES.games.bo7.base,
 	},
+	iw: {
+		id: "iw",
+		name: "Infinite Warfare",
+		fullName: "Call of Duty: Infinite Warfare",
+		description: "Zombies mode speedrun tools and guides",
+		available: true,
+		releaseYear: 2016,
+		route: ROUTES.games.iw.base,
+	},
 };
 
 export const getGameById = (gameId: string): Game | null => {

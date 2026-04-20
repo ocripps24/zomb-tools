@@ -79,6 +79,12 @@ export const ROUTES = {
 				paradoxJunction: "/bo7/paradox-junction",
 			},
 		},
+		iw: {
+			base: "/iw",
+			maps: {
+				shaolinShuffle: "/iw/shaolin-shuffle",
+			},
+		},
 	},
 } as const;
 
@@ -240,6 +246,15 @@ export const MAP_STEPS = {
 			},
 		},
 	},
+	iw: {
+		shaolinShuffle: {
+			base: "/iw/shaolin-shuffle",
+			steps: {
+				morseCode: "/iw/shaolin-shuffle/morse-code",
+				rooftopSymbols: "/iw/shaolin-shuffle/rooftop-symbols",
+			},
+		},
+	},
 } as const;
 
 // Route patterns for React Router (with wildcards)
@@ -295,6 +310,12 @@ export const ROUTE_PATTERNS = {
 				ashesOfTheDamned: "/bo7/ashes-of-the-damned/*",
 				astraMalorum: "/bo7/astra-malorum/*",
 				paradoxJunction: "/bo7/paradox-junction/*",
+			},
+		},
+		iw: {
+			base: "/iw",
+			maps: {
+				shaolinShuffle: "/iw/shaolin-shuffle/*",
 			},
 		},
 	},
@@ -419,6 +440,14 @@ export const ROUTE_METADATA = {
 		title: "Paradox Junction",
 		documentTitle: "Paradox Junction Easter Eggs - COD Zombies Tools",
 	},
+	"/iw": {
+		title: "Infinite Warfare - Select Map",
+		documentTitle: "IW Maps - COD Zombies Tools",
+	},
+	[ROUTES.games.iw.maps.shaolinShuffle]: {
+		title: "Shaolin Shuffle",
+		documentTitle: "Shaolin Shuffle Easter Eggs - COD Zombies Tools",
+	},
 } as const;
 
 // Type exports for TypeScript support
@@ -441,4 +470,5 @@ export type RoutePaths =
 	| (typeof ROUTES.games.bo4.maps)[keyof typeof ROUTES.games.bo4.maps]
 	| (typeof ROUTES.games.bo5.maps)[keyof typeof ROUTES.games.bo5.maps]
 	| (typeof ROUTES.games.bo6.maps)[keyof typeof ROUTES.games.bo6.maps]
-	| (typeof ROUTES.games.bo7.maps)[keyof typeof ROUTES.games.bo7.maps];
+	| (typeof ROUTES.games.bo7.maps)[keyof typeof ROUTES.games.bo7.maps]
+	| (typeof ROUTES.games.iw.maps)[keyof typeof ROUTES.games.iw.maps];
