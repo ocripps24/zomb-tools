@@ -35,92 +35,43 @@ import DashboardEditor from "./components/dashboard/DashboardEditor";
 import CookieConsentBanner from "./components/ui/CookieConsentBanner";
 import GlobalSettings from "./components/ui/GlobalSettings";
 import { useConsent } from "./contexts/ConsentContext";
-import { ROUTES, ROUTE_PATTERNS, getRouteMetadata } from "./routes";
+import {
+	ROUTES,
+	ROUTE_PATTERNS,
+	getRouteMetadata,
+	getGameIdFromPath,
+} from "./routes";
 import "./styles/main.scss";
-import { NavBar, Footer } from "./components/layout/index.js";
+import { NavBar, Footer } from "./components/layout";
 
 function App() {
 	const location = useLocation();
 	const { resetConsent } = useConsent();
 
-	// Get page title and document title from centralized route metadata
-	const getPageTitle = () => {
-		const metadata = getRouteMetadata(location.pathname);
-		return metadata.title;
-	};
-
-	const getDocumentTitle = () => {
-		const metadata = getRouteMetadata(location.pathname);
-		return metadata.documentTitle;
-	};
-
-	// Update document title when route changes
 	useEffect(() => {
-		document.title = getDocumentTitle();
+		document.title = getRouteMetadata(location.pathname).documentTitle;
 	}, [location.pathname]);
 
-	// Generate a key for page transitions that ignores map step changes
 	const getPageTransitionKey = () => {
-		const path = location.pathname;
-
-		// For map pages, only use the base map path (not the step)
-		// e.g. "/bo6/terminus/nathan" becomes "/bo6/terminus"
-		const segments = path.split("/").filter(Boolean);
-
-		// If it's a map page with 3+ segments (game/map/step), use only first 2
-		if (segments.length >= 3) {
-			const gameId = segments[0];
-			const mapId = segments[1];
-
-			// Check if this is a known game/map combination
-			if (
-				(gameId === "bo1" ||
-					gameId === "bo3" ||
-					gameId === "bo4" ||
-					gameId === "bo5" ||
-					gameId === "bo6" ||
-					gameId === "bo7" ||
-				gameId === "iw") &&
-				mapId
-			) {
-				return `/${gameId}/${mapId}`;
-			}
+		const segments = location.pathname.split("/").filter(Boolean);
+		if (segments.length >= 3 && getGameIdFromPath(location.pathname)) {
+			return `/${segments[0]}/${segments[1]}`;
 		}
-
-		// For all other routes, use the full path
-		return path;
+		return location.pathname;
 	};
 
-	// Check if current route is a map page (has 3+ segments like /bo6/terminus/step)
+	const segments = location.pathname.split("/").filter(Boolean);
 	const isMapPage =
-		location.pathname.split("/").filter(Boolean).length >= 2 &&
-		(location.pathname.includes("/bo1/") ||
-			location.pathname.includes("/bo3/") ||
-			location.pathname.includes("/bo4/") ||
-			location.pathname.includes("/bo5/") ||
-			location.pathname.includes("/bo6/") ||
-			location.pathname.includes("/bo7/") ||
-		location.pathname.includes("/iw/"));
+		segments.length >= 2 && getGameIdFromPath(location.pathname) !== null;
 
-	// Check if current route is a dashboard view
-	// Dashboard view URLs are like /dashboard/{id} (not /dashboard/new or /dashboard/base)
 	const isDashboardView =
 		location.pathname.startsWith("/dashboard/") &&
 		!location.pathname.startsWith("/dashboard/new") &&
 		location.pathname !== "/dashboard" &&
 		location.pathname !== "/dashboard/";
 
-	// Show settings widget on map pages and dashboard views only
 	const showSettings = isMapPage || isDashboardView;
-
-	// Extract map ID for background image
-	const getMapId = () => {
-		if (!isMapPage) return null;
-		const segments = location.pathname.split("/").filter(Boolean);
-		return segments[1] || null; // Second segment is the map ID (e.g., "moon", "terminus")
-	};
-
-	const mapId = getMapId();
+	const mapId = isMapPage ? segments[1] : null;
 
 	return (
 		<div
@@ -128,7 +79,7 @@ function App() {
 			{...(mapId && { "data-map": mapId })}
 		>
 			<header className="app-header">
-				<NavBar title={getPageTitle()} />
+				<NavBar />
 			</header>
 
 			<main className="app-main">
@@ -138,18 +89,27 @@ function App() {
 				>
 					<motion.div key={getPageTransitionKey()} {...PAGE_TRANSITION}>
 						<Routes location={location}>
-							{/* Root - Game Selection */}
+							{/* Root */}
 							<Route path={ROUTES.home} element={<GameSelection />} />
 
 							{/* Info Routes */}
 							<Route path={ROUTES.roadmap} element={<Roadmap />} />
 
-
 							{/* Dashboard Routes */}
 							<Route path={ROUTES.dashboard.base} element={<DashboardList />} />
-							<Route path={ROUTES.dashboard.new} element={<DashboardBuilder />} />
-							<Route path={ROUTES.dashboard.view(":id")} element={<DashboardView />} />
-							<Route path={ROUTES.dashboard.edit(":id")} element={<DashboardEditor />} />
+							<Route
+								path={ROUTES.dashboard.new}
+								element={<DashboardBuilder />}
+							/>
+							<Route
+								path={ROUTES.dashboard.view(":id")}
+								element={<DashboardView />}
+							/>
+							<Route
+								path={ROUTES.dashboard.edit(":id")}
+								element={<DashboardEditor />}
+							/>
+
 							{/* Legal Routes */}
 							<Route path={ROUTES.privacyPolicy} element={<PrivacyPolicy />} />
 							<Route
@@ -179,6 +139,16 @@ function App() {
 							<Route
 								path={ROUTE_PATTERNS.games.bo3.maps.shadowsOfEvil}
 								element={<ShadowsOfEvil />}
+							/>
+
+							{/* IW Routes */}
+							<Route
+								path={ROUTES.games.iw.base}
+								element={<MapSelection gameId="iw" />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.iw.maps.shaolinShuffle}
+								element={<ShaolinShuffle />}
 							/>
 
 							{/* BO4 Routes */}
@@ -256,16 +226,6 @@ function App() {
 								element={<TheTomb />}
 							/>
 
-							{/* IW Routes */}
-							<Route
-								path={ROUTES.games.iw.base}
-								element={<MapSelection gameId="iw" />}
-							/>
-							<Route
-								path={ROUTE_PATTERNS.games.iw.maps.shaolinShuffle}
-								element={<ShaolinShuffle />}
-							/>
-
 							{/* BO7 Routes */}
 							<Route
 								path={ROUTES.games.bo7.base}
@@ -293,7 +253,6 @@ function App() {
 
 			<Footer onResetConsent={resetConsent} />
 
-			{/* Show settings widget only on map pages and dashboard views */}
 			{showSettings && <GlobalSettings />}
 			<CookieConsentBanner />
 		</div>
