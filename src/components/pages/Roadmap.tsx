@@ -10,15 +10,27 @@ interface RoadmapEntry {
 // Roadmap data - organized chronologically (newest first)
 const ROADMAP_DATA: RoadmapEntry[] = [
 	{
+		date: "Comments",
+		items: [
+			"Speedruns: the tools are not targeted to a specific player group, however, the UI toggles available at the bottom of each section contain: standard mode for more casual players and compact mode for speedrunners. Tools will be reviewed and refined for optimisations where possible. Feel free to provide specific feedback  via the Github issues page (link at bottom).",
+			"Content: The original purpose was just to provide solver tools but I do not rule out extending the content scope to interactive maps, full guides, etc",
+			"Devices: The site is designed for desktop but features a responsive design. Fixes and further UI improvements for smaller screens and mobile devices are planned",
+		],
+	},
+	{
 		date: "2026",
 		items: [
 			"BO7: Planning to add all future DLCs",
 			"BO2: Potential to add Die Rise, Buried",
-			"IW: Potential to add Attack of the Radioactive Thing",
+			"IW: Development in progress",
 			"AW/WW2: I'm unfamiliar with these games but they will be reviewed in the fullness of time",
-			"Speedruns: the tools are not targeted to a specific player group, however, the UI toggles available at the bottom of each section contain: standard mode for more casual players and compact mode for speedrunners. Tools will be reviewed and refined for optimisations where possible. Feel free to provide specific feedback  via the Github issues page (link at bottom).",
-			"Content: The original purpose was just to provide solver tools but I do not rule out extending the content scope to interactive maps, full guides, etc",
-			"Devices: The site is designed for desktop but features a responsive design. Fixes and further UI improvements for smaller screens and mobile devices are planned",
+		],
+	},
+	{
+		date: "April 2026",
+		items: [
+			"IW: Added IW starting with Shaolin Shuffle",
+			"It's my first time playing through IW Zombies so please feel free to provide feedback on the tools via the Github issues page (link at bottom) as you explore the maps. Planning to add Attack of the Radioactive Thing and Beast from Beyond as I play through them.",
 		],
 	},
 	{
