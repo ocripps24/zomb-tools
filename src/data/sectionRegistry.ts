@@ -1,5 +1,10 @@
 import type { SectionRegistry, SectionRegistryEntry } from "@/types/dashboard";
 
+// ===== IW Imports =====
+// Shaolin Shuffle
+import ShaolinMorseCodeSection from "@/components/games/iw/maps/shaolin-shuffle/sections/MorseCodeSection";
+import ShaolinRooftopSymbolsSection from "@/components/games/iw/maps/shaolin-shuffle/sections/RooftopSymbolsSection";
+
 // ===== BO7 Imports =====
 // Astra Malorum
 import AstraPapCodeSection from "@/components/games/bo7/maps/astra-malorum/sections/PapCodeSection";
@@ -94,6 +99,28 @@ import MoonSamanthaSays from "@/components/games/bo1/maps/moon/sections/Samantha
  * Structure: gameId -> mapId -> sectionId -> SectionRegistryEntry
  */
 export const SECTION_REGISTRY: SectionRegistry = {
+	iw: {
+		"shaolin-shuffle": {
+			"morse-code": {
+				id: "morse-code",
+				name: "Morse Code",
+				component: ShaolinMorseCodeSection,
+				gameId: "iw",
+				gameName: "Infinite Warfare",
+				mapId: "shaolin-shuffle",
+				mapName: "Shaolin Shuffle",
+			},
+			"rooftop-symbols": {
+				id: "rooftop-symbols",
+				name: "Rooftop Symbols",
+				component: ShaolinRooftopSymbolsSection,
+				gameId: "iw",
+				gameName: "Infinite Warfare",
+				mapId: "shaolin-shuffle",
+				mapName: "Shaolin Shuffle",
+			},
+		},
+	},
 	bo7: {
 		"ashes-of-the-damned": {
 			"rocket-launch": {
