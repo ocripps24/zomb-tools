@@ -14,14 +14,14 @@ const POSTER_CODES = [
 	{
 		number: "407",
 		digits: ["....-", "-----", "--..."],
-		disambiguation: "2nd digit is all dashes — if it starts with dots instead, you have 420",
-		disambiguateDigit: 1,
+		disambiguation: "Ends in dots — if it ends in dashes instead, you have 420",
+		disambiguateDigit: 2,
 	},
 	{
 		number: "420",
 		digits: ["....-", "..---", "-----"],
-		disambiguation: "2nd digit starts with dots — if it's all dashes instead, you have 407",
-		disambiguateDigit: 1,
+		disambiguation: "Ends in dashes — if it ends in dots instead, you have 407",
+		disambiguateDigit: 2,
 	},
 	{
 		number: "596",
@@ -120,7 +120,7 @@ function MorseCodeSection(props: BaseSectionProps<MorseCodeData>) {
 						},
 						{
 							label: "407 vs 420",
-							text: "Both codes start with 4 (····–). Listen to the second character: all dashes = 407, starts with dots = 420.",
+							text: "Both codes start with 4 (····–). Listen for how the sequence ends: ends in dots = 407, ends in dashes = 420.",
 						},
 						{
 							label: "Wrong Poster",
