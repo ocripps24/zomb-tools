@@ -129,7 +129,9 @@
 	border: 2px solid var(--border-color);
 	border-radius: var(--radius-md);
 	cursor: pointer;
-	transition: border-color var(--transition), background var(--transition);
+	transition:
+		border-color var(--transition),
+		background var(--transition);
 	text-align: center;
 
 	&:hover {
@@ -139,7 +141,10 @@
 
 	&--selected {
 		border-color: var(--accent-color);
-		background: var(--accent-color-subtle, color-mix(in srgb, var(--accent-color) 12%, transparent));
+		background: var(
+			--accent-color-subtle,
+			color-mix(in srgb, var(--accent-color) 12%, transparent)
+		);
 	}
 
 	&__number {
@@ -167,7 +172,10 @@
 
 		&--highlight {
 			color: var(--accent-color);
-			background: var(--accent-color-subtle, color-mix(in srgb, var(--accent-color) 12%, transparent));
+			background: var(
+				--accent-color-subtle,
+				color-mix(in srgb, var(--accent-color) 12%, transparent)
+			);
 			font-weight: 600;
 		}
 	}
@@ -214,7 +222,9 @@
 		font-size: 1.1rem;
 		font-weight: 700;
 		cursor: pointer;
-		transition: border-color var(--transition), background var(--transition);
+		transition:
+			border-color var(--transition),
+			background var(--transition);
 
 		&:hover {
 			border-color: var(--accent-color);
@@ -262,7 +272,9 @@
 	border: 2px solid var(--border-color);
 	border-radius: var(--radius-md);
 	cursor: pointer;
-	transition: border-color var(--transition), background var(--transition);
+	transition:
+		border-color var(--transition),
+		background var(--transition);
 	text-align: center;
 
 	&:hover {
@@ -327,15 +339,23 @@
 		border: 2px solid transparent;
 
 		&--first {
-			color: var(--text-secondary);
-			border-color: var(--border-color);
-			background: var(--bg-tertiary);
+			color: var(--success-color, #4caf50);
+			border-color: var(--success-color, #4caf50);
+			background: color-mix(
+				in srgb,
+				var(--success-color, #4caf50) 12%,
+				transparent
+			);
 		}
 
 		&--shot {
 			color: var(--success-color, #4caf50);
 			border-color: var(--success-color, #4caf50);
-			background: color-mix(in srgb, var(--success-color, #4caf50) 12%, transparent);
+			background: color-mix(
+				in srgb,
+				var(--success-color, #4caf50) 12%,
+				transparent
+			);
 		}
 
 		&--current {
@@ -350,6 +370,64 @@
 			background: transparent;
 			opacity: 0.5;
 		}
+	}
+}
+
+.rooftop-compact-sequence {
+	display: flex;
+	flex-wrap: wrap;
+	gap: space(sm);
+}
+
+.rooftop-compact-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: space(sm);
+	padding: space(md);
+	width: 85px;
+	background: var(--bg-tertiary);
+	border: 2px solid var(--border-color);
+	border-radius: var(--radius-md);
+	cursor: pointer;
+	transition:
+		border-color var(--transition),
+		background var(--transition);
+	opacity: 0.5;
+
+	&:hover {
+		opacity: 1;
+		border-color: var(--accent-color);
+		background: var(--bg-hover);
+	}
+
+	&--current {
+		opacity: 1;
+		border-color: var(--text-primary);
+		background: transparent;
+
+		&:hover {
+			background: var(--bg-hover);
+		}
+	}
+
+	&__symbol {
+		width: 65px;
+		height: 65px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		svg {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	&__letter {
+		font-size: 0.8rem;
+		font-weight: 700;
+		color: var(--text-primary);
 	}
 }
 
@@ -384,7 +462,7 @@
 
 	&__shot-btn {
 		padding: space(sm) space(xl);
-		background: var(--accent-color);
+		background: var(--success-color, #16a34a);
 		border: none;
 		border-radius: var(--radius-md);
 		color: #fff;
@@ -408,6 +486,14 @@
 	}
 }
 
+.rooftop-actions {
+	display: flex;
+	align-items: center;
+	gap: space(sm);
+	align-self: flex-start;
+}
+
+.rooftop-undo,
 .rooftop-reset {
 	align-self: flex-start;
 	padding: space(xs) space(lg);
@@ -417,7 +503,9 @@
 	color: var(--text-secondary);
 	font-size: 0.875rem;
 	cursor: pointer;
-	transition: border-color var(--transition), color var(--transition);
+	transition:
+		border-color var(--transition),
+		color var(--transition);
 
 	&:hover {
 		border-color: var(--text-secondary);

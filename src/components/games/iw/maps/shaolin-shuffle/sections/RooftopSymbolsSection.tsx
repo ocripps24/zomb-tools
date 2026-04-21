@@ -1,5 +1,6 @@
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
+import { useGlobalSettings } from "@/hooks/useGlobalSettings";
 import SymbolA from "@/assets/maps/iw/shaolin-shuffle/shaolin-shuffle-alphabet-a.svg";
 import SymbolB from "@/assets/maps/iw/shaolin-shuffle/shaolin-shuffle-alphabet-b.svg";
 import SymbolC from "@/assets/maps/iw/shaolin-shuffle/shaolin-shuffle-alphabet-c.svg";
@@ -188,6 +189,8 @@ function SymbolIcon({
 }
 
 function RooftopSymbolsSection(props: BaseSectionProps<RooftopSymbolsData>) {
+	const { settings, updateSetting } = useGlobalSettings();
+
 	return (
 		<BaseSection
 			config={{
@@ -210,6 +213,24 @@ function RooftopSymbolsSection(props: BaseSectionProps<RooftopSymbolsData>) {
 						{
 							label: "Shooting",
 							text: "Shoot the rooftop symbols to spell the word in order. Each correct shot makes that letter appear on the wall. A wrong shot resets the puzzle with a new starting letter.",
+						},
+					],
+				},
+				settingsConfig: {
+					show: true,
+					title: "Display Settings",
+					settings: [
+						{
+							id: "ui-size",
+							label: "UI Density",
+							value: settings.uiSize,
+							options: [
+								{ value: "standard", label: "Standard" },
+								{ value: "compact", label: "Compact (Speedrun)" },
+							],
+							note: "Compact mode shows all remaining symbols at once for faster play.",
+							onChange: (value) =>
+								updateSetting("uiSize", value as "standard" | "compact"),
 						},
 					],
 				},
@@ -239,6 +260,12 @@ function RooftopSymbolsSection(props: BaseSectionProps<RooftopSymbolsData>) {
 					setData((prev: RooftopSymbolsData) => ({
 						...prev,
 						shotLetters: [...prev.shotLetters, letter],
+					}));
+
+				const undoLastShot = () =>
+					setData((prev: RooftopSymbolsData) => ({
+						...prev,
+						shotLetters: prev.shotLetters.slice(0, -1),
 					}));
 
 				// ── Phase 1: pick first letter ──────────────────────────────────
@@ -284,9 +311,14 @@ function RooftopSymbolsSection(props: BaseSectionProps<RooftopSymbolsData>) {
 									Word spelled — puzzle complete!
 								</p>
 							</div>
-							<button className="rooftop-reset" onClick={reset} type="button">
-								Start Over
-							</button>
+							<div className="rooftop-actions">
+								<button className="rooftop-undo" onClick={undoLastShot} type="button">
+									Undo
+								</button>
+								<button className="rooftop-reset" onClick={reset} type="button">
+									Start Over
+								</button>
+							</div>
 						</div>
 					);
 				}
@@ -294,6 +326,47 @@ function RooftopSymbolsSection(props: BaseSectionProps<RooftopSymbolsData>) {
 				// ── Phase 3: confirmed word, shoot remaining ─────────────────────
 				if (confirmedWord) {
 					const currentLetter = confirmedWord[1 + shotLetters.length];
+					const isCompact = settings.uiSize === "compact";
+
+					if (isCompact) {
+						const remainingLetters = confirmedWord
+							.slice(1 + shotLetters.length)
+							.split("");
+						return (
+							<div className="rooftop-symbols">
+								<WordProgress
+									word={confirmedWord}
+									shotCount={shotLetters.length}
+								/>
+								<div className="rooftop-compact-sequence">
+									{remainingLetters.map((letter, i) => (
+										<button
+											key={i}
+											className={`rooftop-compact-card${i === 0 ? " rooftop-compact-card--current" : ""}`}
+											onClick={() => shootLetter(currentLetter)}
+											type="button"
+										>
+											<div className="rooftop-compact-card__symbol">
+												<SymbolIcon letter={letter} />
+											</div>
+											<span className="rooftop-compact-card__letter">
+												{letter.toUpperCase()}
+											</span>
+										</button>
+									))}
+								</div>
+								<div className="rooftop-actions">
+									<button className="rooftop-undo" onClick={undoLastShot} type="button">
+										Undo
+									</button>
+									<button className="rooftop-reset" onClick={reset} type="button">
+										Reset
+									</button>
+								</div>
+							</div>
+						);
+					}
+
 					return (
 						<div className="rooftop-symbols">
 							<WordProgress
@@ -321,9 +394,14 @@ function RooftopSymbolsSection(props: BaseSectionProps<RooftopSymbolsData>) {
 									Mark as Shot
 								</button>
 							</div>
-							<button className="rooftop-reset" onClick={reset} type="button">
-								Reset
-							</button>
+							<div className="rooftop-actions">
+								<button className="rooftop-undo" onClick={undoLastShot} type="button">
+									Undo
+								</button>
+								<button className="rooftop-reset" onClick={reset} type="button">
+									Reset
+								</button>
+							</div>
 						</div>
 					);
 				}
