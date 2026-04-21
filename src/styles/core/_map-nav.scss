@@ -4,18 +4,19 @@
 
 // Map Navigation - Glassmorphism floating navbar for map pages
 .map-nav {
-	// Positioning: Mobile bottom, Desktop top
+	// Positioning: Fixed top, centered horizontally
 	position: fixed;
-	bottom: 10px; // Mobile: bottom
+	top: 18px;
 	left: 50%;
-	transform: translateX(-50%);
 	z-index: 10000; // Higher than global nav to ensure it's on top
-	transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+	transition:
+		transform 0.3s ease-out,
+		opacity 0.3s ease-out;
 	will-change: transform, opacity; // Create own compositing layer
 
-	// Start hidden, slide in on map pages
+	// Start hidden, slide in from top on map pages
 	opacity: 0;
-	transform: translate(-50%, 100%); // Mobile: slide up from bottom
+	transform: translate(-50%, -100%);
 	pointer-events: none;
 
 	.app--map-page & {
@@ -41,9 +42,8 @@
 	box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
 	@include tmd-up {
-		top: 30px; // Desktop: top
-		bottom: auto; // Override mobile bottom
-		transform: translate(-50%, -100%); // Desktop: slide down from top
+		top: 30px;
+		transform: translate(-50%, -100%);
 		gap: space(lg);
 		padding: 0 space(xl);
 		max-width: 80vw;
