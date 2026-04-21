@@ -141,13 +141,23 @@ function MorseCodeSection(props: BaseSectionProps<MorseCodeData>) {
 					locationId: LocationId,
 					value: string | null
 				) => {
-					setData((prev: MorseCodeData) => ({
-						...prev,
-						posterMappings: {
-							...prev.posterMappings,
-							[locationId]: value,
-						},
-					}));
+					setData((prev: MorseCodeData) => {
+						const updated = { ...prev.posterMappings, [locationId]: value };
+						const filledCount = Object.values(updated).filter(Boolean).length;
+						if (filledCount === 5) {
+							const emptyLocationId = (
+								Object.keys(updated) as LocationId[]
+							).find((id) => !updated[id]);
+							const usedNums = new Set(Object.values(updated).filter(Boolean));
+							const remainingNum = POSTER_CODES.find(
+								(c) => !usedNums.has(c.number)
+							);
+							if (emptyLocationId && remainingNum) {
+								updated[emptyLocationId] = remainingNum.number;
+							}
+						}
+						return { ...prev, posterMappings: updated };
+					});
 				};
 
 				const handleCodeSelect = (number: string) => {
