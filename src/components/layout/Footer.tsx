@@ -72,7 +72,7 @@ function Footer({ onResetConsent }: FooterProps) {
 				{/* Copyright Section */}
 				<div className="footer-legal">
 					<div className="copyright">
-						<p>&copy; 2025 Zomb Tools</p>
+						<p>&copy; {new Date().getFullYear()} Zomb Tools</p>
 						<div className="legal-links">
 							<Link to="/roadmap" className="legal-link">
 								Roadmap
