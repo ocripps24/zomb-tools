@@ -65,6 +65,11 @@
 			background-image: url("/src/assets/maps/bo3/shadows-of-evil-preview.jpg");
 		}
 
+		// IW Maps
+		&[data-map="shaolin-shuffle"]::before {
+			background-image: url("/src/assets/maps/iw/shaolin-shuffle-preview.jpg");
+		}
+
 		// BO4 Maps
 		&[data-map="voyage-of-despair"]::before {
 			background-image: url("/src/assets/maps/bo4/voyage-of-despair-preview.jpg");

@@ -29,8 +29,9 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 	{
 		date: "April 2026",
 		items: [
-			"IW: Added IW starting with Shaolin Shuffle",
+			"IW: Added IW starting with Shaolin Shuffle - Morse code and Rooftop Symbol sections",
 			"It's my first time playing through IW Zombies so please feel free to provide feedback on the tools via the Github issues page (link at bottom) as you explore the maps. Planning to add Attack of the Radioactive Thing and Beast from Beyond as I play through them.",
+			"UI: Various UI improvements like easy close for settings panel",
 		],
 	},
 	{
