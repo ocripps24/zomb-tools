@@ -37,7 +37,7 @@ const POSTER_CODES = [
 	},
 	{
 		number: "818",
-		digits: ["---..", ".----", "---.." ],
+		digits: ["---..", ".----", "---.."],
 		disambiguation: null as string | null,
 		disambiguateDigit: null as number | null,
 	},
@@ -45,7 +45,7 @@ const POSTER_CODES = [
 
 const POSTER_LOCATIONS = [
 	{ id: "subway-1", name: "Subway 1" },
-	{ id: "left-of-dojo", name: "Left of Dojo" },
+	{ id: "dojo", name: "Dojo" },
 	{ id: "racing-stripes", name: "Racing Stripes" },
 	{ id: "bombstoppers", name: "Bombstoppers" },
 	{ id: "infernos-roof", name: "Inferno's Roof" },
@@ -62,7 +62,7 @@ interface MorseCodeData {
 const DEFAULT_DATA: MorseCodeData = {
 	posterMappings: {
 		"subway-1": null,
-		"left-of-dojo": null,
+		dojo: null,
 		"racing-stripes": null,
 		bombstoppers: null,
 		"infernos-roof": null,
@@ -73,10 +73,10 @@ const DEFAULT_DATA: MorseCodeData = {
 
 function getResult(
 	selectedCode: string,
-	posterMappings: Record<string, string | null>
+	posterMappings: Record<string, string | null>,
 ) {
 	const mappedEntry = Object.entries(posterMappings).find(
-		([, num]) => num === selectedCode
+		([, num]) => num === selectedCode,
 	);
 	if (mappedEntry) {
 		const location = POSTER_LOCATIONS.find((l) => l.id === mappedEntry[0]);
@@ -89,7 +89,7 @@ function getResult(
 	const anyMapped = Object.values(posterMappings).some((v) => v !== null);
 	if (anyMapped) {
 		const candidates = POSTER_LOCATIONS.filter(
-			(loc) => posterMappings[loc.id] === null
+			(loc) => posterMappings[loc.id] === null,
 		);
 		return {
 			type: "candidates" as const,
@@ -123,6 +123,35 @@ function MorseCodeSection(props: BaseSectionProps<MorseCodeData>) {
 							text: "Both codes start with 4 (····–). Listen for how the sequence ends: ends in dots = 407, ends in dashes = 420.",
 						},
 						{
+							label: "Poster Locations",
+							nested: [
+								{
+									label: "Subway 1",
+									text: "Other end of the platform from Up-and-Atoms",
+								},
+								{
+									label: "Dojo",
+									text: "Inbetween the Dojo and the Barbershop",
+								},
+								{
+									label: "Racing Stripes",
+									text: "On the right of the rooftop before crossing the bridge to Racing Stripes",
+								},
+								{
+									label: "Bombstoppers",
+									text: "Near Bombstoppers in the alley between Inferno's VIP Room and Heebie Jeebies",
+								},
+								{
+									label: "Inferno's Roof",
+									text: "On the rooftop next to the vent dropdown",
+								},
+								{
+									label: "Subway 2",
+									text: "Wall next to the empty tracks where you place the Alien fuses",
+								},
+							],
+						},
+						{
 							label: "Wrong Poster",
 							text: "Interacting with the wrong poster forces you to restart from the dragon symbol step.",
 						},
@@ -139,7 +168,7 @@ function MorseCodeSection(props: BaseSectionProps<MorseCodeData>) {
 			{({ data, setData }) => {
 				const updateMapping = (
 					locationId: LocationId,
-					value: string | null
+					value: string | null,
 				) => {
 					setData((prev: MorseCodeData) => {
 						const updated = { ...prev.posterMappings, [locationId]: value };
@@ -150,7 +179,7 @@ function MorseCodeSection(props: BaseSectionProps<MorseCodeData>) {
 							).find((id) => !updated[id]);
 							const usedNums = new Set(Object.values(updated).filter(Boolean));
 							const remainingNum = POSTER_CODES.find(
-								(c) => !usedNums.has(c.number)
+								(c) => !usedNums.has(c.number),
 							);
 							if (emptyLocationId && remainingNum) {
 								updated[emptyLocationId] = remainingNum.number;
@@ -168,7 +197,7 @@ function MorseCodeSection(props: BaseSectionProps<MorseCodeData>) {
 				};
 
 				const usedNumbers = new Set(
-					Object.values(data.posterMappings).filter(Boolean)
+					Object.values(data.posterMappings).filter(Boolean),
 				);
 
 				const result =
@@ -196,8 +225,8 @@ function MorseCodeSection(props: BaseSectionProps<MorseCodeData>) {
 								<div className="morse-poster-mapping__body">
 									<p className="morse-poster-mapping__hint">
 										Scout poster spawns at game start and note which number is
-										at each location. The tool will then direct you straight
-										to your poster after the phone call.
+										at each location. The tool will then direct you straight to
+										your poster after the phone call.
 									</p>
 									<div className="morse-poster-mapping__grid">
 										{POSTER_LOCATIONS.map((location) => {
@@ -215,10 +244,7 @@ function MorseCodeSection(props: BaseSectionProps<MorseCodeData>) {
 														className="morse-poster-mapping__select"
 														value={currentValue}
 														onChange={(e) =>
-															updateMapping(
-																location.id,
-																e.target.value || null
-															)
+															updateMapping(location.id, e.target.value || null)
 														}
 													>
 														<option value="">— not mapped —</option>

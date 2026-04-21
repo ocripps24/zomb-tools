@@ -126,7 +126,7 @@
 	gap: space(sm);
 	padding: space(md);
 	background: var(--bg-tertiary);
-	border: 2px solid var(--border-color);
+	border: 1px solid var(--border-color);
 	border-radius: var(--radius-md);
 	cursor: pointer;
 	transition:
@@ -140,11 +140,7 @@
 	}
 
 	&--selected {
-		border-color: var(--accent-color);
-		background: var(
-			--accent-color-subtle,
-			color-mix(in srgb, var(--accent-color) 12%, transparent)
-		);
+		border-color: var(--success-color);
 	}
 
 	&__number {
@@ -216,7 +212,7 @@
 		align-items: center;
 		justify-content: center;
 		background: var(--bg-tertiary);
-		border: 2px solid var(--border-color);
+		border: 1px solid var(--border-color);
 		border-radius: var(--radius-md);
 		color: var(--text-primary);
 		font-size: 1.1rem;
@@ -269,7 +265,7 @@
 	gap: space(xs);
 	padding: space(md);
 	background: var(--bg-tertiary);
-	border: 2px solid var(--border-color);
+	border: 1px solid var(--border-color);
 	border-radius: var(--radius-md);
 	cursor: pointer;
 	transition:
@@ -336,7 +332,7 @@
 		font-size: 1rem;
 		font-weight: 700;
 		font-variant-numeric: tabular-nums;
-		border: 2px solid transparent;
+		border: 1px solid transparent;
 
 		&--first {
 			color: var(--success-color, #4caf50);
@@ -387,7 +383,7 @@
 	padding: space(md);
 	width: 85px;
 	background: var(--bg-tertiary);
-	border: 2px solid var(--border-color);
+	border: 1px solid var(--border-color);
 	border-radius: var(--radius-md);
 	cursor: pointer;
 	transition:
