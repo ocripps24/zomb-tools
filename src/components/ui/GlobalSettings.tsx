@@ -1,21 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useGlobalSettings } from "@/hooks/useGlobalSettings";
 import { useSettingsRegistry } from "@/contexts/SettingsRegistryContext";
 
-/**
- * Context-aware floating settings widget
- * Shows global UI density + settings for all currently rendered sections
- */
 export default function GlobalSettings() {
 	const { settings, updateSetting } = useGlobalSettings();
 	const { registeredSettings } = useSettingsRegistry();
 	const [isOpen, setIsOpen] = useState(false);
+	const containerRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (!isOpen) return;
+		const handleClickOutside = (e: MouseEvent) => {
+			if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+				setIsOpen(false);
+			}
+		};
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, [isOpen]);
 
 	// Get all registered section settings as an array
 	const sectionSettingsArray = Array.from(registeredSettings.values());
 
 	return (
-		<div className="global-settings">
+		<div className="global-settings" ref={containerRef}>
 			<button
 				className="global-settings__toggle"
 				onClick={() => setIsOpen(!isOpen)}
