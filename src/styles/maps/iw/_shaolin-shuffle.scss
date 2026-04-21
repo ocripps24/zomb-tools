@@ -182,6 +182,251 @@
 	}
 }
 
+// ── Rooftop Symbols ─────────────────────────────────────────────────────────
+
+.rooftop-symbols {
+	display: flex;
+	flex-direction: column;
+	gap: space(lg);
+
+	&__prompt {
+		color: var(--text-secondary);
+		font-size: 0.9rem;
+		margin: 0;
+	}
+}
+
+.rooftop-first-letter {
+	display: flex;
+	flex-wrap: wrap;
+	gap: space(sm);
+
+	&__btn {
+		width: 48px;
+		height: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--bg-tertiary);
+		border: 2px solid var(--border-color);
+		border-radius: var(--radius-md);
+		color: var(--text-primary);
+		font-size: 1.1rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition: border-color var(--transition), background var(--transition);
+
+		&:hover {
+			border-color: var(--accent-color);
+			background: var(--bg-hover);
+		}
+	}
+}
+
+.rooftop-progress-header {
+	display: flex;
+	align-items: baseline;
+	gap: space(md);
+
+	&__known {
+		font-size: 1.4rem;
+		font-weight: 700;
+		color: var(--text-primary);
+		letter-spacing: 0.05em;
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__ellipsis {
+		color: var(--text-secondary);
+	}
+
+	&__count {
+		font-size: 0.85rem;
+		color: var(--text-secondary);
+	}
+}
+
+.rooftop-candidates {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+	gap: space(md);
+}
+
+.rooftop-candidate-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: space(xs);
+	padding: space(md);
+	background: var(--bg-tertiary);
+	border: 2px solid var(--border-color);
+	border-radius: var(--radius-md);
+	cursor: pointer;
+	transition: border-color var(--transition), background var(--transition);
+	text-align: center;
+
+	&:hover {
+		border-color: var(--accent-color);
+		background: var(--bg-hover);
+	}
+
+	&__symbol {
+		width: 56px;
+		height: 56px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		svg {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	&__letter {
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--text-primary);
+	}
+
+	&__words {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		width: 100%;
+		border-top: 1px solid var(--border-color);
+		padding-top: space(xs);
+		margin-top: space(xs);
+
+		li {
+			font-size: 0.7rem;
+			color: var(--text-secondary);
+			word-break: break-all;
+		}
+	}
+}
+
+.rooftop-word-progress {
+	display: flex;
+	flex-wrap: wrap;
+	gap: space(xs);
+
+	&__letter {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		border-radius: var(--radius-sm);
+		font-size: 1rem;
+		font-weight: 700;
+		font-variant-numeric: tabular-nums;
+		border: 2px solid transparent;
+
+		&--first {
+			color: var(--text-secondary);
+			border-color: var(--border-color);
+			background: var(--bg-tertiary);
+		}
+
+		&--shot {
+			color: var(--success-color, #4caf50);
+			border-color: var(--success-color, #4caf50);
+			background: color-mix(in srgb, var(--success-color, #4caf50) 12%, transparent);
+		}
+
+		&--current {
+			color: var(--accent-color);
+			border-color: var(--accent-color);
+			background: color-mix(in srgb, var(--accent-color) 12%, transparent);
+		}
+
+		&--remaining {
+			color: var(--text-disabled, var(--text-secondary));
+			border-color: var(--border-color);
+			background: transparent;
+			opacity: 0.5;
+		}
+	}
+}
+
+.rooftop-confirmed {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: space(md);
+
+	&__label {
+		color: var(--text-secondary);
+		font-size: 0.9rem;
+		margin: 0;
+	}
+
+	&__symbol {
+		display: flex;
+		align-items: center;
+		gap: space(md);
+	}
+
+	&__icon {
+		width: 72px;
+		height: 72px;
+	}
+
+	&__letter {
+		font-size: 2rem;
+		font-weight: 700;
+		color: var(--text-primary);
+	}
+
+	&__shot-btn {
+		padding: space(sm) space(xl);
+		background: var(--accent-color);
+		border: none;
+		border-radius: var(--radius-md);
+		color: #fff;
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: opacity var(--transition);
+
+		&:hover {
+			opacity: 0.85;
+		}
+	}
+}
+
+.rooftop-complete {
+	&__message {
+		color: var(--success-color, #4caf50);
+		font-size: 1rem;
+		font-weight: 600;
+		margin: 0;
+	}
+}
+
+.rooftop-reset {
+	align-self: flex-start;
+	padding: space(xs) space(lg);
+	background: transparent;
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-md);
+	color: var(--text-secondary);
+	font-size: 0.875rem;
+	cursor: pointer;
+	transition: border-color var(--transition), color var(--transition);
+
+	&:hover {
+		border-color: var(--text-secondary);
+		color: var(--text-primary);
+	}
+}
+
+// ── Morse Code Result ────────────────────────────────────────────────────────
+
 // Result panel
 .morse-result {
 	display: flex;
