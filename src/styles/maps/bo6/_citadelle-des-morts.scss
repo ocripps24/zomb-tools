@@ -416,6 +416,7 @@
 			width: 100%;
 			text-align: center;
 			@include fluid-text(sm, normal, 1.4);
+			@include select-chevron;
 		}
 	}
 

@@ -88,6 +88,7 @@
 		padding: 4px 8px;
 		min-width: 130px;
 		cursor: pointer;
+		@include select-chevron;
 
 		&:focus {
 			outline: 2px solid var(--accent-color);

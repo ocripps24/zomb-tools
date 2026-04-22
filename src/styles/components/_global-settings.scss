@@ -184,6 +184,7 @@
 		color: var(--text-primary);
 		cursor: pointer;
 		transition: border-color var(--transition);
+		@include select-chevron;
 
 		&:focus {
 			outline: none;
