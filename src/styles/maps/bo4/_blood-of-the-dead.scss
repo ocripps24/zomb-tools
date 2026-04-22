@@ -441,3 +441,482 @@
 		}
 	}
 }
+
+// ── Morse Code Section ───────────────────────────────────────────────────────
+
+.botd-morse {
+	display: flex;
+	flex-direction: column;
+	gap: space(lg);
+}
+
+.botd-morse__progress {
+	display: flex;
+	flex-direction: column;
+	gap: space(sm);
+}
+
+.botd-morse__progress-seq {
+	display: flex;
+	flex-wrap: wrap;
+	gap: space(xs);
+}
+
+.botd-morse__symbol {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: var(--radius-sm);
+	font-size: 1.1rem;
+	font-weight: 700;
+	border: 1px solid transparent;
+
+	&--dot {
+		color: var(--success-color, #16a34a);
+		border-color: var(--success-color, #16a34a);
+		background: color-mix(
+			in srgb,
+			var(--success-color, #16a34a) 12%,
+			transparent
+		);
+	}
+
+	&--dash {
+		color: var(--text-primary);
+		border-color: var(--border-color);
+		background: var(--bg-tertiary);
+	}
+
+	&--confirmed {
+		opacity: 1;
+	}
+
+	&--empty {
+		color: var(--text-secondary);
+		border-color: var(--border-color);
+		background: transparent;
+		opacity: 0.3;
+		font-size: 0.7rem;
+	}
+}
+
+.botd-morse__candidates {
+	display: flex;
+	align-items: center;
+	gap: space(sm);
+	flex-wrap: wrap;
+}
+
+.botd-morse__candidates-label {
+	font-size: 0.85rem;
+	color: var(--text-secondary);
+}
+
+.botd-morse__candidate-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: space(xs);
+}
+
+.botd-morse__candidate {
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: var(--text-primary);
+	padding: 2px 8px;
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-sm);
+	background: var(--bg-tertiary);
+}
+
+.botd-morse__probe {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: space(sm);
+}
+
+.botd-morse__probe-label {
+	font-size: 0.9rem;
+	color: var(--text-secondary);
+	margin: 0;
+}
+
+.botd-morse__probe-symbol {
+	display: flex;
+	align-items: center;
+	gap: space(md);
+	padding: space(md) space(xl);
+	border-radius: var(--radius-md);
+	border: 2px solid var(--border-color);
+	background: var(--bg-tertiary);
+
+	&--dot {
+		border-color: var(--success-color, #16a34a);
+		background: color-mix(
+			in srgb,
+			var(--success-color, #16a34a) 10%,
+			transparent
+		);
+	}
+
+	&--dash {
+		border-color: var(--text-primary);
+	}
+}
+
+.botd-morse__probe-char {
+	font-size: 2rem;
+	font-weight: 700;
+	color: var(--text-primary);
+	line-height: 1;
+	min-width: 1.5rem;
+	text-align: center;
+}
+
+.botd-morse__probe-name {
+	font-size: 1rem;
+	font-weight: 500;
+	color: var(--text-secondary);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.botd-morse__actions {
+	display: flex;
+	gap: space(md);
+}
+
+.botd-morse__btn {
+	flex: 1;
+	max-width: 180px;
+	padding: space(sm) space(lg);
+	border: none;
+	border-radius: var(--radius-md);
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: opacity var(--transition);
+
+	&:hover {
+		opacity: 0.85;
+	}
+
+	&--no-laugh {
+		background: var(--success-color, #16a34a);
+		color: #fff;
+	}
+
+	&--laugh {
+		background: var(--bg-tertiary);
+		color: var(--text-primary);
+		border: 1px solid var(--border-color);
+	}
+}
+
+.botd-morse__restart-box {
+	display: flex;
+	flex-direction: column;
+	gap: space(sm);
+	padding: space(md) space(lg);
+	border-radius: var(--radius-md);
+	border: 1px solid var(--border-color);
+	background: var(--bg-tertiary);
+}
+
+.botd-morse__restart-title {
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--text-primary);
+	margin: 0;
+}
+
+.botd-morse__restart-hint {
+	font-size: 0.875rem;
+	color: var(--text-secondary);
+	margin: 0;
+}
+
+.botd-morse__restart-seq {
+	display: flex;
+	flex-wrap: wrap;
+	gap: space(xs);
+}
+
+.botd-morse__restart-next {
+	font-size: 0.9rem;
+	color: var(--text-primary);
+	margin: 0;
+	padding-top: space(xs);
+	border-top: 1px solid var(--border-color);
+}
+
+.botd-morse__result {
+	display: flex;
+	align-items: baseline;
+	gap: space(md);
+}
+
+.botd-morse__result-label {
+	font-size: 1rem;
+	color: var(--text-secondary);
+}
+
+.botd-morse__result-number {
+	font-size: 2.5rem;
+	font-weight: 800;
+	color: var(--success-color, #16a34a);
+	line-height: 1;
+}
+
+.botd-morse__final-label {
+	font-size: 0.9rem;
+	color: var(--text-secondary);
+	margin: 0 0 space(sm);
+}
+
+.botd-morse__digits {
+	display: flex;
+	flex-wrap: wrap;
+	gap: space(lg);
+}
+
+.botd-morse__digit-group {
+	display: flex;
+	flex-direction: column;
+	gap: space(xs);
+}
+
+.botd-morse__digit-label {
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--text-secondary);
+}
+
+.botd-morse__symbols {
+	display: flex;
+	gap: space(xs);
+}
+
+.botd-morse__reset {
+	align-self: flex-start;
+	padding: space(xs) space(lg);
+	background: transparent;
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-md);
+	color: var(--text-secondary);
+	font-size: 0.875rem;
+	cursor: pointer;
+	transition:
+		border-color var(--transition),
+		color var(--transition);
+
+	&:hover {
+		border-color: var(--text-secondary);
+		color: var(--text-primary);
+	}
+}
+
+.botd-morse__error {
+	display: flex;
+	flex-direction: column;
+	gap: space(sm);
+	padding: space(md) space(lg);
+	border-radius: var(--radius-md);
+	border: 1px solid var(--error-color, #dc2626);
+	background: color-mix(in srgb, var(--error-color, #dc2626) 8%, transparent);
+}
+
+.botd-morse__error-title {
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--error-color, #dc2626);
+	margin: 0;
+}
+
+.botd-morse__error-hint {
+	font-size: 0.875rem;
+	color: var(--text-secondary);
+	margin: 0;
+}
+
+// ── Buoy Mapping Panel ───────────────────────────────────────────────────────
+
+.botd-buoy-mapping {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-md);
+	overflow: hidden;
+
+	&__toggle {
+		display: flex;
+		align-items: center;
+		gap: space(sm);
+		padding: space(sm) space(md);
+		background: var(--bg-tertiary);
+		border: none;
+		color: var(--text-primary);
+		font-size: 0.9rem;
+		font-weight: 500;
+		cursor: pointer;
+		text-align: left;
+		transition: background var(--transition);
+		width: 100%;
+	}
+
+	&__badge {
+		margin-left: auto;
+		font-size: 0.7rem;
+		padding: 1px 6px;
+		border: 1px solid var(--border-color);
+		border-radius: var(--radius-sm);
+		color: var(--text-secondary);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	&__chevron {
+		font-size: 0.75rem;
+		color: var(--text-secondary);
+	}
+
+	&__body {
+		padding: space(md);
+		border-top: 1px solid var(--border-color);
+		display: flex;
+		flex-direction: column;
+		gap: space(md);
+	}
+
+	&__hint {
+		font-size: 0.8rem;
+		color: var(--text-secondary);
+		margin: 0;
+	}
+
+	&__rows {
+		display: flex;
+		flex-direction: column;
+		gap: space(sm);
+	}
+
+	// Buoy sequence symbols: neutral border only, no colour tint
+	&__rows .botd-morse__symbol--dot,
+	&__rows .botd-morse__symbol--dash {
+		color: var(--text-primary);
+		border-color: var(--border-color);
+		background: transparent;
+	}
+
+	&__match {
+		padding: space(sm) space(md);
+		border-radius: var(--radius-sm);
+		background: color-mix(
+			in srgb,
+			var(--success-color, #16a34a) 12%,
+			transparent
+		);
+		border: 1px solid var(--success-color, #16a34a);
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--success-color, #16a34a);
+		margin: 0;
+	}
+}
+
+.botd-buoy-row {
+	display: flex;
+	align-items: center;
+	gap: space(sm);
+	flex-wrap: wrap;
+
+	&__label {
+		font-size: 0.8rem;
+		font-weight: 600;
+		color: var(--text-secondary);
+		min-width: 50px;
+	}
+
+	&__seq {
+		display: flex;
+		gap: space(xs);
+		min-width: 80px;
+	}
+
+	&__btns {
+		display: flex;
+		gap: space(xs);
+	}
+
+	&__btn {
+		padding: space(xs) space(sm);
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: var(--radius-sm);
+		color: var(--text-primary);
+		font-size: 1rem;
+		cursor: pointer;
+		transition: all var(--transition);
+		min-width: 36px;
+		text-align: center;
+
+		&:hover:not(:disabled) {
+			border-color: var(--accent-color);
+			background: var(--bg-hover, var(--bg-secondary));
+		}
+
+		&:disabled {
+			opacity: 0.4;
+			cursor: not-allowed;
+		}
+
+		&--back {
+			color: var(--text-secondary);
+		}
+	}
+
+	&__result {
+		min-width: 80px;
+	}
+
+	&__number {
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--success-color, #16a34a);
+	}
+
+	&__possible {
+		font-size: 0.8rem;
+		color: var(--text-secondary);
+
+		&--error {
+			color: var(--error-color, #dc2626);
+			font-weight: 600;
+		}
+	}
+
+	&__direct {
+		width: 80px;
+		padding: space(xs) space(sm);
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: var(--radius-sm);
+		color: var(--text-primary);
+		font-size: 0.9rem;
+		text-align: center;
+
+		&::placeholder {
+			color: var(--text-secondary);
+			font-size: 0.8rem;
+		}
+
+		&:focus {
+			outline: none;
+			border-color: var(--accent-color);
+		}
+	}
+}

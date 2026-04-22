@@ -55,7 +55,7 @@ export const BO4_MAPS: BO4Map[] = [
 				"../../components/games/bo4/maps/blood-of-the-dead/BloodOfTheDead.tsx"
 			),
 		available: true,
-		tools: ["Power House"],
+		tools: ["Power House", "Morse Code"],
 		difficulty: "hard",
 	},
 	{

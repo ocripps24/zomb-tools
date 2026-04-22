@@ -163,6 +163,7 @@ export const MAP_STEPS = {
 			base: "/bo4/blood-of-the-dead",
 			steps: {
 				powerHouse: "/bo4/blood-of-the-dead/power-house",
+				morseCode: "/bo4/blood-of-the-dead/morse-code",
 			},
 		},
 	},

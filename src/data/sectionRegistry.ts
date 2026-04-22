@@ -60,6 +60,7 @@ import IxRaSymbolsSection from "@/components/games/bo4/maps/ix/sections/RaSymbol
 
 // Blood of the Dead
 import BloodPowerHouseSection from "@/components/games/bo4/maps/blood-of-the-dead/sections/PowerHouseSection";
+import BloodMorseCodeSection from "@/components/games/bo4/maps/blood-of-the-dead/sections/MorseCodeSection";
 
 // Classified
 import ClassifiedCodesSection from "@/components/games/bo4/maps/classified/sections/CodesSection";
@@ -366,6 +367,15 @@ export const SECTION_REGISTRY: SectionRegistry = {
 				id: "power-house",
 				name: "Power House",
 				component: BloodPowerHouseSection,
+				gameId: "bo4",
+				gameName: "Black Ops 4",
+				mapId: "blood-of-the-dead",
+				mapName: "Blood of the Dead",
+			},
+			"morse-code": {
+				id: "morse-code",
+				name: "Morse Code",
+				component: BloodMorseCodeSection,
 				gameId: "bo4",
 				gameName: "Black Ops 4",
 				mapId: "blood-of-the-dead",
