@@ -83,6 +83,8 @@ export const ROUTES = {
 			base: "/iw",
 			maps: {
 				shaolinShuffle: "/iw/shaolin-shuffle",
+				attackOfTheRadioactiveThing:
+					"/iw/attack-of-the-radioactive-thing",
 			},
 		},
 	},
@@ -255,6 +257,16 @@ export const MAP_STEPS = {
 				rooftopSymbols: "/iw/shaolin-shuffle/rooftop-symbols",
 			},
 		},
+		attackOfTheRadioactiveThing: {
+			base: "/iw/attack-of-the-radioactive-thing",
+			steps: {
+				codes: "/iw/attack-of-the-radioactive-thing/codes",
+				chemistryData:
+					"/iw/attack-of-the-radioactive-thing/chemistry-data",
+				chemistryCrafting:
+					"/iw/attack-of-the-radioactive-thing/chemistry-crafting",
+			},
+		},
 	},
 } as const;
 
@@ -317,6 +329,8 @@ export const ROUTE_PATTERNS = {
 			base: "/iw",
 			maps: {
 				shaolinShuffle: "/iw/shaolin-shuffle/*",
+				attackOfTheRadioactiveThing:
+					"/iw/attack-of-the-radioactive-thing/*",
 			},
 		},
 	},
@@ -448,6 +462,11 @@ export const ROUTE_METADATA = {
 	[ROUTES.games.iw.maps.shaolinShuffle]: {
 		title: "Shaolin Shuffle",
 		documentTitle: "Shaolin Shuffle Easter Eggs - COD Zombies Tools",
+	},
+	[ROUTES.games.iw.maps.attackOfTheRadioactiveThing]: {
+		title: "Attack of the Radioactive Thing",
+		documentTitle:
+			"Attack of the Radioactive Thing Easter Eggs - COD Zombies Tools",
 	},
 } as const;
 

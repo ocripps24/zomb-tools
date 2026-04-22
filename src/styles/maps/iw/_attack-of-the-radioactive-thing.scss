@@ -1,0 +1,529 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+// ── Shared field layout ───────────────────────────────────────────────────────
+
+.radioactive-data {
+	display: flex;
+	flex-direction: column;
+	gap: space(xl);
+}
+
+.radioactive-data__group {
+	display: flex;
+	flex-direction: column;
+	gap: space(sm);
+}
+
+.radioactive-data__label {
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: var(--text-primary);
+}
+
+.radioactive-data__hint {
+	font-size: 0.875rem;
+	color: var(--text-secondary);
+	margin: 0;
+}
+
+.radioactive-data__input {
+	background: var(--bg-primary);
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-sm);
+	color: var(--text-primary);
+	font-size: 1rem;
+	padding: space(sm);
+	max-width: 180px;
+	transition: border-color var(--transition);
+
+	&:focus {
+		outline: 2px solid var(--accent-color);
+		outline-offset: 1px;
+		border-color: var(--accent-color);
+	}
+
+	&--sm {
+		max-width: 72px;
+		text-align: center;
+	}
+}
+
+// ── TV Screen ─────────────────────────────────────────────────────────────────
+
+.radioactive-tv {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-md);
+	overflow: hidden;
+	background: var(--bg-primary);
+	align-self: flex-start;
+}
+
+.radioactive-tv__row {
+	display: flex;
+	align-items: center;
+	gap: space(md);
+	padding: space(sm) space(md);
+	border-bottom: 1px solid var(--border-color);
+
+	&:last-child {
+		border-bottom: none;
+	}
+}
+
+.radioactive-tv__colors {
+	display: flex;
+	gap: space(xs);
+	flex-shrink: 0;
+}
+
+.radioactive-tv__color {
+	padding: 4px 10px;
+	border-radius: var(--radius-sm);
+	border: 1px solid var(--border-color);
+	background: transparent;
+	font-size: 0.8rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition:
+		border-color var(--transition),
+		background var(--transition),
+		color var(--transition);
+	color: var(--text-secondary);
+
+	&--red {
+		&:hover,
+		&.radioactive-tv__color--active {
+			border-color: #ef4444;
+			color: #ef4444;
+			background: color-mix(in srgb, #ef4444 12%, transparent);
+		}
+	}
+
+	&--green {
+		&:hover,
+		&.radioactive-tv__color--active {
+			border-color: #22c55e;
+			color: #22c55e;
+			background: color-mix(in srgb, #22c55e 12%, transparent);
+		}
+	}
+
+	&--blue {
+		&:hover,
+		&.radioactive-tv__color--active {
+			border-color: #3b82f6;
+			color: #3b82f6;
+			background: color-mix(in srgb, #3b82f6 12%, transparent);
+		}
+	}
+
+	&--disabled,
+	&:disabled {
+		opacity: 0.3;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+}
+
+.radioactive-tv__values {
+	display: flex;
+	align-items: center;
+	gap: space(sm);
+	margin-left: auto;
+}
+
+.radioactive-tv__sym {
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--text-secondary);
+	flex-shrink: 0;
+}
+
+// ── Derived values (O-Number, Color) ─────────────────────────────────────────
+
+.radioactive-derived {
+	display: flex;
+	gap: space(md);
+	flex-wrap: wrap;
+}
+
+.radioactive-derived__item {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: space(md) space(lg);
+	background: var(--bg-tertiary);
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-md);
+	min-width: 110px;
+}
+
+.radioactive-derived__label {
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--text-secondary);
+}
+
+.radioactive-derived__value {
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: var(--text-primary);
+	line-height: 1;
+
+	&--red {
+		color: #ef4444;
+	}
+
+	&--green {
+		color: #22c55e;
+	}
+
+	&--blue {
+		color: #3b82f6;
+	}
+}
+
+// ── Reel Code ─────────────────────────────────────────────────────────────────
+
+.radioactive-reels {
+	display: flex;
+	gap: space(sm);
+	flex-wrap: wrap;
+	align-items: flex-end;
+}
+
+.radioactive-reel {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: space(xs);
+
+	&--derived .radioactive-reel__display {
+		color: var(--text-disabled, var(--text-secondary));
+		opacity: 0.5;
+	}
+
+	&--solved .radioactive-reel__display {
+		color: var(--accent-color);
+		border-color: var(--accent-color);
+		opacity: 1;
+	}
+
+	&--fixed .radioactive-reel__display--fixed {
+		color: var(--text-secondary);
+		opacity: 0.6;
+	}
+}
+
+.radioactive-reel__num {
+	font-size: 0.7rem;
+	font-weight: 600;
+	color: var(--text-secondary);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.radioactive-reel__select {
+	width: 72px;
+	height: 52px;
+	background: var(--bg-primary);
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-sm);
+	color: var(--text-primary);
+	font-size: 1.25rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition: border-color var(--transition);
+	@include select-chevron;
+	background-position: right 6px center;
+	background-size: 1em 1em;
+	padding-right: 0.5rem;
+	padding-left: space(xs);
+	text-align: center;
+
+	&:focus {
+		outline: 2px solid var(--accent-color);
+		outline-offset: 1px;
+		border-color: var(--accent-color);
+	}
+}
+
+.radioactive-reel__display {
+	width: 60px;
+	height: 52px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--bg-tertiary);
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-sm);
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: var(--text-primary);
+	transition:
+		color var(--transition),
+		border-color var(--transition);
+}
+
+// ── Reel Code result display ──────────────────────────────────────────────────
+
+.radioactive-result {
+	display: flex;
+	gap: space(lg);
+	padding: space(md) space(lg);
+	background: var(--bg-tertiary);
+	border: 1px solid var(--success-color, #22c55e);
+	border-radius: var(--radius-md);
+	margin-top: space(xs);
+	flex-wrap: wrap;
+}
+
+.radioactive-result__col {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.radioactive-result__divider {
+	width: 1px;
+	background: var(--border-color);
+	align-self: stretch;
+}
+
+.radioactive-result__label {
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--text-secondary);
+}
+
+.radioactive-result__value {
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: var(--text-primary);
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.1em;
+}
+
+// ── Valve locations ───────────────────────────────────────────────────────────
+
+.radioactive-valve-locs {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+
+	li {
+		font-size: 0.875rem;
+		color: var(--text-secondary);
+
+		strong {
+			color: var(--text-primary);
+			margin-right: 4px;
+		}
+	}
+}
+
+// ── Target Chemical ───────────────────────────────────────────────────────────
+
+.radioactive-chemicals {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: space(sm);
+
+	@media (max-width: 520px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.radioactive-chemical {
+	padding: space(md) space(lg);
+	background: var(--bg-tertiary);
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-md);
+	color: var(--text-primary);
+	font-size: 0.875rem;
+	font-weight: 500;
+	font-style: italic;
+	cursor: pointer;
+	text-align: left;
+	line-height: 1.4;
+	transition:
+		border-color var(--transition),
+		background var(--transition);
+
+	&:hover {
+		border-color: var(--accent-color);
+		background: var(--bg-hover);
+	}
+
+	&--selected {
+		border-color: var(--success-color, #22c55e);
+		background: color-mix(
+			in srgb,
+			var(--success-color, #22c55e) 8%,
+			var(--bg-tertiary)
+		);
+	}
+}
+
+// ── Acetaldehyde Sets (diamond grid) ─────────────────────────────────────────
+
+.radioactive-sets {
+	display: flex;
+	flex-wrap: wrap;
+	gap: space(md);
+}
+
+.radioactive-set {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: space(xs);
+	padding: space(sm) space(md) space(md);
+	background: var(--bg-tertiary);
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-md);
+	cursor: pointer;
+	transition:
+		border-color var(--transition),
+		background var(--transition);
+
+	&:hover {
+		border-color: var(--accent-color);
+		background: var(--bg-hover);
+	}
+
+	&--selected {
+		border-color: var(--success-color, #22c55e);
+		background: color-mix(
+			in srgb,
+			var(--success-color, #22c55e) 8%,
+			var(--bg-tertiary)
+		);
+	}
+}
+
+// Wrapper gives correct visual space for the rotated inner box
+.radioactive-set__diamond-wrap {
+	width: 84px;
+	height: 84px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+// The diamond: a square rotated 45°. Its horizontal/vertical midlines
+// appear as the visual cross dividers after rotation.
+.radioactive-set__diamond {
+	position: relative;
+	width: 58px;
+	height: 58px;
+	transform: rotate(45deg);
+	border: 1.5px solid var(--border-color);
+	overflow: hidden;
+	transition: border-color var(--transition);
+
+	// Horizontal midline (local) → visual "/" divider
+	&::before {
+		content: "";
+		position: absolute;
+		top: 50%;
+		left: 0;
+		right: 0;
+		height: 1px;
+		background: var(--border-color);
+		transform: translateY(-0.5px);
+		transition: background var(--transition);
+	}
+
+	// Vertical midline (local) → visual "\" divider
+	&::after {
+		content: "";
+		position: absolute;
+		left: 50%;
+		top: 0;
+		bottom: 0;
+		width: 1px;
+		background: var(--border-color);
+		transform: translateX(-0.5px);
+		transition: background var(--transition);
+	}
+
+	.radioactive-set:hover & {
+		border-color: var(--accent-color);
+
+		&::before,
+		&::after {
+			background: var(--accent-color);
+		}
+	}
+
+	.radioactive-set--selected & {
+		border-color: var(--success-color, #22c55e);
+
+		&::before,
+		&::after {
+			background: var(--success-color, #22c55e);
+		}
+	}
+}
+
+// Numbers counter-rotated so they read upright.
+// Upper-left local quadrant = visual TOP, lower-left = visual LEFT, etc.
+.radioactive-set__num {
+	position: absolute;
+	font-weight: 700;
+	font-size: 0.9rem;
+	color: var(--text-primary);
+	line-height: 1;
+	z-index: 1;
+	transform: translate(-50%, -50%) rotate(-45deg);
+
+	&--top {
+		top: 25%;
+		left: 25%;
+	}
+
+	&--right {
+		top: 25%;
+		left: 75%;
+	}
+
+	&--bottom {
+		top: 75%;
+		left: 75%;
+	}
+
+	&--left {
+		top: 75%;
+		left: 25%;
+	}
+}
+
+.radioactive-set__label {
+	font-size: 0.7rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--text-secondary);
+}
+
+// ── Chemistry placeholder ─────────────────────────────────────────────────────
+
+.radioactive-coming-soon {
+	color: var(--text-secondary);
+	font-size: 0.95rem;
+	font-style: italic;
+	margin: 0;
+}

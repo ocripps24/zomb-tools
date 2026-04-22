@@ -25,6 +25,7 @@ import LibertyFalls from "./components/games/bo6/maps/liberty-falls/LibertyFalls
 import CitadelleDesMorts from "./components/games/bo6/maps/citadelle-des-morts/CitadelleDesMorts";
 import TheTomb from "./components/games/bo6/maps/the-tomb/TheTomb";
 import ShaolinShuffle from "./components/games/iw/maps/shaolin-shuffle/ShaolinShuffle";
+import AttackOfTheRadioactiveThing from "./components/games/iw/maps/attack-of-the-radioactive-thing/AttackOfTheRadioactiveThing";
 import AshesOfTheDamned from "./components/games/bo7/maps/ashes-of-the-damned/AshesOfTheDamned";
 import AstraMalorum from "./components/games/bo7/maps/astra-malorum/AstraMalorum";
 import ParadoxJunction from "./components/games/bo7/maps/paradox-junction/ParadoxJunction";
@@ -149,6 +150,13 @@ function App() {
 							<Route
 								path={ROUTE_PATTERNS.games.iw.maps.shaolinShuffle}
 								element={<ShaolinShuffle />}
+							/>
+							<Route
+								path={
+									ROUTE_PATTERNS.games.iw.maps
+										.attackOfTheRadioactiveThing
+								}
+								element={<AttackOfTheRadioactiveThing />}
 							/>
 
 							{/* BO4 Routes */}

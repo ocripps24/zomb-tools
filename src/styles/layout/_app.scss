@@ -70,6 +70,10 @@
 			background-image: url("/src/assets/maps/iw/shaolin-shuffle-preview.jpg");
 		}
 
+		&[data-map="attack-of-the-radioactive-thing"]::before {
+			background-image: url("/src/assets/maps/iw/attack-of-the-radioactive-thing-preview.jpg");
+		}
+
 		// BO4 Maps
 		&[data-map="voyage-of-despair"]::before {
 			background-image: url("/src/assets/maps/bo4/voyage-of-despair-preview.jpg");
