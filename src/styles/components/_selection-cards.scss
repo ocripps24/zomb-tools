@@ -17,6 +17,7 @@
 
 	// Image container (row 1)
 	&__image {
+		position: relative;
 		overflow: hidden;
 		aspect-ratio: 16 / 9;
 		// border: 1px solid var(--border-color);
@@ -30,6 +31,23 @@
 			object-fit: cover;
 			transition: transform var(--transition);
 		}
+	}
+
+	&__badge {
+		position: absolute;
+		top: space(md);
+		left: space(md);
+		padding: 2px 8px;
+		border: 1px solid rgba(255, 255, 255, 0.8);
+		border-radius: 999px;
+		background: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(4px);
+		color: #fff;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		line-height: 1.6;
+		pointer-events: none;
 	}
 
 	// Meta data container (row 2)

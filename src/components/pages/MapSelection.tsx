@@ -119,6 +119,7 @@ function MapSelection({ gameId }: MapSelectionProps) {
 							tools={map.tools}
 							status={map.status}
 							available={map.available}
+							beta={"beta" in map ? map.beta : undefined}
 						/>
 					))}
 				</div>

@@ -11,6 +11,7 @@ export interface IWMap {
 	available: boolean;
 	tools: string[];
 	difficulty: "easy" | "medium" | "hard";
+	beta?: boolean;
 	image?: string;
 	guide?: {
 		url: string;
@@ -46,6 +47,7 @@ export const IW_MAPS: IWMap[] = [
 		available: true,
 		tools: ["Codes", "Chemistry - Data", "Chemistry - Crafting"],
 		difficulty: "hard",
+		beta: true,
 		image: AttackOfTheRadioactiveThingImage,
 	},
 ];

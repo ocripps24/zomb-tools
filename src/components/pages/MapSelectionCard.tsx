@@ -9,6 +9,7 @@ interface MapSelectionCardProps {
 	tools?: string[];
 	status?: string;
 	available?: boolean;
+	beta?: boolean;
 }
 
 const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
@@ -20,6 +21,7 @@ const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
 	tools,
 	status,
 	available = false,
+	beta = false,
 }) => (
 	<div
 		className={`map-selection-card${!available ? " selection-card--disabled" : ""}${className ? " " + className : ""}`}
@@ -28,11 +30,12 @@ const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
 	>
 		<div className="selection-card__image">
 			{image && (
-				<img 
-					src={image} 
+				<img
+					src={image}
 					alt={label}
 				/>
 			)}
+			{beta && <span className="selection-card__badge">BETA</span>}
 		</div>
 		<div className="selection-card__meta">
 			<h3 className="selection-card__title">{label}</h3>
