@@ -262,6 +262,95 @@
 	@include select-chevron;
 }
 
+// ── Number Input (custom spinner) ─────────────────────────────────────────────
+
+.number-input {
+	position: relative;
+	display: inline-flex;
+	align-items: stretch;
+
+	&__field {
+		flex: 1;
+		min-width: 0;
+		background: transparent;
+		border: none;
+		outline: none;
+		color: inherit;
+		font: inherit;
+		padding-right: 26px;
+		text-align: center;
+
+		// Hide native spinners
+		&::-webkit-inner-spin-button,
+		&::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			appearance: none;
+		}
+		-moz-appearance: textfield;
+
+		&:focus {
+			outline: none;
+		}
+	}
+
+	&__spinners {
+		position: absolute;
+		right: 1px;
+		top: 1px;
+		bottom: 1px;
+		width: 22px;
+		display: flex;
+		flex-direction: column;
+		border-left: 1px solid var(--border-color);
+		border-radius: 0 calc(var(--radius-sm) - 1px) calc(var(--radius-sm) - 1px) 0;
+		overflow: hidden;
+	}
+
+	&__btn {
+		flex: 1;
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--text-secondary);
+		padding: 0;
+		transition:
+			background var(--transition),
+			color var(--transition);
+
+		&:not(:last-child) {
+			border-bottom: 1px solid var(--border-color);
+		}
+
+		&:hover {
+			background: var(--bg-hover);
+			color: var(--text-primary);
+		}
+
+		svg {
+			width: 11px;
+			height: 11px;
+		}
+	}
+
+	&--disabled {
+		opacity: 0.45;
+		cursor: default;
+		border-style: dashed;
+
+		.number-input__field {
+			cursor: default;
+		}
+
+		.number-input__btn {
+			cursor: default;
+			pointer-events: none;
+		}
+	}
+}
+
 // Checkbox and radio
 .form-checkbox,
 .form-radio {
