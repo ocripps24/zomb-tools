@@ -60,7 +60,7 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 				defaultValue: DEFAULT_DATA,
 				title: "Chemistry - Data",
 				description:
-					"Record and calculate the values needed to identify your Target Chemical, O-Number and set for the crafting section.",
+					"Record and calculate the values needed to identify your Target Chemical, O-Number and set for the crafting section. Shoutout to Mennobot for making this possible.",
 				tipsConfig: {
 					show: true,
 					items: [
@@ -231,99 +231,99 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 									Select the color and enter the number(s) for each row
 								</p>
 								<div className="radioactive-tv">
-								{/* Top row */}
-								<div className="radioactive-tv__row">
-									<div className="radioactive-tv__values">
-										<span className="radioactive-tv__sym">&lt;</span>
-										<NumberInput
-											className="radioactive-data__input radioactive-data__input--sm"
-											value={data.tvTop.value}
-											onChange={(v) =>
-												setData((prev) => ({
-													...prev,
-													tvTop: { ...prev.tvTop, value: v },
-												}))
-											}
-											placeholder="—"
-										/>
+									{/* Top row */}
+									<div className="radioactive-tv__row">
+										<div className="radioactive-tv__values">
+											<span className="radioactive-tv__sym">&lt;</span>
+											<NumberInput
+												className="radioactive-data__input radioactive-data__input--sm"
+												value={data.tvTop.value}
+												onChange={(v) =>
+													setData((prev) => ({
+														...prev,
+														tvTop: { ...prev.tvTop, value: v },
+													}))
+												}
+												placeholder="—"
+											/>
+										</div>
+										<div className="radioactive-tv__colors">
+											{COLORS.map((c) => (
+												<button
+													key={c.value}
+													className={`radioactive-tv__color radioactive-tv__color--${c.value}${data.tvTop.color === c.value ? " radioactive-tv__color--active" : ""}${isColorDisabled("tvTop", c.value) ? " radioactive-tv__color--disabled" : ""}`}
+													onClick={() => handleColorClick("tvTop", c.value)}
+													disabled={isColorDisabled("tvTop", c.value)}
+												>
+													{c.label}
+												</button>
+											))}
+										</div>
 									</div>
-									<div className="radioactive-tv__colors">
-										{COLORS.map((c) => (
-											<button
-												key={c.value}
-												className={`radioactive-tv__color radioactive-tv__color--${c.value}${data.tvTop.color === c.value ? " radioactive-tv__color--active" : ""}${isColorDisabled("tvTop", c.value) ? " radioactive-tv__color--disabled" : ""}`}
-												onClick={() => handleColorClick("tvTop", c.value)}
-												disabled={isColorDisabled("tvTop", c.value)}
-											>
-												{c.label}
-											</button>
-										))}
-									</div>
-								</div>
 
-								{/* Middle row */}
-								<div className="radioactive-tv__row">
-									<div className="radioactive-tv__values">
-										<NumberInput
-											className="radioactive-data__input radioactive-data__input--sm"
-											value={data.tvTop.value}
-											onChange={() => {}}
-											placeholder="—"
-											disabled
-										/>
-										<span className="radioactive-tv__sym">–</span>
-										<NumberInput
-											className="radioactive-data__input radioactive-data__input--sm"
-											value={data.tvBottom.value}
-											onChange={() => {}}
-											placeholder="—"
-											disabled
-										/>
+									{/* Middle row */}
+									<div className="radioactive-tv__row">
+										<div className="radioactive-tv__values">
+											<NumberInput
+												className="radioactive-data__input radioactive-data__input--sm"
+												value={data.tvTop.value}
+												onChange={() => {}}
+												placeholder="—"
+												disabled
+											/>
+											<span className="radioactive-tv__sym">–</span>
+											<NumberInput
+												className="radioactive-data__input radioactive-data__input--sm"
+												value={data.tvBottom.value}
+												onChange={() => {}}
+												placeholder="—"
+												disabled
+											/>
+										</div>
+										<div className="radioactive-tv__colors">
+											{COLORS.map((c) => (
+												<button
+													key={c.value}
+													className={`radioactive-tv__color radioactive-tv__color--${c.value}${data.tvMiddle.color === c.value ? " radioactive-tv__color--active" : ""}${isColorDisabled("tvMiddle", c.value) ? " radioactive-tv__color--disabled" : ""}`}
+													onClick={() => handleColorClick("tvMiddle", c.value)}
+													disabled={isColorDisabled("tvMiddle", c.value)}
+												>
+													{c.label}
+												</button>
+											))}
+										</div>
 									</div>
-									<div className="radioactive-tv__colors">
-										{COLORS.map((c) => (
-											<button
-												key={c.value}
-												className={`radioactive-tv__color radioactive-tv__color--${c.value}${data.tvMiddle.color === c.value ? " radioactive-tv__color--active" : ""}${isColorDisabled("tvMiddle", c.value) ? " radioactive-tv__color--disabled" : ""}`}
-												onClick={() => handleColorClick("tvMiddle", c.value)}
-												disabled={isColorDisabled("tvMiddle", c.value)}
-											>
-												{c.label}
-											</button>
-										))}
-									</div>
-								</div>
 
-								{/* Bottom row */}
-								<div className="radioactive-tv__row">
-									<div className="radioactive-tv__values">
-										<span className="radioactive-tv__sym">&gt;</span>
-										<NumberInput
-											className="radioactive-data__input radioactive-data__input--sm"
-											value={data.tvBottom.value}
-											onChange={(v) =>
-												setData((prev) => ({
-													...prev,
-													tvBottom: { ...prev.tvBottom, value: v },
-												}))
-											}
-											placeholder="—"
-										/>
-									</div>
-									<div className="radioactive-tv__colors">
-										{COLORS.map((c) => (
-											<button
-												key={c.value}
-												className={`radioactive-tv__color radioactive-tv__color--${c.value}${data.tvBottom.color === c.value ? " radioactive-tv__color--active" : ""}${isColorDisabled("tvBottom", c.value) ? " radioactive-tv__color--disabled" : ""}`}
-												onClick={() => handleColorClick("tvBottom", c.value)}
-												disabled={isColorDisabled("tvBottom", c.value)}
-											>
-												{c.label}
-											</button>
-										))}
+									{/* Bottom row */}
+									<div className="radioactive-tv__row">
+										<div className="radioactive-tv__values">
+											<span className="radioactive-tv__sym">&gt;</span>
+											<NumberInput
+												className="radioactive-data__input radioactive-data__input--sm"
+												value={data.tvBottom.value}
+												onChange={(v) =>
+													setData((prev) => ({
+														...prev,
+														tvBottom: { ...prev.tvBottom, value: v },
+													}))
+												}
+												placeholder="—"
+											/>
+										</div>
+										<div className="radioactive-tv__colors">
+											{COLORS.map((c) => (
+												<button
+													key={c.value}
+													className={`radioactive-tv__color radioactive-tv__color--${c.value}${data.tvBottom.color === c.value ? " radioactive-tv__color--active" : ""}${isColorDisabled("tvBottom", c.value) ? " radioactive-tv__color--disabled" : ""}`}
+													onClick={() => handleColorClick("tvBottom", c.value)}
+													disabled={isColorDisabled("tvBottom", c.value)}
+												>
+													{c.label}
+												</button>
+											))}
+										</div>
 									</div>
 								</div>
-							</div>
 								<div className="radioactive-derived">
 									<div className="radioactive-derived__item">
 										<span className="radioactive-derived__label">O-Number</span>
@@ -334,7 +334,9 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 										</span>
 									</div>
 									<div className="radioactive-derived__item">
-										<span className="radioactive-derived__label">Game Color</span>
+										<span className="radioactive-derived__label">
+											Game Color
+										</span>
 										<span
 											className={`radioactive-derived__value${gameColor ? ` radioactive-derived__value--${gameColor}` : " radioactive-derived__value--empty"}`}
 										>
@@ -379,16 +381,18 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 
 						{/* Acetaldehyde Set */}
 						<div className="radioactive-data__group">
-							<label className="radioactive-data__label">Acetaldehyde Set</label>
+							<label className="radioactive-data__label">
+								Acetaldehyde Set
+							</label>
 							<div className="radioactive-data__body">
 								<p className="radioactive-data__hint">
 									With your Game Color filter active, look at the board outside
 									Elvira's studio. Match the top and left numbers in the
-									Acetaldehyde diamond to one of the 6 sets below. If your numbers
-									don't match any set then you can be sure that your game color is
-									wrong. This can happen if you're M-number is 1 or 2 and can be
-									resolved by changing your game color until you find a match with
-									a set.
+									Acetaldehyde diamond to one of the 6 sets below. If your
+									numbers don't match any set then you can be sure that your
+									game color is wrong. This can happen if you're M-number is 1
+									or 2 and can be resolved by changing your game color until you
+									find a match with a set.
 								</p>
 								<div className="radioactive-sets">
 									{ACETALDEHYDE_SETS.map(({ set, top, left }) => (

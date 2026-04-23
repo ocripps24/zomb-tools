@@ -27,13 +27,16 @@ export const IW_MAPS: IWMap[] = [
 		status: "Available",
 		route: ROUTES.games.iw.maps.shaolinShuffle,
 		component: () =>
-			import(
-				"../../components/games/iw/maps/shaolin-shuffle/ShaolinShuffle.tsx"
-			),
+			import("../../components/games/iw/maps/shaolin-shuffle/ShaolinShuffle.tsx"),
 		available: true,
 		tools: ["Morse Code", "Rooftop Symbols"],
 		difficulty: "medium",
 		image: ShaolinShuffleImage,
+		guide: {
+			url: "https://www.youtube.com/embed/tAbZsNbEFGA",
+			type: "external",
+			channelName: "NoodlesRuns",
+		},
 	},
 	{
 		id: "attack-of-the-radioactive-thing",
@@ -41,14 +44,17 @@ export const IW_MAPS: IWMap[] = [
 		status: "Available",
 		route: ROUTES.games.iw.maps.attackOfTheRadioactiveThing,
 		component: () =>
-			import(
-				"../../components/games/iw/maps/attack-of-the-radioactive-thing/AttackOfTheRadioactiveThing.tsx"
-			),
+			import("../../components/games/iw/maps/attack-of-the-radioactive-thing/AttackOfTheRadioactiveThing.tsx"),
 		available: true,
 		tools: ["Codes", "Chemistry - Data", "Chemistry - Crafting"],
 		difficulty: "hard",
 		beta: true,
 		image: AttackOfTheRadioactiveThingImage,
+		guide: {
+			url: "https://www.youtube.com/embed/zemlG7hyw30",
+			type: "external",
+			channelName: "Joltz",
+		},
 	},
 ];
 

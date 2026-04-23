@@ -56,25 +56,25 @@ const DEFAULT_CRAFTING: CraftingData = {
 const ITEM_LOCATIONS: Record<string, string> = {
 	"Insect Repellent": "Central tunnel of the spawn tents",
 	"Racing Fuel": "In front of the gas station",
-	"Vodka": "Alcohol section of the market",
+	Vodka: "Alcohol section of the market",
 	"Baking Soda": "On a shelf in the market",
-	"Detergent": "On a shelf in the market",
+	Detergent: "On a shelf in the market",
 	"Food Coloring": "On a shelf in the market",
-	"Bleach": "On the floor in spawn",
-	"Ice": "Crowbar melee the ice machine in the market",
+	Bleach: "On the floor in spawn",
+	Ice: "Crowbar melee the ice machine in the market",
 	"Powdered Milk": "On a shelf in the market",
-	"Vinegar": "On a table at the power station side of the market",
+	Vinegar: "On a table at the power station side of the market",
 	"Plant Food": "Outside the Snack Shack",
-	"Paint": "Behind the shack next to Racing Stripes",
+	Paint: "Behind the shack next to Racing Stripes",
 	"Motor Oil": "On the floor inside the gas station",
 	"Wheel Cleaner": "On a shelf in the market",
-	"Fat": "Cleaver melee the meat in the market",
+	Fat: "Cleaver melee the meat in the market",
 	"Table Salt": "In the freezer in the market",
-	"Pennies": "Crowbar melee the blue cash register in the market",
+	Pennies: "Crowbar melee the blue cash register in the market",
 	"Nail Polish Remover": "In the Motel Reception",
 	"Pool Cleaner": "On the side of the Motel pool",
 	"Drain Opener": "On a toilet in the RV park",
-	"Quarters": "Crowbar melee the payphones around the gas station",
+	Quarters: "Crowbar melee the payphones around the gas station",
 	"Glass Cleaner": "On a shelf in the market",
 };
 
@@ -223,7 +223,7 @@ function ChemistrySection(props: BaseSectionProps<CraftingData>) {
 				defaultValue: DEFAULT_CRAFTING,
 				title: "Chemistry - Crafting",
 				description:
-					"Use your Chemistry — Data values to calculate and craft the correct chemical mixture.",
+					"Use your Chemistry — Data values to calculate and craft the correct chemical mixture. Shoutout to Mennobot for making this possible.",
 				tipsConfig: {
 					show: true,
 					items: [
@@ -251,7 +251,8 @@ function ChemistrySection(props: BaseSectionProps<CraftingData>) {
 			{({ data, setData }) => {
 				const toggleStep = (stepIndex: number) => {
 					setData((prev) => {
-						const current = (prev.completedByChemical ?? {})[targetChemical] ?? [];
+						const current =
+							(prev.completedByChemical ?? {})[targetChemical] ?? [];
 						const updated = current.includes(stepIndex)
 							? current.filter((i) => i !== stepIndex)
 							: [...current, stepIndex];
@@ -311,9 +312,7 @@ function ChemistrySection(props: BaseSectionProps<CraftingData>) {
 										(data.completedByChemical ?? {})[targetChemical] ?? [];
 									const isComplete = completed.includes(i);
 									const setMixNum =
-										step.setNumbers[
-											acetaldehydeSet as 1 | 2 | 3 | 4 | 5 | 6
-										];
+										step.setNumbers[acetaldehydeSet as 1 | 2 | 3 | 4 | 5 | 6];
 									const mixNum = setMixNum - (oNumber as number);
 
 									return (

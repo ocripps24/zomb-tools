@@ -30,7 +30,8 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 		date: "April 2026",
 		items: [
 			"IW: Added IW starting with Shaolin Shuffle - Morse code and Rooftop Symbol sections",
-			"It's my first time playing through IW Zombies so please feel free to provide feedback on the tools via the Github issues page (link at bottom) as you explore the maps. Planning to add Attack of the Radioactive Thing and Beast from Beyond as I play through them.",
+			"IW: Added Attack of the Radioactive Thing with tools to make the chemistry step totally painless. Big shoutout to Mennobot whose cheatsheets have been invaluable and Joltz for his guide explaining it all. Whilst totally functional, I've marked it as being in Beta whilst I finalise the UI and do final testing.",
+			"It's my first time playing through IW Zombies so please feel free to provide feedback on the tools via the Github issues page (link at bottom) as you explore the maps. I will continue to add tools as I play through the maps.",
 			"BO4: added a Morse Code tool to Blood of the Dead",
 			"UI: Various UI improvements like easy close for settings panel",
 		],
