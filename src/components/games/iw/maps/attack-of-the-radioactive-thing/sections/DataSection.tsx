@@ -65,7 +65,7 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 					items: [
 						{
 							label: "M-Number",
-							text: "Found on the wall of the motel office.",
+							text: "Found on the wall of the motel reception.",
 						},
 						{
 							label: "Elvira's TV",
@@ -81,7 +81,7 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 						},
 						{
 							label: "Target Chemical",
-							text: "Get a battery by melee killing zombies (chance drop from backpack). Place it in the motel office radio or the power station radio. Listen for the quote that identifies your chemical.",
+							text: "Get a battery by melee killing zombies (chance drop from backpack). Place it in the motel reception radio or the power station radio. Listen for the quote that identifies your chemical.",
 						},
 						{
 							label: "Acetaldehyde Set",
@@ -213,7 +213,7 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 						<div className="radioactive-data__group">
 							<label className="radioactive-data__label">M-Number</label>
 							<p className="radioactive-data__hint">
-								Found on the wall of the motel office
+								Found on the wall of the motel reception.
 							</p>
 							<input
 								type="number"
@@ -433,7 +433,11 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 							<p className="radioactive-data__hint">
 								With your Game Color filter active, look at the board outside
 								Elvira's studio. Match the top and left numbers in the
-								Acetaldehyde diamond to one of the 6 sets below.
+								Acetaldehyde diamond to one of the 6 sets below. If your numbers
+								don't match any set then you can be sure that your game color is
+								wrong. This can happen if you're M-number is 1 or 2 and can be
+								resolved by changing your game color until you find a match with
+								a set.
 							</p>
 							<div className="radioactive-sets">
 								{ACETALDEHYDE_SETS.map(({ set, top, left }) => (
