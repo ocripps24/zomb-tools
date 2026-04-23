@@ -1,6 +1,9 @@
 import { ROUTES } from "../../routes";
+import ZombiesInSpacelandImage from "../../assets/maps/iw/zombies-in-spaceland-preview.jpg";
+import RaveInTheRedwoodsImage from "../../assets/maps/iw/rave-in-the-redwoods-preview.jpg";
 import ShaolinShuffleImage from "../../assets/maps/iw/shaolin-shuffle-preview.jpg";
 import AttackOfTheRadioactiveThingImage from "../../assets/maps/iw/attack-of-the-radioactive-thing-preview.jpg";
+import BeastFromBeyondImage from "../../assets/maps/iw/beast-from-beyond-preview.jpg";
 
 export interface IWMap {
 	id: string;
@@ -21,6 +24,28 @@ export interface IWMap {
 }
 
 export const IW_MAPS: IWMap[] = [
+	{
+		id: "zombies-in-spaceland",
+		name: "Zombies in Spaceland",
+		status: "Under review",
+		route: "",
+		component: null,
+		available: false,
+		tools: [],
+		difficulty: "medium",
+		image: ZombiesInSpacelandImage,
+	},
+	{
+		id: "rave-in-the-redwoods",
+		name: "Rave in the Redwoods",
+		status: "Under review",
+		route: "",
+		component: null,
+		available: false,
+		tools: [],
+		difficulty: "medium",
+		image: RaveInTheRedwoodsImage,
+	},
 	{
 		id: "shaolin-shuffle",
 		name: "Shaolin Shuffle",
@@ -55,6 +80,17 @@ export const IW_MAPS: IWMap[] = [
 			type: "external",
 			channelName: "Joltz",
 		},
+	},
+	{
+		id: "beast-from-beyond",
+		name: "Beast from Beyond",
+		status: "Under review",
+		route: "",
+		component: null,
+		available: false,
+		tools: [],
+		difficulty: "hard",
+		image: BeastFromBeyondImage,
 	},
 ];
 
