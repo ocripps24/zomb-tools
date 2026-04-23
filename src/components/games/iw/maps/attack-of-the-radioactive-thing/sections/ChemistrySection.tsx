@@ -9,7 +9,7 @@ type Color = "red" | "green" | "blue" | "";
 interface SourceData {
 	mNumber: number | "";
 	tvTop: { color: Color; value: number | "" };
-	tvMiddle: { color: Color; min: number | ""; max: number | "" };
+	tvMiddle: { color: Color };
 	tvBottom: { color: Color; value: number | "" };
 	targetChemical: string;
 	acetaldehydeSet: number | null;
@@ -43,7 +43,7 @@ const O_NUMBERS = [2, 4, 6, 8, 9, 11, 15] as const;
 const DEFAULT_SOURCE: SourceData = {
 	mNumber: "",
 	tvTop: { color: "", value: "" },
-	tvMiddle: { color: "", min: "", max: "" },
+	tvMiddle: { color: "" },
 	tvBottom: { color: "", value: "" },
 	targetChemical: "",
 	acetaldehydeSet: null,

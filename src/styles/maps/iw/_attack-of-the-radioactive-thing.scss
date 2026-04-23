@@ -11,15 +11,26 @@
 }
 
 .radioactive-data__group {
-	display: flex;
-	flex-direction: column;
-	gap: space(sm);
+	background: var(--bg-tertiary);
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-md);
+	overflow: hidden;
 }
 
 .radioactive-data__label {
+	display: block;
+	padding: space(sm) space(md);
+	border-bottom: 1px solid var(--border-color);
 	font-size: 0.95rem;
 	font-weight: 600;
 	color: var(--text-primary);
+}
+
+.radioactive-data__body {
+	display: flex;
+	flex-direction: column;
+	gap: space(md);
+	padding: space(md);
 }
 
 .radioactive-data__hint {
@@ -59,7 +70,7 @@
 	border: 1px solid var(--border-color);
 	border-radius: var(--radius-md);
 	overflow: hidden;
-	background: var(--bg-primary);
+	// background: var(--bg-primary);
 	align-self: flex-start;
 }
 
@@ -177,6 +188,12 @@
 	color: var(--text-primary);
 	line-height: 1;
 
+	&--empty {
+		color: var(--text-muted, var(--text-secondary));
+		opacity: 0.4;
+		font-weight: 400;
+	}
+
 	&--red {
 		color: #ef4444;
 	}
@@ -192,71 +209,13 @@
 
 // ── Reel Code ─────────────────────────────────────────────────────────────────
 
-.radioactive-reels {
+.radioactive-reel-picker {
 	display: flex;
 	gap: space(sm);
-	flex-wrap: wrap;
-	align-items: flex-end;
 }
 
-.radioactive-reel {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: space(xs);
-
-	&--derived .radioactive-reel__display {
-		color: var(--text-disabled, var(--text-secondary));
-		opacity: 0.5;
-	}
-
-	&--solved .radioactive-reel__display {
-		color: var(--accent-color);
-		border-color: var(--accent-color);
-		opacity: 1;
-	}
-
-	&--fixed .radioactive-reel__display--fixed {
-		color: var(--text-secondary);
-		opacity: 0.6;
-	}
-}
-
-.radioactive-reel__num {
-	font-size: 0.7rem;
-	font-weight: 600;
-	color: var(--text-secondary);
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-}
-
-.radioactive-reel__select {
-	width: 72px;
-	height: 52px;
-	background: var(--bg-primary);
-	border: 1px solid var(--border-color);
-	border-radius: var(--radius-sm);
-	color: var(--text-primary);
-	font-size: 1.25rem;
-	font-weight: 700;
-	cursor: pointer;
-	transition: border-color var(--transition);
-	@include select-chevron;
-	background-position: right 6px center;
-	background-size: 1em 1em;
-	padding-right: 0.5rem;
-	padding-left: space(xs);
-	text-align: center;
-
-	&:focus {
-		outline: 2px solid var(--accent-color);
-		outline-offset: 1px;
-		border-color: var(--accent-color);
-	}
-}
-
-.radioactive-reel__display {
-	width: 60px;
+.radioactive-reel-picker__btn {
+	width: 52px;
 	height: 52px;
 	display: flex;
 	align-items: center;
@@ -264,12 +223,93 @@
 	background: var(--bg-tertiary);
 	border: 1px solid var(--border-color);
 	border-radius: var(--radius-sm);
+	color: var(--text-primary);
 	font-size: 1.25rem;
 	font-weight: 700;
-	color: var(--text-primary);
+	cursor: pointer;
 	transition:
-		color var(--transition),
-		border-color var(--transition);
+		border-color var(--transition),
+		background var(--transition),
+		color var(--transition);
+
+	&:hover:not(:disabled) {
+		border-color: var(--accent-color);
+		color: var(--accent-color);
+		background: color-mix(in srgb, var(--accent-color) 12%, transparent);
+	}
+
+	&--used,
+	&:disabled {
+		opacity: 0.25;
+		cursor: default;
+	}
+}
+
+// ── Digit Picker (valve / nuke codes) ────────────────────────────────────────
+
+.radioactive-digit-picker {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 4px;
+	max-width: fit-content;
+}
+
+.radioactive-digit-picker__btn {
+	width: 44px;
+	height: 44px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--bg-tertiary);
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-sm);
+	color: var(--text-primary);
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition:
+		border-color var(--transition),
+		background var(--transition),
+		color var(--transition);
+
+	&:hover:not(:disabled) {
+		border-color: var(--accent-color);
+		color: var(--accent-color);
+		background: color-mix(in srgb, var(--accent-color) 12%, transparent);
+	}
+
+	&--disabled,
+	&:disabled {
+		opacity: 0.25;
+		cursor: default;
+	}
+}
+
+.radioactive-digit-picker__back {
+	grid-column: span 5;
+	height: 36px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-sm);
+	color: var(--text-secondary);
+	font-size: 0.9rem;
+	cursor: pointer;
+	transition:
+		border-color var(--transition),
+		color var(--transition);
+
+	&:hover:not(:disabled) {
+		border-color: var(--danger-color, #ef4444);
+		color: var(--danger-color, #ef4444);
+	}
+
+	&:disabled {
+		opacity: 0.25;
+		cursor: default;
+	}
 }
 
 // ── Reel Code result display ──────────────────────────────────────────────────
@@ -279,10 +319,14 @@
 	gap: space(lg);
 	padding: space(md) space(lg);
 	background: var(--bg-tertiary);
-	border: 1px solid var(--success-color, #22c55e);
+	border: 1px solid var(--border-color);
 	border-radius: var(--radius-md);
-	margin-top: space(xs);
 	flex-wrap: wrap;
+	transition: border-color var(--transition);
+
+	&--complete {
+		border-color: var(--success-color, #22c55e);
+	}
 }
 
 .radioactive-result__col {
@@ -605,7 +649,7 @@
 	align-items: center;
 	gap: space(sm);
 	padding: space(sm) space(md);
-	background: var(--bg-secondary);
+	// background: var(--bg-secondary);
 	border-bottom: 1px solid var(--border-color);
 }
 
@@ -669,7 +713,7 @@
 
 	&--crafted .radioactive-ingredient__name {
 		color: #3b82f6;
-		font-style: italic;
+		// font-style: italic;
 	}
 }
 

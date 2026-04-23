@@ -1,12 +1,13 @@
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
+import { NumberInput } from "@/components/ui/NumberInput";
 
 type Color = "red" | "green" | "blue" | "";
 
 interface DataSectionData {
 	mNumber: number | "";
 	tvTop: { color: Color; value: number | "" };
-	tvMiddle: { color: Color; min: number | ""; max: number | "" };
+	tvMiddle: { color: Color };
 	tvBottom: { color: Color; value: number | "" };
 	targetChemical: string;
 	acetaldehydeSet: number | null;
@@ -15,7 +16,7 @@ interface DataSectionData {
 const DEFAULT_DATA: DataSectionData = {
 	mNumber: "",
 	tvTop: { color: "", value: "" },
-	tvMiddle: { color: "", min: "", max: "" },
+	tvMiddle: { color: "" },
 	tvBottom: { color: "", value: "" },
 	targetChemical: "",
 	acetaldehydeSet: null,
@@ -59,7 +60,7 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 				defaultValue: DEFAULT_DATA,
 				title: "Chemistry - Data",
 				description:
-					"Record and calculate the values needed to identify your target chemical.",
+					"Record and calculate the values needed to identify your Target Chemical, O-Number and set for the crafting section.",
 				tipsConfig: {
 					show: true,
 					items: [
@@ -96,8 +97,6 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 					data.tvTop.color !== "" &&
 					data.tvTop.value !== "" &&
 					data.tvMiddle.color !== "" &&
-					data.tvMiddle.min !== "" &&
-					data.tvMiddle.max !== "" &&
 					data.tvBottom.color !== "" &&
 					data.tvBottom.value !== "";
 				const chemDone = data.targetChemical !== "";
@@ -127,14 +126,12 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 				if (product !== null) {
 					const topVal =
 						typeof data.tvTop.value === "number" ? data.tvTop.value : null;
-					const midMin =
-						typeof data.tvMiddle.min === "number" ? data.tvMiddle.min : null;
+					const midMin = topVal;
 					const midMax =
-						typeof data.tvMiddle.max === "number" ? data.tvMiddle.max : null;
-					const botVal =
 						typeof data.tvBottom.value === "number"
 							? data.tvBottom.value
 							: null;
+					const botVal = midMax;
 
 					if (topVal !== null && product <= topVal && data.tvTop.color)
 						gameColor = data.tvTop.color;
@@ -212,50 +209,39 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 						{/* M-Number */}
 						<div className="radioactive-data__group">
 							<label className="radioactive-data__label">M-Number</label>
-							<p className="radioactive-data__hint">
-								Found on the wall of the motel reception.
-							</p>
-							<input
-								type="number"
-								className="radioactive-data__input"
-								value={data.mNumber === "" ? "" : data.mNumber}
-								onChange={(e) => {
-									const v = e.target.value;
-									setData((prev) => ({
-										...prev,
-										mNumber: v === "" ? "" : parseInt(v, 10),
-									}));
-								}}
-								min={1}
-								placeholder="—"
-							/>
+							<div className="radioactive-data__body">
+								<p className="radioactive-data__hint">
+									Found on the wall of the motel reception.
+								</p>
+								<NumberInput
+									className="radioactive-data__input"
+									value={data.mNumber}
+									onChange={(v) => setData((prev) => ({ ...prev, mNumber: v }))}
+									min={1}
+									placeholder="—"
+								/>
+							</div>
 						</div>
 
 						{/* Elvira's TV */}
 						<div className="radioactive-data__group">
 							<label className="radioactive-data__label">Elvira's TV</label>
-							<p className="radioactive-data__hint">
-								Select the color and enter the number(s) for each row
-							</p>
-							<div className="radioactive-tv">
+							<div className="radioactive-data__body">
+								<p className="radioactive-data__hint">
+									Select the color and enter the number(s) for each row
+								</p>
+								<div className="radioactive-tv">
 								{/* Top row */}
 								<div className="radioactive-tv__row">
 									<div className="radioactive-tv__values">
 										<span className="radioactive-tv__sym">&lt;</span>
-										<input
-											type="number"
+										<NumberInput
 											className="radioactive-data__input radioactive-data__input--sm"
-											value={data.tvTop.value === "" ? "" : data.tvTop.value}
-											onChange={(e) =>
+											value={data.tvTop.value}
+											onChange={(v) =>
 												setData((prev) => ({
 													...prev,
-													tvTop: {
-														...prev.tvTop,
-														value:
-															e.target.value === ""
-																? ""
-																: parseInt(e.target.value, 10),
-													},
+													tvTop: { ...prev.tvTop, value: v },
 												}))
 											}
 											placeholder="—"
@@ -278,42 +264,20 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 								{/* Middle row */}
 								<div className="radioactive-tv__row">
 									<div className="radioactive-tv__values">
-										<input
-											type="number"
+										<NumberInput
 											className="radioactive-data__input radioactive-data__input--sm"
-											value={data.tvMiddle.min === "" ? "" : data.tvMiddle.min}
-											onChange={(e) =>
-												setData((prev) => ({
-													...prev,
-													tvMiddle: {
-														...prev.tvMiddle,
-														min:
-															e.target.value === ""
-																? ""
-																: parseInt(e.target.value, 10),
-													},
-												}))
-											}
+											value={data.tvTop.value}
+											onChange={() => {}}
 											placeholder="—"
+											disabled
 										/>
 										<span className="radioactive-tv__sym">–</span>
-										<input
-											type="number"
+										<NumberInput
 											className="radioactive-data__input radioactive-data__input--sm"
-											value={data.tvMiddle.max === "" ? "" : data.tvMiddle.max}
-											onChange={(e) =>
-												setData((prev) => ({
-													...prev,
-													tvMiddle: {
-														...prev.tvMiddle,
-														max:
-															e.target.value === ""
-																? ""
-																: parseInt(e.target.value, 10),
-													},
-												}))
-											}
+											value={data.tvBottom.value}
+											onChange={() => {}}
 											placeholder="—"
+											disabled
 										/>
 									</div>
 									<div className="radioactive-tv__colors">
@@ -334,22 +298,13 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 								<div className="radioactive-tv__row">
 									<div className="radioactive-tv__values">
 										<span className="radioactive-tv__sym">&gt;</span>
-										<input
-											type="number"
+										<NumberInput
 											className="radioactive-data__input radioactive-data__input--sm"
-											value={
-												data.tvBottom.value === "" ? "" : data.tvBottom.value
-											}
-											onChange={(e) =>
+											value={data.tvBottom.value}
+											onChange={(v) =>
 												setData((prev) => ({
 													...prev,
-													tvBottom: {
-														...prev.tvBottom,
-														value:
-															e.target.value === ""
-																? ""
-																: parseInt(e.target.value, 10),
-													},
+													tvBottom: { ...prev.tvBottom, value: v },
 												}))
 											}
 											placeholder="—"
@@ -369,104 +324,101 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 									</div>
 								</div>
 							</div>
-						</div>
-
-						{/* Calculated: O-Number and Game Color */}
-						{(oNumber !== null || gameColor !== "") && (
-							<div className="radioactive-derived">
-								{oNumber !== null && (
+								<div className="radioactive-derived">
 									<div className="radioactive-derived__item">
 										<span className="radioactive-derived__label">O-Number</span>
-										<span className="radioactive-derived__value">
-											{oNumber}
-										</span>
-									</div>
-								)}
-								{gameColor !== "" && (
-									<div className="radioactive-derived__item">
-										<span className="radioactive-derived__label">
-											Game Color
-										</span>
 										<span
-											className={`radioactive-derived__value radioactive-derived__value--${gameColor}`}
+											className={`radioactive-derived__value${oNumber === null ? " radioactive-derived__value--empty" : ""}`}
 										>
-											{gameColor.charAt(0).toUpperCase() + gameColor.slice(1)}
+											{oNumber ?? "—"}
 										</span>
 									</div>
-								)}
+									<div className="radioactive-derived__item">
+										<span className="radioactive-derived__label">Game Color</span>
+										<span
+											className={`radioactive-derived__value${gameColor ? ` radioactive-derived__value--${gameColor}` : " radioactive-derived__value--empty"}`}
+										>
+											{gameColor
+												? gameColor.charAt(0).toUpperCase() + gameColor.slice(1)
+												: "—"}
+										</span>
+									</div>
+								</div>
 							</div>
-						)}
+						</div>
 
 						{/* Target Chemical */}
 						<div className="radioactive-data__group">
 							<label className="radioactive-data__label">Target Chemical</label>
-							<p className="radioactive-data__hint">
-								Get a battery by melee killing zombies (chance drop from
-								backpack). Place it in the motel office radio or the power
-								station radio, then listen for the quote identifying your
-								chemical.
-							</p>
-							<div className="radioactive-chemicals">
-								{CHEMICALS.map((chem) => (
-									<button
-										key={chem}
-										className={`radioactive-chemical${data.targetChemical === chem ? " radioactive-chemical--selected" : ""}`}
-										onClick={() =>
-											setData((prev) => ({
-												...prev,
-												targetChemical:
-													prev.targetChemical === chem ? "" : chem,
-											}))
-										}
-									>
-										{chem}
-									</button>
-								))}
+							<div className="radioactive-data__body">
+								<p className="radioactive-data__hint">
+									Get a battery by melee killing zombies (chance drop from
+									backpack). Place it in the motel office radio or the power
+									station radio, then listen for the quote identifying your
+									chemical.
+								</p>
+								<div className="radioactive-chemicals">
+									{CHEMICALS.map((chem) => (
+										<button
+											key={chem}
+											className={`radioactive-chemical${data.targetChemical === chem ? " radioactive-chemical--selected" : ""}`}
+											onClick={() =>
+												setData((prev) => ({
+													...prev,
+													targetChemical:
+														prev.targetChemical === chem ? "" : chem,
+												}))
+											}
+										>
+											{chem}
+										</button>
+									))}
+								</div>
 							</div>
 						</div>
 
 						{/* Acetaldehyde Set */}
 						<div className="radioactive-data__group">
-							<label className="radioactive-data__label">
-								Acetaldehyde Set
-							</label>
-							<p className="radioactive-data__hint">
-								With your Game Color filter active, look at the board outside
-								Elvira's studio. Match the top and left numbers in the
-								Acetaldehyde diamond to one of the 6 sets below. If your numbers
-								don't match any set then you can be sure that your game color is
-								wrong. This can happen if you're M-number is 1 or 2 and can be
-								resolved by changing your game color until you find a match with
-								a set.
-							</p>
-							<div className="radioactive-sets">
-								{ACETALDEHYDE_SETS.map(({ set, top, left }) => (
-									<button
-										key={set}
-										className={`radioactive-set${data.acetaldehydeSet === set ? " radioactive-set--selected" : ""}`}
-										onClick={() =>
-											setData((prev) => ({
-												...prev,
-												acetaldehydeSet:
-													prev.acetaldehydeSet === set ? null : set,
-											}))
-										}
-									>
-										<div className="radioactive-set__diamond-wrap">
-											<div className="radioactive-set__diamond">
-												<span className="radioactive-set__num radioactive-set__num--top">
-													{top}
-												</span>
-												<span className="radioactive-set__num radioactive-set__num--right" />
-												<span className="radioactive-set__num radioactive-set__num--bottom" />
-												<span className="radioactive-set__num radioactive-set__num--left">
-													{left}
-												</span>
+							<label className="radioactive-data__label">Acetaldehyde Set</label>
+							<div className="radioactive-data__body">
+								<p className="radioactive-data__hint">
+									With your Game Color filter active, look at the board outside
+									Elvira's studio. Match the top and left numbers in the
+									Acetaldehyde diamond to one of the 6 sets below. If your numbers
+									don't match any set then you can be sure that your game color is
+									wrong. This can happen if you're M-number is 1 or 2 and can be
+									resolved by changing your game color until you find a match with
+									a set.
+								</p>
+								<div className="radioactive-sets">
+									{ACETALDEHYDE_SETS.map(({ set, top, left }) => (
+										<button
+											key={set}
+											className={`radioactive-set${data.acetaldehydeSet === set ? " radioactive-set--selected" : ""}`}
+											onClick={() =>
+												setData((prev) => ({
+													...prev,
+													acetaldehydeSet:
+														prev.acetaldehydeSet === set ? null : set,
+												}))
+											}
+										>
+											<div className="radioactive-set__diamond-wrap">
+												<div className="radioactive-set__diamond">
+													<span className="radioactive-set__num radioactive-set__num--top">
+														{top}
+													</span>
+													<span className="radioactive-set__num radioactive-set__num--right" />
+													<span className="radioactive-set__num radioactive-set__num--bottom" />
+													<span className="radioactive-set__num radioactive-set__num--left">
+														{left}
+													</span>
+												</div>
 											</div>
-										</div>
-										<span className="radioactive-set__label">Set {set}</span>
-									</button>
-								))}
+											<span className="radioactive-set__label">Set {set}</span>
+										</button>
+									))}
+								</div>
 							</div>
 						</div>
 					</div>
