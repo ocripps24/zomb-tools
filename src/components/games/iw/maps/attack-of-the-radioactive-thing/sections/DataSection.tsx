@@ -25,9 +25,9 @@ const O_NUMBERS = [2, 4, 6, 8, 9, 11, 15] as const;
 
 const CHEMICALS = [
 	"3,4-di-nitroxy-methyl-propane",
-	"1,3,5-tera nitro phenol",
-	"octahydro-2,5-nitro-3,4,7-parazokine",
-	"3-methyl-2,4-dinitro benzene",
+	"1,3,5-tera-nitra-phenol",
+	"octa-hydro-2,5-nitro-3,4,7-parazokine",
+	"3-methyl-2,4-dinitrobenzene",
 ] as const;
 
 const ACETALDEHYDE_SETS = [

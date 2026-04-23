@@ -8,9 +8,10 @@ interface ReferenceImagesProps {
     alt: string;
     label?: string;
   }>;
+  scrollToIndex?: number;
 }
 
-export function ReferenceImages({ images }: ReferenceImagesProps) {
+export function ReferenceImages({ images, scrollToIndex }: ReferenceImagesProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -26,6 +27,12 @@ export function ReferenceImages({ images }: ReferenceImagesProps) {
     if (!emblaApi) return;
     setSelectedIndex(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
+
+  useEffect(() => {
+    if (emblaApi && scrollToIndex !== undefined) {
+      emblaApi.scrollTo(scrollToIndex);
+    }
+  }, [emblaApi, scrollToIndex]);
 
   // Set up the select listener
   useEffect(() => {
