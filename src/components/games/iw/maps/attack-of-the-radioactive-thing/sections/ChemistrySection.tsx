@@ -1,6 +1,31 @@
+import { useState } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
+import { ReferenceImages } from "@/components/ui/ReferenceImages";
+
+import imgBakingSoda from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-baking-soda.jpg";
+import imgBleach from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-bleach.jpg";
+import imgDetergent from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-detergent.jpg";
+import imgDrainOpener from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-drain-opener.jpg";
+import imgFat from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-fat.jpg";
+import imgFoodColoring from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-food-coloring.jpg";
+import imgGlassCleaner from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-glass-cleaner.jpg";
+import imgIce from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-ice.jpg";
+import imgInsectRepellent from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-insect-repellent.jpg";
+import imgMotorOil from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-motor-oil.jpg";
+import imgNailPolishRemover from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-nail-polish-remover.jpg";
+import imgPaint from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-paint.jpg";
+import imgPennies from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-pennies.jpg";
+import imgPlantFood from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-plant-food.jpg";
+import imgPoolCleaner from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-pool-cleaner.jpg";
+import imgPowderedMilk from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-powdered-milk.jpg";
+import imgQuarters from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-quarters.jpg";
+import imgRacingFuel from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-racing-fuel.jpg";
+import imgTableSalt from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-table-salt.jpg";
+import imgVinegar from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-vinegar.jpg";
+import imgVodka from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-vodka.jpg";
+import imgWheelCleaner from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-wheel-cleaner.jpg";
 
 // ── Cross-section types (mirrors DataSectionData) ─────────────────────────────
 
@@ -77,6 +102,41 @@ const ITEM_LOCATIONS: Record<string, string> = {
 	Quarters: "Crowbar melee the payphones around the gas station",
 	"Glass Cleaner": "On a shelf in the market",
 };
+
+const INGREDIENT_IMAGES: Record<string, string> = {
+	"Insect Repellent": imgInsectRepellent,
+	"Racing Fuel": imgRacingFuel,
+	Vodka: imgVodka,
+	"Baking Soda": imgBakingSoda,
+	Detergent: imgDetergent,
+	"Food Coloring": imgFoodColoring,
+	Bleach: imgBleach,
+	Ice: imgIce,
+	"Powdered Milk": imgPowderedMilk,
+	Vinegar: imgVinegar,
+	"Plant Food": imgPlantFood,
+	Paint: imgPaint,
+	"Motor Oil": imgMotorOil,
+	"Wheel Cleaner": imgWheelCleaner,
+	Fat: imgFat,
+	"Table Salt": imgTableSalt,
+	Pennies: imgPennies,
+	"Nail Polish Remover": imgNailPolishRemover,
+	"Pool Cleaner": imgPoolCleaner,
+	"Drain Opener": imgDrainOpener,
+	Quarters: imgQuarters,
+	"Glass Cleaner": imgGlassCleaner,
+};
+
+const REFERENCE_IMAGES = Object.keys(INGREDIENT_IMAGES).map((name) => ({
+	src: INGREDIENT_IMAGES[name],
+	alt: name,
+	label: `${name} — ${ITEM_LOCATIONS[name]}`,
+}));
+
+const INGREDIENT_IMAGE_INDEX: Record<string, number> = Object.fromEntries(
+	Object.keys(INGREDIENT_IMAGES).map((name, i) => [name, i]),
+);
 
 const RECIPES: Record<string, Recipe> = {
 	"1,3,5-tera-nitra-phenol": {
@@ -209,6 +269,9 @@ function ChemistrySection(props: BaseSectionProps<CraftingData>) {
 		storageKey: "radioactive-thing-data-data",
 		defaultValue: DEFAULT_SOURCE,
 	});
+	const [activeImageIndex, setActiveImageIndex] = useState<number | undefined>(
+		undefined,
+	);
 
 	const oNumber = getONumber(sourceData);
 	const { targetChemical, acetaldehydeSet } = sourceData;
@@ -223,7 +286,7 @@ function ChemistrySection(props: BaseSectionProps<CraftingData>) {
 				defaultValue: DEFAULT_CRAFTING,
 				title: "Chemistry - Crafting",
 				description:
-					"Use your Chemistry — Data values to calculate and craft the correct chemical mixture. Shoutout to Mennobot for making this possible.",
+					"Use the values from Chemistry — Data to calculate and craft the correct chemical mixture. Clicking on ingredients will scroll the image gallery to the associated location. Shoutout to Mennobot for making this possible.",
 				tipsConfig: {
 					show: true,
 					items: [
@@ -343,10 +406,26 @@ function ChemistrySection(props: BaseSectionProps<CraftingData>) {
 														const fromStep = !location
 															? getSourceStep(ing, i, recipe.steps)
 															: null;
+														const imgIndex = INGREDIENT_IMAGE_INDEX[ing];
+														const hasImage = imgIndex !== undefined;
 														return (
 															<div
 																key={ing}
-																className={`radioactive-ingredient${!location ? " radioactive-ingredient--crafted" : ""}`}
+																className={`radioactive-ingredient${!location ? " radioactive-ingredient--crafted" : ""}${hasImage ? " radioactive-ingredient--has-image" : ""}`}
+																onClick={
+																	hasImage
+																		? () => setActiveImageIndex(imgIndex)
+																		: undefined
+																}
+																role={hasImage ? "button" : undefined}
+																tabIndex={hasImage ? 0 : undefined}
+																onKeyDown={
+																	hasImage
+																		? (e) =>
+																				e.key === "Enter" &&
+																				setActiveImageIndex(imgIndex)
+																		: undefined
+																}
 															>
 																<span className="radioactive-ingredient__name">
 																	{ing}
@@ -392,6 +471,10 @@ function ChemistrySection(props: BaseSectionProps<CraftingData>) {
 								})}
 							</div>
 						)}
+						<ReferenceImages
+							images={REFERENCE_IMAGES}
+							scrollToIndex={activeImageIndex}
+						/>
 					</div>
 				);
 			}}

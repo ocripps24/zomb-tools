@@ -713,7 +713,17 @@
 
 	&--crafted .radioactive-ingredient__name {
 		color: #3b82f6;
-		// font-style: italic;
+	}
+
+	&--has-image {
+		cursor: pointer;
+
+		&:hover .radioactive-ingredient__name {
+			color: var(--accent-color);
+			text-decoration: underline;
+			text-decoration-style: dotted;
+			text-underline-offset: 2px;
+		}
 	}
 }
 
