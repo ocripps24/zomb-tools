@@ -74,6 +74,10 @@
 			background-image: url("/src/assets/maps/iw/attack-of-the-radioactive-thing-preview.jpg");
 		}
 
+		&[data-map="beast-from-beyond"]::before {
+			background-image: url("/src/assets/maps/iw/beast-from-beyond-preview.jpg");
+		}
+
 		// BO4 Maps
 		&[data-map="voyage-of-despair"]::before {
 			background-image: url("/src/assets/maps/bo4/voyage-of-despair-preview.jpg");
