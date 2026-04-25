@@ -85,6 +85,7 @@ export const ROUTES = {
 				shaolinShuffle: "/iw/shaolin-shuffle",
 				attackOfTheRadioactiveThing:
 					"/iw/attack-of-the-radioactive-thing",
+				beastFromBeyond: "/iw/beast-from-beyond",
 			},
 		},
 	},
@@ -267,6 +268,12 @@ export const MAP_STEPS = {
 					"/iw/attack-of-the-radioactive-thing/chemistry-crafting",
 			},
 		},
+		beastFromBeyond: {
+			base: "/iw/beast-from-beyond",
+			steps: {
+				disks: "/iw/beast-from-beyond/disks",
+			},
+		},
 	},
 } as const;
 
@@ -331,6 +338,7 @@ export const ROUTE_PATTERNS = {
 				shaolinShuffle: "/iw/shaolin-shuffle/*",
 				attackOfTheRadioactiveThing:
 					"/iw/attack-of-the-radioactive-thing/*",
+				beastFromBeyond: "/iw/beast-from-beyond/*",
 			},
 		},
 	},
@@ -467,6 +475,10 @@ export const ROUTE_METADATA = {
 		title: "Attack of the Radioactive Thing",
 		documentTitle:
 			"Attack of the Radioactive Thing Easter Eggs - COD Zombies Tools",
+	},
+	[ROUTES.games.iw.maps.beastFromBeyond]: {
+		title: "Beast from Beyond",
+		documentTitle: "Beast from Beyond Easter Eggs - COD Zombies Tools",
 	},
 } as const;
 

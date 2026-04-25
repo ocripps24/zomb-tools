@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 63.28 50.06">
+  <g id="c" data-name="Layer 1">
+    <g id="d" data-name="symbol-2">
+      <polygon points="25.62 21.04 25.62 0 0 21.04 25.62 21.04" fill="#fff"/>
+      <polyline points="63.28 21.28 37.66 21.28 37.66 .25" fill="#fff"/>
+      <polygon points="37.66 29.03 37.66 50.06 63.28 29.03 37.66 29.03" fill="#fff"/>
+      <polyline points="0 28.78 25.62 28.78 25.62 49.82" fill="#fff"/>
+    </g>
+  </g>
+</svg>

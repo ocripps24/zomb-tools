@@ -41,6 +41,16 @@
 			border-color: var(--success-color) !important;
 			background: rgba(var(--accent-color-rgb), 0.1);
 		}
+
+		&--disabled {
+			opacity: 0.2;
+			cursor: not-allowed;
+
+			&:hover {
+				border-color: var(--border-color);
+				transform: none;
+			}
+		}
 	}
 
 	&__icon {

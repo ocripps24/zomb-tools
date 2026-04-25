@@ -26,6 +26,7 @@ import CitadelleDesMorts from "./components/games/bo6/maps/citadelle-des-morts/C
 import TheTomb from "./components/games/bo6/maps/the-tomb/TheTomb";
 import ShaolinShuffle from "./components/games/iw/maps/shaolin-shuffle/ShaolinShuffle";
 import AttackOfTheRadioactiveThing from "./components/games/iw/maps/attack-of-the-radioactive-thing/AttackOfTheRadioactiveThing";
+import BeastFromBeyond from "./components/games/iw/maps/beast-from-beyond/BeastFromBeyond";
 import AshesOfTheDamned from "./components/games/bo7/maps/ashes-of-the-damned/AshesOfTheDamned";
 import AstraMalorum from "./components/games/bo7/maps/astra-malorum/AstraMalorum";
 import ParadoxJunction from "./components/games/bo7/maps/paradox-junction/ParadoxJunction";
@@ -157,6 +158,10 @@ function App() {
 										.attackOfTheRadioactiveThing
 								}
 								element={<AttackOfTheRadioactiveThing />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.iw.maps.beastFromBeyond}
+								element={<BeastFromBeyond />}
 							/>
 
 							{/* BO4 Routes */}

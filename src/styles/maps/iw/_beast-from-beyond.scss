@@ -1,0 +1,127 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+// ── Disks section ─────────────────────────────────────────────────────────────
+
+.bfb-disks {
+	display: flex;
+	flex-direction: column;
+	gap: space(lg);
+}
+
+// Mobile: 2 rows × 6 columns; desktop: single row of 12
+.bfb-disks__picker.multi-select-symbol-picker {
+	grid-template-columns: repeat(6, 1fr);
+
+	@include tmd-up {
+		grid-template-columns: repeat(12, 1fr);
+	}
+}
+
+// ── Results row ───────────────────────────────────────────────────────────────
+
+.bfb-disks__results {
+	display: grid;
+	grid-template-columns: 2fr repeat(4, 1fr);
+	gap: space(sm);
+
+	@include tmd-up {
+		gap: space(md);
+	}
+}
+
+.bfb-disks__box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: space(xs);
+	padding: space(sm) space(xs);
+	background: var(--bg-tertiary);
+	border: 2px solid var(--border-color);
+	border-radius: var(--radius-md);
+	min-height: 80px;
+	transition: border-color var(--transition);
+
+	@include tmd-up {
+		padding: space(md) space(sm);
+		min-height: 96px;
+	}
+
+	&--identified {
+		border-color: var(--success-color);
+	}
+
+	&--narrowing {
+		border-color: var(--accent-color);
+	}
+
+	&--no-match {
+		border-color: color(danger);
+	}
+
+	&--filled {
+		border-color: var(--success-color);
+	}
+}
+
+.bfb-disks__box-label {
+	font-size: 0.6875rem;
+	font-weight: 600;
+	color: var(--text-secondary);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+
+	@include tmd-up {
+		font-size: 0.75rem;
+	}
+}
+
+.bfb-disks__set-value {
+	font-size: 0.875rem;
+	font-weight: 700;
+	color: var(--text-primary);
+	text-align: center;
+	line-height: 1.3;
+
+	@include tmd-up {
+		font-size: 1rem;
+	}
+}
+
+.bfb-disks__symbol-icon {
+	width: 36px;
+	height: 36px;
+	fill: currentColor;
+	color: var(--text-primary);
+
+	@include tmd-up {
+		width: 44px;
+		height: 44px;
+	}
+}
+
+.bfb-disks__empty {
+	font-size: 1.25rem;
+	color: var(--text-secondary);
+	opacity: 0.4;
+}
+
+// ── Compact mode ──────────────────────────────────────────────────────────────
+
+.base-section.compact {
+	.bfb-disks__results {
+		gap: space(xs);
+	}
+
+	.bfb-disks__box {
+		min-height: 64px;
+		padding: space(xs);
+	}
+
+	.bfb-disks__symbol-icon {
+		width: 28px;
+		height: 28px;
+	}
+}

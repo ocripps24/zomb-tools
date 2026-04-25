@@ -43,14 +43,18 @@ function MultiSelectSymbolPicker({
 			{symbols.map((symbol) => {
 				const SymbolComponent = symbol.component;
 				const isSelected = selectedSymbols.includes(symbol.id);
+				const isDisabled = symbol.disabled ?? false;
 
 				return (
 					<button
 						key={symbol.id}
-						className={`multi-select-symbol-picker__symbol ${
-							isSelected ? "multi-select-symbol-picker__symbol--selected" : ""
-						}`}
+						className={[
+							"multi-select-symbol-picker__symbol",
+							isSelected ? "multi-select-symbol-picker__symbol--selected" : "",
+							isDisabled ? "multi-select-symbol-picker__symbol--disabled" : "",
+						].filter(Boolean).join(" ")}
 						onClick={() => onSymbolClick(symbol.id)}
+						disabled={isDisabled}
 						aria-label={symbol.label || symbol.id}
 						aria-pressed={isSelected}
 					>

@@ -84,11 +84,12 @@ export const IW_MAPS: IWMap[] = [
 	{
 		id: "beast-from-beyond",
 		name: "Beast from Beyond",
-		status: "Under review",
-		route: "",
-		component: null,
-		available: false,
-		tools: [],
+		status: "Available",
+		route: ROUTES.games.iw.maps.beastFromBeyond,
+		component: () =>
+			import("../../components/games/iw/maps/beast-from-beyond/BeastFromBeyond.tsx"),
+		available: true,
+		tools: ["Disks"],
 		difficulty: "hard",
 		image: BeastFromBeyondImage,
 	},
