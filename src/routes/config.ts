@@ -255,6 +255,7 @@ export const MAP_STEPS = {
 			steps: {
 				aaBullet: "/bo7/totenreich/aa-bullet",
 				wunderbarrage: "/bo7/totenreich/wunderbarrage",
+				clawMachine: "/bo7/totenreich/claw-machine",
 			},
 		},
 	},

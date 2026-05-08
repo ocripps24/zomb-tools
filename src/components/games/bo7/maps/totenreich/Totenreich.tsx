@@ -2,6 +2,7 @@ import { MapContainer } from "@/components/core";
 import type { MapStep } from "@/hooks";
 import { getBO7MapById } from "@/data/bo7/maps";
 import AABulletSection from "./sections/AABulletSection";
+import ClawMachineSection from "./sections/ClawMachineSection";
 import WunderbarageSection from "./sections/WunderbarageSection";
 
 const STEPS: MapStep[] = [
@@ -16,6 +17,12 @@ const STEPS: MapStep[] = [
 		name: "Wunderbarrage",
 		path: "/bo7/totenreich/wunderbarrage",
 		component: WunderbarageSection,
+	},
+	{
+		id: "claw-machine",
+		name: "Claw Machine",
+		path: "/bo7/totenreich/claw-machine",
+		component: ClawMachineSection,
 	},
 ];
 

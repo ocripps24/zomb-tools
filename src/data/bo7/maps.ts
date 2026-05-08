@@ -66,7 +66,7 @@ export const BO7_MAPS: BO7Map[] = [
 				"../../components/games/bo7/maps/totenreich/Totenreich"
 			),
 		available: true,
-		tools: ["AA Bullet", "Wunderbarrage"],
+		tools: ["AA Bullet", "Wunderbarrage", "Claw Machine"],
 		difficulty: "medium",
 	},
 ];
