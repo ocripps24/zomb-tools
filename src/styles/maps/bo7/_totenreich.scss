@@ -834,6 +834,12 @@
 				color-mix(in srgb, var(--accent-color) 20%, transparent);
 		}
 
+		&__header {
+			display: flex;
+			align-items: center;
+			gap: space(sm);
+		}
+
 		&__label {
 			font-size: 0.6875rem;
 			font-weight: 700;
@@ -842,11 +848,28 @@
 			letter-spacing: 0.08em;
 		}
 
+		&__keyword {
+			font-size: 0.75rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+			color: var(--accent-color);
+			background: color-mix(in srgb, var(--accent-color) 12%, transparent);
+			border: 1px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
+			border-radius: radius(sm);
+			padding: 0.1em 0.45em;
+		}
+
 		&__text {
 			font-size: 0.9375rem;
 			color: var(--text-primary);
-			font-style: italic;
 			line-height: 1.55;
+
+			strong {
+				font-weight: 700;
+				color: var(--accent-color);
+				text-decoration: underline;
+			}
 		}
 	}
 

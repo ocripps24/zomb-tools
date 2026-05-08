@@ -76,7 +76,9 @@ function SequenceRecorder({
 					className="flash-btn flash-btn--both"
 					onClick={() => onAdd("both")}
 					type="button"
-					disabled={leftFull || rightFull || hasIndividualLeft || hasIndividualRight}
+					disabled={
+						leftFull || rightFull || hasIndividualLeft || hasIndividualRight
+					}
 				>
 					Both
 				</button>
@@ -213,7 +215,7 @@ function WunderbarageSection(props: BaseSectionProps<WunderbarageData>) {
 						},
 						{
 							label: "Two Sequences",
-							text: "There are two sequences separated by all three lights briefly going solid. Record each sequence independently using the two cards below.",
+							text: "A short pause follows sequence 1 with a longer pause following sequence 2.",
 						},
 						{
 							label: "Keyboard Mode",
@@ -241,9 +243,15 @@ function WunderbarageSection(props: BaseSectionProps<WunderbarageData>) {
 						const seqHasBoth = seq.some((e) => e === "both");
 						const indLeft = seq.some((e) => e === "left");
 						const indRight = seq.some((e) => e === "right");
-						if (type === "left" && (!seqHasBoth || left >= 7 || indRight)) return;
-						if (type === "right" && (!seqHasBoth || right >= 8 || indLeft)) return;
-						if (type === "both" && (left >= 7 || right >= 8 || indLeft || indRight)) return;
+						if (type === "left" && (!seqHasBoth || left >= 7 || indRight))
+							return;
+						if (type === "right" && (!seqHasBoth || right >= 8 || indLeft))
+							return;
+						if (
+							type === "both" &&
+							(left >= 7 || right >= 8 || indLeft || indRight)
+						)
+							return;
 						if (focusedSeq === 1)
 							setData({ ...data, seq1: [...data.seq1, type] });
 						else if (focusedSeq === 2)
@@ -334,9 +342,9 @@ function WunderbarageSection(props: BaseSectionProps<WunderbarageData>) {
 									</div>
 								</div>
 								<p className="wunderbarrage-result__flip-note">
-									Started recording late? You may have captured Sequence 2
-									first — if your values don't work, flip the sequences when
-									entering them into the dials.
+									Started recording late? You may have captured Sequence 2 first
+									— if your values don't work, flip the sequences when entering
+									them into the dials.
 								</p>
 							</div>
 						)}

@@ -20,25 +20,41 @@ const LOCATIONS = [
 const QUOTES = [
 	{
 		id: "phrase1",
+		highlight: "Robot Parts",
 		text: "The PZGR shells are gone and now carry Robot Parts instead. I've wired the crates so opening them completes a circuit and delivers a nasty shock",
 		targetCrateId: "x9",
 	},
 	{
 		id: "phrase2",
+		highlight: "disperse gas",
 		text: "I replaced the PzGR shipment with parts from the lab rigged to disperse gas, the artillery crew won't know what hit them!!",
 		targetCrateId: "iii6",
 	},
 	{
 		id: "phrase3",
+		highlight: "couldn't tamper",
 		text: "I couldn't tamper with the PzGR shipment, too many eyes in the depot, We must wait for a quieter shift",
 		targetCrateId: "v7",
 	},
 	{
 		id: "phrase4",
+		highlight: "Chemical Bomb",
 		text: "The switch is done, PzGR shells out, Chemical Bomb in. I rigged it so the first man to open them gets a lungful, hopefully its that bastard Richtofen",
 		targetCrateId: "iv3",
 	},
 ] as const;
+
+function renderQuoteText(text: string, highlight: string) {
+	const idx = text.indexOf(highlight);
+	if (idx === -1) return `"${text}"`;
+	return (
+		<>
+			&ldquo;{text.slice(0, idx)}
+			<strong>{highlight}</strong>
+			{text.slice(idx + highlight.length)}&rdquo;
+		</>
+	);
+}
 
 interface AABulletData {
 	crateLocations: Record<string, string | null>;
@@ -117,7 +133,9 @@ function AABulletSection(props: BaseSectionProps<AABulletData>) {
 						const unassignedId = CRATES.find(
 							(c) => newLocations[c.id] === null,
 						)?.id;
-						const usedSet = new Set(Object.values(newLocations).filter(Boolean));
+						const usedSet = new Set(
+							Object.values(newLocations).filter(Boolean),
+						);
 						const remaining = LOCATIONS.find((l) => !usedSet.has(l.id))?.id;
 						if (unassignedId && remaining) {
 							newLocations[unassignedId] = remaining;
@@ -190,8 +208,7 @@ function AABulletSection(props: BaseSectionProps<AABulletData>) {
 														{LOCATIONS.map((location) => {
 															const isSelected = assignedId === location.id;
 															const isUsedByOther =
-																!isSelected &&
-																usedLocations.has(location.id);
+																!isSelected && usedLocations.has(location.id);
 															return (
 																<button
 																	key={location.id}
@@ -230,7 +247,8 @@ function AABulletSection(props: BaseSectionProps<AABulletData>) {
 							<h3 className="quote-picker__title">Select Your Phrase</h3>
 							<p className="quote-picker__hint">
 								Find the scrap of paper at <strong>Tyr's Foot</strong> or{" "}
-								<strong>Crane Room</strong> and select the matching phrase below.
+								<strong>Crane Room</strong> and select the matching phrase
+								below.
 							</p>
 							<div className="quote-picker__cards">
 								{QUOTES.map((quote, index) => (
@@ -245,8 +263,17 @@ function AABulletSection(props: BaseSectionProps<AABulletData>) {
 										onClick={() => handleSelectQuote(quote.id)}
 										type="button"
 									>
-										<span className="quote-card__label">Phrase {index + 1}</span>
-										<span className="quote-card__text">"{quote.text}"</span>
+										<div className="quote-card__header">
+											<span className="quote-card__label">
+												Phrase {index + 1}
+											</span>
+											<span className="quote-card__keyword">
+												{quote.highlight}
+											</span>
+										</div>
+										<span className="quote-card__text">
+											{renderQuoteText(quote.text, quote.highlight)}
+										</span>
 									</button>
 								))}
 							</div>
