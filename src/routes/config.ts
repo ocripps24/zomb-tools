@@ -77,6 +77,7 @@ export const ROUTES = {
 				ashesOfTheDamned: "/bo7/ashes-of-the-damned",
 				astraMalorum: "/bo7/astra-malorum",
 				paradoxJunction: "/bo7/paradox-junction",
+				totenreich: "/bo7/totenreich",
 			},
 		},
 		iw: {
@@ -249,6 +250,12 @@ export const MAP_STEPS = {
 				pianoNotes: "/bo7/paradox-junction/piano-notes",
 			},
 		},
+		totenreich: {
+			base: "/bo7/totenreich",
+			steps: {
+				aaBullet: "/bo7/totenreich/aa-bullet",
+			},
+		},
 	},
 	iw: {
 		shaolinShuffle: {
@@ -330,6 +337,7 @@ export const ROUTE_PATTERNS = {
 				ashesOfTheDamned: "/bo7/ashes-of-the-damned/*",
 				astraMalorum: "/bo7/astra-malorum/*",
 				paradoxJunction: "/bo7/paradox-junction/*",
+				totenreich: "/bo7/totenreich/*",
 			},
 		},
 		iw: {
@@ -462,6 +470,10 @@ export const ROUTE_METADATA = {
 	[ROUTES.games.bo7.maps.paradoxJunction]: {
 		title: "Paradox Junction",
 		documentTitle: "Paradox Junction Easter Eggs - COD Zombies Tools",
+	},
+	[ROUTES.games.bo7.maps.totenreich]: {
+		title: "Totenreich",
+		documentTitle: "Totenreich Easter Eggs - COD Zombies Tools",
 	},
 	"/iw": {
 		title: "Infinite Warfare - Select Map",

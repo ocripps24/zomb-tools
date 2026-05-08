@@ -1,0 +1,258 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+// ============================================================================
+// AA Bullet Section
+// ============================================================================
+
+.aa-bullet-section {
+	display: flex;
+	flex-direction: column;
+	gap: space(xl);
+
+	// ── Cargo manifest collapsible panel ──────────────────────────────────────
+
+	.cargo-manifest-panel {
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		overflow: hidden;
+
+		&__toggle {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: space(md) space(lg);
+			background: var(--bg-tertiary);
+			color: var(--text-primary);
+			border: none;
+			cursor: pointer;
+			font-size: 0.9375rem;
+			font-weight: 500;
+			text-align: left;
+			transition: background var(--transition);
+
+			&:hover {
+				background: color-mix(
+					in srgb,
+					var(--accent-color) 8%,
+					var(--bg-tertiary)
+				);
+			}
+		}
+
+		&__chevron {
+			font-size: 1.25rem;
+			transition: transform var(--transition);
+			line-height: 1;
+
+			&--open {
+				transform: rotate(180deg);
+			}
+		}
+
+		&__body {
+			padding: space(md) space(lg);
+			border-top: 1px solid var(--border-color);
+			background: var(--bg-tertiary);
+		}
+
+		&__hint {
+			font-size: 0.875rem;
+			color: var(--text-secondary);
+			margin-bottom: space(md);
+		}
+	}
+
+	// ── Crate location grid ───────────────────────────────────────────────────
+
+	.crate-location-grid {
+		display: flex;
+		flex-direction: column;
+		gap: space(md);
+	}
+
+	.crate-location-row {
+		&__header {
+			display: flex;
+			align-items: baseline;
+			gap: space(sm);
+			margin-bottom: space(xs);
+		}
+
+		&__code {
+			font-weight: 700;
+			font-size: 1rem;
+			font-family: monospace;
+			color: var(--accent-color);
+			letter-spacing: 0.03em;
+		}
+
+		&__part {
+			font-size: 0.8125rem;
+			color: var(--text-secondary);
+		}
+
+		&__buttons {
+			display: flex;
+			flex-wrap: wrap;
+			gap: space(xs);
+		}
+	}
+
+	.location-assign-btn {
+		padding: space(xs) space(sm);
+		border-radius: radius(sm);
+		border: 1px solid var(--border-color);
+		background: transparent;
+		color: var(--text-primary);
+		font-size: 0.8125rem;
+		cursor: pointer;
+		transition:
+			border-color var(--transition),
+			background var(--transition),
+			color var(--transition);
+
+		&:hover:not(:disabled) {
+			border-color: color-mix(
+				in srgb,
+				var(--accent-color) 60%,
+				var(--border-color)
+			);
+		}
+
+		&--selected {
+			border-color: var(--accent-color);
+			background: color-mix(in srgb, var(--accent-color) 18%, transparent);
+			color: var(--accent-color);
+			font-weight: 600;
+		}
+
+		&--used {
+			opacity: 0.35;
+			cursor: not-allowed;
+		}
+	}
+
+	// ── Quote picker ──────────────────────────────────────────────────────────
+
+	.quote-picker {
+		&__title {
+			font-size: 1.0625rem;
+			font-weight: 600;
+			margin-bottom: space(xs);
+		}
+
+		&__hint {
+			font-size: 0.875rem;
+			color: var(--text-secondary);
+			margin-bottom: space(md);
+
+			strong {
+				color: var(--text-primary);
+			}
+		}
+
+		&__cards {
+			display: flex;
+			flex-direction: column;
+			gap: space(sm);
+		}
+	}
+
+	.quote-card {
+		display: flex;
+		flex-direction: column;
+		gap: space(xs);
+		text-align: left;
+		padding: space(md);
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		cursor: pointer;
+		transition:
+			border-color var(--transition),
+			box-shadow var(--transition);
+
+		&:hover {
+			border-color: color-mix(
+				in srgb,
+				var(--accent-color) 60%,
+				var(--border-color)
+			);
+		}
+
+		&--selected {
+			border-color: var(--accent-color);
+			box-shadow: 0 0 0 2px
+				color-mix(in srgb, var(--accent-color) 20%, transparent);
+		}
+
+		&__label {
+			font-size: 0.6875rem;
+			font-weight: 700;
+			color: var(--accent-color);
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+		}
+
+		&__text {
+			font-size: 0.9375rem;
+			color: var(--text-primary);
+			font-style: italic;
+			line-height: 1.55;
+		}
+	}
+
+	// ── Result display ────────────────────────────────────────────────────────
+
+	.aa-bullet-result {
+		background: var(--bg-tertiary);
+		border: 1px solid var(--accent-color);
+		border-radius: radius(base);
+		padding: space(lg);
+		box-shadow: 0 0 0 1px
+			color-mix(in srgb, var(--accent-color) 15%, transparent);
+
+		&__title {
+			font-size: 0.875rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			color: var(--accent-color);
+			margin-bottom: space(md);
+		}
+
+		&__row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: space(sm) 0;
+			border-bottom: 1px solid var(--border-color);
+
+			&:last-of-type {
+				border-bottom: none;
+			}
+		}
+
+		&__label {
+			font-size: 0.875rem;
+			color: var(--text-secondary);
+		}
+
+		&__value {
+			font-weight: 700;
+			font-size: 1.25rem;
+			color: var(--text-primary);
+			font-family: monospace;
+			letter-spacing: 0.04em;
+		}
+
+		&__hint {
+			font-size: 0.8125rem;
+			color: var(--text-secondary);
+			margin-top: space(sm);
+		}
+	}
+}

@@ -136,9 +136,14 @@
 		&[data-map="ashes-of-the-damned"]::before {
 			background-image: url("/src/assets/maps/bo7/ashes-of-the-damned-preview.jpg");
 		}
-
 		&[data-map="astra-malorum"]::before {
 			background-image: url("/src/assets/maps/bo7/astra-malorum-preview.jpg");
+		}
+		&[data-map="paradox-junction"]::before {
+			background-image: url("/src/assets/maps/bo7/paradox-junction-preview.jpg");
+		}
+		&[data-map="totenreich"]::before {
+			background-image: url("/src/assets/maps/bo7/totenreich-preview.jpg");
 		}
 	}
 }

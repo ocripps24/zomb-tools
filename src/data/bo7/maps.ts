@@ -59,11 +59,14 @@ export const BO7_MAPS: BO7Map[] = [
 	{
 		id: "totenreich",
 		name: "Totenreich",
-		status: "Coming Soon",
-		route: "",
-		component: null,
-		available: false,
-		tools: [],
+		status: "Available",
+		route: ROUTES.games.bo7.maps.totenreich,
+		component: () =>
+			import(
+				"../../components/games/bo7/maps/totenreich/Totenreich"
+			),
+		available: true,
+		tools: ["AA Bullet"],
 		difficulty: "medium",
 	},
 ];

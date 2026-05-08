@@ -30,6 +30,7 @@ import BeastFromBeyond from "./components/games/iw/maps/beast-from-beyond/BeastF
 import AshesOfTheDamned from "./components/games/bo7/maps/ashes-of-the-damned/AshesOfTheDamned";
 import AstraMalorum from "./components/games/bo7/maps/astra-malorum/AstraMalorum";
 import ParadoxJunction from "./components/games/bo7/maps/paradox-junction/ParadoxJunction";
+import Totenreich from "./components/games/bo7/maps/totenreich/Totenreich";
 import DashboardList from "./components/dashboard/DashboardList";
 import DashboardBuilder from "./components/dashboard/DashboardBuilder";
 import DashboardView from "./components/dashboard/DashboardView";
@@ -255,6 +256,10 @@ function App() {
 							<Route
 								path={ROUTE_PATTERNS.games.bo7.maps.paradoxJunction}
 								element={<ParadoxJunction />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.bo7.maps.totenreich}
+								element={<Totenreich />}
 							/>
 
 							{/* 404 */}
