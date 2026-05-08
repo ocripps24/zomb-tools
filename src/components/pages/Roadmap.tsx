@@ -27,6 +27,13 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 		],
 	},
 	{
+		date: "May 2026",
+		items: [
+			"BO7: Added Totenreich",
+			"BO7: Totenreich tools in beta for testing and feedback - I will consider adding a compass tool",
+		],
+	},
+	{
 		date: "April 2026",
 		items: [
 			"IW: Added IW starting with Shaolin Shuffle - Morse code and Rooftop Symbol sections",
