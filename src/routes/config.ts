@@ -254,6 +254,7 @@ export const MAP_STEPS = {
 			base: "/bo7/totenreich",
 			steps: {
 				aaBullet: "/bo7/totenreich/aa-bullet",
+				wunderbarrage: "/bo7/totenreich/wunderbarrage",
 			},
 		},
 	},

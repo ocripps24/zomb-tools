@@ -3,6 +3,354 @@
 @use "../../abstracts/mixins" as *;
 
 // ============================================================================
+// Wunderbarrage Section
+// ============================================================================
+
+.wunderbarrage-section {
+	display: flex;
+	flex-direction: column;
+	gap: space(xl);
+
+	// ── Two-sequence recorder layout ──────────────────────────────────────────
+
+	.sequence-recorders {
+		display: flex;
+		flex-direction: column;
+		gap: space(lg);
+
+		@include tmd-up {
+			flex-direction: row;
+			align-items: flex-start;
+			gap: space(md);
+
+			.sequence-recorder {
+				flex: 1;
+			}
+		}
+	}
+
+	// ── Individual sequence recorder ──────────────────────────────────────────
+
+	.sequence-recorder {
+		display: flex;
+		flex-direction: column;
+		gap: space(sm);
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		padding: space(md);
+		cursor: pointer;
+		touch-action: manipulation;
+		transition: border-color var(--transition), box-shadow var(--transition);
+
+		&--focused {
+			border-color: var(--accent-color);
+			box-shadow: 0 0 0 2px
+				color-mix(in srgb, var(--accent-color) 20%, transparent);
+			cursor: default;
+		}
+
+		&__header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: space(sm);
+		}
+
+		&__label {
+			font-size: 0.75rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			color: var(--text-secondary);
+		}
+
+		&__active-badge {
+			font-size: 0.625rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			color: var(--accent-color);
+			padding: 0.15em 0.5em;
+			background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+			border: 1px solid color-mix(in srgb, var(--accent-color) 40%, transparent);
+			border-radius: radius(full);
+		}
+
+		&__buttons {
+			display: flex;
+			gap: space(xs);
+		}
+
+		&__tally {
+			display: flex;
+			align-items: center;
+			gap: space(md);
+			padding: space(sm) space(md);
+			background: color-mix(in srgb, var(--accent-color) 6%, transparent);
+			border: 1px solid color-mix(in srgb, var(--accent-color) 20%, transparent);
+			border-radius: radius(sm);
+		}
+
+		&__tally-item {
+			display: flex;
+			align-items: baseline;
+			gap: space(xs);
+		}
+
+		&__tally-label {
+			font-size: 0.75rem;
+			color: var(--text-secondary);
+			font-weight: 500;
+		}
+
+		&__tally-value {
+			font-size: 1.5rem;
+			font-weight: 700;
+			color: var(--text-primary);
+			font-variant-numeric: tabular-nums;
+			min-width: 1.5ch;
+		}
+
+		&__tally-range {
+			font-size: 0.625rem;
+			color: var(--text-secondary);
+			opacity: 0.55;
+			font-variant-numeric: tabular-nums;
+		}
+
+		&__tally-divider {
+			width: 1px;
+			height: 1.5rem;
+			background: var(--border-color);
+			flex-shrink: 0;
+		}
+
+		&__history {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.25rem;
+			min-height: 1.75rem;
+		}
+
+		&__footer {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			gap: space(xs);
+		}
+
+		&__undo {
+			padding: space(xs) space(sm);
+			border: 1px solid var(--border-color);
+			border-radius: radius(sm);
+			background: transparent;
+			color: var(--text-secondary);
+			font-size: 0.8125rem;
+			cursor: pointer;
+			touch-action: manipulation;
+			transition: color var(--transition), border-color var(--transition);
+
+			@media (hover: hover) {
+				&:hover:not(:disabled) {
+					color: var(--text-primary);
+					border-color: var(--text-secondary);
+				}
+			}
+
+			&:disabled {
+				opacity: 0.3;
+				cursor: not-allowed;
+			}
+		}
+
+		&__kbd-hints {
+			display: flex;
+			align-items: center;
+			gap: 0.2rem;
+			flex-wrap: wrap;
+
+			kbd {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				padding: 0.1em 0.35em;
+				background: var(--bg-primary, var(--bg-tertiary));
+				border: 1px solid var(--border-color);
+				border-radius: radius(sm);
+				font-family: monospace;
+				font-size: 0.6875rem;
+				color: var(--text-primary);
+				line-height: 1.4;
+				box-shadow: 0 1px 0 var(--border-color);
+			}
+
+			span {
+				font-size: 0.6875rem;
+				color: var(--text-secondary);
+				margin-right: 0.35rem;
+			}
+		}
+	}
+
+	// ── Flash buttons ─────────────────────────────────────────────────────────
+
+	.flash-btn {
+		flex: 1;
+		padding: space(md) space(xs);
+		min-height: 3.25rem;
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		background: transparent;
+		color: var(--text-primary);
+		font-size: 0.875rem;
+		font-weight: 600;
+		cursor: pointer;
+		touch-action: manipulation;
+		-webkit-tap-highlight-color: transparent;
+		transition:
+			background var(--transition),
+			border-color var(--transition),
+			transform 80ms ease;
+		user-select: none;
+
+		@media (hover: hover) {
+			&:hover {
+				background: color-mix(in srgb, var(--accent-color) 10%, transparent);
+				border-color: color-mix(
+					in srgb,
+					var(--accent-color) 50%,
+					var(--border-color)
+				);
+			}
+		}
+
+		&:active {
+			transform: scale(0.95);
+			background: color-mix(in srgb, var(--accent-color) 20%, transparent);
+		}
+
+		&:disabled {
+			opacity: 0.3;
+			cursor: not-allowed;
+			transform: none;
+		}
+	}
+
+	// ── Flash history tags ────────────────────────────────────────────────────
+
+	.flash-tag {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.5rem;
+		height: 1.5rem;
+		border-radius: radius(full);
+		font-size: 0.625rem;
+		font-weight: 800;
+		letter-spacing: 0;
+
+		&--left {
+			background: color-mix(in srgb, var(--accent-color) 22%, transparent);
+			color: var(--accent-color);
+			border: 1px solid color-mix(in srgb, var(--accent-color) 40%, transparent);
+		}
+
+		&--both {
+			background: color-mix(in srgb, var(--text-secondary) 15%, transparent);
+			color: var(--text-secondary);
+			border: 1px solid
+				color-mix(in srgb, var(--text-secondary) 30%, transparent);
+		}
+
+		&--placeholder {
+			opacity: 0.25;
+		}
+
+		&--right {
+			background: color-mix(in srgb, #{color(info)} 20%, transparent);
+			color: #{color(info)};
+			border: 1px solid color-mix(in srgb, #{color(info)} 40%, transparent);
+		}
+	}
+
+	// ── Result display ────────────────────────────────────────────────────────
+
+	.wunderbarrage-result {
+		background: var(--bg-tertiary);
+		border: 1px solid var(--accent-color);
+		border-radius: radius(base);
+		padding: space(lg);
+
+		&__heading {
+			font-size: 0.75rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			color: var(--accent-color);
+			margin-bottom: space(md);
+		}
+
+		&__sequences {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: space(sm);
+			margin-bottom: space(md);
+		}
+
+		&__flip-note {
+			font-size: 0.8125rem;
+			color: var(--text-secondary);
+			border-top: 1px solid var(--border-color);
+			padding-top: space(sm);
+			line-height: 1.5;
+		}
+	}
+
+	.result-sequence {
+		background: color-mix(in srgb, var(--accent-color) 6%, transparent);
+		border: 1px solid color-mix(in srgb, var(--accent-color) 25%, transparent);
+		border-radius: radius(sm);
+		padding: space(sm) space(md);
+
+		&__label {
+			font-size: 0.6875rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.06em;
+			color: var(--accent-color);
+			margin-bottom: space(xs);
+		}
+
+		&__row {
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+			padding: space(xs) 0;
+
+			& + & {
+				border-top: 1px solid
+					color-mix(in srgb, var(--accent-color) 15%, transparent);
+			}
+		}
+
+		&__dial-name {
+			font-size: 0.8125rem;
+			color: var(--text-secondary);
+		}
+
+		&__value {
+			font-size: 1.5rem;
+			font-weight: 700;
+			color: var(--text-primary);
+			font-variant-numeric: tabular-nums;
+			line-height: 1;
+		}
+	}
+}
+
+// ============================================================================
 // AA Bullet Section
 // ============================================================================
 
@@ -28,17 +376,20 @@
 			color: var(--text-primary);
 			border: none;
 			cursor: pointer;
+			touch-action: manipulation;
 			font-size: 0.9375rem;
 			font-weight: 500;
 			text-align: left;
 			transition: background var(--transition);
 
-			&:hover {
-				background: color-mix(
-					in srgb,
-					var(--accent-color) 8%,
-					var(--bg-tertiary)
-				);
+			@media (hover: hover) {
+				&:hover {
+					background: color-mix(
+						in srgb,
+						var(--accent-color) 8%,
+						var(--bg-tertiary)
+					);
+				}
 			}
 		}
 
@@ -109,17 +460,21 @@
 		color: var(--text-primary);
 		font-size: 0.8125rem;
 		cursor: pointer;
+		touch-action: manipulation;
+		-webkit-tap-highlight-color: transparent;
 		transition:
 			border-color var(--transition),
 			background var(--transition),
 			color var(--transition);
 
-		&:hover:not(:disabled) {
-			border-color: color-mix(
-				in srgb,
-				var(--accent-color) 60%,
-				var(--border-color)
-			);
+		@media (hover: hover) {
+			&:hover:not(:disabled) {
+				border-color: color-mix(
+					in srgb,
+					var(--accent-color) 60%,
+					var(--border-color)
+				);
+			}
 		}
 
 		&--selected {
@@ -171,16 +526,20 @@
 		border: 1px solid var(--border-color);
 		border-radius: radius(base);
 		cursor: pointer;
+		touch-action: manipulation;
+		-webkit-tap-highlight-color: transparent;
 		transition:
 			border-color var(--transition),
 			box-shadow var(--transition);
 
-		&:hover {
-			border-color: color-mix(
-				in srgb,
-				var(--accent-color) 60%,
-				var(--border-color)
-			);
+		@media (hover: hover) {
+			&:hover {
+				border-color: color-mix(
+					in srgb,
+					var(--accent-color) 60%,
+					var(--border-color)
+				);
+			}
 		}
 
 		&--selected {
