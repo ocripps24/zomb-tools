@@ -1,5 +1,3 @@
-import React from "react";
-
 const GameSelectionCard = ({ image, label, onClick, disabled }: {
 	image: any;
 	label: any;

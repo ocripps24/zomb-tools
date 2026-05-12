@@ -14,7 +14,6 @@ const StepNavigationButtons: React.FC<StepNavigationButtonsProps> = ({
 	totalSteps,
 	onPrevious,
 	onNext,
-	onGoToStep,
 	stepNames = [],
 }) => {
 	const isFirstStep = currentStepIndex === 0;

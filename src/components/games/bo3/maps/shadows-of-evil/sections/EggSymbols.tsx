@@ -124,7 +124,7 @@ function EggSymbols(props: BaseSectionProps<EggSymbolsData>) {
 			})}
 			{...props}
 		>
-			{({ data, setData, progress }) => (
+			{({ data, setData }) => (
 				<>
 					<div className="egg-symbols">
 						<div className="egg-symbols__grid">

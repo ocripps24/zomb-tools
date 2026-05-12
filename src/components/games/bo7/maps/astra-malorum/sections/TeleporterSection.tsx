@@ -18,7 +18,7 @@ const DIRECTIONS: Direction[] = ["NW", "NE", "SE", "SW"];
 
 function TeleporterSection(props: BaseSectionProps<TeleporterData>) {
 	// Register settings with the global settings system
-	const { getSetting, updateSetting } = useSectionSettings({
+	const { getSetting } = useSectionSettings({
 		mapId: "astra-malorum",
 		sectionId: "teleporter",
 		sectionName: "Teleporter",

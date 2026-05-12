@@ -1,4 +1,3 @@
-import React from "react";
 import { FloatingCard, LocationCard } from "@/components/ui";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";

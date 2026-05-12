@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FloatingCard, LocationCard } from "@/components/ui";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
@@ -94,7 +94,7 @@ function TotemsSection(props: BaseSectionProps<TotemsData>) {
 			}}
 			{...props}
 		>
-			{({ data, setData, progress, reset }) => {
+			{({ data, setData, progress }) => {
 				// Local state for totem selection (doesn't persist)
 				const [selectedTotems, setSelectedTotems] = useState(
 					new Set([CHALLENGE_TOTEMS[0].id])
@@ -128,11 +128,6 @@ function TotemsSection(props: BaseSectionProps<TotemsData>) {
 							totems: updatedTotems,
 						};
 					});
-				};
-
-				const handleReset = () => {
-					reset();
-					setSelectedTotems(new Set([CHALLENGE_TOTEMS[0].id]));
 				};
 
 				const toggleTotemSelection = (totemId: string) => {

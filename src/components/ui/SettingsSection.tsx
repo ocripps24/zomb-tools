@@ -1,4 +1,3 @@
-import React from 'react';
 import { useGlobalSettings } from '@/hooks/useGlobalSettings';
 
 export interface SettingOption {

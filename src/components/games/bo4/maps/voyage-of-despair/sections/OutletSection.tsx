@@ -1,4 +1,3 @@
-import React from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 
@@ -50,7 +49,7 @@ function OutletSection(props: BaseSectionProps<OutletData>) {
 			}}
 			{...props}
 		>
-			{({ data, setData, progress }) => {
+			{({ data, setData }) => {
 				const handleCatalystSelect = (locationId: string, catalystId: string | null) => {
 					setData((prev: OutletData) => {
 						const newData = { ...prev };

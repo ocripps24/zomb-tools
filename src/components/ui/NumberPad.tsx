@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 export interface NumberPadProps {
   value: string;
@@ -169,7 +169,7 @@ function NumberPad({
             pattern="\d*"
             value={value}
             onChange={handleTextInputChange}
-            placeholder={renderDisplayValue()}
+            placeholder={placeholder}
             maxLength={maxLength}
             disabled={disabled}
             className="text-input-display"
