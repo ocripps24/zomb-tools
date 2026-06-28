@@ -69,6 +69,17 @@ export const BO7_MAPS: BO7Map[] = [
 		tools: ["AA Bullet", "Wunderbarrage", "Claw Machine"],
 		difficulty: "medium",
 	},
+	{
+		id: "kowakujo",
+		name: "Kowakujo",
+		status: "Available",
+		route: ROUTES.games.bo7.maps.kowakujo,
+		component: () =>
+			import("../../components/games/bo7/maps/kowakujo/Kowakujo"),
+		available: true,
+		tools: ["Scrolls"],
+		difficulty: "medium",
+	},
 ];
 
 export const getBO7MapById = (mapId: string): BO7Map | null => {

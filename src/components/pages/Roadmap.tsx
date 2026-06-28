@@ -20,17 +20,24 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 	{
 		date: "2026",
 		items: [
-			"BO7: Planning to add all future DLCs",
+			"BO7: Final map coming End of August/early September 2026",
 			"BO2: Potential to add Die Rise, Buried",
 			"IW: Development in progress",
 			"AW/WW2: I'm unfamiliar with these games but they will be reviewed in the fullness of time",
 		],
 	},
 	{
+		date: "June 2026",
+		items: [
+			"BO7: Added Kowakujo",
+			"BO7: Kowakujo tools in beta for testing and feedback",
+		],
+	},
+	{
 		date: "May 2026",
 		items: [
 			"BO7: Added Totenreich",
-			"BO7: Totenreich tools in beta for testing and feedback - I will consider adding a compass tool",
+			"BO7: Totenreich tools in beta for testing and feedback",
 		],
 	},
 	{

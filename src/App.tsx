@@ -31,6 +31,7 @@ import AshesOfTheDamned from "./components/games/bo7/maps/ashes-of-the-damned/As
 import AstraMalorum from "./components/games/bo7/maps/astra-malorum/AstraMalorum";
 import ParadoxJunction from "./components/games/bo7/maps/paradox-junction/ParadoxJunction";
 import Totenreich from "./components/games/bo7/maps/totenreich/Totenreich";
+import Kowakujo from "./components/games/bo7/maps/kowakujo/Kowakujo";
 import DashboardList from "./components/dashboard/DashboardList";
 import DashboardBuilder from "./components/dashboard/DashboardBuilder";
 import DashboardView from "./components/dashboard/DashboardView";
@@ -260,6 +261,10 @@ function App() {
 							<Route
 								path={ROUTE_PATTERNS.games.bo7.maps.totenreich}
 								element={<Totenreich />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.bo7.maps.kowakujo}
+								element={<Kowakujo />}
 							/>
 
 							{/* 404 */}

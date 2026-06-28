@@ -78,6 +78,7 @@ export const ROUTES = {
 				astraMalorum: "/bo7/astra-malorum",
 				paradoxJunction: "/bo7/paradox-junction",
 				totenreich: "/bo7/totenreich",
+				kowakujo: "/bo7/kowakujo",
 			},
 		},
 		iw: {
@@ -258,6 +259,12 @@ export const MAP_STEPS = {
 				clawMachine: "/bo7/totenreich/claw-machine",
 			},
 		},
+		kowakujo: {
+			base: "/bo7/kowakujo",
+			steps: {
+				scrolls: "/bo7/kowakujo/scrolls",
+			},
+		},
 	},
 	iw: {
 		shaolinShuffle: {
@@ -340,6 +347,7 @@ export const ROUTE_PATTERNS = {
 				astraMalorum: "/bo7/astra-malorum/*",
 				paradoxJunction: "/bo7/paradox-junction/*",
 				totenreich: "/bo7/totenreich/*",
+				kowakujo: "/bo7/kowakujo/*",
 			},
 		},
 		iw: {
@@ -476,6 +484,10 @@ export const ROUTE_METADATA = {
 	[ROUTES.games.bo7.maps.totenreich]: {
 		title: "Totenreich",
 		documentTitle: "Totenreich Easter Eggs - COD Zombies Tools",
+	},
+	[ROUTES.games.bo7.maps.kowakujo]: {
+		title: "Kowakujo",
+		documentTitle: "Kowakujo Easter Eggs - COD Zombies Tools",
 	},
 	"/iw": {
 		title: "Infinite Warfare - Select Map",

@@ -13,8 +13,8 @@ const HeroFooterGrid = () => {
 	// Featured map links
 	const mapLinks = [
 		{
-			name: "Paradox Junction",
-			route: ROUTES.games.bo7.maps.paradoxJunction,
+			name: "Kowakujo",
+			route: ROUTES.games.bo7.maps.kowakujo,
 		},
 		{
 			name: "Ashes of the Damned",
