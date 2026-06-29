@@ -308,6 +308,10 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 							label: "Zodiac Dial",
 							text: "Set the dial to the animal that is the poison's action time in hours before the time of death.",
 						},
+						{
+							label: "Timing Patterns",
+							text: "Further timing patterns will be added as discovered.",
+						},
 					],
 				},
 			}}
