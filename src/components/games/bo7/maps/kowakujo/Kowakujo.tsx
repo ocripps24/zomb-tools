@@ -2,6 +2,7 @@ import { MapContainer } from "@/components/core";
 import type { MapStep } from "@/hooks";
 import { getBO7MapById } from "@/data/bo7/maps";
 import ScrollsSection from "./sections/ScrollsSection";
+import MurderMysterySection from "./sections/MurderMysterySection";
 
 const STEPS: MapStep[] = [
 	{
@@ -9,6 +10,12 @@ const STEPS: MapStep[] = [
 		name: "Scrolls",
 		path: "/bo7/kowakujo/scrolls",
 		component: ScrollsSection,
+	},
+	{
+		id: "murder-mystery",
+		name: "Murder Mystery",
+		path: "/bo7/kowakujo/murder-mystery",
+		component: MurderMysterySection,
 	},
 ];
 

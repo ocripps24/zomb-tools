@@ -263,6 +263,7 @@ export const MAP_STEPS = {
 			base: "/bo7/kowakujo",
 			steps: {
 				scrolls: "/bo7/kowakujo/scrolls",
+				murderMystery: "/bo7/kowakujo/murder-mystery",
 			},
 		},
 	},

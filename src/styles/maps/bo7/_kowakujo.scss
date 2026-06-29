@@ -90,3 +90,156 @@
 		box-shadow: 0 0 8px color-mix(in srgb, #{color(warning)} 45%, transparent);
 	}
 }
+
+// ============================================================================
+// Murder Mystery Section
+// ============================================================================
+
+.murder-mystery-section {
+	display: flex;
+	flex-direction: column;
+	gap: space(xl);
+
+	&__questions {
+		display: flex;
+		flex-direction: column;
+		gap: space(lg);
+	}
+}
+
+.murder-mystery-field {
+	display: flex;
+	flex-direction: column;
+	gap: space(sm);
+
+	&__label {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--text-primary);
+	}
+}
+
+.murder-mystery-select {
+	@include input-base;
+	@include select-chevron;
+	width: 100%;
+	max-width: 24rem;
+}
+
+.murder-mystery-choices {
+	display: grid;
+	gap: space(sm);
+}
+
+.murder-mystery-choice {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.2rem;
+	padding: space(sm) space(xs);
+	min-height: 3.25rem;
+	border: 1px solid var(--border-color);
+	border-radius: radius(base);
+	background: var(--bg-tertiary);
+	color: var(--text-primary);
+	cursor: pointer;
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: transparent;
+	transition:
+		background var(--transition),
+		border-color var(--transition);
+
+	@media (hover: hover) {
+		&:hover {
+			border-color: color-mix(
+				in srgb,
+				var(--accent-color) 50%,
+				var(--border-color)
+			);
+		}
+	}
+
+	&--selected {
+		border-color: var(--success-color);
+		background: color-mix(in srgb, var(--success-color) 18%, transparent);
+	}
+
+	&__label {
+		font-size: 0.875rem;
+		font-weight: 600;
+	}
+
+	&__sublabel {
+		font-size: 0.75rem;
+		color: var(--text-secondary);
+	}
+}
+
+// The zodiac field owns its own column count entirely in CSS (no inline
+// style) so this compact+desktop override can actually take effect - inline
+// styles can't be beaten by a stylesheet rule without `!important`.
+.murder-mystery-choices--zodiac {
+	grid-template-columns: repeat(6, 1fr);
+
+	@include mobile {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+.base-section.compact .murder-mystery-section .murder-mystery-choices--zodiac {
+	@include dsm-up {
+		grid-template-columns: repeat(12, 1fr);
+	}
+}
+
+// ── Compact mode ──────────────────────────────────────────────────────────────
+
+.base-section.compact .murder-mystery-section {
+	.murder-mystery-choice {
+		flex-direction: row;
+		gap: 0.35rem;
+		min-height: 2.5rem;
+		padding: space(xs) space(sm);
+	}
+
+	// The pattern breakdown ("Pufferfish 1h · Plum Pit 2h · ...") is too long
+	// to keep inline at compact density - drop it rather than wrap.
+	.murder-mystery-choices--pattern .murder-mystery-choice__sublabel {
+		display: none;
+	}
+
+	.results-display .results-description {
+		display: none;
+	}
+}
+
+// ── Evidence board grid ───────────────────────────────────────────────────────
+// ResultsDisplay sets a fixed 5-column grid via inline style (gridColumns={5}),
+// which overflows on narrow screens since inline styles can't be beaten by a
+// plain stylesheet rule. `!important` is the only way to override it here -
+// scoped to this section so other maps' result grids are unaffected.
+
+.murder-mystery-section .results-grid {
+	@include mobile {
+		grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)) !important;
+	}
+}
+
+// ── Results note ────────────────────────────────────────────────────────────
+// Bigger, boxed callout for the zodiac dial instruction - the default
+// .results-note style is too subtle for an instruction the player needs to
+// act on, and compact mode hides it entirely which we don't want here.
+
+.murder-mystery-section .results-note {
+	font-size: 1rem;
+	line-height: 1.6;
+	padding: space(md) space(lg);
+	background: var(--bg-tertiary);
+	border: 1px solid var(--accent-color);
+	border-radius: radius(base);
+}
+
+.base-section.compact .murder-mystery-section .results-display .results-note {
+	display: block;
+}

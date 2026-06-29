@@ -77,7 +77,7 @@ export const BO7_MAPS: BO7Map[] = [
 		component: () =>
 			import("../../components/games/bo7/maps/kowakujo/Kowakujo"),
 		available: true,
-		tools: ["Scrolls"],
+		tools: ["Scrolls", "Murder Mystery"],
 		difficulty: "medium",
 	},
 ];
