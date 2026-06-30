@@ -264,6 +264,7 @@ export const MAP_STEPS = {
 			steps: {
 				scrolls: "/bo7/kowakujo/scrolls",
 				murderMystery: "/bo7/kowakujo/murder-mystery",
+				flags: "/bo7/kowakujo/flags",
 			},
 		},
 	},
