@@ -314,7 +314,7 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 			config={{
 				storageKey: "kowakujo-murder-mystery-data",
 				defaultValue: DEFAULT_VALUE,
-				title: "Murder Mystery",
+				title: "Evidence Solver",
 				description:
 					"Answer the questions below to work out which item belongs on each poster panel, and where to set the zodiac dial.",
 				resetButtonText: "Reset Evidence",
@@ -442,7 +442,7 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 								inputStyle={inputStyle}
 								columns={3}
 							/>
-							{data.causeOfDeath &&
+							{data.causeOfDeath ? (
 								(() => {
 									const rec = TRAP_LOOKUP[data.causeOfDeath];
 									const trapOptions: ChoiceOption[] = [
@@ -465,7 +465,17 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 											columns={2}
 										/>
 									);
-								})()}
+								})()
+							) : (
+								<div className="murder-mystery-field">
+									<span className="murder-mystery-field__label">
+										Visit the trap — what did the ghost say?
+									</span>
+									<p className="murder-mystery-field__pending">
+										The cause of death question must be answered first.
+									</p>
+								</div>
+							)}
 							<ChoiceField
 								label="Which poster appears in the 4th panel?"
 								options={PAINTING_OPTIONS}

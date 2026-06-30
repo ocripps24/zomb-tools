@@ -776,6 +776,16 @@
 		font-weight: 600;
 		color: var(--text-primary);
 	}
+
+	&__pending {
+		margin: 0;
+		padding: space(sm) space(md);
+		font-size: 0.875rem;
+		font-style: italic;
+		color: var(--text-secondary);
+		border: 1px dashed var(--border-color);
+		border-radius: radius(base);
+	}
 }
 
 .murder-mystery-select {

@@ -27,7 +27,7 @@ const STEPS: MapStep[] = [
 	},
 	{
 		id: "murder-mystery",
-		name: "Murder Mystery",
+		name: "Evidence Solver",
 		path: "/bo7/kowakujo/murder-mystery",
 		component: MurderMysterySection,
 	},
