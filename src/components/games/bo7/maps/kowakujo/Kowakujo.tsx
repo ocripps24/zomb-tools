@@ -1,11 +1,18 @@
 import { MapContainer } from "@/components/core";
 import type { MapStep } from "@/hooks";
 import { getBO7MapById } from "@/data/bo7/maps";
+import MasksSection from "./sections/MasksSection";
 import ScrollsSection from "./sections/ScrollsSection";
 import MurderMysterySection from "./sections/MurderMysterySection";
 import FlagsSection from "./sections/FlagsSection";
 
 const STEPS: MapStep[] = [
+	{
+		id: "masks",
+		name: "Masks",
+		path: "/bo7/kowakujo/masks",
+		component: MasksSection,
+	},
 	{
 		id: "scrolls",
 		name: "Scrolls",

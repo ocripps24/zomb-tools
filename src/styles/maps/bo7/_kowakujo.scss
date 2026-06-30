@@ -98,6 +98,246 @@
 }
 
 // ============================================================================
+// Masks Section
+// ============================================================================
+
+.masks-section {
+	display: flex;
+	flex-direction: column;
+	gap: space(lg);
+}
+
+// ── Round controls (jump buttons + advance) ───────────────────────────────────
+
+.masks-round-controls {
+	display: flex;
+	gap: space(xs);
+	flex-wrap: wrap;
+}
+
+.masks-round-btn {
+	flex: 1;
+	padding: space(xs) space(sm);
+	height: 2.75rem;
+	border: 1px solid var(--border-color);
+	border-radius: radius(base);
+	background: transparent;
+	color: var(--text-secondary);
+	font-size: 0.875rem;
+	font-weight: 500;
+	cursor: pointer;
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: transparent;
+	transition:
+		border-color var(--transition),
+		background var(--transition),
+		color var(--transition);
+
+	@media (hover: hover) {
+		&:hover {
+			border-color: color-mix(
+				in srgb,
+				var(--accent-color) 50%,
+				var(--border-color)
+			);
+			color: var(--text-primary);
+		}
+	}
+
+	&--active {
+		border-color: var(--accent-color);
+		background: color-mix(in srgb, var(--accent-color) 12%, transparent);
+		color: var(--text-primary);
+		font-weight: 600;
+	}
+}
+
+// ── Mask picker ───────────────────────────────────────────────────────────────
+
+.masks-picker {
+	display: flex;
+	flex-direction: column;
+	gap: space(xs);
+	align-items: flex-start;
+
+	&__buttons {
+		display: flex;
+		width: 100%;
+		gap: space(xs);
+	}
+
+	&__btn {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 7rem;
+		padding: space(xs);
+		border: 2px solid var(--border-color);
+		border-radius: radius(base);
+		background: var(--bg-tertiary);
+		cursor: pointer;
+		touch-action: manipulation;
+		-webkit-tap-highlight-color: transparent;
+		transition:
+			border-color var(--transition),
+			background var(--transition),
+			transform var(--transition);
+
+		@media (hover: hover) {
+			&:hover:not(:disabled) {
+				border-color: var(--accent-color);
+				background: color-mix(
+					in srgb,
+					var(--accent-color) 10%,
+					var(--bg-tertiary)
+				);
+				transform: translateY(-2px);
+			}
+		}
+
+		&:active:not(:disabled) {
+			transform: translateY(0);
+		}
+
+		&:disabled {
+			opacity: 0.45;
+			cursor: default;
+		}
+	}
+
+	&__img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	&__undo {
+		padding: space(xs) space(md);
+		height: 2.75rem;
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		background: transparent;
+		color: var(--text-secondary);
+		font-size: 0.8125rem;
+		font-weight: 500;
+		cursor: pointer;
+		touch-action: manipulation;
+		-webkit-tap-highlight-color: transparent;
+		transition:
+			border-color var(--transition),
+			color var(--transition);
+
+		@media (hover: hover) {
+			&:hover:not(:disabled) {
+				color: var(--text-primary);
+			}
+		}
+
+		&:disabled {
+			opacity: 0.35;
+			cursor: default;
+		}
+	}
+}
+
+// ── Sequence slots ────────────────────────────────────────────────────────────
+
+.masks-sequence {
+	display: flex;
+	flex-wrap: wrap;
+	gap: space(md);
+	justify-content: center;
+}
+
+.masks-slot-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: space(xs);
+}
+
+.masks-slot {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 7.5rem;
+	height: 9.5rem;
+	border-radius: radius(base);
+	border: 2px solid var(--border-color);
+
+	&--filled {
+		border-color: var(--success-color);
+		background: color-mix(in srgb, var(--success-color) 10%, transparent);
+	}
+
+	&--empty {
+		border-style: dashed;
+		background: transparent;
+	}
+
+	&__img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+}
+
+.masks-slot-label {
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--text-secondary);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+// ── Advance / Finish button ───────────────────────────────────────────────────
+
+.masks-advance-btn {
+	flex: 1;
+	padding: space(xs) space(sm);
+	height: 2.75rem;
+	border: 1px solid var(--success-color);
+	border-radius: radius(base);
+	background: color-mix(in srgb, var(--success-color) 12%, transparent);
+	color: var(--text-primary);
+	font-size: 0.875rem;
+	font-weight: 600;
+	cursor: pointer;
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: transparent;
+	transition:
+		background var(--transition),
+		border-color var(--transition),
+		opacity var(--transition);
+
+	@media (hover: hover) {
+		&:hover:not(:disabled) {
+			background: color-mix(in srgb, var(--success-color) 22%, transparent);
+		}
+	}
+
+	&:disabled {
+		opacity: 0.4;
+		cursor: default;
+	}
+
+	&--complete {
+		border-color: var(--success-color);
+		color: var(--success-color);
+	}
+}
+
+// ── Sequence bordered container ───────────────────────────────────────────────
+
+.masks-sequence-container {
+	border: 1px solid var(--success-color);
+	border-radius: radius(base);
+	padding: space(md);
+	background: color-mix(in srgb, var(--success-color) 5%, transparent);
+}
+
+// ============================================================================
 // Flags Section
 // ============================================================================
 

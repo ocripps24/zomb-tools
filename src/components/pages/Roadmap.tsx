@@ -29,7 +29,7 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 	{
 		date: "June 2026",
 		items: [
-			"BO7: Added Kowakujo",
+			"BO7: Added Kowakujoo",
 			"BO7: Kowakujo tools in beta for testing and feedback",
 		],
 	},
