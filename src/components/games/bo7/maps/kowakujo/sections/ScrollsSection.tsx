@@ -73,7 +73,8 @@ function gf2Solve(target: number[]): number[] | null {
 
 	const solution = Array(n).fill(0);
 	for (let col = 0; col < n; col++) {
-		if (pivotRowForCol[col] !== -1) solution[col] = matrix[pivotRowForCol[col]][n];
+		if (pivotRowForCol[col] !== -1)
+			solution[col] = matrix[pivotRowForCol[col]][n];
 	}
 	return solution;
 }
@@ -121,7 +122,9 @@ function SolutionGrid({ pressSet }: SolutionGridProps) {
 							shouldPress ? "scrolls-cell--press" : ""
 						}`.trim()}
 						aria-label={
-							shouldPress ? `Press position ${i + 1}` : `Position ${i + 1}, no action needed`
+							shouldPress
+								? `Press position ${i + 1}`
+								: `Position ${i + 1}, no action needed`
 						}
 					/>
 				);
@@ -140,7 +143,7 @@ function ScrollsSection(props: BaseSectionProps<ScrollsData>) {
 				defaultValue: DEFAULT_VALUE,
 				title: "Scrolls",
 				description:
-					"Mark which scrolls are currently sticking out of the cabinet on the left grid. The right grid shows which positions to interact with to push every scroll back in.",
+					"Mark all scrolls sticking out of the cabinet on the left grid to generate the solution. Shoot the locations indicated in yellow by the solution grid.",
 				resetButtonText: "Clear Grid",
 				tipsConfig: {
 					show: true,
@@ -155,7 +158,7 @@ function ScrollsSection(props: BaseSectionProps<ScrollsData>) {
 						},
 						{
 							label: "Using The Grids",
-							text: "Click a cell in the left grid to mark a scroll that is currently sticking out. The right grid highlights which positions to interact with in-game; order doesn't matter.",
+							text: "Click a cell in the left grid to mark all scrolls that are currently sticking out. The right grid highlights which positions to interact with in-game; order doesn't matter.",
 						},
 					],
 				},
@@ -170,7 +173,9 @@ function ScrollsSection(props: BaseSectionProps<ScrollsData>) {
 			{({ data, setData }) => {
 				const scrollsOn = new Set(data.scrollsOn);
 				const isSolved = data.scrollsOn.length === 0;
-				const solution = isSolved ? null : gf2Solve(onIndicesToState(data.scrollsOn));
+				const solution = isSolved
+					? null
+					: gf2Solve(onIndicesToState(data.scrollsOn));
 				const pressSet = new Set(
 					solution ? solution.flatMap((press, i) => (press ? [i] : [])) : [],
 				);
@@ -191,26 +196,31 @@ function ScrollsSection(props: BaseSectionProps<ScrollsData>) {
 				if (isSolved) {
 					statusText = "All scrolls are in - cabinet solved.";
 				} else if (solution) {
-					statusText = `Press ${pressSet.size} cabinet position${
-						pressSet.size !== 1 ? "s" : ""
-					} to solve.`;
+					statusText =
+						pressSet.size === 1
+							? "Shoot the scroll"
+							: `Shoot these ${pressSet.size} scrolls`;
 				} else {
-					statusText = "No solution found for this layout - double-check your grid.";
+					statusText =
+						"No solution found for this layout - double-check your grid.";
 				}
 
 				return (
 					<div className="scrolls-section">
 						<div className="scrolls-section__panels">
 							<div className="scrolls-panel">
-								<span className="scrolls-panel__label">Current State</span>
+								<span className="scrolls-panel__label">
+									Initial Scroll State
+								</span>
 								<InputGrid scrollsOn={scrollsOn} onToggle={handleToggle} />
+								<p className="scrolls-section__status">Add your scrolls</p>
 							</div>
 							<div className="scrolls-panel">
-								<span className="scrolls-panel__label">Solve</span>
+								<span className="scrolls-panel__label">SOLUTION</span>
 								<SolutionGrid pressSet={pressSet} />
+								<p className="scrolls-section__status">{statusText}</p>
 							</div>
 						</div>
-						<p className="scrolls-section__status">{statusText}</p>
 					</div>
 				);
 			}}
