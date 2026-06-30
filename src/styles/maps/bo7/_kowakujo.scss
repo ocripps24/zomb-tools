@@ -186,10 +186,10 @@
 // style) so this compact+desktop override can actually take effect - inline
 // styles can't be beaten by a stylesheet rule without `!important`.
 .murder-mystery-choices--zodiac {
-	grid-template-columns: repeat(6, 1fr);
+	grid-template-columns: repeat(4, 1fr);
 
-	@include mobile {
-		grid-template-columns: repeat(4, 1fr);
+	@include tmd-up {
+		grid-template-columns: repeat(6, 1fr);
 	}
 }
 
@@ -217,6 +217,34 @@
 
 	.results-display .results-description {
 		display: none;
+	}
+
+	.murder-mystery-section .result-label {
+		display: none;
+	}
+}
+
+// ── Result value font size + label above box ──────────────────────────────────
+
+.murder-mystery-section .result-number {
+	font-size: font-size(lg);
+}
+
+.murder-mystery-section .results-grid .result-item {
+	margin-top: 1.5rem;
+	position: relative;
+
+	.result-label {
+		position: absolute;
+		top: -1.5rem;
+		left: 0;
+		right: 0;
+		text-align: center;
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--text-secondary);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
 	}
 }
 

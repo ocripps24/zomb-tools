@@ -37,11 +37,11 @@ interface ChoiceOption {
 
 // ─── Evidence lookups ─────────────────────────────────────────────────────────
 
-const ACCOMPLICE_OPTIONS: ChoiceOption[] = [
-	{ value: "nobleman", label: "Nobleman", sublabel: "Noble's Hat" },
-	{ value: "gardener", label: "Gardener", sublabel: "Shears" },
-	{ value: "merchant", label: "Merchant", sublabel: "Abacus" },
-];
+const ACCOMPLICE_LABELS: Record<string, string> = {
+	nobleman: "Nobleman",
+	gardener: "Gardener",
+	merchant: "Merchant",
+};
 
 const ACCOMPLICE_ITEMS: Record<string, string> = {
 	nobleman: "Noble's Hat",
@@ -49,10 +49,29 @@ const ACCOMPLICE_ITEMS: Record<string, string> = {
 	merchant: "Abacus",
 };
 
+// For each cause of death, which single trap to visit and what each ghost
+// outcome implies. The 4th trap (Stables) is not used in this step.
+const TRAP_LOOKUP: Record<
+	string,
+	{ trap: string; identified: string; notIdentified: string }
+> = {
+	emesis: { trap: "Garden", identified: "nobleman", notIdentified: "gardener" },
+	"noxious-plant": {
+		trap: "Garden",
+		identified: "nobleman",
+		notIdentified: "merchant",
+	},
+	paralysis: {
+		trap: "Courtyard",
+		identified: "gardener",
+		notIdentified: "merchant",
+	},
+};
+
 const CAUSE_OF_DEATH_OPTIONS: ChoiceOption[] = [
-	{ value: "emesis", label: "Emesis", sublabel: "Noxious food" },
-	{ value: "noxious-plant", label: "Noxious Plant", sublabel: "Plant ingestion" },
-	{ value: "paralysis", label: "Paralysis", sublabel: "Evidence of paralysis" },
+	{ value: "emesis", label: "Emesis" },
+	{ value: "noxious-plant", label: "Noxious Plant" },
+	{ value: "paralysis", label: "Paralysis" },
 ];
 
 // Only 6 of the 9 accomplice/cause-of-death pairings occur in-game - the rest
@@ -68,9 +87,9 @@ const TOXIN_LOOKUP: Record<string, string> = {
 };
 
 const PAINTING_OPTIONS: ChoiceOption[] = [
-	{ value: "bird", label: "Bird", sublabel: "Painter's Brush" },
-	{ value: "fish", label: "Fish", sublabel: "Tea Whisk" },
-	{ value: "mountain", label: "Mountain", sublabel: "Horse Statuette" },
+	{ value: "bird", label: "Bird" },
+	{ value: "fish", label: "Fish" },
+	{ value: "mountain", label: "Mountain" },
 ];
 
 const PAINTING_ITEMS: Record<string, string> = {
@@ -91,23 +110,24 @@ const ACTION_TIME_OPTIONS: ChoiceOption[] = [1, 2, 3, 4, 5].map((n) => ({
 const ACTION_TIME_PATTERNS: Record<string, Record<string, string>> = {
 	"1-2-1": { Pufferfish: "1", "Plum Pit": "2", "Monkshood Flower": "1" },
 	"2-3-2": { Pufferfish: "2", "Plum Pit": "3", "Monkshood Flower": "2" },
+	"3-4-2": { Pufferfish: "3", "Plum Pit": "4", "Monkshood Flower": "2" },
 };
 
-const ACTION_TIME_PATTERN_OPTIONS: ChoiceOption[] = Object.entries(ACTION_TIME_PATTERNS).map(
-	([pattern, times]) => ({
-		value: pattern,
-		label: pattern,
-		sublabel: Object.entries(times)
-			.map(([toxinName, hours]) => `${toxinName} ${hours}h`)
-			.join(" · "),
-	}),
-);
+const ACTION_TIME_PATTERN_OPTIONS: ChoiceOption[] = Object.entries(
+	ACTION_TIME_PATTERNS,
+).map(([pattern, times]) => ({
+	value: pattern,
+	label: pattern,
+	sublabel: Object.entries(times)
+		.map(([toxinName, hours]) => `${toxinName} ${hours}h`)
+		.join(" · "),
+}));
 
 const ZODIAC_ORDER = [
 	"rat",
 	"ox",
 	"tiger",
-	"rabbit",
+	"hare",
 	"dragon",
 	"snake",
 	"horse",
@@ -115,14 +135,14 @@ const ZODIAC_ORDER = [
 	"monkey",
 	"rooster",
 	"dog",
-	"pig",
+	"boar",
 ];
 
 const ZODIAC_LABELS: Record<string, string> = {
 	rat: "Rat",
 	ox: "Ox",
 	tiger: "Tiger",
-	rabbit: "Rabbit",
+	hare: "Hare",
 	dragon: "Dragon",
 	snake: "Snake",
 	horse: "Horse",
@@ -130,7 +150,7 @@ const ZODIAC_LABELS: Record<string, string> = {
 	monkey: "Monkey",
 	rooster: "Rooster",
 	dog: "Dog",
-	pig: "Pig",
+	boar: "Boar",
 };
 
 const ZODIAC_OPTIONS: ChoiceOption[] = ZODIAC_ORDER.map((id) => ({
@@ -140,15 +160,15 @@ const ZODIAC_OPTIONS: ChoiceOption[] = ZODIAC_ORDER.map((id) => ({
 
 // Displayed alphabetically for faster scanning - ZODIAC_ORDER (cycle order)
 // is kept separate since computeZodiacTarget relies on its specific sequence.
-const ZODIAC_OPTIONS_ALPHABETICAL: ChoiceOption[] = [...ZODIAC_OPTIONS].sort((a, b) =>
-	a.label.localeCompare(b.label),
+const ZODIAC_OPTIONS_ALPHABETICAL: ChoiceOption[] = [...ZODIAC_OPTIONS].sort(
+	(a, b) => a.label.localeCompare(b.label),
 );
 
 // The dial needs to be set back `actionTime` hours from the hour of death,
 // wrapping around the 12-animal cycle.
 function computeZodiacTarget(timeOfDeath: string, actionTime: number): string {
 	const deathIndex = ZODIAC_ORDER.indexOf(timeOfDeath);
-	const targetIndex = ((deathIndex - actionTime) % 12 + 12) % 12;
+	const targetIndex = (((deathIndex - actionTime) % 12) + 12) % 12;
 	return ZODIAC_ORDER[targetIndex];
 }
 
@@ -203,7 +223,11 @@ function ChoiceField({
 					className={`murder-mystery-choices ${
 						gridVariant ? `murder-mystery-choices--${gridVariant}` : ""
 					}`.trim()}
-					style={skipInlineColumns ? undefined : { gridTemplateColumns: `repeat(${columns}, 1fr)` }}
+					style={
+						skipInlineColumns
+							? undefined
+							: { gridTemplateColumns: `repeat(${columns}, 1fr)` }
+					}
 				>
 					{options.map((opt) => (
 						<button
@@ -216,7 +240,9 @@ function ChoiceField({
 						>
 							<span className="murder-mystery-choice__label">{opt.label}</span>
 							{opt.sublabel && (
-								<span className="murder-mystery-choice__sublabel">{opt.sublabel}</span>
+								<span className="murder-mystery-choice__sublabel">
+									{opt.sublabel}
+								</span>
 							)}
 						</button>
 					))}
@@ -235,7 +261,9 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 	// section while already in compact mode; the live toggle-transition case
 	// is handled separately below since this fallback alone wouldn't override
 	// an existing explicit choice.
-	const actionTimeModeDefault: ActionTimeMode = isCompact ? "pattern" : "specific";
+	const actionTimeModeDefault: ActionTimeMode = isCompact
+		? "pattern"
+		: "specific";
 
 	const { getSetting, updateSetting } = useSectionSettings({
 		mapId: "kowakujo",
@@ -265,7 +293,10 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 		],
 	});
 	const inputStyle = getSetting("input-style", "buttons") as InputStyle;
-	const actionTimeMode = getSetting("action-time-mode", actionTimeModeDefault) as ActionTimeMode;
+	const actionTimeMode = getSetting(
+		"action-time-mode",
+		actionTimeModeDefault,
+	) as ActionTimeMode;
 
 	// Force-switch to the pattern picker the moment compact mode is turned on,
 	// even if the player had previously picked "specific" manually - but only
@@ -293,7 +324,7 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 						{ label: "Panel 1", text: "Always Mitsuhime's Comb." },
 						{
 							label: "Panel 2",
-							text: "Use the Ghost Rifle traps until a ghostly rifleman identifies the accomplice.",
+							text: "The death certificate tells you which single trap to visit. One visit is enough — ghost appears means one accomplice, says nothing means the other.",
 						},
 						{
 							label: "Panel 3",
@@ -310,7 +341,7 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 						},
 						{
 							label: "Timing Patterns",
-							text: "Further timing patterns will be added as discovered.",
+							text: "Three patterns are currently known: 1-2-1, 2-3-2, and 3-4-2. More will be added as discovered.",
 						},
 					],
 				},
@@ -321,16 +352,38 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 					data.causeOfDeath,
 					data.painting,
 					data.timeOfDeath,
-					actionTimeMode === "pattern" ? data.actionTimePattern : data.actionTime,
+					actionTimeMode === "pattern"
+						? data.actionTimePattern
+						: data.actionTime,
 				];
 				const completed = fields.filter(Boolean).length;
-				return { completed, total: fields.length, isComplete: completed === fields.length };
+				return {
+					completed,
+					total: fields.length,
+					isComplete: completed === fields.length,
+				};
 			}}
 			{...props}
 		>
 			{({ data, setData }) => {
-				const setField = (field: keyof MurderMysteryData) => (value: string) => {
-					setData((prev) => ({ ...prev, [field]: value }));
+				const setField =
+					(field: keyof MurderMysteryData) => (value: string) => {
+						setData((prev) => ({ ...prev, [field]: value }));
+					};
+
+				const handleCauseOfDeathChange = (value: string) => {
+					setData((prev) => {
+						const rec = TRAP_LOOKUP[value];
+						const accompliceStillValid =
+							rec &&
+							(prev.accomplice === rec.identified ||
+								prev.accomplice === rec.notIdentified);
+						return {
+							...prev,
+							causeOfDeath: value,
+							accomplice: accompliceStillValid ? prev.accomplice : "",
+						};
+					});
 				};
 
 				const toxin =
@@ -347,51 +400,72 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 
 				const zodiacTarget =
 					data.timeOfDeath && effectiveActionTime
-						? ZODIAC_LABELS[computeZodiacTarget(data.timeOfDeath, Number(effectiveActionTime))]
+						? ZODIAC_LABELS[
+								computeZodiacTarget(
+									data.timeOfDeath,
+									Number(effectiveActionTime),
+								)
+							]
 						: null;
 
 				const results: ResultItem[] = [
-					{ id: "panel-1", value: "Comb", label: "Panel 1" },
+					{ id: "panel-1", value: "Comb", label: "1st" },
 					{
 						id: "panel-2",
 						value: data.accomplice ? ACCOMPLICE_ITEMS[data.accomplice] : "----",
-						label: "Panel 2",
+						label: "2nd",
 						status: data.accomplice ? "complete" : "pending",
 					},
 					{
 						id: "panel-3",
 						value: toxin ?? "----",
-						label: "Panel 3",
+						label: "3rd",
 						status: toxin ? "complete" : "pending",
 					},
 					{
 						id: "panel-4",
 						value: data.painting ? PAINTING_ITEMS[data.painting] : "----",
-						label: "Panel 4",
+						label: "4th",
 						status: data.painting ? "complete" : "pending",
 					},
-					{ id: "panel-5", value: "Crest Medallion", label: "Panel 5" },
+					{ id: "panel-5", value: "Crest Medallion", label: "5th" },
 				];
 
 				return (
 					<div className="murder-mystery-section">
 						<div className="murder-mystery-section__questions">
 							<ChoiceField
-								label="Who did the ghostly rifleman identify?"
-								options={ACCOMPLICE_OPTIONS}
-								value={data.accomplice}
-								onChange={setField("accomplice")}
-								inputStyle={inputStyle}
-								columns={3}
-							/>
-							<ChoiceField
-								label="What did the death certificate show?"
+								label="What was the cause of death?"
 								options={CAUSE_OF_DEATH_OPTIONS}
 								value={data.causeOfDeath}
-								onChange={setField("causeOfDeath")}
+								onChange={handleCauseOfDeathChange}
 								inputStyle={inputStyle}
 								columns={3}
 							/>
+							{data.causeOfDeath &&
+								(() => {
+									const rec = TRAP_LOOKUP[data.causeOfDeath];
+									const trapOptions: ChoiceOption[] = [
+										{
+											value: rec.identified,
+											label: `Identified the ${ACCOMPLICE_LABELS[rec.identified]}`,
+										},
+										{
+											value: rec.notIdentified,
+											label: "Did not identify anyone",
+										},
+									];
+									return (
+										<ChoiceField
+											label={`Visit the ${rec.trap} trap — what did the ghost say?`}
+											options={trapOptions}
+											value={data.accomplice}
+											onChange={setField("accomplice")}
+											inputStyle={inputStyle}
+											columns={2}
+										/>
+									);
+								})()}
 							<ChoiceField
 								label="Which poster appears in the 4th panel?"
 								options={PAINTING_OPTIONS}
@@ -411,7 +485,7 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 							/>
 							{actionTimeMode === "pattern" ? (
 								<ChoiceField
-									label="Which timing pattern is this?"
+									label="Which timing pattern is this? (BETA - if you don't see your pattern, use the settings button to change the format from Timing Pattern to Specific Time and enter the exact hours)"
 									options={ACTION_TIME_PATTERN_OPTIONS}
 									value={data.actionTimePattern}
 									onChange={setField("actionTimePattern")}
