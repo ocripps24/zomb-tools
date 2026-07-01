@@ -143,7 +143,7 @@ function ScrollsSection(props: BaseSectionProps<ScrollsData>) {
 				defaultValue: DEFAULT_VALUE,
 				title: "Scrolls",
 				description:
-					"INPUT: Use the left grid to select which scrolls are sticking out of the cabinet in your game. SOLUTION: Shoot the locations indicated in yellow by the solution grid.",
+					"INPUT: Use the left grid to select which scrolls are sticking OUT of the cabinet in your game. SOLUTION: Shoot the locations indicated in yellow by the solution grid.",
 				resetButtonText: "Clear Grid",
 				tipsConfig: {
 					show: true,
