@@ -813,6 +813,13 @@
 		color: var(--text-primary);
 	}
 
+	&__trap-note {
+		margin: 0;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: var(--text-primary);
+	}
+
 	&__pending {
 		margin: 0;
 		padding: space(sm) space(md);

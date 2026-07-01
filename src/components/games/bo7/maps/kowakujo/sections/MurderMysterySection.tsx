@@ -49,24 +49,40 @@ const ACCOMPLICE_ITEMS: Record<string, string> = {
 	merchant: "Abacus",
 };
 
-// For each cause of death, which single trap to visit and what each ghost
-// outcome implies. The 4th trap (Stables) is not used in this step.
-const TRAP_LOOKUP: Record<
-	string,
-	{ trap: string; identified: string; notIdentified: string }
-> = {
-	emesis: { trap: "Garden", identified: "nobleman", notIdentified: "gardener" },
-	"noxious-plant": {
-		trap: "Garden",
-		identified: "nobleman",
-		notIdentified: "merchant",
-	},
-	paralysis: {
-		trap: "Courtyard",
-		identified: "gardener",
-		notIdentified: "merchant",
-	},
+// Each trap identifies exactly one accomplice when visited
+const TRAP_ACCOMPLICE: Record<string, string> = {
+	garden: "nobleman",
+	courtyard: "gardener",
+	spawn: "merchant",
 };
+
+const TRAP_LABELS: Record<string, string> = {
+	garden: "Garden",
+	courtyard: "Courtyard",
+	spawn: "Spawn",
+};
+
+// The two possible accomplices for each cause of death
+const CAUSE_ACCOMPLICES: Record<string, [string, string]> = {
+	emesis: ["nobleman", "gardener"],
+	"noxious-plant": ["nobleman", "merchant"],
+	paralysis: ["gardener", "merchant"],
+};
+
+const TRAP_ORDER = ["garden", "courtyard", "spawn"] as const;
+
+// Returns the trap to direct the player to — skips the avoided trap, picks the
+// first remaining trap whose identified accomplice is a candidate for the cause.
+function getTrapForCause(cause: string, avoidTrap: string): string | null {
+	const possible = CAUSE_ACCOMPLICES[cause];
+	if (!possible) return null;
+	for (const trap of TRAP_ORDER) {
+		if (trap !== avoidTrap && (possible as string[]).includes(TRAP_ACCOMPLICE[trap])) {
+			return trap;
+		}
+	}
+	return null;
+}
 
 const CAUSE_OF_DEATH_OPTIONS: ChoiceOption[] = [
 	{ value: "emesis", label: "Emesis" },
@@ -271,6 +287,17 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 		sectionName: "Murder Mystery",
 		settings: [
 			{
+				id: "avoid-trap",
+				label: "Avoid Trap",
+				defaultValue: "garden",
+				options: [
+					{ value: "garden", label: "Garden (use Courtyard + Spawn)" },
+					{ value: "courtyard", label: "Courtyard (use Garden + Spawn)" },
+					{ value: "spawn", label: "Spawn (use Garden + Courtyard)" },
+				],
+				note: "Courtyard + Spawn is the recommended default",
+			},
+			{
 				id: "input-style",
 				label: "Input Style",
 				defaultValue: "buttons",
@@ -292,6 +319,14 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 			},
 		],
 	});
+	const TRAP_PAIRS: Record<string, string> = {
+		garden: "Courtyard + Spawn",
+		courtyard: "Garden + Spawn",
+		spawn: "Garden + Courtyard",
+	};
+	const avoidTrap = getSetting("avoid-trap", "garden");
+	const trapPairNote = `Using ${TRAP_PAIRS[avoidTrap] ?? "Courtyard + Spawn"} traps`;
+
 	const inputStyle = getSetting("input-style", "buttons") as InputStyle;
 	const actionTimeMode = getSetting(
 		"action-time-mode",
@@ -373,11 +408,9 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 
 				const handleCauseOfDeathChange = (value: string) => {
 					setData((prev) => {
-						const rec = TRAP_LOOKUP[value];
+						const possible = CAUSE_ACCOMPLICES[value];
 						const accompliceStillValid =
-							rec &&
-							(prev.accomplice === rec.identified ||
-								prev.accomplice === rec.notIdentified);
+							possible && (possible as string[]).includes(prev.accomplice);
 						return {
 							...prev,
 							causeOfDeath: value,
@@ -444,20 +477,24 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 							/>
 							{data.causeOfDeath ? (
 								(() => {
-									const rec = TRAP_LOOKUP[data.causeOfDeath];
+									const trapKey = getTrapForCause(data.causeOfDeath, avoidTrap);
+									if (!trapKey) return null;
+									const identifiedAccomplice = TRAP_ACCOMPLICE[trapKey];
+									const [a1, a2] = CAUSE_ACCOMPLICES[data.causeOfDeath];
+									const notIdentifiedAccomplice = identifiedAccomplice === a1 ? a2 : a1;
 									const trapOptions: ChoiceOption[] = [
 										{
-											value: rec.identified,
-											label: `Identified the ${ACCOMPLICE_LABELS[rec.identified]}`,
+											value: identifiedAccomplice,
+											label: `Identified the ${ACCOMPLICE_LABELS[identifiedAccomplice]}`,
 										},
 										{
-											value: rec.notIdentified,
+											value: notIdentifiedAccomplice,
 											label: "Did not identify anyone",
 										},
 									];
 									return (
 										<ChoiceField
-											label={`Visit the ${rec.trap} trap — what did the ghost say?`}
+											label={`Visit the ${TRAP_LABELS[trapKey]} trap — what did the ghost say?`}
 											options={trapOptions}
 											value={data.accomplice}
 											onChange={setField("accomplice")}
@@ -471,8 +508,11 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 									<span className="murder-mystery-field__label">
 										Visit the trap — what did the ghost say?
 									</span>
+									<p className="murder-mystery-field__trap-note">
+										{trapPairNote}
+									</p>
 									<p className="murder-mystery-field__pending">
-										The cause of death question must be answered first.
+										Answer the cause of death question first.
 									</p>
 								</div>
 							)}
