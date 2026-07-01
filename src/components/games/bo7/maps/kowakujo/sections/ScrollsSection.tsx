@@ -143,7 +143,7 @@ function ScrollsSection(props: BaseSectionProps<ScrollsData>) {
 				defaultValue: DEFAULT_VALUE,
 				title: "Scrolls",
 				description:
-					"Mark all scrolls sticking out of the cabinet on the left grid to generate the solution. Shoot the locations indicated in yellow by the solution grid.",
+					"INPUT: Use the left grid to select which scrolls are sticking out of the cabinet in your game. SOLUTION: Shoot the locations indicated in yellow by the solution grid.",
 				resetButtonText: "Clear Grid",
 				tipsConfig: {
 					show: true,
@@ -158,7 +158,7 @@ function ScrollsSection(props: BaseSectionProps<ScrollsData>) {
 						},
 						{
 							label: "Using The Grids",
-							text: "Click a cell in the left grid to mark all scrolls that are currently sticking out. The right grid highlights which positions to interact with in-game; order doesn't matter.",
+							text: "Click a cell in the left grid to mark all scrolls that are currently sticking out. The right grid highlights which positions to shoot/melee in-game; order doesn't matter.",
 						},
 					],
 				},

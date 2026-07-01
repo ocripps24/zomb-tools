@@ -51,7 +51,7 @@ function TipItemRenderer({ tip, index }: { tip: TipItem; index: number }) {
  * Provides consistent styling and structure for displaying tips and instructions.
  * Supports nested bullet points for hierarchical information.
  */
-function TipsSection({ config, title = "Tips" }: TipsSectionProps) {
+function TipsSection({ config, title = "Tips/Instructions" }: TipsSectionProps) {
 	// Don't render if tips are disabled or no items
 	if (!config.show || !config.items || config.items.length === 0) {
 		return null;
