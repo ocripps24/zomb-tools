@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 import { BaseSection } from "@/components/core";
+import { ReferenceImages } from "@/components/ui/ReferenceImages";
+import dialImage from "@/assets/maps/bo7/kowakujo/kowakujo-dial.jpg";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import { ResultsDisplay } from "@/components/ui";
 import type { ResultItem } from "@/components/ui/ResultsDisplay";
@@ -77,7 +79,10 @@ function getTrapForCause(cause: string, avoidTrap: string): string | null {
 	const possible = CAUSE_ACCOMPLICES[cause];
 	if (!possible) return null;
 	for (const trap of TRAP_ORDER) {
-		if (trap !== avoidTrap && (possible as string[]).includes(TRAP_ACCOMPLICE[trap])) {
+		if (
+			trap !== avoidTrap &&
+			(possible as string[]).includes(TRAP_ACCOMPLICE[trap])
+		) {
 			return trap;
 		}
 	}
@@ -481,7 +486,8 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 									if (!trapKey) return null;
 									const identifiedAccomplice = TRAP_ACCOMPLICE[trapKey];
 									const [a1, a2] = CAUSE_ACCOMPLICES[data.causeOfDeath];
-									const notIdentifiedAccomplice = identifiedAccomplice === a1 ? a2 : a1;
+									const notIdentifiedAccomplice =
+										identifiedAccomplice === a1 ? a2 : a1;
 									const trapOptions: ChoiceOption[] = [
 										{
 											value: identifiedAccomplice,
@@ -494,7 +500,15 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 									];
 									return (
 										<ChoiceField
-											label={<>Visit the <span className="murder-mystery-field__trap-name">{TRAP_LABELS[trapKey]}</span> trap — what did the ghost say?</>}
+											label={
+												<>
+													Visit the{" "}
+													<span className="murder-mystery-field__trap-name">
+														{TRAP_LABELS[trapKey]}
+													</span>{" "}
+													trap — what did the ghost say?
+												</>
+											}
 											options={trapOptions}
 											value={data.accomplice}
 											onChange={setField("accomplice")}
@@ -535,7 +549,7 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 							/>
 							{actionTimeMode === "pattern" ? (
 								<ChoiceField
-									label="Which timing pattern is this? (BETA - if you don't see your pattern, use the settings button to change the format from Timing Pattern to Specific Time and enter the exact hours)"
+									label="Which timing pattern is this?"
 									options={ACTION_TIME_PATTERN_OPTIONS}
 									value={data.actionTimePattern}
 									onChange={setField("actionTimePattern")}
@@ -571,6 +585,10 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 									"Select the time of death and poison action time to calculate the zodiac dial position."
 								)
 							}
+						/>
+
+						<ReferenceImages
+							images={[{ src: dialImage, alt: "Zodiac dial reference" }]}
 						/>
 					</div>
 				);
