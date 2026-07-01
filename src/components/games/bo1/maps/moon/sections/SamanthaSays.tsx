@@ -30,7 +30,9 @@ function SamanthaSays(props: BaseSectionProps<SamanthaSaysData>) {
 			})}
 			{...props}
 		>
-			{({ data, setData }) => (
+			{({ data, setData }) => {
+				const atLimit = data.sequence.length >= 8;
+				return (
 				<>
 					<div className="samantha-says">
 						<div className="samantha-says__terminals">
@@ -41,6 +43,7 @@ function SamanthaSays(props: BaseSectionProps<SamanthaSaysData>) {
 									style={{
 										"--terminal-color": terminal.color
 									} as React.CSSProperties}
+									disabled={atLimit}
 									onClick={() => {
 										setData({
 											sequence: [...data.sequence, terminal.id],
@@ -109,7 +112,8 @@ function SamanthaSays(props: BaseSectionProps<SamanthaSaysData>) {
 						</div>
 					)}
 				</>
-			)}
+				);
+			}}
 		</BaseSection>
 	);
 }
