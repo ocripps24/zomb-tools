@@ -38,7 +38,7 @@ export default function DashboardList() {
 	if (isLoading) {
 		return (
 			<div className="dashboard-list">
-				<div className="loading">Loading dashboards...</div>
+				<div className="loading">Loading layouts...</div>
 			</div>
 		);
 	}
@@ -69,9 +69,9 @@ export default function DashboardList() {
 
 				{dashboards.length === 0 ? (
 					<div className="dashboard-list__empty">
-						<h2>No Dashboards Yet</h2>
+						<h2>No Layouts Yet</h2>
 						<p>
-							Create your first dashboard to combine sections from multiple maps
+							Create your first layout to combine sections from multiple maps
 							into a single view.
 						</p>
 						<Link to={ROUTES.dashboard.new} className="btn btn-primary">
@@ -159,7 +159,7 @@ export default function DashboardList() {
 				{/* Delete Confirmation Dialog */}
 				<ConfirmDialog
 					isOpen={deleteConfirm !== null}
-					title="Delete Dashboard"
+					title="Delete Layout"
 					message={
 						deleteConfirm
 							? `Are you sure you want to delete "${deleteConfirm.name}"? This will also delete all associated section data. This action cannot be undone.`

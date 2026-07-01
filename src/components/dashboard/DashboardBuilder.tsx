@@ -90,7 +90,7 @@ export default function DashboardBuilder() {
 		const newErrors: { name?: string; sections?: string } = {};
 
 		if (!name.trim()) {
-			newErrors.name = "Dashboard name is required";
+			newErrors.name = "Layout name is required";
 		}
 
 		if (selectedSections.length === 0) {
@@ -155,7 +155,7 @@ export default function DashboardBuilder() {
 								id="dashboard-description"
 								value={description}
 								onChange={(e) => setDescription(e.target.value)}
-								placeholder="Describe what this dashboard is for..."
+								placeholder="Describe what this layout is for..."
 								rows={3}
 							/>
 						</div>

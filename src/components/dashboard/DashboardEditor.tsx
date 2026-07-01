@@ -131,7 +131,7 @@ export default function DashboardEditor() {
 		const newErrors: { name?: string; sections?: string } = {};
 
 		if (!name.trim()) {
-			newErrors.name = "Dashboard name is required";
+			newErrors.name = "Layout name is required";
 		}
 
 		if (selectedSections.length === 0) {
@@ -198,13 +198,13 @@ export default function DashboardEditor() {
 				/>
 				<div className="dashboard-editor">
 					<div className="dashboard-editor__not-found">
-						<h1>Dashboard Not Found</h1>
-						<p>The dashboard you're trying to edit doesn't exist.</p>
+						<h1>Layout Not Found</h1>
+						<p>The layout you're trying to edit doesn't exist.</p>
 						<button
 							className="btn btn-primary"
 							onClick={() => navigate(ROUTES.dashboard.base)}
 						>
-							Back to Dashboards
+							Back to Layouts
 						</button>
 					</div>
 				</div>
@@ -253,7 +253,7 @@ export default function DashboardEditor() {
 								id="dashboard-description"
 								value={description}
 								onChange={(e) => setDescription(e.target.value)}
-								placeholder="Describe what this dashboard is for..."
+								placeholder="Describe what this layout is for..."
 								rows={3}
 							/>
 						</div>

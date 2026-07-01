@@ -16,6 +16,17 @@ import AstraOrganSection from "@/components/games/bo7/maps/astra-malorum/section
 import AshesRocketLaunchSection from "@/components/games/bo7/maps/ashes-of-the-damned/sections/RocketLaunchSection";
 import AshesSerumSection from "@/components/games/bo7/maps/ashes-of-the-damned/sections/SerumSection";
 
+// Totenreich
+import TotenreichAABulletSection from "@/components/games/bo7/maps/totenreich/sections/AABulletSection";
+import TotenreichClawMachineSection from "@/components/games/bo7/maps/totenreich/sections/ClawMachineSection";
+import TotenreichWunderbarageSection from "@/components/games/bo7/maps/totenreich/sections/WunderbarageSection";
+
+// Kowakujo
+import KowakujoMasksSection from "@/components/games/bo7/maps/kowakujo/sections/MasksSection";
+import KowakujoScrollsSection from "@/components/games/bo7/maps/kowakujo/sections/ScrollsSection";
+import KowakujoFlagsSection from "@/components/games/bo7/maps/kowakujo/sections/FlagsSection";
+import KowakujoMurderMysterySection from "@/components/games/bo7/maps/kowakujo/sections/MurderMysterySection";
+
 // Paradox Junction
 import ParadoxPianoNotesSection from "@/components/games/bo7/maps/paradox-junction/sections/PianoNotesSection";
 
@@ -123,6 +134,73 @@ export const SECTION_REGISTRY: SectionRegistry = {
 		},
 	},
 	bo7: {
+		totenreich: {
+			"aa-bullet": {
+				id: "aa-bullet",
+				name: "AA Bullet",
+				component: TotenreichAABulletSection,
+				gameId: "bo7",
+				gameName: "Black Ops 7",
+				mapId: "totenreich",
+				mapName: "Totenreich",
+			},
+			"claw-machine": {
+				id: "claw-machine",
+				name: "Claw Machine",
+				component: TotenreichClawMachineSection,
+				gameId: "bo7",
+				gameName: "Black Ops 7",
+				mapId: "totenreich",
+				mapName: "Totenreich",
+			},
+			wunderbarage: {
+				id: "wunderbarage",
+				name: "Wunderbarage",
+				component: TotenreichWunderbarageSection,
+				gameId: "bo7",
+				gameName: "Black Ops 7",
+				mapId: "totenreich",
+				mapName: "Totenreich",
+			},
+		},
+		kowakujo: {
+			masks: {
+				id: "masks",
+				name: "Masks",
+				component: KowakujoMasksSection,
+				gameId: "bo7",
+				gameName: "Black Ops 7",
+				mapId: "kowakujo",
+				mapName: "Kowakujo",
+			},
+			scrolls: {
+				id: "scrolls",
+				name: "Scrolls",
+				component: KowakujoScrollsSection,
+				gameId: "bo7",
+				gameName: "Black Ops 7",
+				mapId: "kowakujo",
+				mapName: "Kowakujo",
+			},
+			flags: {
+				id: "flags",
+				name: "Flags",
+				component: KowakujoFlagsSection,
+				gameId: "bo7",
+				gameName: "Black Ops 7",
+				mapId: "kowakujo",
+				mapName: "Kowakujo",
+			},
+			"murder-mystery": {
+				id: "murder-mystery",
+				name: "Evidence Solver",
+				component: KowakujoMurderMysterySection,
+				gameId: "bo7",
+				gameName: "Black Ops 7",
+				mapId: "kowakujo",
+				mapName: "Kowakujo",
+			},
+		},
 		"ashes-of-the-damned": {
 			"rocket-launch": {
 				id: "rocket-launch",
