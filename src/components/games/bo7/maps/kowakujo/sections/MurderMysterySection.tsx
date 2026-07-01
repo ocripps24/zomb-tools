@@ -191,7 +191,7 @@ function computeZodiacTarget(timeOfDeath: string, actionTime: number): string {
 // ─── Choice field ─────────────────────────────────────────────────────────────
 
 interface ChoiceFieldProps {
-	label: string;
+	label: React.ReactNode;
 	options: ChoiceOption[];
 	value: string;
 	onChange: (value: string) => void;
@@ -494,7 +494,7 @@ function MurderMysterySection(props: BaseSectionProps<MurderMysteryData>) {
 									];
 									return (
 										<ChoiceField
-											label={`Visit the ${TRAP_LABELS[trapKey]} trap — what did the ghost say?`}
+											label={<>Visit the <span className="murder-mystery-field__trap-name">{TRAP_LABELS[trapKey]}</span> trap — what did the ghost say?</>}
 											options={trapOptions}
 											value={data.accomplice}
 											onChange={setField("accomplice")}

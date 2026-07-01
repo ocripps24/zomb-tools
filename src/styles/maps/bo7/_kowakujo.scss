@@ -813,6 +813,10 @@
 		color: var(--text-primary);
 	}
 
+	&__trap-name {
+		text-decoration: underline;
+	}
+
 	&__trap-note {
 		margin: 0;
 		font-size: 0.875rem;
