@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 import {
 	DndContext,
 	closestCenter,
@@ -13,7 +14,7 @@ import {
 	arrayMove,
 	SortableContext,
 	sortableKeyboardCoordinates,
-	verticalListSortingStrategy,
+	rectSortingStrategy,
 	useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -41,25 +42,28 @@ const LOCATIONS = [
 	"Outer Ward",
 ] as const;
 
+type Location = (typeof LOCATIONS)[number];
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface FlagsData {
 	clockNumbers: (number | null)[];
 	flagValues: number[];
+	// Display order of the four location cards (drag reorder)
 	locationOrder: string[];
+	// positionMap[i] = location assigned to position i+1, or "" if empty
+	positionMap: string[];
 }
 
 const DEFAULT_VALUE: FlagsData = {
 	clockNumbers: [null, null, null, null],
 	flagValues: [],
-	locationOrder: [],
+	locationOrder: [...LOCATIONS],
+	positionMap: ["", "", "", ""],
 };
 
 // ─── Solver ───────────────────────────────────────────────────────────────────
 
-// Returns for each of the 4 positions an array of flag VALUES to use,
-// or null if that position can't be solved. Prefers single-flag solutions
-// (more efficient) before trying pairs.
 function solveFlags(
 	clockNumbers: (number | null)[],
 	flagValues: number[],
@@ -77,7 +81,6 @@ function solveFlags(
 		if (targetIdx === 4) return true;
 		const target = targets[targetIdx];
 
-		// Try single flag first (prefer efficient solutions)
 		for (let i = 0; i < flagValues.length; i++) {
 			if (!used[i] && flagValues[i] === target) {
 				used[i] = true;
@@ -88,7 +91,6 @@ function solveFlags(
 			}
 		}
 
-		// Try pairs
 		for (let i = 0; i < flagValues.length; i++) {
 			if (used[i]) continue;
 			for (let j = i + 1; j < flagValues.length; j++) {
@@ -114,61 +116,76 @@ function formatCombo(values: number[] | null): string {
 	return values.join(" + ");
 }
 
-// ─── Sortable location item ───────────────────────────────────────────────────
+// ─── Draggable location card ──────────────────────────────────────────────────
 
-function SortableLocationItem({
+function SortableLocationBox({
 	locId,
-	position,
-	showRemove,
-	onRemove,
+	assignedPos,
+	allAssignedPositions,
+	showJapanese,
+	onAssign,
 }: {
 	locId: string;
-	position: number;
-	showRemove: boolean;
-	onRemove: () => void;
+	assignedPos: number; // 1–4, or 0 if not yet assigned
+	allAssignedPositions: Set<number>;
+	showJapanese: boolean;
+	onAssign: (locId: string, pos: number) => void;
 }) {
-	const {
-		attributes,
-		listeners,
-		setNodeRef,
-		transform,
-		transition,
-		isDragging,
-	} = useSortable({ id: locId });
+	const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+		useSortable({ id: locId });
 
 	return (
 		<div
 			ref={setNodeRef}
 			style={{ transform: CSS.Transform.toString(transform), transition }}
 			className={[
-				"flags-location-item",
-				isDragging ? "flags-location-item--dragging" : "",
+				"flags-location-box",
+				isDragging ? "flags-location-box--dragging" : "",
 			]
 				.filter(Boolean)
 				.join(" ")}
 		>
-			<span className="flags-location-item__number">{position}</span>
-			<span className="flags-location-item__name">{locId}</span>
-			<div className="flags-location-item__actions">
+			<div className="flags-location-box__header">
+				<span className="flags-location-box__name">{locId}</span>
 				<button
-					className="flags-location-item__drag"
+					className="flags-location-box__drag"
 					{...attributes}
 					{...listeners}
 					type="button"
-					title="Drag to reorder"
+					tabIndex={-1}
+					aria-label={`Drag ${locId} to reorder`}
 				>
 					⋮⋮
 				</button>
-				{showRemove && (
-					<button
-						className="flags-location-item__remove"
-						onClick={onRemove}
-						type="button"
-						title="Remove"
-					>
-						✕
-					</button>
-				)}
+			</div>
+			<div className="flags-location-box__positions">
+				{([1, 2, 3, 4] as const).map((pos) => {
+					const isActive = assignedPos === pos;
+					const isTaken = allAssignedPositions.has(pos) && !isActive;
+					return (
+						<button
+							key={pos}
+							className={[
+								"flags-position-btn",
+								isActive ? "flags-position-btn--active" : "",
+							]
+								.filter(Boolean)
+								.join(" ")}
+							disabled={isTaken}
+							onClick={() => onAssign(locId, pos)}
+							type="button"
+						>
+							{showJapanese ? (
+								(() => {
+									const Icon = POSITION_ICONS[pos - 1];
+									return <Icon className="flags-position-btn__icon" />;
+								})()
+							) : (
+								pos
+							)}
+						</button>
+					);
+				})}
 			</div>
 		</div>
 	);
@@ -178,6 +195,24 @@ function SortableLocationItem({
 
 function FlagsSection(props: BaseSectionProps<FlagsData>) {
 	const [locationOpen, setLocationOpen] = useState(false);
+
+	const { getSetting } = useSectionSettings({
+		mapId: "kowakujo",
+		sectionId: "flags",
+		sectionName: "Flags",
+		settings: [
+			{
+				id: "position-labels",
+				label: "Position Labels",
+				defaultValue: "japanese",
+				options: [
+					{ value: "japanese", label: "Japanese" },
+					{ value: "numbers", label: "Numbers" },
+				],
+			},
+		],
+	});
+	const showJapanese = getSetting("position-labels", "japanese") !== "numbers";
 
 	const sensors = useSensors(
 		useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
@@ -219,6 +254,7 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 						},
 					],
 				},
+
 			}}
 			getProgress={(data: FlagsData) => {
 				const clockFilled = data.clockNumbers.filter((n) => n !== null).length;
@@ -239,6 +275,21 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 				const clockFilledCount = data.clockNumbers.filter(
 					(n) => n !== null,
 				).length;
+
+				// Normalize display order: always contains all 4 locations
+				const displayOrder = (() => {
+					const raw = (data.locationOrder ?? []).filter((l) =>
+						LOCATIONS.includes(l as Location),
+					);
+					const missing = LOCATIONS.filter((l) => !raw.includes(l));
+					return [...raw, ...missing];
+				})();
+
+				// Normalize positionMap: always length 4
+				const positionMap = Array.from(
+					{ length: 4 },
+					(_, i) => (data.positionMap ?? [])[i] ?? "",
+				);
 
 				// ── Clock handlers ──────────────────────────────────────────────
 
@@ -284,41 +335,53 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 
 				// ── Location handlers ───────────────────────────────────────────
 
-				const addLocation = (locId: string) => {
-					if (data.locationOrder.includes(locId)) return;
-					const newOrder = [...data.locationOrder, locId];
-					// Auto-fill 4th when 3rd is chosen
-					if (newOrder.length === 3) {
-						const remaining = LOCATIONS.find((l) => !newOrder.includes(l));
-						if (remaining) newOrder.push(remaining);
-					}
-					setData((prev) => ({ ...prev, locationOrder: newOrder }));
-				};
+				const assignLocation = (locId: string, pos: number) => {
+					setData((prev) => {
+						const pm = Array.from(
+							{ length: 4 },
+							(_, i) => (prev.positionMap ?? [])[i] ?? "",
+						);
 
-				const removeLastLocation = () => {
-					setData((prev) => ({
-						...prev,
-						locationOrder: prev.locationOrder.slice(0, -1),
-					}));
+						// Toggle: clicking the active position clears it
+						if (pm[pos - 1] === locId) {
+							pm[pos - 1] = "";
+							return { ...prev, positionMap: pm };
+						}
+
+						// Remove this loc from any current slot
+						const existingIdx = pm.indexOf(locId);
+						if (existingIdx !== -1) pm[existingIdx] = "";
+
+						// Assign to the new position
+						pm[pos - 1] = locId;
+
+						// Auto-fill: when 3 are assigned, fill the 4th
+						const filled = pm.filter(Boolean);
+						if (filled.length === 3) {
+							const emptyIdx = pm.findIndex((v) => !v);
+							const usedSet = new Set(filled);
+							const remaining = LOCATIONS.find((l) => !usedSet.has(l));
+							if (emptyIdx !== -1 && remaining) pm[emptyIdx] = remaining;
+						}
+
+						return { ...prev, positionMap: pm };
+					});
 				};
 
 				const clearLocations = () => {
-					setData((prev) => ({ ...prev, locationOrder: [] }));
+					setData((prev) => ({ ...prev, positionMap: ["", "", "", ""] }));
 				};
 
 				const handleDragEnd = (event: DragEndEvent) => {
 					const { active, over } = event;
 					if (!over || active.id === over.id) return;
-					setData((prev) => {
-						const order = prev.locationOrder;
-						const oldIdx = order.indexOf(active.id as string);
-						const newIdx = order.indexOf(over.id as string);
-						if (oldIdx === -1 || newIdx === -1) return prev;
-						return {
-							...prev,
-							locationOrder: arrayMove(order, oldIdx, newIdx),
-						};
-					});
+					const oldIdx = displayOrder.indexOf(active.id as string);
+					const newIdx = displayOrder.indexOf(over.id as string);
+					if (oldIdx === -1 || newIdx === -1) return;
+					setData((prev) => ({
+						...prev,
+						locationOrder: arrayMove(displayOrder, oldIdx, newIdx),
+					}));
 				};
 
 				// ── Derived state ───────────────────────────────────────────────
@@ -328,13 +391,14 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 				const noSolution =
 					clockFull && data.flagValues.length > 0 && !hasSolution;
 
-				const availableLocations = LOCATIONS.filter(
-					(l) => !data.locationOrder.includes(l),
-				);
+				const anyLocationAssigned = positionMap.some(Boolean);
 
-				// When 4 are filled, the last item was auto-filled so we don't
-				// show an individual remove — only "Clear All".
-				const isFullyAssigned = data.locationOrder.length === 4;
+				// Positions already assigned to any location
+				const allAssignedPositions = new Set(
+					positionMap
+						.map((loc, i) => (loc ? i + 1 : null))
+						.filter((p): p is number => p !== null),
+				);
 
 				return (
 					<div className="flags-section">
@@ -343,7 +407,7 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 							<h3 className="flags-block__heading">Clock Times</h3>
 							{!clockFull && (
 								<div className="flags-number-row">
-									{[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
+									{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((n) => (
 										<button
 											key={n}
 											className="flags-num-btn"
@@ -426,82 +490,78 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 
 						{/* ── Location Order (collapsible) ──────────────────────── */}
 						<div className="flags-location-panel">
-							<button
+							{/* Toggle row — div, not button, so the clear button can live inside */}
+							<div
 								className="flags-location-panel__toggle"
 								onClick={() => setLocationOpen((v) => !v)}
-								type="button"
+								role="button"
+								tabIndex={0}
+								onKeyDown={(e) => {
+									if (e.key === "Enter" || e.key === " ")
+										setLocationOpen((v) => !v);
+								}}
 							>
 								<span>Location Order (Optional)</span>
-								<span
-									className={[
-										"flags-location-panel__chevron",
-										locationOpen
-											? "flags-location-panel__chevron--open"
-											: "",
-									]
-										.filter(Boolean)
-										.join(" ")}
-								>
-									▾
-								</span>
-							</button>
+								<div className="flags-location-panel__toggle-end">
+									{anyLocationAssigned && (
+										<button
+											className="flags-location-panel__clear-btn"
+											onClick={(e) => {
+												e.stopPropagation();
+												clearLocations();
+											}}
+											type="button"
+										>
+											Clear
+										</button>
+									)}
+									<span
+										className={[
+											"flags-location-panel__chevron",
+											locationOpen
+												? "flags-location-panel__chevron--open"
+												: "",
+										]
+											.filter(Boolean)
+											.join(" ")}
+									>
+										▾
+									</span>
+								</div>
+							</div>
 							{locationOpen && (
 								<div className="flags-location-panel__body">
 									<p className="flags-location-panel__hint">
-										Click locations in the order their Japanese number signs
-										correspond to positions 1–4. Enter 3 and the 4th fills
-										automatically.
+										Tap a number to assign each location to a position. Assign 3
+										and the 4th fills automatically. Drag to reorder the cards.
 									</p>
-									{availableLocations.length > 0 && (
-										<div className="flags-location-available">
-											{availableLocations.map((loc) => (
-												<button
-													key={loc}
-													className="flags-location-btn"
-													onClick={() => addLocation(loc)}
-													type="button"
-												>
-													{loc}
-												</button>
-											))}
-										</div>
-									)}
-									{data.locationOrder.length > 0 && (
-										<DndContext
-											sensors={sensors}
-											collisionDetection={closestCenter}
-											onDragEnd={handleDragEnd}
+									<DndContext
+										sensors={sensors}
+										collisionDetection={closestCenter}
+										onDragEnd={handleDragEnd}
+									>
+										<SortableContext
+											items={displayOrder}
+											strategy={rectSortingStrategy}
 										>
-											<SortableContext
-												items={data.locationOrder}
-												strategy={verticalListSortingStrategy}
-											>
-												<div className="flags-location-ordered">
-													{data.locationOrder.map((locId, index) => (
-														<SortableLocationItem
-															key={locId}
-															locId={locId}
-															position={index + 1}
-															showRemove={
-																!isFullyAssigned &&
-																index === data.locationOrder.length - 1
-															}
-															onRemove={removeLastLocation}
+											<div className="flags-location-list">
+												{displayOrder.map((loc) => {
+													const assignedPos =
+														positionMap.indexOf(loc) + 1; // 0 = unassigned
+													return (
+														<SortableLocationBox
+															key={loc}
+															locId={loc}
+															assignedPos={assignedPos}
+															allAssignedPositions={allAssignedPositions}
+															showJapanese={showJapanese}
+															onAssign={assignLocation}
 														/>
-													))}
-												</div>
-											</SortableContext>
-										</DndContext>
-									)}
-									{data.locationOrder.length > 0 && (
-										<button
-											className="flags-action-btn flags-action-btn--clear"
-											onClick={clearLocations}
-											type="button"
-										>
-											Clear All
-										</button>
-									)}
+													);
+												})}
+											</div>
+										</SortableContext>
+									</DndContext>
 								</div>
 							)}
 						</div>
@@ -527,7 +587,7 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 								<div className="flags-results">
 									{POSITION_ICONS.map((Icon, i) => {
 										const combo = solution[i];
-										const location = data.locationOrder[i] ?? null;
+										const location = positionMap[i] || null;
 										const isComplete = combo !== null;
 										return (
 											<div
