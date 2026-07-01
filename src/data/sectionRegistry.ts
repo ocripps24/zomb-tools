@@ -679,42 +679,53 @@ export function getSectionsByMap(
 	return sections;
 }
 
+// Games listed in release-date order (oldest first)
+const GAME_ORDER = ["bo7", "bo6", "bo5", "bo4", "iw", "bo3", "bo1"];
+
+// Maps listed in release-date order for games that need explicit ordering
+const MAP_ORDER: Record<string, string[]> = {
+	bo7: [
+		"ashes-of-the-damned",
+		"astra-malorum",
+		"paradox-junction",
+		"totenreich",
+		"kowakujo",
+	],
+};
+
 /**
- * Get all unique games in the registry
+ * Get all unique games in the registry, ordered by release date
  */
 export function getAllGames(): Array<{ id: string; name: string }> {
-	const games = new Set<string>();
-
-	for (const gameId in SECTION_REGISTRY) {
-		games.add(gameId);
-	}
-
-	// Get game name from first section in each game
-	return Array.from(games).map((gameId) => {
-		const firstSection = getSectionsByGame(gameId)[0];
-		return {
-			id: gameId,
-			name: firstSection?.gameName || gameId,
-		};
-	});
+	return GAME_ORDER.filter((gameId) => SECTION_REGISTRY[gameId]).map(
+		(gameId) => {
+			const firstSection = getSectionsByGame(gameId)[0];
+			return {
+				id: gameId,
+				name: firstSection?.gameName || gameId,
+			};
+		},
+	);
 }
 
 /**
- * Get all unique maps for a specific game
+ * Get all unique maps for a specific game, ordered by release date where defined
  */
 export function getMapsByGame(
 	gameId: string
 ): Array<{ id: string; name: string }> {
-	const maps = new Set<string>();
+	if (!SECTION_REGISTRY[gameId]) return [];
 
-	if (SECTION_REGISTRY[gameId]) {
-		for (const mapId in SECTION_REGISTRY[gameId]) {
-			maps.add(mapId);
-		}
-	}
+	const allMapIds = Object.keys(SECTION_REGISTRY[gameId]);
+	const order = MAP_ORDER[gameId];
+	const orderedMapIds = order
+		? [
+				...order.filter((id) => allMapIds.includes(id)),
+				...allMapIds.filter((id) => !order.includes(id)),
+			]
+		: allMapIds;
 
-	// Get map name from first section in each map
-	return Array.from(maps).map((mapId) => {
+	return orderedMapIds.map((mapId) => {
 		const firstSection = getSectionsByMap(gameId, mapId)[0];
 		return {
 			id: mapId,
