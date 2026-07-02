@@ -255,7 +255,7 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 									text: "6 flags should spawn in the staging area. ",
 								},
 								{
-									text: "Entering 6 flag values will set the row green.",
+									text: "Entering 6 flag values will set the row green if they are a valid combination.",
 								},
 								{
 									text: "The flag values will show a yellow caution if there are not 6, until we are 100% sure it's always 6 flags.",
@@ -403,6 +403,8 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 				const hasSolution = solution[0] !== null;
 				const noSolution =
 					clockFull && data.flagValues.length > 0 && !hasSolution;
+				const flagsValid =
+					clockFull && data.flagValues.length === 6 && hasSolution;
 
 				const anyLocationAssigned = positionMap.some(Boolean);
 
@@ -447,7 +449,7 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 										className={[
 											"flags-clock-slot",
 											n !== null
-												? clockFull
+												? flagsValid
 													? "flags-clock-slot--complete"
 													: "flags-clock-slot--filled"
 												: "flags-clock-slot--empty",
@@ -505,7 +507,7 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 											key={i}
 											className={[
 												"flags-chip",
-												data.flagValues.length === 6
+												flagsValid
 													? "flags-chip--success"
 													: "flags-chip--warning",
 											].join(" ")}
