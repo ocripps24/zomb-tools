@@ -71,7 +71,7 @@ const CAUSE_ACCOMPLICES: Record<string, [string, string]> = {
 	paralysis: ["gardener", "merchant"],
 };
 
-const TRAP_ORDER = ["garden", "courtyard", "spawn"] as const;
+const TRAP_ORDER = ["garden", "spawn", "courtyard"] as const;
 
 // Returns the trap to direct the player to — skips the avoided trap, picks the
 // first remaining trap whose identified accomplice is a candidate for the cause.
@@ -114,7 +114,7 @@ const PAINTING_OPTIONS: ChoiceOption[] = [
 ];
 
 const PAINTING_ITEMS: Record<string, string> = {
-	bird: "Painter's Brush",
+	bird: "Caligraphy Brush",
 	fish: "Tea Whisk",
 	mountain: "Horse Statuette",
 };
