@@ -213,7 +213,9 @@ function ScrollsSection(props: BaseSectionProps<ScrollsData>) {
 									Initial Scroll State
 								</span>
 								<InputGrid scrollsOn={scrollsOn} onToggle={handleToggle} />
-								<p className="scrolls-section__status">Add your scrolls</p>
+								<p className="scrolls-section__status">
+									Add your scrolls (OUT only)
+								</p>
 							</div>
 							<div className="scrolls-panel">
 								<span className="scrolls-panel__label">SOLUTION</span>
