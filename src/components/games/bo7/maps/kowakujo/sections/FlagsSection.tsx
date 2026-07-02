@@ -131,8 +131,14 @@ function SortableLocationBox({
 	showJapanese: boolean;
 	onAssign: (locId: string, pos: number) => void;
 }) {
-	const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-		useSortable({ id: locId });
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		transform,
+		transition,
+		isDragging,
+	} = useSortable({ id: locId });
 
 	return (
 		<div
@@ -175,14 +181,12 @@ function SortableLocationBox({
 							onClick={() => onAssign(locId, pos)}
 							type="button"
 						>
-							{showJapanese ? (
-								(() => {
-									const Icon = POSITION_ICONS[pos - 1];
-									return <Icon className="flags-position-btn__icon" />;
-								})()
-							) : (
-								pos
-							)}
+							{showJapanese
+								? (() => {
+										const Icon = POSITION_ICONS[pos - 1];
+										return <Icon className="flags-position-btn__icon" />;
+									})()
+								: pos}
 						</button>
 					);
 				})}
@@ -246,7 +250,17 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 						},
 						{
 							label: "Flag Count",
-							text: "We believe there are always 6 flags per game, but this may vary — enter however many you receive. This will be updated as more data is gathered.",
+							nested: [
+								{
+									text: "6 flags should spawn in the staging area. ",
+								},
+								{
+									text: "Entering 6 flag values will set the row green.",
+								},
+								{
+									text: "The flag values will show a yellow caution if there are not 6, until we are 100% sure it's always 6 flags.",
+								},
+							],
 						},
 						{
 							label: "Locations",
@@ -254,7 +268,6 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 						},
 					],
 				},
-
 			}}
 			getProgress={(data: FlagsData) => {
 				const clockFilled = data.clockNumbers.filter((n) => n !== null).length;
@@ -434,7 +447,9 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 										className={[
 											"flags-clock-slot",
 											n !== null
-												? "flags-clock-slot--filled"
+												? clockFull
+													? "flags-clock-slot--complete"
+													: "flags-clock-slot--filled"
 												: "flags-clock-slot--empty",
 										].join(" ")}
 									>
@@ -455,7 +470,13 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 
 						{/* ── Flag Values ───────────────────────────────────────── */}
 						<div className="flags-block">
-							<h3 className="flags-block__heading">Flag Values</h3>
+							<h3 className="flags-block__heading">
+								Flag Values
+								<span className="flags-block__subheading">
+									{" "}
+									- Expect 6 flags to spawn
+								</span>
+							</h3>
 							<div className="flags-number-row">
 								{[1, 2, 3, 4, 5, 6, 7].map((n) => (
 									<button
@@ -480,7 +501,15 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 							{data.flagValues.length > 0 && (
 								<div className="flags-chips">
 									{data.flagValues.map((v, i) => (
-										<span key={i} className="flags-chip">
+										<span
+											key={i}
+											className={[
+												"flags-chip",
+												data.flagValues.length === 6
+													? "flags-chip--success"
+													: "flags-chip--warning",
+											].join(" ")}
+										>
 											{v}
 										</span>
 									))}
@@ -518,9 +547,7 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 									<span
 										className={[
 											"flags-location-panel__chevron",
-											locationOpen
-												? "flags-location-panel__chevron--open"
-												: "",
+											locationOpen ? "flags-location-panel__chevron--open" : "",
 										]
 											.filter(Boolean)
 											.join(" ")}
@@ -546,8 +573,7 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 										>
 											<div className="flags-location-list">
 												{displayOrder.map((loc) => {
-													const assignedPos =
-														positionMap.indexOf(loc) + 1; // 0 = unassigned
+													const assignedPos = positionMap.indexOf(loc) + 1; // 0 = unassigned
 													return (
 														<SortableLocationBox
 															key={loc}

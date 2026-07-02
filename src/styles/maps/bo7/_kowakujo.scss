@@ -359,6 +359,12 @@
 		font-weight: 600;
 		color: var(--text-primary);
 	}
+
+	&__subheading {
+		font-size: 0.875rem;
+		font-weight: 400;
+		color: var(--text-secondary);
+	}
 }
 
 .flags-number-row {
@@ -460,6 +466,12 @@
 		color: var(--text-primary);
 	}
 
+	&--complete {
+		border-color: var(--success-color);
+		background: color-mix(in srgb, var(--success-color) 15%, transparent);
+		color: var(--text-primary);
+	}
+
 	&--empty {
 		color: var(--text-secondary);
 	}
@@ -486,6 +498,16 @@
 	font-size: 0.9375rem;
 	font-weight: 600;
 	color: var(--text-primary);
+
+	&--success {
+		border-color: var(--success-color);
+		background: color-mix(in srgb, var(--success-color) 15%, transparent);
+	}
+
+	&--warning {
+		border-color: var(--warning-color);
+		background: color-mix(in srgb, var(--warning-color) 15%, transparent);
+	}
 }
 
 // ── Location order collapsible panel ─────────────────────────────────────────
