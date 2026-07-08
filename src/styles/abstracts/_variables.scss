@@ -96,8 +96,7 @@ $font-sizes: (
 	// 28px → 36px
 	5xl: clamp(2rem, 1.61rem + 1.95vw, 2.75rem),
 	// 32px → 44px
-	6xl: clamp(2.25rem, 1.73rem + 2.61vw, 3.25rem),
-	// 36px → 52px
+	6xl: clamp(2.25rem, 1.73rem + 2.61vw, 3.25rem), // 36px → 52px
 );
 
 // Static font sizes (for cases where fluid isn't desired)
@@ -154,6 +153,7 @@ $blurs: (
 
 // Border radius
 $radius: (
+	zero: 0,
 	sm: 0.25rem,
 	base: 0.5rem,
 	md: 0.75rem,
@@ -209,8 +209,8 @@ $z-indexes: (
 	--step-tab-active-bg: #{map.get($colors, gray-700)}; // Step tab hover/active background
 
 	// Typography
-	--font-family: #{map.get($font-families, primary)},
-		#{map.get($font-families, fallback)};
+	--font-family:
+		#{map.get($font-families, primary)}, #{map.get($font-families, fallback)};
 
 	// Semantic colors
 	--success-color: #{map.get($colors, success)};
@@ -226,4 +226,3 @@ $z-indexes: (
 	--location-card-completed-border: #{map.get($colors, success-light)};
 	--completion-message-bg: rgba(34, 197, 94, 0.1);
 }
-

@@ -173,7 +173,7 @@
 		justify-content: center;
 		height: 7rem;
 		padding: space(xs);
-		border: 2px solid var(--border-color);
+		border: 1px solid var(--border-color);
 		border-radius: radius(base);
 		background: var(--bg-tertiary);
 		cursor: pointer;
@@ -1042,4 +1042,11 @@
 
 .base-section.compact .murder-mystery-section .results-display .results-note {
 	display: block;
+}
+
+.masks *,
+.scrolls *,
+.flags *,
+.evidence-solver * {
+	border-radius: 0 !important;
 }
