@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 
@@ -29,6 +30,34 @@ const TOGGLE_ROWS: number[][] = Array.from({ length: CELL_COUNT }, (_, i) => {
 	if (c < GRID_SIZE - 1) row[cellIndex(r, c + 1)] = 1;
 	return row;
 });
+
+// Keyboard shortcuts for toggling cells. Two separate conventions are used
+// on purpose: a physical numpad is laid out 7-8-9/4-5-6/1-2-3 (top to
+// bottom), so Numpad7 maps to the top-left cell to match muscle memory.
+// The top-row digit keys have no inherent spatial layout, so they're mapped
+// in reading order instead (Digit1 = top-left, ... Digit9 = bottom-right).
+// This means "7" maps to a different cell depending on which physical key
+// produced it - that's intentional, not a bug.
+const KEY_CODE_TO_CELL_INDEX: Record<string, number> = {
+	Numpad7: 0,
+	Numpad8: 1,
+	Numpad9: 2,
+	Numpad4: 3,
+	Numpad5: 4,
+	Numpad6: 5,
+	Numpad1: 6,
+	Numpad2: 7,
+	Numpad3: 8,
+	Digit1: 0,
+	Digit2: 1,
+	Digit3: 2,
+	Digit4: 3,
+	Digit5: 4,
+	Digit6: 5,
+	Digit7: 6,
+	Digit8: 7,
+	Digit9: 8,
+};
 
 function onIndicesToState(onIndices: number[]): number[] {
 	const state = Array(CELL_COUNT).fill(0);
@@ -136,6 +165,28 @@ function SolutionGrid({ pressSet }: SolutionGridProps) {
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 function ScrollsSection(props: BaseSectionProps<ScrollsData>) {
+	const toggleRef = useRef<(index: number) => void>(() => {});
+
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (
+				e.target instanceof HTMLInputElement ||
+				e.target instanceof HTMLTextAreaElement
+			)
+				return;
+			if (e.repeat) return;
+
+			const index = KEY_CODE_TO_CELL_INDEX[e.code];
+			if (index === undefined) return;
+
+			e.preventDefault();
+			toggleRef.current(index);
+		};
+
+		document.addEventListener("keydown", handleKeyDown);
+		return () => document.removeEventListener("keydown", handleKeyDown);
+	}, []);
+
 	return (
 		<BaseSection
 			config={{
@@ -159,6 +210,10 @@ function ScrollsSection(props: BaseSectionProps<ScrollsData>) {
 						{
 							label: "Using The Grids",
 							text: "Click a cell in the left grid to mark all scrolls that are currently sticking out. The right grid highlights which positions to shoot/melee in-game; order doesn't matter.",
+						},
+						{
+							label: "Keyboard Shortcuts",
+							text: "You can also toggle cells with your keyboard: numpad keys 1-9 map to the grid by physical position (7-8-9 top row, 1-2-3 bottom row), and the number row keys 1-9 map in reading order (1-2-3 top row, 7-8-9 bottom row).",
 						},
 					],
 				},
@@ -191,6 +246,7 @@ function ScrollsSection(props: BaseSectionProps<ScrollsData>) {
 						return { scrollsOn: Array.from(next) };
 					});
 				};
+				toggleRef.current = handleToggle;
 
 				let statusText: string;
 				if (isSolved) {
