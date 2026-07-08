@@ -38,8 +38,8 @@ const POSITION_ICONS: NumIcon[] = [
 const LOCATIONS = [
 	"Central Courtyard",
 	"Stables",
-	"Flower Garden",
 	"Outer Ward",
+	"Flower Garden",
 ] as const;
 
 type Location = (typeof LOCATIONS)[number];
@@ -242,7 +242,7 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 					items: [
 						{
 							label: "Clock Times",
-							text: "Interact with the Lantern Clock to trigger it. The hands spin and stop four times — record each hour shown (1–9).",
+							text: "Interact with the Lantern Clock to trigger it. The hands spin and stop four times — record each hour shown (1–11).",
 						},
 						{
 							label: "Flags",
@@ -252,13 +252,13 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 							label: "Flag Count",
 							nested: [
 								{
-									text: "6 flags should spawn in the staging area. ",
+									text: "Always 6 flags spawn in the staging area.",
 								},
 								{
-									text: "Entering 6 flag values will set the row green if they are a valid combination.",
+									text: "Entering all 6 turns the row green if they form a valid combination.",
 								},
 								{
-									text: "The flag values will show a yellow caution if there are not 6, until we are 100% sure it's always 6 flags.",
+									text: "Yellow means fewer than 6 are entered yet, or the 6 entered don't match a valid combination.",
 								},
 							],
 						},
@@ -332,7 +332,7 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 				// ── Flag handlers ───────────────────────────────────────────────
 
 				const handleFlagInput = (n: number) => {
-					if (data.flagValues.length >= 8) return;
+					if (data.flagValues.length >= 6) return;
 					setData((prev) => ({
 						...prev,
 						flagValues: [...prev.flagValues, n],
@@ -415,18 +415,34 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 						.filter((p): p is number => p !== null),
 				);
 
+				// Shared input row targets the clock until it's full, then flags.
+				// Undo always removes the single most recent entry across both
+				// (flags first since they come after the clock), so it stays
+				// available to fix a mistake no matter which phase is active.
+				const flagsFull = data.flagValues.length === 6;
+				const bothComplete = clockFull && flagsFull;
+				const enteringFlags = clockFull;
+				const undoFlagsNext = data.flagValues.length > 0;
+				const handleUndo = undoFlagsNext ? handleFlagUndo : handleClockUndo;
+				const canUndo = undoFlagsNext || clockFilledCount > 0;
+
 				return (
 					<div className="flags-section">
-						{/* ── Clock Times ───────────────────────────────────────── */}
-						<div className="flags-block">
-							<h3 className="flags-block__heading">Clock Times</h3>
-							{!clockFull && (
+						<div className="flags-input-section">
+							{/* ── Shared input row (clock, then flags) ─────────────── */}
+							<div className="flags-block">
+								<h3 className="flags-block__heading">
+									{enteringFlags ? "Enter Flag Value" : "Enter Clock Time"}
+								</h3>
 								<div className="flags-number-row">
 									{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((n) => (
 										<button
 											key={n}
 											className="flags-num-btn"
-											onClick={() => handleClockInput(n)}
+											onClick={() =>
+												enteringFlags ? handleFlagInput(n) : handleClockInput(n)
+											}
+											disabled={bothComplete || (enteringFlags && n > 7)}
 											type="button"
 										>
 											{n}
@@ -434,89 +450,68 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 									))}
 									<button
 										className="flags-action-btn"
-										onClick={handleClockUndo}
-										disabled={clockFilledCount === 0}
+										onClick={handleUndo}
+										disabled={!canUndo}
 										type="button"
 									>
 										Undo
 									</button>
 								</div>
-							)}
-							<div className="flags-clock-slots">
-								{data.clockNumbers.map((n, i) => (
-									<div
-										key={i}
-										className={[
-											"flags-clock-slot",
-											n !== null
-												? flagsValid
-													? "flags-clock-slot--complete"
-													: "flags-clock-slot--filled"
-												: "flags-clock-slot--empty",
-										].join(" ")}
-									>
-										{n ?? "—"}
-									</div>
-								))}
-								{clockFull && (
-									<button
-										className="flags-action-btn"
-										onClick={handleClockUndo}
-										type="button"
-									>
-										Undo
-									</button>
-								)}
 							</div>
-						</div>
 
-						{/* ── Flag Values ───────────────────────────────────────── */}
-						<div className="flags-block">
-							<h3 className="flags-block__heading">
-								Flag Values
-								<span className="flags-block__subheading">
-									{" "}
-									- Expect 6 flags to spawn
-								</span>
-							</h3>
-							<div className="flags-number-row">
-								{[1, 2, 3, 4, 5, 6, 7].map((n) => (
-									<button
-										key={n}
-										className="flags-num-btn"
-										onClick={() => handleFlagInput(n)}
-										disabled={data.flagValues.length >= 8}
-										type="button"
-									>
-										{n}
-									</button>
-								))}
-								<button
-									className="flags-action-btn"
-									onClick={handleFlagUndo}
-									disabled={data.flagValues.length === 0}
-									type="button"
-								>
-									Undo
-								</button>
-							</div>
-							{data.flagValues.length > 0 && (
-								<div className="flags-chips">
-									{data.flagValues.map((v, i) => (
-										<span
-											key={i}
-											className={[
-												"flags-chip",
-												flagsValid
-													? "flags-chip--success"
-													: "flags-chip--warning",
-											].join(" ")}
-										>
-											{v}
-										</span>
-									))}
+							{/* ── Results (clock times + flag values) ──────────────── */}
+							<div className="flags-results-columns">
+								<div className="flags-block">
+									<h3 className="flags-block__heading">Clock Times</h3>
+									<div className="flags-clock-slots">
+										{data.clockNumbers.map((n, i) => (
+											<div
+												key={i}
+												className={[
+													"flags-clock-slot",
+													n !== null
+														? flagsValid
+															? "flags-clock-slot--complete"
+															: "flags-clock-slot--filled"
+														: "flags-clock-slot--empty",
+												].join(" ")}
+											>
+												{n ?? "—"}
+											</div>
+										))}
+									</div>
 								</div>
-							)}
+
+								<div className="flags-block">
+									<h3 className="flags-block__heading">
+										Flag Values
+										<span className="flags-block__subheading">
+											{" "}
+											- Always 6 flags
+										</span>
+									</h3>
+									<div className="flags-flag-slots">
+										{Array.from({ length: 6 }, (_, i) => {
+											const v = data.flagValues[i] ?? null;
+											return (
+												<div
+													key={i}
+													className={[
+														"flags-flag-slot",
+														v !== null
+															? flagsValid
+																? "flags-flag-slot--success"
+																: "flags-flag-slot--warning"
+															: "flags-flag-slot--empty",
+													].join(" ")}
+												>
+													{v ?? "—"}
+												</div>
+											);
+										})}
+									</div>
+								</div>
+							</div>
 						</div>
 
 						{/* ── Location Order (collapsible) ──────────────────────── */}

@@ -347,6 +347,18 @@
 	gap: space(xl);
 }
 
+// ── Input section (shared entry row + clock/flag results) ────────────────────
+
+.flags-input-section {
+	display: flex;
+	flex-direction: column;
+	gap: space(lg);
+	padding: space(lg);
+	border: 1px solid var(--border-color);
+	border-radius: radius(base);
+	background: var(--bg-tertiary);
+}
+
 // ── Input blocks (Clock Times + Flag Values) ──────────────────────────────────
 
 .flags-block {
@@ -477,36 +489,53 @@
 	}
 }
 
-// ── Flag value chips ──────────────────────────────────────────────────────────
+// ── Results layout (clock + flags side by side on desktop) ────────────────────
 
-.flags-chips {
-	display: flex;
-	flex-wrap: wrap;
-	gap: space(xs);
+.flags-results-columns {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: space(xl);
+
+	@include dsm-up {
+		grid-template-columns: 1fr 1fr;
+	}
 }
 
-.flags-chip {
-	display: inline-flex;
+// ── Flag value slots ──────────────────────────────────────────────────────────
+
+.flags-flag-slots {
+	display: flex;
+	flex-wrap: wrap;
+	gap: space(sm);
+	align-items: center;
+}
+
+.flags-flag-slot {
+	width: 3.5rem;
+	height: 3.5rem;
+	display: flex;
 	align-items: center;
 	justify-content: center;
-	min-width: 2.25rem;
-	height: 2.25rem;
-	padding: 0 space(xs);
-	border: 1px solid var(--accent-color);
-	border-radius: radius(sm);
-	background: color-mix(in srgb, var(--accent-color) 15%, transparent);
-	font-size: 0.9375rem;
-	font-weight: 600;
-	color: var(--text-primary);
+	border: 1px solid var(--border-color);
+	border-radius: radius(base);
+	background: transparent;
+	font-size: 1.5rem;
+	font-weight: 700;
 
 	&--success {
 		border-color: var(--success-color);
 		background: color-mix(in srgb, var(--success-color) 15%, transparent);
+		color: var(--text-primary);
 	}
 
 	&--warning {
 		border-color: var(--warning-color);
 		background: color-mix(in srgb, var(--warning-color) 15%, transparent);
+		color: var(--text-primary);
+	}
+
+	&--empty {
+		color: var(--text-secondary);
 	}
 }
 
@@ -736,6 +765,10 @@
 	display: flex;
 	flex-direction: column;
 	gap: space(md);
+	padding: space(lg);
+	border: 1px solid var(--success-color);
+	border-radius: radius(base);
+	background: var(--bg-tertiary);
 
 	&__heading {
 		font-size: 0.9375rem;
@@ -779,7 +812,7 @@
 	transition: border-color var(--transition);
 
 	&--complete {
-		border-color: var(--accent-color);
+		border-color: var(--success-color);
 	}
 
 	&__icon {
