@@ -33,6 +33,12 @@ export const ROUTES = {
 				moon: "/bo1/moon",
 			},
 		},
+		bo2: {
+			base: "/bo2",
+			maps: {
+				dieRise: "/bo2/die-rise",
+			},
+		},
 		bo3: {
 			base: "/bo3",
 			maps: {
@@ -100,6 +106,14 @@ export const MAP_STEPS = {
 			base: "/bo1/moon",
 			steps: {
 				samanthaSays: "/bo1/moon/samantha-says",
+			},
+		},
+	},
+	bo2: {
+		dieRise: {
+			base: "/bo2/die-rise",
+			steps: {
+				mahjongTiles: "/bo2/die-rise/mahjong-tiles",
 			},
 		},
 	},
@@ -305,6 +319,12 @@ export const ROUTE_PATTERNS = {
 				moon: "/bo1/moon/*",
 			},
 		},
+		bo2: {
+			base: "/bo2",
+			maps: {
+				dieRise: "/bo2/die-rise/*",
+			},
+		},
 		bo3: {
 			base: "/bo3",
 			maps: {
@@ -388,6 +408,10 @@ export const ROUTE_METADATA = {
 		title: "Black Ops 1 - Select Map",
 		documentTitle: "BO1 Maps - COD Zombies Tools",
 	},
+	"/bo2": {
+		title: "Black Ops 2 - Select Map",
+		documentTitle: "BO2 Maps - COD Zombies Tools",
+	},
 	"/bo3": {
 		title: "Black Ops 3 - Select Map",
 		documentTitle: "BO3 Maps - COD Zombies Tools",
@@ -411,6 +435,10 @@ export const ROUTE_METADATA = {
 	[ROUTES.games.bo1.maps.moon]: {
 		title: "Moon",
 		documentTitle: "Moon Easter Eggs - COD Zombies Tools",
+	},
+	[ROUTES.games.bo2.maps.dieRise]: {
+		title: "Die Rise",
+		documentTitle: "Die Rise Easter Eggs - COD Zombies Tools",
 	},
 	[ROUTES.games.bo3.maps.gorodKrovi]: {
 		title: "Gorod Krovi",
@@ -521,12 +549,14 @@ export type RouteMetadata = typeof ROUTE_METADATA;
 export type RoutePaths =
 	| typeof ROUTES.home
 	| typeof ROUTES.games.bo1.base
+	| typeof ROUTES.games.bo2.base
 	| typeof ROUTES.games.bo3.base
 	| typeof ROUTES.games.bo4.base
 	| typeof ROUTES.games.bo5.base
 	| typeof ROUTES.games.bo6.base
 	| typeof ROUTES.games.bo7.base
 	| (typeof ROUTES.games.bo1.maps)[keyof typeof ROUTES.games.bo1.maps]
+	| (typeof ROUTES.games.bo2.maps)[keyof typeof ROUTES.games.bo2.maps]
 	| (typeof ROUTES.games.bo3.maps)[keyof typeof ROUTES.games.bo3.maps]
 	| (typeof ROUTES.games.bo4.maps)[keyof typeof ROUTES.games.bo4.maps]
 	| (typeof ROUTES.games.bo5.maps)[keyof typeof ROUTES.games.bo5.maps]

@@ -6,6 +6,7 @@ import ChevronIcon from "@/assets/icons/chevron.svg";
 
 const games = [
 	{ id: "bo1", name: "BO1" },
+	{ id: "bo2", name: "BO2" },
 	{ id: "bo3", name: "BO3" },
 	{ id: "iw", name: "IW" },
 	{ id: "bo4", name: "BO4" },

@@ -3,6 +3,7 @@ import MapSelectionCard from "./MapSelectionCard";
 import SettingsInfoPanel from "@/components/ui/SettingsInfoPanel";
 import { getGameById } from "@/data/games";
 import { BO1_MAPS, type BO1Map } from "@/data/bo1/maps";
+import { BO2_MAPS, type BO2Map } from "@/data/bo2/maps";
 import { BO3_MAPS, type BO3Map } from "@/data/bo3/maps";
 import { BO4_MAPS, type BO4Map } from "@/data/bo4/maps";
 import { BO5_MAPS, type BO5Map } from "@/data/bo5/maps";
@@ -50,10 +51,12 @@ const getPreview = (gameId: string, mapId: string): string | null => {
 
 const getMapsByGame = (
 	gameId: string
-): (BO1Map | BO3Map | BO4Map | BO5Map | BO6Map | BO7Map | IWMap)[] => {
+): (BO1Map | BO2Map | BO3Map | BO4Map | BO5Map | BO6Map | BO7Map | IWMap)[] => {
 	switch (gameId) {
 		case "bo1":
 			return BO1_MAPS;
+		case "bo2":
+			return BO2_MAPS;
 		case "bo3":
 			return BO3_MAPS;
 		case "bo4":

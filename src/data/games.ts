@@ -20,6 +20,15 @@ export const GAMES: Record<string, Game> = {
 		releaseYear: 2010,
 		route: ROUTES.games.bo1.base,
 	},
+	bo2: {
+		id: "bo2",
+		name: "Black Ops 2",
+		fullName: "Call of Duty: Black Ops 2",
+		description: "Zombies mode speedrun tools and guides",
+		available: true,
+		releaseYear: 2012,
+		route: ROUTES.games.bo2.base,
+	},
 	bo3: {
 		id: "bo3",
 		name: "Black Ops 3",

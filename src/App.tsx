@@ -7,6 +7,7 @@ import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import TermsAndConditions from "./components/pages/TermsAndConditions";
 import Roadmap from "./components/pages/Roadmap";
 import Moon from "./components/games/bo1/maps/moon/Moon";
+import DieRise from "./components/games/bo2/maps/die-rise/DieRise";
 import GorodKrovi from "./components/games/bo3/maps/gorod-krovi/GorodKrovi";
 import ShadowsOfEvil from "./components/games/bo3/maps/shadows-of-evil/ShadowsOfEvil";
 import VoyageOfDespair from "./components/games/bo4/maps/voyage-of-despair/VoyageOfDespair";
@@ -129,6 +130,16 @@ function App() {
 							<Route
 								path={ROUTE_PATTERNS.games.bo1.maps.moon}
 								element={<Moon />}
+							/>
+
+							{/* BO2 Routes */}
+							<Route
+								path={ROUTES.games.bo2.base}
+								element={<MapSelection gameId="bo2" />}
+							/>
+							<Route
+								path={ROUTE_PATTERNS.games.bo2.maps.dieRise}
+								element={<DieRise />}
 							/>
 
 							{/* BO3 Routes */}

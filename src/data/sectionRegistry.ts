@@ -100,6 +100,10 @@ import GorodKroviBombsSection from "@/components/games/bo3/maps/gorod-krovi/sect
 // Shadows of Evil
 import ShadowsEggSymbols from "@/components/games/bo3/maps/shadows-of-evil/sections/EggSymbols";
 
+// ===== BO2 Imports =====
+// Die Rise
+import DieRiseMahjongTilesSection from "@/components/games/bo2/maps/die-rise/sections/MahjongTilesSection";
+
 // ===== BO1 Imports =====
 // Moon
 import MoonSamanthaSays from "@/components/games/bo1/maps/moon/sections/SamanthaSays";
@@ -614,6 +618,19 @@ export const SECTION_REGISTRY: SectionRegistry = {
 			},
 		},
 	},
+	bo2: {
+		"die-rise": {
+			"mahjong-tiles": {
+				id: "mahjong-tiles",
+				name: "Mahjong Tiles",
+				component: DieRiseMahjongTilesSection,
+				gameId: "bo2",
+				gameName: "Black Ops 2",
+				mapId: "die-rise",
+				mapName: "Die Rise",
+			},
+		},
+	},
 };
 
 /**
@@ -680,7 +697,7 @@ export function getSectionsByMap(
 }
 
 // Games listed in release-date order (oldest first)
-const GAME_ORDER = ["bo7", "bo6", "bo5", "bo4", "iw", "bo3", "bo1"];
+const GAME_ORDER = ["bo7", "bo6", "bo5", "bo4", "iw", "bo3", "bo2", "bo1"];
 
 // Maps listed in release-date order for games that need explicit ordering
 const MAP_ORDER: Record<string, string[]> = {

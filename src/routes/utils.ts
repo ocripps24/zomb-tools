@@ -6,7 +6,15 @@
 import { ROUTES, MAP_STEPS, ROUTE_METADATA } from "./config";
 
 // Game and map type definitions
-export type GameId = "bo1" | "bo3" | "iw" | "bo4" | "bo5" | "bo6" | "bo7";
+export type GameId =
+	| "bo1"
+	| "bo2"
+	| "bo3"
+	| "iw"
+	| "bo4"
+	| "bo5"
+	| "bo6"
+	| "bo7";
 export type MapId = string;
 export type StepId = string;
 
@@ -122,6 +130,7 @@ export const isRouteActive = (
  */
 export const getGameIdFromPath = (path: string): GameId | null => {
 	if (path.startsWith("/bo1")) return "bo1";
+	if (path.startsWith("/bo2")) return "bo2";
 	if (path.startsWith("/bo3")) return "bo3";
 	if (path.startsWith("/iw")) return "iw";
 	if (path.startsWith("/bo4")) return "bo4";
@@ -175,6 +184,7 @@ export const isValidRoute = (path: string): boolean => {
 	const allRoutes = [
 		ROUTES.home,
 		...Object.values(ROUTES.games.bo1.maps),
+		...Object.values(ROUTES.games.bo2.maps),
 		...Object.values(ROUTES.games.bo3.maps),
 		...Object.values(ROUTES.games.iw.maps),
 		...Object.values(ROUTES.games.bo4.maps),
@@ -182,6 +192,7 @@ export const isValidRoute = (path: string): boolean => {
 		...Object.values(ROUTES.games.bo6.maps),
 		...Object.values(ROUTES.games.bo7.maps),
 		ROUTES.games.bo1.base,
+		ROUTES.games.bo2.base,
 		ROUTES.games.bo3.base,
 		ROUTES.games.iw.base,
 		ROUTES.games.bo4.base,
@@ -210,6 +221,7 @@ export const getBreadcrumb = (
 	if (gameId) {
 		const gameNames: Record<GameId, string> = {
 			bo1: "Black Ops 1",
+			bo2: "Black Ops 2",
 			bo3: "Black Ops 3",
 			iw: "Infinite Warfare",
 			bo4: "Black Ops 4",
