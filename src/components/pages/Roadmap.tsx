@@ -27,6 +27,12 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 		],
 	},
 	{
+		date: "July 2026",
+		items: [
+			"BO2: Added Die Rise - Mahjong Tiles section",
+		],
+	},
+	{
 		date: "June 2026",
 		items: [
 			"BO7: Added Kowakujoo",

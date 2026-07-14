@@ -57,6 +57,11 @@
 			background-image: url("/src/assets/maps/bo1/moon-preview.jpg");
 		}
 
+		// BO2 Maps
+		&[data-map="die-rise"]::before {
+			background-image: url("/src/assets/maps/bo2/die-rise-preview.jpg");
+		}
+
 		// BO3 Maps
 		&[data-map="gorod-krovi"]::before {
 			background-image: url("/src/assets/maps/bo3/gorod-krovi-preview.jpg");

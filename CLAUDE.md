@@ -102,6 +102,20 @@ Uses CSS custom properties for theming and modern @use syntax.
 
 ## Adding New Content
 
+### Adding a New Game (first time only)
+
+Adding a game that doesn't exist yet requires touching several files beyond the standard "Adding a New Map" process below (do that too, for the game's first map). These are easy to miss because they're hardcoded per-game lists living outside `routes/config.ts`:
+
+- `src/data/games.ts` - add an entry to `GAMES`
+- `src/routes/utils.ts` - add the game id to the `GameId` type union, `getGameIdFromPath()`, the `allRoutes` list in `isValidRoute()`, and the `gameNames` map in `getBreadcrumb()`
+- `src/components/layout/NavBar.tsx` - add the game to the hardcoded `games` array (drives the nav dropdown and active-game detection)
+- `src/components/pages/MapSelection.tsx` - import the new `{GAME}_MAPS` and add a case to the `getMapsByGame` switch
+- `src/data/sectionRegistry.ts` - import the section component(s), register them under the new game/map in `SECTION_REGISTRY`, and add the game id to `GAME_ORDER`
+
+Game logos and map preview images don't need manual registration - they're picked up automatically via `import.meta.glob` as long as they follow the existing naming convention (`{game}-logo.{ext}` in `src/assets/games/`, `{map-id}-preview.{ext}` in `src/assets/maps/{game}/`).
+
+**Why this matters:** missing any of the `routes/utils.ts` entries doesn't throw an error - it silently makes `getGameIdFromPath()` return `null` for the new game's routes, which turns off `isMapPage` in `App.tsx`. That skips the `app--map-page` class, the `data-map` attribute (so map-specific background images never apply), and the floating settings widget - all without any visible error. Load an actual map page after adding a new game, not just after adding a map to an existing one.
+
 ### Adding a New Map
 
 **Step-by-step Process:**
