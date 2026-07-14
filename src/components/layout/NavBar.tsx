@@ -131,6 +131,17 @@ const NavBar: React.FC<{ title?: string }> = () => {
 									{game.name}
 								</button>
 							))}
+							<button
+								className={`nav__dropdown-item${
+									isDashboard ? " nav__dropdown-item--active" : ""
+								}`}
+								onClick={() => {
+									navigate(ROUTES.dashboard.base);
+									setIsDropdownOpen(false);
+								}}
+							>
+								Speedruns
+							</button>
 						</div>
 					)}
 				</div>
