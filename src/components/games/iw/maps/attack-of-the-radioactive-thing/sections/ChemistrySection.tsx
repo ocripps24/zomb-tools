@@ -3,6 +3,10 @@ import { usePersistedState } from "@/hooks/usePersistedState";
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import { ReferenceImages } from "@/components/ui/ReferenceImages";
+import {
+	computeChemistryDerived,
+	type ChemistryTVData,
+} from "@/utils/attack-of-the-radioactive-thing-chemistry";
 
 import imgBakingSoda from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-baking-soda.jpg";
 import imgBleach from "@/assets/maps/iw/attack-of-the-radioactive-thing/aotrt-ingredient-bleach.jpg";
@@ -29,13 +33,7 @@ import imgWheelCleaner from "@/assets/maps/iw/attack-of-the-radioactive-thing/ao
 
 // ── Cross-section types (mirrors DataSectionData) ─────────────────────────────
 
-type Color = "red" | "green" | "blue" | "";
-
-interface SourceData {
-	mNumber: number | "";
-	tvTop: { color: Color; value: number | "" };
-	tvMiddle: { color: Color };
-	tvBottom: { color: Color; value: number | "" };
+interface SourceData extends ChemistryTVData {
 	targetChemical: string;
 	acetaldehydeSet: number | null;
 }
@@ -63,8 +61,6 @@ interface Recipe {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const O_NUMBERS = [2, 4, 6, 8, 9, 11, 15] as const;
-
 const DEFAULT_SOURCE: SourceData = {
 	mNumber: "",
 	tvTop: { color: "", value: "" },
@@ -72,6 +68,7 @@ const DEFAULT_SOURCE: SourceData = {
 	tvBottom: { color: "", value: "" },
 	targetChemical: "",
 	acetaldehydeSet: null,
+	oNumberColorConfirm: "",
 };
 
 const DEFAULT_CRAFTING: CraftingData = {
@@ -237,20 +234,6 @@ const RECIPES: Record<string, Recipe> = {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-function roundToNearest(value: number, options: readonly number[]): number {
-	return options.reduce((prev, curr) =>
-		Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev,
-	);
-}
-
-function getONumber(source: SourceData): number | null {
-	const mNum = typeof source.mNumber === "number" ? source.mNumber : null;
-	const bottomVal =
-		typeof source.tvBottom.value === "number" ? source.tvBottom.value : null;
-	if (mNum === null || mNum <= 0 || bottomVal === null) return null;
-	return roundToNearest(bottomVal / mNum, O_NUMBERS);
-}
-
 function getSourceStep(
 	ingredient: string,
 	stepIndex: number,
@@ -273,7 +256,7 @@ function ChemistrySection(props: BaseSectionProps<CraftingData>) {
 		undefined,
 	);
 
-	const oNumber = getONumber(sourceData);
+	const oNumber = computeChemistryDerived(sourceData).oNumber;
 	const { targetChemical, acetaldehydeSet } = sourceData;
 	const recipe = targetChemical ? (RECIPES[targetChemical] ?? null) : null;
 	const hasAllData =
