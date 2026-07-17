@@ -101,11 +101,25 @@ export const getRouteMetadata = (path: string) => {
 		return ROUTE_METADATA[path as keyof typeof ROUTE_METADATA];
 	}
 
-	// Try partial matches for paths with additional segments
+	// Try partial matches for paths with additional segments — pick the
+	// longest (most specific) matching route so a map's step sub-routes
+	// (e.g. "/bo7/astra-malorum/oscar-code") don't fall back to the
+	// shorter, more generic game-selection route ("/bo7").
+	let bestMatch: (typeof ROUTE_METADATA)[keyof typeof ROUTE_METADATA] | null =
+		null;
+	let bestMatchLength = -1;
 	for (const [routePath, metadata] of Object.entries(ROUTE_METADATA)) {
-		if (path.startsWith(routePath) && routePath !== "/") {
-			return metadata;
+		if (
+			routePath !== "/" &&
+			path.startsWith(routePath) &&
+			routePath.length > bestMatchLength
+		) {
+			bestMatch = metadata;
+			bestMatchLength = routePath.length;
 		}
+	}
+	if (bestMatch) {
+		return bestMatch;
 	}
 
 	// Default fallback
