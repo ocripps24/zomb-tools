@@ -30,6 +30,7 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 		date: "July 2026",
 		items: [
 			"BO2: Added Die Rise - Mahjong Tiles section",
+			"IW: Thanks to Mennobot - there have been updates to Attack improving the solve for ambiguous O-numbers and new words added to the rooftop section of Shaolin Shuffle.",
 		],
 	},
 	{

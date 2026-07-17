@@ -112,6 +112,8 @@ export const getRouteMetadata = (path: string) => {
 	return {
 		title: "COD Zombies Tools",
 		documentTitle: "COD Zombies Tools - Easter Egg Tools",
+		description:
+			"Interactive Easter Egg solvers and speedrun tools covering BO1-BO7 and IW zombies. Track codes, steps, and progress.",
 	};
 };
 

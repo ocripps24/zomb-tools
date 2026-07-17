@@ -3,56 +3,242 @@
   <!-- Main Pages -->
   <url>
     <loc>https://zomb-tools.com/</loc>
-    <lastmod>2025-08-19</lastmod>
+    <lastmod>2025-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  
+  <url>
+    <loc>https://zomb-tools.com/roadmap</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
   <!-- Game Selection Pages -->
   <url>
+    <loc>https://zomb-tools.com/bo1</loc>
+    <lastmod>2025-10-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo2</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo3</loc>
+    <lastmod>2025-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://zomb-tools.com/bo4</loc>
-    <lastmod>2025-08-19</lastmod>
+    <lastmod>2026-04-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo5</loc>
+    <lastmod>2025-10-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://zomb-tools.com/bo6</loc>
-    <lastmod>2025-08-19</lastmod>
+    <lastmod>2025-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo7</loc>
+    <lastmod>2026-06-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  
+  <url>
+    <loc>https://zomb-tools.com/iw</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- BO1 Map Pages -->
+  <url>
+    <loc>https://zomb-tools.com/bo1/moon</loc>
+    <lastmod>2025-10-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- BO2 Map Pages -->
+  <url>
+    <loc>https://zomb-tools.com/bo2/die-rise</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- BO3 Map Pages -->
+  <url>
+    <loc>https://zomb-tools.com/bo3/gorod-krovi</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo3/shadows-of-evil</loc>
+    <lastmod>2025-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- BO4 Map Pages -->
   <url>
     <loc>https://zomb-tools.com/bo4/voyage-of-despair</loc>
-    <lastmod>2025-08-19</lastmod>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://zomb-tools.com/bo4/tag-der-toten</loc>
-    <lastmod>2025-08-19</lastmod>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
-  <!-- BO6 Map Pages -->
   <url>
-    <loc>https://zomb-tools.com/bo6/terminus</loc>
-    <lastmod>2025-08-19</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://zomb-tools.com/bo4/alpha-omega</loc>
+    <lastmod>2025-09-09</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://zomb-tools.com/bo6/reckoning</loc>
-    <lastmod>2025-08-19</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://zomb-tools.com/bo4/classified</loc>
+    <lastmod>2025-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo4/dead-of-the-night</loc>
+    <lastmod>2025-10-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo4/ix</loc>
+    <lastmod>2025-10-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo4/blood-of-the-dead</loc>
+    <lastmod>2026-04-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- BO5 (Cold War) Map Pages -->
+  <url>
+    <loc>https://zomb-tools.com/bo5/firebase-z</loc>
+    <lastmod>2025-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo5/mauer-der-toten</loc>
+    <lastmod>2025-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- BO6 Map Pages -->
+  <url>
+    <loc>https://zomb-tools.com/bo6/terminus</loc>
+    <lastmod>2025-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo6/liberty-falls</loc>
+    <lastmod>2025-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo6/citadelle-des-morts</loc>
+    <lastmod>2025-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo6/the-tomb</loc>
+    <lastmod>2025-10-08</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://zomb-tools.com/bo6/shattered-veil</loc>
-    <lastmod>2025-08-19</lastmod>
+    <lastmod>2025-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo6/reckoning</loc>
+    <lastmod>2025-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- BO7 Map Pages -->
+  <url>
+    <loc>https://zomb-tools.com/bo7/ashes-of-the-damned</loc>
+    <lastmod>2025-11-25</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo7/astra-malorum</loc>
+    <lastmod>2025-12-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo7/paradox-junction</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo7/totenreich</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/bo7/kowakujo</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Infinite Warfare Map Pages -->
+  <url>
+    <loc>https://zomb-tools.com/iw/shaolin-shuffle</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/iw/attack-of-the-radioactive-thing</loc>
+    <lastmod>2026-04-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zomb-tools.com/iw/beast-from-beyond</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 </urlset>

@@ -54,7 +54,29 @@ function App() {
 	const { resetConsent } = useConsent();
 
 	useEffect(() => {
-		document.title = getRouteMetadata(location.pathname).documentTitle;
+		const metadata = getRouteMetadata(location.pathname);
+		document.title = metadata.documentTitle;
+
+		const canonicalUrl = `https://zomb-tools.com${location.pathname}`;
+		let canonicalLink = document.querySelector<HTMLLinkElement>(
+			'link[rel="canonical"]',
+		);
+		if (!canonicalLink) {
+			canonicalLink = document.createElement("link");
+			canonicalLink.rel = "canonical";
+			document.head.appendChild(canonicalLink);
+		}
+		canonicalLink.href = canonicalUrl;
+
+		let descriptionMeta = document.querySelector<HTMLMetaElement>(
+			'meta[name="description"]',
+		);
+		if (!descriptionMeta) {
+			descriptionMeta = document.createElement("meta");
+			descriptionMeta.name = "description";
+			document.head.appendChild(descriptionMeta);
+		}
+		descriptionMeta.content = metadata.description;
 	}, [location.pathname]);
 
 	const getPageTransitionKey = () => {
