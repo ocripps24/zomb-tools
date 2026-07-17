@@ -121,17 +121,29 @@ function NeilHackSection(props: BaseSectionProps<NeilHackData>) {
 					items: [
 						{
 							label: "Panel Location",
-							text: "TODO: describe where to find Neil's hack panel.",
+							text: "The panel is found in the Medbay and players must first grab and activate the button from the Afterlife Theatre.",
 						},
 						{
 							label: "How It Works",
-							text: "Tap each cell in the left grid to match the panel's current state. The right grid updates automatically with the pattern to set.",
+							nested: [
+								{
+									text: "The 1/0's represent the vertical and horizontal state of switches on the panel (it doesn't matter if you map 1 to vertical or horizontal, just be consistent)",
+								},
+								{
+									text: "Interact with each cell in the left grid to match the panel's current state",
+								},
+								{
+									text: "The right grid updates automatically with the pattern used to solve the step in 1 phase",
+								},
+							],
 						},
 					],
 				},
 			}}
 			getProgress={(data: NeilHackData) => {
-				const hasInput = data.grid.some((row) => row.some((cell) => cell === 1));
+				const hasInput = data.grid.some((row) =>
+					row.some((cell) => cell === 1),
+				);
 				return {
 					completed: hasInput ? 1 : 0,
 					total: 1,
