@@ -114,9 +114,11 @@ const WORDS = [
 	"rollercoaster",
 	"rollerskates",
 	"samantha",
+	"savagemadethis",
 	"shaolin",
 	"shield",
 	"shuffle",
+	"sixtymillion",
 	"slasher",
 	"slide",
 	"snake",
@@ -312,7 +314,11 @@ function RooftopSymbolsSection(props: BaseSectionProps<RooftopSymbolsData>) {
 								</p>
 							</div>
 							<div className="rooftop-actions">
-								<button className="rooftop-undo" onClick={undoLastShot} type="button">
+								<button
+									className="rooftop-undo"
+									onClick={undoLastShot}
+									type="button"
+								>
 									Undo
 								</button>
 								<button className="rooftop-reset" onClick={reset} type="button">
@@ -356,10 +362,18 @@ function RooftopSymbolsSection(props: BaseSectionProps<RooftopSymbolsData>) {
 									))}
 								</div>
 								<div className="rooftop-actions">
-									<button className="rooftop-undo" onClick={undoLastShot} type="button">
+									<button
+										className="rooftop-undo"
+										onClick={undoLastShot}
+										type="button"
+									>
 										Undo
 									</button>
-									<button className="rooftop-reset" onClick={reset} type="button">
+									<button
+										className="rooftop-reset"
+										onClick={reset}
+										type="button"
+									>
 										Reset
 									</button>
 								</div>
@@ -395,7 +409,11 @@ function RooftopSymbolsSection(props: BaseSectionProps<RooftopSymbolsData>) {
 								</button>
 							</div>
 							<div className="rooftop-actions">
-								<button className="rooftop-undo" onClick={undoLastShot} type="button">
+								<button
+									className="rooftop-undo"
+									onClick={undoLastShot}
+									type="button"
+								>
 									Undo
 								</button>
 								<button className="rooftop-reset" onClick={reset} type="button">
