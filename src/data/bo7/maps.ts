@@ -80,6 +80,16 @@ export const BO7_MAPS: BO7Map[] = [
 		tools: ["Scrolls", "Murder Mystery"],
 		difficulty: "medium",
 	},
+	{
+		id: "rex-infernus",
+		name: "Rex Infernus",
+		status: "Coming Soon",
+		route: "",
+		component: null,
+		available: false,
+		tools: [],
+		difficulty: "medium",
+	},
 ];
 
 export const getBO7MapById = (mapId: string): BO7Map | null => {
