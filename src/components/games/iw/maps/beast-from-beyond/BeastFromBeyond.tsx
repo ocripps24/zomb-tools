@@ -2,6 +2,7 @@ import { MapContainer } from "@/components/core";
 import type { MapStep } from "@/hooks";
 import { getIWMapById } from "@/data/iw/maps";
 import DisksSection from "./sections/DisksSection";
+import NeilHackSection from "./sections/NeilHackSection";
 
 const STEPS: MapStep[] = [
 	{
@@ -9,6 +10,12 @@ const STEPS: MapStep[] = [
 		name: "Disks",
 		path: "/iw/beast-from-beyond/disks",
 		component: DisksSection,
+	},
+	{
+		id: "neil-hack",
+		name: "Neil Hack",
+		path: "/iw/beast-from-beyond/neil-hack",
+		component: NeilHackSection,
 	},
 ];
 

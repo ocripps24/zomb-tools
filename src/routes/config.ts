@@ -303,6 +303,7 @@ export const MAP_STEPS = {
 			base: "/iw/beast-from-beyond",
 			steps: {
 				disks: "/iw/beast-from-beyond/disks",
+				neilHack: "/iw/beast-from-beyond/neil-hack",
 			},
 		},
 	},

@@ -73,7 +73,6 @@ export const IW_MAPS: IWMap[] = [
 		available: true,
 		tools: ["Codes", "Chemistry - Data", "Chemistry - Crafting"],
 		difficulty: "hard",
-		beta: true,
 		image: AttackOfTheRadioactiveThingImage,
 		guide: {
 			url: "https://www.youtube.com/embed/zemlG7hyw30",
@@ -89,8 +88,9 @@ export const IW_MAPS: IWMap[] = [
 		component: () =>
 			import("../../components/games/iw/maps/beast-from-beyond/BeastFromBeyond.tsx"),
 		available: true,
-		tools: ["Disks"],
+		tools: ["Disks", "Neil Hack"],
 		difficulty: "hard",
+		beta: true,
 		image: BeastFromBeyondImage,
 	},
 ];
