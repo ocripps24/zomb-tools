@@ -33,7 +33,7 @@ const getLogo = (id: string): string | null => {
 
 	for (const format of formats) {
 		const match = Object.entries(format.logos).find(([path]) =>
-			path.includes(`/${id}-logo.${format.ext}`)
+			path.includes(`/${id}-logo.${format.ext}`),
 		);
 		if (match) {
 			return match[1] as string;
@@ -75,7 +75,7 @@ function GameSelection() {
 
 			<div className="game-selection">
 				<h1 className="sr-only">
-					COD Zombies Tools - Easter Egg Solver & Speedrun Guides
+					COD Zombies Tools - Easter Egg Solvers & Speedrun Tools
 				</h1>
 				<h2 className="game-selection__title">Select a Game</h2>
 				{/* <p className="game-selection__subtitle">
