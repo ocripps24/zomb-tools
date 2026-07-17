@@ -11,6 +11,7 @@ interface DataSectionData {
 	tvBottom: { color: Color; value: number | "" };
 	targetChemical: string;
 	acetaldehydeSet: number | null;
+	oNumberColorConfirm: Color;
 }
 
 const DEFAULT_DATA: DataSectionData = {
@@ -20,6 +21,7 @@ const DEFAULT_DATA: DataSectionData = {
 	tvBottom: { color: "", value: "" },
 	targetChemical: "",
 	acetaldehydeSet: null,
+	oNumberColorConfirm: "",
 };
 
 const O_NUMBERS = [2, 4, 6, 8, 9, 11, 15] as const;
@@ -52,6 +54,94 @@ function roundToNearest(value: number, options: readonly number[]): number {
 	);
 }
 
+// Returns the option immediately below and above `value`. When `value`
+// lands exactly on (or outside the range of) an option, both entries match.
+function boundingCandidates(
+	value: number,
+	options: readonly number[],
+): [number, number] {
+	const sorted = [...options].sort((a, b) => a - b);
+	let lower = sorted[0];
+	let upper = sorted[sorted.length - 1];
+	for (const o of sorted) if (o <= value) lower = o;
+	for (let i = sorted.length - 1; i >= 0; i--) if (sorted[i] >= value) upper = sorted[i];
+	return [lower, upper];
+}
+
+interface DerivedResult {
+	oNumber: number | null;
+	gameColor: Color;
+	ambiguous: boolean;
+	candidates: Array<{ oNumber: number; color: Color }>;
+}
+
+// With an M-Number of 1 or 2, the bottom TV value alone isn't precise enough
+// to pick a single O-Number — two candidates can both round plausibly. In
+// that case we surface both and let the user confirm via the Game Color
+// their Acetaldehyde set actually showed up under.
+function computeDerived(data: DataSectionData): DerivedResult {
+	const mNum = typeof data.mNumber === "number" ? data.mNumber : null;
+	const topVal = typeof data.tvTop.value === "number" ? data.tvTop.value : null;
+	const bottomVal =
+		typeof data.tvBottom.value === "number" ? data.tvBottom.value : null;
+
+	if (mNum === null || mNum <= 0 || bottomVal === null) {
+		return { oNumber: null, gameColor: "", ambiguous: false, candidates: [] };
+	}
+
+	const resolveColor = (oNum: number): Color => {
+		const product = mNum * oNum;
+		if (topVal !== null && product <= topVal && data.tvTop.color)
+			return data.tvTop.color;
+		if (
+			topVal !== null &&
+			product >= topVal &&
+			product <= bottomVal &&
+			data.tvMiddle.color
+		)
+			return data.tvMiddle.color;
+		if (product >= bottomVal && data.tvBottom.color) return data.tvBottom.color;
+		return "";
+	};
+
+	if (mNum < 3 && topVal !== null) {
+		const median = (topVal + bottomVal) / 2;
+		const [lowO, highO] = boundingCandidates(median / mNum, O_NUMBERS);
+		if (lowO !== highO) {
+			const candidates = [
+				{ oNumber: lowO, color: resolveColor(lowO) },
+				{ oNumber: highO, color: resolveColor(highO) },
+			];
+			if (
+				candidates[0].color &&
+				candidates[1].color &&
+				candidates[0].color !== candidates[1].color
+			) {
+				const confirmed = data.oNumberColorConfirm
+					? candidates.find((c) => c.color === data.oNumberColorConfirm)
+					: undefined;
+				if (confirmed) {
+					return {
+						oNumber: confirmed.oNumber,
+						gameColor: confirmed.color,
+						ambiguous: false,
+						candidates,
+					};
+				}
+				return { oNumber: null, gameColor: "", ambiguous: true, candidates };
+			}
+		}
+	}
+
+	const oNumber = roundToNearest(bottomVal / mNum, O_NUMBERS);
+	return {
+		oNumber,
+		gameColor: resolveColor(oNumber),
+		ambiguous: false,
+		candidates: [],
+	};
+}
+
 function DataSection(props: BaseSectionProps<DataSectionData>) {
 	return (
 		<BaseSection<DataSectionData>
@@ -81,6 +171,10 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 							text: "Calculated by multiplying M-Number × O-Number. The result falls into one of the 3 TV rows — that row's color is your Game Color.",
 						},
 						{
+							label: "M-Number 1 or 2",
+							text: "With an M-Number this low, two O-Numbers are equally possible. Use the Confirm Game Color step to pick the right one based on which color filter reveals your Acetaldehyde set.",
+						},
+						{
 							label: "Target Chemical",
 							text: "Get a battery by melee killing zombies (chance drop from backpack). Place it in the motel reception radio or the power station radio. Listen for the quote that identifies your chemical.",
 						},
@@ -98,7 +192,8 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 					data.tvTop.value !== "" &&
 					data.tvMiddle.color !== "" &&
 					data.tvBottom.color !== "" &&
-					data.tvBottom.value !== "";
+					data.tvBottom.value !== "" &&
+					!computeDerived(data).ambiguous;
 				const chemDone = data.targetChemical !== "";
 				const setDone = data.acetaldehydeSet !== null;
 				const completed = [mDone, tvDone, chemDone, setDone].filter(
@@ -110,42 +205,8 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 		>
 			{({ data, setData }) => {
 				const mNum = typeof data.mNumber === "number" ? data.mNumber : null;
-				const bottomVal =
-					typeof data.tvBottom.value === "number" ? data.tvBottom.value : null;
-
-				const rawO =
-					mNum !== null && mNum > 0 && bottomVal !== null
-						? bottomVal / mNum
-						: null;
-				const oNumber = rawO !== null ? roundToNearest(rawO, O_NUMBERS) : null;
-
-				const product =
-					mNum !== null && oNumber !== null ? mNum * oNumber : null;
-
-				let gameColor: Color = "";
-				if (product !== null) {
-					const topVal =
-						typeof data.tvTop.value === "number" ? data.tvTop.value : null;
-					const midMin = topVal;
-					const midMax =
-						typeof data.tvBottom.value === "number"
-							? data.tvBottom.value
-							: null;
-					const botVal = midMax;
-
-					if (topVal !== null && product <= topVal && data.tvTop.color)
-						gameColor = data.tvTop.color;
-					else if (
-						midMin !== null &&
-						midMax !== null &&
-						product >= midMin &&
-						product <= midMax &&
-						data.tvMiddle.color
-					)
-						gameColor = data.tvMiddle.color;
-					else if (botVal !== null && product >= botVal && data.tvBottom.color)
-						gameColor = data.tvBottom.color;
-				}
+				const derived = computeDerived(data);
+				const { oNumber, gameColor, ambiguous, candidates } = derived;
 
 				const ALL_COLORS: Array<Exclude<Color, "">> = ["red", "green", "blue"];
 
@@ -228,7 +289,9 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 							<label className="radioactive-data__label">Elvira's TV</label>
 							<div className="radioactive-data__body">
 								<p className="radioactive-data__hint">
-									Select the color and enter the number(s) for each row
+									Select the color and enter the number(s) for each row. The
+									less-than and greater-than values always differ by 2, so
+									entering one auto-fills the other and the middle range.
 								</p>
 								<div className="radioactive-tv">
 									{/* Top row */}
@@ -242,6 +305,11 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 													setData((prev) => ({
 														...prev,
 														tvTop: { ...prev.tvTop, value: v },
+														tvBottom: {
+															...prev.tvBottom,
+															value:
+																typeof v === "number" ? v + 2 : prev.tvBottom.value,
+														},
 													}))
 												}
 												placeholder="—"
@@ -305,6 +373,10 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 													setData((prev) => ({
 														...prev,
 														tvBottom: { ...prev.tvBottom, value: v },
+														tvTop: {
+															...prev.tvTop,
+															value: typeof v === "number" ? v - 2 : prev.tvTop.value,
+														},
 													}))
 												}
 												placeholder="—"
@@ -328,9 +400,20 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 									<div className="radioactive-derived__item">
 										<span className="radioactive-derived__label">O-Number</span>
 										<span
-											className={`radioactive-derived__value${oNumber === null ? " radioactive-derived__value--empty" : ""}`}
+											className={`radioactive-derived__value${oNumber === null && !ambiguous ? " radioactive-derived__value--empty" : ""}`}
 										>
-											{oNumber ?? "—"}
+											{ambiguous
+												? candidates.map((c, i) => (
+														<span key={c.color}>
+															{i > 0 && " or "}
+															<span
+																className={`radioactive-derived__value--${c.color}`}
+															>
+																{c.oNumber}
+															</span>
+														</span>
+													))
+												: (oNumber ?? "—")}
 										</span>
 									</div>
 									<div className="radioactive-derived__item">
@@ -338,11 +421,23 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 											Game Color
 										</span>
 										<span
-											className={`radioactive-derived__value${gameColor ? ` radioactive-derived__value--${gameColor}` : " radioactive-derived__value--empty"}`}
+											className={`radioactive-derived__value${!ambiguous && gameColor ? ` radioactive-derived__value--${gameColor}` : !ambiguous ? " radioactive-derived__value--empty" : ""}`}
 										>
-											{gameColor
-												? gameColor.charAt(0).toUpperCase() + gameColor.slice(1)
-												: "—"}
+											{ambiguous
+												? candidates.map((c, i) => (
+														<span key={c.color}>
+															{i > 0 && " or "}
+															<span
+																className={`radioactive-derived__value--${c.color}`}
+															>
+																{c.color.charAt(0).toUpperCase() +
+																	c.color.slice(1)}
+															</span>
+														</span>
+													))
+												: gameColor
+													? gameColor.charAt(0).toUpperCase() + gameColor.slice(1)
+													: "—"}
 										</span>
 									</div>
 								</div>
@@ -379,6 +474,46 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 							</div>
 						</div>
 
+						{/* Confirm Game Color (ambiguous M-Number 1/2 case) */}
+						{candidates.length === 2 && (
+							<div className="radioactive-data__group">
+								<label className="radioactive-data__label">
+									Confirm Game Color
+								</label>
+								<div className="radioactive-data__body">
+									<p className="radioactive-data__hint">
+										With an M-Number of {mNum}, there are two possible
+										O-Numbers, one for each color below. Try both filters at the
+										board outside Elvira's studio — whichever one shows a
+										matching Acetaldehyde set is your real Game Color.
+									</p>
+									<div className="radioactive-tv__colors">
+										{candidates.map(
+											(c) =>
+												c.color && (
+													<button
+														key={c.color}
+														className={`radioactive-tv__color radioactive-tv__color--${c.color}${data.oNumberColorConfirm === c.color ? " radioactive-tv__color--active" : ""}`}
+														onClick={() =>
+															setData((prev) => ({
+																...prev,
+																oNumberColorConfirm:
+																	prev.oNumberColorConfirm === c.color
+																		? ""
+																		: c.color,
+															}))
+														}
+													>
+														{c.color.charAt(0).toUpperCase() + c.color.slice(1)}{" "}
+														(O={c.oNumber})
+													</button>
+												),
+										)}
+									</div>
+								</div>
+							</div>
+						)}
+
 						{/* Acetaldehyde Set */}
 						<div className="radioactive-data__group">
 							<label className="radioactive-data__label">
@@ -388,11 +523,7 @@ function DataSection(props: BaseSectionProps<DataSectionData>) {
 								<p className="radioactive-data__hint">
 									With your Game Color filter active, look at the board outside
 									Elvira's studio. Match the top and left numbers in the
-									Acetaldehyde diamond to one of the 6 sets below. If your
-									numbers don't match any set then you can be sure that your
-									game color is wrong. This can happen if you're M-number is 1
-									or 2 and can be resolved by changing your game color until you
-									find a match with a set.
+									Acetaldehyde diamond to one of the 6 sets below.
 								</p>
 								<div className="radioactive-sets">
 									{ACETALDEHYDE_SETS.map(({ set, top, left }) => (
