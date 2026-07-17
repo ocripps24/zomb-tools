@@ -17,6 +17,9 @@ const REEL_DIGITS = [3, 4, 5, 6] as const;
 
 const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
 
+const VALVE_EXCLUDED_DIGITS = [0, 3, 5] as const;
+const NUKE_EXCLUDED_DIGITS = [0] as const;
+
 const VALVE_LOCATIONS = [
 	"Power station by Blue Bolts",
 	"Drive-in near Quickies",
@@ -37,12 +40,32 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 					show: true,
 					items: [
 						{
-							label: "Reel Code",
-							text: "Look at the 5 film reels in Elvira's studio. Reels 1–4 show a combination of 3, 4, 5 and 6 (each once). Reel 5 is always 8. Enter the first 3 reel numbers and the 4th is solved automatically. The code is used twice — the second time in reverse.",
+							label: "Reel Code:",
+							nested: [
+								{
+									text: "Look at the 5 film reels in Elvira's studio, they are found on the shelves behind the studio control panel (color panel)",
+								},
+								{
+									text: "Reels 1–4 show a combination of 3, 4, 5 and 6 (each once) with the fith Reel always being 8",
+								},
+								{
+									text: "Enter the first 3 reel numbers and the 4th is solved automatically",
+								},
+								{
+									text: "The code is used twice — the second time in reverse",
+								},
+							],
 						},
 						{
-							label: "Valve Code",
-							text: "Found under the desk next to the freezer trap. It's a 4-digit code — enter one digit into each of the 4 valves around the map in any order. Hit the gauge with the crowbar as the needle oscillates over your number.",
+							label: "Valve Code:",
+							nested: [
+								{
+									text: "A 4-digit code — Found under the desk next to the freezer trap",
+								},
+								{
+									text: "Use the crowbar to melee each of 4 valve gauges around the map to enter your code (any order)",
+								},
+							],
 						},
 						{
 							label: "Valve Locations:",
@@ -59,7 +82,9 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 				const reelDone = data.reelNumbers.filter((n) => n !== "").length === 3;
 				const valveDone = (data.valveDigits ?? []).length === 4;
 				const nukeDone = (data.nukeDigits ?? []).length === 5;
-				const completed = [reelDone, valveDone, nukeDone].filter(Boolean).length;
+				const completed = [reelDone, valveDone, nukeDone].filter(
+					Boolean,
+				).length;
 				return { completed, total: 3, isComplete: completed === 3 };
 			}}
 			{...props}
@@ -103,8 +128,8 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 							<label className="radioactive-data__label">Reel Code</label>
 							<div className="radioactive-data__body">
 								<p className="radioactive-data__hint">
-									Click the numbers in the order they appear on reels 1–3. Reel 4
-									auto-resolves. Reel 5 is always 8.
+									Click the numbers in the order they appear on reels 1–3. Reel
+									4 auto-resolves. Reel 5 is always 8.
 								</p>
 								<div className="radioactive-reel-picker">
 									{REEL_DIGITS.map((n) => {
@@ -157,21 +182,29 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 							<div className="radioactive-data__body">
 								<p className="radioactive-data__hint">
 									Found under the desk next to the freezer trap. Enter one digit
-									from this code into each valve — any order is fine. Repeats allowed.
+									from this code into each valve — any order is fine. Repeats
+									allowed. The code never contains 0, 3 or 5.
 								</p>
 								<div className="radioactive-digit-picker">
 									{DIGITS.map((n) => {
 										const valveDigits = data.valveDigits ?? [];
 										const isFull = valveDigits.length >= 4;
+										const isExcluded = (
+											VALVE_EXCLUDED_DIGITS as readonly number[]
+										).includes(n);
+										const isDisabled = isFull || isExcluded;
 										return (
 											<button
 												key={n}
-												className={`radioactive-digit-picker__btn${isFull ? " radioactive-digit-picker__btn--disabled" : ""}`}
+												className={`radioactive-digit-picker__btn${isDisabled ? " radioactive-digit-picker__btn--disabled" : ""}`}
 												onClick={() => {
-													if (isFull) return;
-													setData((prev) => ({ ...prev, valveDigits: [...(prev.valveDigits ?? []), n] }));
+													if (isDisabled) return;
+													setData((prev) => ({
+														...prev,
+														valveDigits: [...(prev.valveDigits ?? []), n],
+													}));
 												}}
-												disabled={isFull}
+												disabled={isDisabled}
 											>
 												{n}
 											</button>
@@ -179,18 +212,29 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 									})}
 									<button
 										className="radioactive-digit-picker__back"
-										onClick={() => setData((prev) => ({ ...prev, valveDigits: (prev.valveDigits ?? []).slice(0, -1) }))}
+										onClick={() =>
+											setData((prev) => ({
+												...prev,
+												valveDigits: (prev.valveDigits ?? []).slice(0, -1),
+											}))
+										}
 										disabled={(data.valveDigits ?? []).length === 0}
 									>
 										⌫
 									</button>
 								</div>
-								<div className={`radioactive-result${(data.valveDigits ?? []).length === 4 ? " radioactive-result--complete" : ""}`}>
+								<div
+									className={`radioactive-result${(data.valveDigits ?? []).length === 4 ? " radioactive-result--complete" : ""}`}
+								>
 									<div className="radioactive-result__col">
-										<span className="radioactive-result__label">Valve Code</span>
+										<span className="radioactive-result__label">
+											Valve Code
+										</span>
 										<span className="radioactive-result__value">
 											{Array.from({ length: 4 }, (_, i) =>
-												(data.valveDigits ?? [])[i] !== undefined ? (data.valveDigits ?? [])[i] : "?"
+												(data.valveDigits ?? [])[i] !== undefined
+													? (data.valveDigits ?? [])[i]
+													: "?",
 											).join("-")}
 										</span>
 									</div>
@@ -204,22 +248,30 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 							<div className="radioactive-data__body">
 								<p className="radioactive-data__hint">
 									Pick up the punch card from the safe next to the freezer after
-									entering all valve digits. The 5-digit code appears in your HUD.
+									entering all valve digits. The 5-digit code appears in your
+									HUD. The code never contains 0.
 								</p>
 								<div className="radioactive-digit-picker">
 									{DIGITS.map((n) => {
 										const nukeDigits = data.nukeDigits ?? [];
 										const isUsed = nukeDigits.includes(n);
 										const isFull = nukeDigits.length >= 5;
+										const isExcluded = (
+											NUKE_EXCLUDED_DIGITS as readonly number[]
+										).includes(n);
+										const isDisabled = isUsed || isFull || isExcluded;
 										return (
 											<button
 												key={n}
-												className={`radioactive-digit-picker__btn${isUsed || isFull ? " radioactive-digit-picker__btn--disabled" : ""}`}
+												className={`radioactive-digit-picker__btn${isDisabled ? " radioactive-digit-picker__btn--disabled" : ""}`}
 												onClick={() => {
-													if (isUsed || isFull) return;
-													setData((prev) => ({ ...prev, nukeDigits: [...(prev.nukeDigits ?? []), n] }));
+													if (isDisabled) return;
+													setData((prev) => ({
+														...prev,
+														nukeDigits: [...(prev.nukeDigits ?? []), n],
+													}));
 												}}
-												disabled={isUsed || isFull}
+												disabled={isDisabled}
 											>
 												{n}
 											</button>
@@ -227,18 +279,27 @@ function CodesSection(props: BaseSectionProps<CodesSectionData>) {
 									})}
 									<button
 										className="radioactive-digit-picker__back"
-										onClick={() => setData((prev) => ({ ...prev, nukeDigits: (prev.nukeDigits ?? []).slice(0, -1) }))}
+										onClick={() =>
+											setData((prev) => ({
+												...prev,
+												nukeDigits: (prev.nukeDigits ?? []).slice(0, -1),
+											}))
+										}
 										disabled={(data.nukeDigits ?? []).length === 0}
 									>
 										⌫
 									</button>
 								</div>
-								<div className={`radioactive-result${(data.nukeDigits ?? []).length === 5 ? " radioactive-result--complete" : ""}`}>
+								<div
+									className={`radioactive-result${(data.nukeDigits ?? []).length === 5 ? " radioactive-result--complete" : ""}`}
+								>
 									<div className="radioactive-result__col">
 										<span className="radioactive-result__label">Nuke Code</span>
 										<span className="radioactive-result__value">
 											{Array.from({ length: 5 }, (_, i) =>
-												(data.nukeDigits ?? [])[i] !== undefined ? (data.nukeDigits ?? [])[i] : "?"
+												(data.nukeDigits ?? [])[i] !== undefined
+													? (data.nukeDigits ?? [])[i]
+													: "?",
 											).join("-")}
 										</span>
 									</div>
