@@ -109,7 +109,7 @@ function MapSelection({ gameId }: MapSelectionProps) {
 
 			<div className={`map-selection map-selection--${gameId}`}>
 				<div className="map-selection__header">
-					<h2 className="map-selection__title">{game.name}</h2>
+					<h1 className="map-selection__title">{game.name}</h1>
 				</div>
 				<div className="map-selection__grid">
 					{maps.map((map) => (

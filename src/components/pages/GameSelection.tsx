@@ -74,6 +74,9 @@ function GameSelection() {
 			</div>
 
 			<div className="game-selection">
+				<h1 className="sr-only">
+					COD Zombies Tools - Easter Egg Solver & Speedrun Guides
+				</h1>
 				<h2 className="game-selection__title">Select a Game</h2>
 				{/* <p className="game-selection__subtitle">
 					Choose which Call of Duty Zombies game you want to access speedrun tools

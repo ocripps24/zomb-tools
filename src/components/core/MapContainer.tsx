@@ -71,14 +71,12 @@ export function MapContainer({
 
 	return (
 		<div className={`map-page ${className}`}>
+			<h1 className="sr-only">{mapName} Easter Egg Tools</h1>
 			<div className="map-content">
 				{/* Render current step component with transitions */}
 				<AnimatePresence mode="wait">
 					{steps[activeStepIndex] && (
-						<motion.div
-							key={steps[activeStepIndex].id}
-							{...SECTION_TRANSITION}
-						>
+						<motion.div key={steps[activeStepIndex].id} {...SECTION_TRANSITION}>
 							{(() => {
 								const StepComponent = steps[activeStepIndex].component;
 								return (
@@ -116,7 +114,6 @@ export function MapContainer({
 				isFirstStep={isFirstStep}
 				isLastStep={isLastStep}
 			/>
-
 		</div>
 	);
 }
