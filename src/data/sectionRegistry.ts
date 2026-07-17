@@ -5,6 +5,15 @@ import type { SectionRegistry, SectionRegistryEntry } from "@/types/dashboard";
 import ShaolinMorseCodeSection from "@/components/games/iw/maps/shaolin-shuffle/sections/MorseCodeSection";
 import ShaolinRooftopSymbolsSection from "@/components/games/iw/maps/shaolin-shuffle/sections/RooftopSymbolsSection";
 
+// Beast from Beyond
+import BeastFromBeyondDisksSection from "@/components/games/iw/maps/beast-from-beyond/sections/DisksSection";
+import BeastFromBeyondNeilHackSection from "@/components/games/iw/maps/beast-from-beyond/sections/NeilHackSection";
+
+// Attack of the Radioactive Thing
+import AotrtCodesSection from "@/components/games/iw/maps/attack-of-the-radioactive-thing/sections/CodesSection";
+import AotrtDataSection from "@/components/games/iw/maps/attack-of-the-radioactive-thing/sections/DataSection";
+import AotrtChemistrySection from "@/components/games/iw/maps/attack-of-the-radioactive-thing/sections/ChemistrySection";
+
 // ===== BO7 Imports =====
 // Astra Malorum
 import AstraPapCodeSection from "@/components/games/bo7/maps/astra-malorum/sections/PapCodeSection";
@@ -134,6 +143,55 @@ export const SECTION_REGISTRY: SectionRegistry = {
 				gameName: "Infinite Warfare",
 				mapId: "shaolin-shuffle",
 				mapName: "Shaolin Shuffle",
+			},
+		},
+		"beast-from-beyond": {
+			disks: {
+				id: "disks",
+				name: "Disks",
+				component: BeastFromBeyondDisksSection,
+				gameId: "iw",
+				gameName: "Infinite Warfare",
+				mapId: "beast-from-beyond",
+				mapName: "Beast from Beyond",
+			},
+			"neil-hack": {
+				id: "neil-hack",
+				name: "Neil Hack",
+				component: BeastFromBeyondNeilHackSection,
+				gameId: "iw",
+				gameName: "Infinite Warfare",
+				mapId: "beast-from-beyond",
+				mapName: "Beast from Beyond",
+			},
+		},
+		"attack-of-the-radioactive-thing": {
+			codes: {
+				id: "codes",
+				name: "Codes",
+				component: AotrtCodesSection,
+				gameId: "iw",
+				gameName: "Infinite Warfare",
+				mapId: "attack-of-the-radioactive-thing",
+				mapName: "Attack of the Radioactive Thing",
+			},
+			"chemistry-data": {
+				id: "chemistry-data",
+				name: "Chemistry - Data",
+				component: AotrtDataSection,
+				gameId: "iw",
+				gameName: "Infinite Warfare",
+				mapId: "attack-of-the-radioactive-thing",
+				mapName: "Attack of the Radioactive Thing",
+			},
+			"chemistry-crafting": {
+				id: "chemistry-crafting",
+				name: "Chemistry - Crafting",
+				component: AotrtChemistrySection,
+				gameId: "iw",
+				gameName: "Infinite Warfare",
+				mapId: "attack-of-the-radioactive-thing",
+				mapName: "Attack of the Radioactive Thing",
 			},
 		},
 	},
