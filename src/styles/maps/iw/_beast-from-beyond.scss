@@ -10,9 +10,9 @@
 	gap: space(lg);
 }
 
-// Mobile: 2 rows × 6 columns; desktop: single row of 12
+// Mobile: 3 rows × 4 columns; desktop: single row of 12
 .bfb-disks__picker.multi-select-symbol-picker {
-	grid-template-columns: repeat(6, 1fr);
+	grid-template-columns: repeat(4, 1fr);
 
 	@include tmd-up {
 		grid-template-columns: repeat(12, 1fr);
