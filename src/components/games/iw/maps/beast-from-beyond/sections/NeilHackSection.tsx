@@ -368,8 +368,12 @@ function NeilHackSection(props: BaseSectionProps<NeilHackData>) {
 				const setIsFirstTime = (isFirstTime: boolean) =>
 					setData((prev) => ({ ...prev, isFirstTime }));
 
+				// Older saved data predates this field, so it may be missing entirely —
+				// default to true (matches DEFAULT_VALUE) rather than reading as falsy.
+				const isFirstTime = data.isFirstTime ?? true;
+
 				let pressSwitches: number[] | null;
-				if (data.isFirstTime) {
+				if (isFirstTime) {
 					const solved = solveFastest(data.grid);
 					pressSwitches = solved ? solved.switches : null;
 				} else {
@@ -396,14 +400,14 @@ function NeilHackSection(props: BaseSectionProps<NeilHackData>) {
 							<div className="bfb-neil-hack__mode-buttons">
 								<button
 									type="button"
-									className={`bfb-neil-hack__mode-btn${data.isFirstTime ? " bfb-neil-hack__mode-btn--active" : ""}`}
+									className={`bfb-neil-hack__mode-btn${isFirstTime ? " bfb-neil-hack__mode-btn--active" : ""}`}
 									onClick={() => setIsFirstTime(true)}
 								>
 									Yes, first time
 								</button>
 								<button
 									type="button"
-									className={`bfb-neil-hack__mode-btn${!data.isFirstTime ? " bfb-neil-hack__mode-btn--active" : ""}`}
+									className={`bfb-neil-hack__mode-btn${!isFirstTime ? " bfb-neil-hack__mode-btn--active" : ""}`}
 									onClick={() => setIsFirstTime(false)}
 								>
 									No, redoing it
