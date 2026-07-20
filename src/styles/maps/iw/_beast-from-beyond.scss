@@ -40,7 +40,7 @@
 	padding: space(sm) space(xs);
 	background: var(--bg-tertiary);
 	border: 2px solid var(--border-color);
-	border-radius: var(--radius-md);
+	border-radius: radius(zero);
 	min-height: 80px;
 	transition: border-color var(--transition);
 
@@ -138,9 +138,11 @@
 		flex-wrap: wrap;
 		gap: space(xl);
 		justify-content: center;
+		margin-top: space(sm);
 
 		@include dsm-up {
 			gap: space(3xl);
+			margin-top: space(md);
 		}
 	}
 
@@ -162,8 +164,58 @@
 	&__status {
 		font-size: 0.875rem;
 		color: var(--text-secondary);
-		margin-top: space(sm);
+		margin-top: space(md);
 		text-align: center;
+	}
+
+	&__mode {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: space(sm);
+	}
+
+	&__mode-label {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--text-primary);
+		text-align: center;
+	}
+
+	&__mode-buttons {
+		display: flex;
+		gap: space(sm);
+	}
+
+	&__mode-btn {
+		padding: space(xs) space(md);
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--text-secondary);
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(zero);
+		cursor: pointer;
+		transition:
+			background var(--transition),
+			border-color var(--transition),
+			color var(--transition);
+
+		@media (hover: hover) {
+			&:hover {
+				border-color: color-mix(
+					in srgb,
+					var(--accent-color) 50%,
+					var(--border-color)
+				);
+			}
+		}
+
+		&--active {
+			color: var(--text-primary);
+			background: color-mix(in srgb, var(--accent-color) 28%, transparent);
+			border-color: var(--accent-color);
+		}
 	}
 }
 
@@ -180,10 +232,7 @@
 	justify-content: center;
 	width: 3.5rem;
 	height: 3.5rem;
-	font-size: 1.125rem;
-	font-weight: 700;
-	color: var(--text-primary);
-	border-radius: radius(sm);
+	border-radius: radius(zero);
 	border: 1px solid var(--border-color);
 	background: var(--bg-tertiary);
 	cursor: pointer;
@@ -218,6 +267,30 @@
 			}
 		}
 	}
+
+	&--press {
+		background: color-mix(in srgb, #{color(warning)} 22%, transparent);
+		border-color: #{color(warning)};
+		box-shadow: 0 0 8px color-mix(in srgb, #{color(warning)} 45%, transparent);
+	}
+}
+
+.bfb-neil-hack-cell__line {
+	background: var(--text-primary);
+	border-radius: 2px;
+	transition:
+		width var(--transition),
+		height var(--transition);
+
+	&--horizontal {
+		width: 60%;
+		height: 3px;
+	}
+
+	&--vertical {
+		width: 3px;
+		height: 60%;
+	}
 }
 
 // ── Compact mode ──────────────────────────────────────────────────────────────
@@ -231,6 +304,5 @@
 	.bfb-neil-hack-cell {
 		width: 2.75rem;
 		height: 2.75rem;
-		font-size: 1rem;
 	}
 }
