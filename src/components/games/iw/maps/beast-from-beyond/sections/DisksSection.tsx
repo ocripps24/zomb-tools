@@ -207,15 +207,22 @@ function DisksSection(props: BaseSectionProps<DisksData>) {
 
 				const atMax = selectedSymbols.length >= MAX_SELECTIONS;
 
+				// Union of symbols across every set still possible given what's
+				// selected so far — narrows as more symbols are picked, not just
+				// once a single set is identified.
+				const possibleSymbolIds = new Set(
+					possibleSets.flatMap((set) => set.symbols),
+				);
+
 				const symbols: MultiSelectSymbol[] = ALL_SYMBOL_IDS.map((id) => {
 					const isSelected = selectedSymbols.includes(id);
-					const inIdentifiedSet =
-						!identifiedSet || identifiedSet.symbols.includes(id);
+					const inPossibleSets =
+						selectedSymbols.length === 0 || possibleSymbolIds.has(id);
 					return {
 						id,
 						component: SYMBOL_COMPONENTS[id],
 						label: `Symbol ${id}`,
-						disabled: !isSelected && (!inIdentifiedSet || atMax),
+						disabled: !isSelected && (!inPossibleSets || atMax),
 					};
 				});
 
