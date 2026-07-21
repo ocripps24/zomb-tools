@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 82.26 45.08">
-  <g id="c" data-name="Layer 1">
-    <g id="d" data-name="symbol-7">
-      <polygon points="0 45.08 23.44 0 44.14 45.08 0 45.08" fill="#fff"/>
-      <polygon points="39.44 0 35.58 7.62 53.18 45.08 62.02 45.08 39.44 0" fill="#fff"/>
-      <polygon points="58.54 0 82.26 45.08 70 45.08 52.99 10.06 58.54 0" fill="#fff"/>
-    </g>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 102.62 45.08">
+  <g id="c" data-name="b">
+    <polyline points="0 45.08 0 0 45.05 45.08" fill="#fff"/>
+    <polygon points="28.78 0 28.78 24.27 49.58 45.08 73.83 45.08 28.78 0" fill="#fff"/>
+    <polygon points="57.57 0 57.57 24.27 78.37 45.08 102.62 45.08 57.57 0" fill="#fff"/>
   </g>
 </svg>

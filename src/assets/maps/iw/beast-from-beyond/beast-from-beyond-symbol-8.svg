@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62.12 49.8">
-  <g id="c" data-name="Layer 1">
-    <g id="d" data-name="symbol-8">
-      <polygon points="0 1.73 0 22.77 20.96 37.73 9.04 49.8 51.11 49.8 40.05 37.87 62.12 21.78 62.12 1.73 30.59 23.78 0 1.73" fill="#fff"/>
-      <polygon points="30.73 15.19 22.58 8.15 30.73 0 38.92 7.8 30.73 15.19" fill="#fff"/>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 73.7 57.1">
+  <g id="c" data-name="b">
+    <g id="d" data-name="c">
+      <polygon points=".03 0 0 26.48 23.74 49.95 16.57 57.1 57.11 57.1 49.96 49.95 73.7 26.22 73.7 0 36.85 36.83 .03 0" fill="#fff"/>
+      <rect x="27.58" y="8.71" width="18.54" height="18.54" transform="translate(-1.92 31.32) rotate(-45)" fill="#fff"/>
     </g>
   </g>
 </svg>
