@@ -62,11 +62,6 @@ const WORDS = [
 	},
 ];
 
-// Calculate which letters appear in any of the words
-const USED_LETTERS = new Set(
-	WORDS.flatMap((word) => word.letters.map((l) => l.toLowerCase()))
-);
-
 // All pig-pen symbol mappings
 const ALL_SYMBOLS = [
 	{ letter: "A", component: PigPenA },
@@ -97,17 +92,97 @@ const ALL_SYMBOLS = [
 	{ letter: "Z", component: PigPenZ },
 ];
 
-// Filter to only show symbols that appear in the words (15 unique letters)
-// This creates a more compact 2-row layout instead of 3 rows
-const PIG_PEN_SYMBOLS: MultiSelectSymbol[] = ALL_SYMBOLS.filter((symbol) =>
-	USED_LETTERS.has(symbol.letter.toLowerCase())
-).map((symbol) => ({
+// Show every letter (for pattern recognition against the real cipher).
+// Whether each one is clickable is computed live in the component, since it
+// narrows as selections rule out possible words - see withDynamicDisabled.
+const ALL_PIG_PEN_SYMBOLS: MultiSelectSymbol[] = ALL_SYMBOLS.map((symbol) => ({
 	id: symbol.letter.toLowerCase(),
 	label: symbol.letter,
 	component: symbol.component as unknown as React.ComponentType<
 		React.SVGProps<SVGSVGElement>
 	>,
 }));
+
+function symbolsFor(letters: string[]): MultiSelectSymbol[] {
+	return letters.map(
+		(letter) => ALL_PIG_PEN_SYMBOLS.find((s) => s.label === letter)!,
+	);
+}
+
+// The standard pigpen cipher groups the alphabet into two 3x3 grids (plain,
+// then dotted) and two crosses of 4 (plain, then dotted) - 9+9+4+4 = 26.
+// Arranging the picker the same way turns the layout into its own legend,
+// since each glyph's shape is literally derived from its position here.
+const GRID_1_SYMBOLS = symbolsFor([
+	"A",
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+]);
+const GRID_2_SYMBOLS = symbolsFor([
+	"J",
+	"K",
+	"L",
+	"M",
+	"N",
+	"O",
+	"P",
+	"Q",
+	"R",
+]);
+const CROSS_1_SYMBOLS = symbolsFor(["S", "U", "V", "T"]);
+const CROSS_2_SYMBOLS = symbolsFor(["W", "Y", "Z", "X"]);
+
+// Clockwise from the top, matching CROSS_1/2_SYMBOLS order above.
+const CROSS_POSITIONS = ["top", "right", "bottom", "left"] as const;
+
+interface PigPenCrossProps {
+	symbols: MultiSelectSymbol[];
+	selectedSymbols: string[];
+	onSymbolClick: (symbolId: string) => void;
+}
+
+function PigPenCross({
+	symbols,
+	selectedSymbols,
+	onSymbolClick,
+}: PigPenCrossProps) {
+	return (
+		<div className="pigpen-cross">
+			{symbols.map((symbol, i) => {
+				const SymbolComponent = symbol.component;
+				const isSelected = selectedSymbols.includes(symbol.id);
+				return (
+					<button
+						key={symbol.id}
+						type="button"
+						className={[
+							"multi-select-symbol-picker__symbol",
+							`pigpen-cross__symbol--${CROSS_POSITIONS[i]}`,
+							isSelected ? "multi-select-symbol-picker__symbol--selected" : "",
+							symbol.disabled
+								? "multi-select-symbol-picker__symbol--disabled"
+								: "",
+						]
+							.filter(Boolean)
+							.join(" ")}
+						onClick={() => onSymbolClick(symbol.id)}
+						disabled={symbol.disabled}
+						aria-label={symbol.label || symbol.id}
+						aria-pressed={isSelected}
+					>
+						<SymbolComponent className="multi-select-symbol-picker__icon" />
+					</button>
+				);
+			})}
+		</div>
+	);
+}
 
 function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 	// Register with the global settings system
@@ -130,7 +205,9 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 	});
 
 	// Get display mode from settings
-	const displayMode = getSetting("display-mode", "symbol-select") as "symbol-select" | "cheat-sheet";
+	const displayMode = getSetting("display-mode", "symbol-select") as
+		| "symbol-select"
+		| "cheat-sheet";
 
 	return (
 		<BaseSection
@@ -139,7 +216,7 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 				defaultValue: { selectedSymbols: [], mode: "symbol-select" },
 				title: "Rocket Launch",
 				description:
-					"Use the Necrofluid Gauntlet to slow the spinning antennae, then decode the symbols in the launch control room",
+					"Choose between Cheat Sheet mode (quick reference) or Symbol Select mode (progressive elimination) in the section settings.",
 				tipsConfig: {
 					show: true,
 					items: [
@@ -185,21 +262,6 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 			{...props}
 		>
 			{({ data, setData }) => {
-				// Helper function to get possible words based on selected symbols
-				const getPossibleWords = (selectedSymbols: string[]) => {
-					if (selectedSymbols.length === 0) {
-						return WORDS;
-					}
-
-					return WORDS.filter((wordData) => {
-						// Check if all selected symbols appear in this word
-						return selectedSymbols.every((symbol) => {
-							const letter = symbol.toUpperCase();
-							return wordData.letters.includes(letter);
-						});
-					});
-				};
-
 				const handleSymbolSelect = (symbolId: string) => {
 					const isSelected = data.selectedSymbols.includes(symbolId);
 
@@ -208,7 +270,7 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 						setData({
 							...data,
 							selectedSymbols: data.selectedSymbols.filter(
-								(id) => id !== symbolId
+								(id) => id !== symbolId,
 							),
 						});
 					} else {
@@ -231,6 +293,20 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 				const confirmedWord =
 					possibleWords.length === 1 ? possibleWords[0] : null;
 
+				// Only letters that could still complete one of the remaining
+				// possible words stay clickable; already-selected letters always
+				// stay clickable too, so a wrong guess can still be undone.
+				const possibleLetters = lettersInWords(possibleWords);
+				const withDynamicDisabled = (
+					symbols: MultiSelectSymbol[],
+				): MultiSelectSymbol[] =>
+					symbols.map((symbol) => ({
+						...symbol,
+						disabled:
+							!data.selectedSymbols.includes(symbol.id) &&
+							!possibleLetters.has(symbol.id),
+					}));
+
 				return (
 					<>
 						{displayMode === "symbol-select" ? (
@@ -242,12 +318,46 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 									</p>
 								</div>
 
-								<MultiSelectSymbolPicker
-									symbols={PIG_PEN_SYMBOLS}
-									selectedSymbols={data.selectedSymbols}
-									onSymbolClick={handleSymbolSelect}
-									showLabel={true}
-								/>
+								<div className="rocket-launch-section__pigpen-groups">
+									<div className="pigpen-group">
+										<span className="pigpen-group__label">A&ndash;I</span>
+										<MultiSelectSymbolPicker
+											symbols={withDynamicDisabled(GRID_1_SYMBOLS)}
+											selectedSymbols={data.selectedSymbols}
+											onSymbolClick={handleSymbolSelect}
+											className="pigpen-grid"
+										/>
+									</div>
+									<div className="pigpen-group">
+										<span className="pigpen-group__label">
+											J&ndash;R (dotted)
+										</span>
+										<MultiSelectSymbolPicker
+											symbols={withDynamicDisabled(GRID_2_SYMBOLS)}
+											selectedSymbols={data.selectedSymbols}
+											onSymbolClick={handleSymbolSelect}
+											className="pigpen-grid"
+										/>
+									</div>
+									<div className="pigpen-group">
+										<span className="pigpen-group__label">S&ndash;V</span>
+										<PigPenCross
+											symbols={withDynamicDisabled(CROSS_1_SYMBOLS)}
+											selectedSymbols={data.selectedSymbols}
+											onSymbolClick={handleSymbolSelect}
+										/>
+									</div>
+									<div className="pigpen-group">
+										<span className="pigpen-group__label">
+											W&ndash;Z (dotted)
+										</span>
+										<PigPenCross
+											symbols={withDynamicDisabled(CROSS_2_SYMBOLS)}
+											selectedSymbols={data.selectedSymbols}
+											onSymbolClick={handleSymbolSelect}
+										/>
+									</div>
+								</div>
 
 								{/* Show possible words as they narrow down */}
 								{data.selectedSymbols.length > 0 && (
@@ -259,15 +369,12 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 													<div className="word-title">{confirmedWord.word}</div>
 													<div className="word-symbols">
 														{confirmedWord.letters.map((letter, index) => {
-															const symbolData = PIG_PEN_SYMBOLS.find(
-																(s) => s.label === letter
+															const symbolData = ALL_PIG_PEN_SYMBOLS.find(
+																(s) => s.label === letter,
 															);
 															const SymbolComponent = symbolData?.component;
 															return (
-																<div
-																	key={index}
-																	className="word-symbols__item"
-																>
+																<div key={index} className="word-symbols__item">
 																	{SymbolComponent && (
 																		<SymbolComponent className="symbol-icon" />
 																	)}
@@ -308,8 +415,8 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 											<div className="rocket-launch-section__error rocket-launch-section__result--error">
 												<h4>No Matching Words</h4>
 												<p className="error-message">
-													The selected symbols do not match any of the 4 possible
-													words. Please review your selections.
+													The selected symbols do not match any of the 4
+													possible words. Please review your selections.
 												</p>
 												<p className="error-suggestion">
 													<strong>Tip:</strong> Each word uses only certain
@@ -341,20 +448,15 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 												}`}
 												onClick={() => handleWordSelect(wordData.word)}
 											>
-												<div className="cheat-sheet__word">
-													{wordData.word}
-												</div>
+												<div className="cheat-sheet__word">{wordData.word}</div>
 												<div className="cheat-sheet__symbols">
 													{wordData.letters.map((letter, index) => {
-														const symbolData = PIG_PEN_SYMBOLS.find(
-															(s) => s.label === letter
+														const symbolData = ALL_PIG_PEN_SYMBOLS.find(
+															(s) => s.label === letter,
 														);
 														const SymbolComponent = symbolData?.component;
 														return (
-															<div
-																key={index}
-																className="cheat-sheet__symbol"
-															>
+															<div key={index} className="cheat-sheet__symbol">
 																{SymbolComponent && (
 																	<SymbolComponent className="symbol-icon" />
 																)}
@@ -376,15 +478,16 @@ function RocketLaunchSection(props: BaseSectionProps<RocketLaunchData>) {
 											<h4>Screen Numbers to Shoot</h4>
 											<div className="rocket-launch-section__numbers">
 												<div className="numbers-grid">
-													{WORDS.find((w) => w.word === data.selectedWord)
-														?.numbers.map((number, index) => (
-															<div key={index} className="number-cell">
-																<div className="number-label">
-																	Screen {index + 1}
-																</div>
-																<div className="number-value">{number}</div>
+													{WORDS.find(
+														(w) => w.word === data.selectedWord,
+													)?.numbers.map((number, index) => (
+														<div key={index} className="number-cell">
+															<div className="number-label">
+																Screen {index + 1}
 															</div>
-														))}
+															<div className="number-value">{number}</div>
+														</div>
+													))}
 												</div>
 											</div>
 										</div>
@@ -411,6 +514,13 @@ function getPossibleWords(selectedSymbols: string[]) {
 			return wordData.letters.includes(letter);
 		});
 	});
+}
+
+// Union of letters appearing in any of the given words - narrows as
+// selections rule out words, so symbols that can no longer complete any
+// remaining word get disabled instead of staying clickable forever.
+function lettersInWords(words: typeof WORDS): Set<string> {
+	return new Set(words.flatMap((w) => w.letters.map((l) => l.toLowerCase())));
 }
 
 export default RocketLaunchSection;

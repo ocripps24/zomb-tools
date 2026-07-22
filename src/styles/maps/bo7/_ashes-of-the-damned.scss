@@ -215,52 +215,111 @@
 // ============================================================================
 
 .rocket-launch-section {
-	// Custom styling for MultiSelectSymbolPicker in this section
-	// 15 symbols (only used letters) in 9-column grid creates ~2 rows for compact layout
-	.multi-select-symbol-picker {
-		grid-template-columns: repeat(8, 1fr);
+	// The picker is laid out to match the real pigpen cipher: two 3x3 grids
+	// (plain, then dotted) and two crosses of 4 (plain, then dotted). Every
+	// letter is shown for pattern recognition, but only the ones used by
+	// ROCKET/ENGINE/LAUNCH/WEAPON are enabled (see &__symbol--disabled).
+
+	&__pigpen-groups {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: space(lg);
+		margin-bottom: space(lg);
+
+		@include tmd-up {
+			gap: space(xl);
+		}
+	}
+
+	.pigpen-group {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: space(xs);
+
+		&__label {
+			@include fluid-text(xs, semibold, 1.2);
+			text-transform: uppercase;
+			letter-spacing: 0.06em;
+			color: var(--text-secondary);
+		}
+	}
+
+	.pigpen-grid.multi-select-symbol-picker {
+		grid-template-columns: repeat(3, 1fr);
+		gap: space(xs);
+		margin-bottom: 0;
+
+		@include tmd-up {
+			gap: space(sm);
+		}
+	}
+
+	.pigpen-cross {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: repeat(3, 1fr);
+		grid-template-areas:
+			".    top    ."
+			"left  .   right"
+			".  bottom   .";
 		gap: space(xs);
 
 		@include tmd-up {
-			gap: space(md);
-		}
-
-		@include dsm-up {
-			grid-template-columns: repeat(15, 1fr);
 			gap: space(sm);
 		}
 
-		&__symbol {
-			padding: space(xs);
-			min-height: 0; // Allow flex items to shrink below content size
-
-			@include plg-up {
-				padding: space(sm);
-			}
-
-			@include tsm-up {
-				padding: space(md);
-			}
-
-			@include dsm-up {
-				padding: space(sm);
-			}
+		&__symbol--top {
+			grid-area: top;
 		}
 
-		&__icon {
-			width: 100%;
-			height: auto; // Let height be determined by width and aspect ratio
-			max-width: none;
-			max-height: none;
-			object-fit: contain;
-			flex-shrink: 0; // Prevent icon from shrinking
-			color: var(--text-primary); // Color for SVG symbols
+		&__symbol--right {
+			grid-area: right;
 		}
 
-		&__label {
-			display: none; // Hide labels on all screen sizes
-			flex-shrink: 0; // Prevent label from shrinking
+		&__symbol--bottom {
+			grid-area: bottom;
 		}
+
+		&__symbol--left {
+			grid-area: left;
+		}
+	}
+
+	// Shared symbol/icon styling for both the grid clusters (rendered via
+	// MultiSelectSymbolPicker) and the cross clusters (custom markup reusing
+	// the same class names for a consistent look).
+	.multi-select-symbol-picker__symbol {
+		width: 40px;
+		height: 40px;
+		padding: space(xs);
+		min-height: 0; // Allow flex items to shrink below content size
+
+		@include plg-up {
+			width: 48px;
+			height: 48px;
+			padding: space(sm);
+		}
+
+		@include tsm-up {
+			width: 56px;
+			height: 56px;
+		}
+	}
+
+	.multi-select-symbol-picker__icon {
+		width: 100%;
+		height: auto; // Let height be determined by width and aspect ratio
+		max-width: none;
+		max-height: none;
+		object-fit: contain;
+		flex-shrink: 0; // Prevent icon from shrinking
+		color: var(--text-primary); // Color for SVG symbols
+	}
+
+	.multi-select-symbol-picker__label {
+		display: none; // Hide labels on all screen sizes
 	}
 
 	&__instructions {
@@ -596,24 +655,24 @@
 
 // Compact mode adjustments for Rocket Launch Section
 .base-section.compact .rocket-launch-section {
-	// Compact mode for MultiSelectSymbolPicker
-	.multi-select-symbol-picker {
+	// Compact mode for the pigpen grid/cross clusters
+	&__pigpen-groups {
+		gap: space(md);
+	}
+
+	.pigpen-grid.multi-select-symbol-picker,
+	.pigpen-cross {
 		gap: space(xs);
+	}
 
-		&__symbol {
-			padding: space(xs);
-		}
+	.multi-select-symbol-picker__symbol {
+		width: 32px;
+		height: 32px;
+		padding: space(xs);
 
-		&__icon {
-			// Icon scales with container
-		}
-
-		&__label {
-			font-size: 0.6875rem;
-
-			@include tmd-up {
-				font-size: 0.75rem;
-			}
+		@include plg-up {
+			width: 40px;
+			height: 40px;
 		}
 	}
 
