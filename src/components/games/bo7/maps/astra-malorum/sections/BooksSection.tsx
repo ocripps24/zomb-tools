@@ -31,8 +31,8 @@ const SHELF_SETS = [
 		id: 3,
 		location: "Corner",
 		books: [
-			{ id: "cydonia", title: "Cydonia" },
-			{ id: "singularity", title: "Singularity" },
+			{ id: "cydonia", title: "Pyramids of Cydonia" },
+			{ id: "singularity", title: "Silence at Singularity" },
 			{ id: "witchlight-codex", title: "Witchlight Codex" },
 		],
 	},
@@ -77,8 +77,21 @@ function BooksSection(props: BaseSectionProps<BooksData>) {
 							text: "If 2 books are from Inner shelf, interact with Inner statue twice",
 						},
 						{
-							label: "Location",
-							text: "Teleporter room (machine) and adjacent library (shelves)",
+							label: "Shelf/Statue Locations",
+							nested: [
+								{
+									label: "Inner",
+									text: "the statue head closest to the teleporter room",
+								},
+								{
+									label: "Outer",
+									text: "the statue head closest to Pack-a-Punch",
+								},
+								{
+									label: "Corner",
+									text: "the corner across from Stamina and behind the Gramaphone table",
+								},
+							],
 						},
 					],
 				},
@@ -116,7 +129,7 @@ function BooksSection(props: BaseSectionProps<BooksData>) {
 				const getShelfResults = () => {
 					return SHELF_SETS.map((shelf) => {
 						const booksFromThisShelf = shelf.books.filter((book) =>
-							data.selectedBooks.includes(book.id)
+							data.selectedBooks.includes(book.id),
 						).length;
 
 						return {

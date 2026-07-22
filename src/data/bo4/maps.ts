@@ -23,9 +23,7 @@ export const BO4_MAPS: BO4Map[] = [
 		status: "Available",
 		route: ROUTES.games.bo4.maps.voyageOfDespair,
 		component: () =>
-			import(
-				"../../components/games/bo4/maps/voyage-of-despair/VoyageOfDespair.tsx"
-			),
+			import("../../components/games/bo4/maps/voyage-of-despair/VoyageOfDespair.tsx"),
 		available: true,
 		tools: ["Clocks", "Outlets", "Planets"],
 		difficulty: "medium",
@@ -51,9 +49,7 @@ export const BO4_MAPS: BO4Map[] = [
 		status: "Available",
 		route: ROUTES.games.bo4.maps.bloodOfTheDead,
 		component: () =>
-			import(
-				"../../components/games/bo4/maps/blood-of-the-dead/BloodOfTheDead.tsx"
-			),
+			import("../../components/games/bo4/maps/blood-of-the-dead/BloodOfTheDead.tsx"),
 		available: true,
 		tools: ["Power House", "Morse Code"],
 		difficulty: "hard",
@@ -80,11 +76,9 @@ export const BO4_MAPS: BO4Map[] = [
 		status: "Available",
 		route: ROUTES.games.bo4.maps.deadOfTheNight,
 		component: () =>
-			import(
-				"../../components/games/bo4/maps/dead-of-the-night/DeadOfTheNight.tsx"
-			),
+			import("../../components/games/bo4/maps/dead-of-the-night/DeadOfTheNight.tsx"),
 		available: true,
-		tools: ["Alastair's Folly", "Atlas"],
+		tools: ["Atlas", "Alastair's Folly", "Scratches"],
 		difficulty: "medium",
 	},
 	{
