@@ -89,8 +89,18 @@ function RaSymbolsSection(props: BaseSectionProps<RaSymbolsSectionData>) {
 					show: true,
 					items: [
 						{
-							label: "Steps",
-							text: "The symbols will appear on the column at the top of the Temple of Ra. Kill the special enemy types in the order corresponding to the symbols shown. ",
+							label: "How it works:",
+							nested: [
+								{
+									text: "The symbols will appear on the column at the top of the Temple of Ra.",
+								},
+								{
+									text: "Kill the special enemy types in the order corresponding to the symbols shown.",
+								},
+								{
+									text: "This cannot be done on a special round.",
+								},
+							],
 						},
 					],
 				},
@@ -122,7 +132,7 @@ function RaSymbolsSection(props: BaseSectionProps<RaSymbolsSectionData>) {
 											if (isSelected) {
 												setData({
 													selectedSymbols: data.selectedSymbols.filter(
-														(id) => id !== symbol.id
+														(id) => id !== symbol.id,
 													),
 												});
 											} else if (canSelect) {
