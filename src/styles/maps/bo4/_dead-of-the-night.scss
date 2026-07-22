@@ -124,7 +124,9 @@
 				width: 100%;
 				height: 100%;
 				color: var(--text-primary);
-				transition: color 0.2s ease, opacity 0.2s ease;
+				transition:
+					color 0.2s ease,
+					opacity 0.2s ease;
 			}
 		}
 
@@ -338,8 +340,8 @@
 			background: var(--bg-quaternary);
 
 			svg {
-				width: 80px;
-				height: 80px;
+				width: 4rem;
+				height: 4rem;
 				color: var(--text-primary);
 			}
 
@@ -351,6 +353,7 @@
 
 		.card-count-input {
 			padding: space(lg);
+			padding-top: space(md);
 			display: flex;
 			flex-direction: column;
 			gap: space(md);
@@ -360,47 +363,76 @@
 				color: var(--text-secondary);
 			}
 
-			.text-input-wrapper {
-				display: flex;
-				flex-direction: column;
-				gap: space(xs);
+			.error-text {
+				@include fluid-text(xs, normal, 1.2);
+				color: var(--danger-color);
+			}
 
-				.scratch-count-input {
-					width: 100%;
-					padding: space(md);
-					background: transparent;
-					border: 1px solid var(--border-color);
-					border-radius: radius(sm);
-					color: var(--text-primary);
-					@include fluid-text(base, normal, 1.2);
-					text-align: center;
-					transition: border-color 0.2s ease;
+			.scratch-option-btn {
+				padding: space(sm) space(md);
+				background: var(--bg-tertiary);
+				border: 1px solid var(--border-color);
+				border-radius: radius(sm);
+				color: var(--text-primary);
+				@include fluid-text(sm, medium, 1.2);
+				cursor: pointer;
+				transition: all 0.2s ease;
 
-					&:focus {
-						outline: none;
-						border-color: var(--primary-color);
-						box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.15);
-					}
-
-					&.scratch-count-input--error {
-						border-color: var(--danger-color);
-
-						&:focus {
-							box-shadow: 0 0 0 2px rgba(var(--color-danger-rgb), 0.15);
-						}
-					}
+				&:hover:not(:disabled) {
+					border-color: var(--border-subtle);
 				}
 
-				.error-text {
-					@include fluid-text(xs, normal, 1.2);
-					color: var(--danger-color);
+				&--selected {
+					border-color: var(--success-color);
+					color: var(--success-color);
+					box-shadow: 0 0 0 2px rgba(var(--color-success-rgb), 0.15);
+				}
+
+				&:disabled {
+					opacity: 0.3;
+					cursor: not-allowed;
 				}
 			}
 
-			.slider-wrapper,
-			.stepper-wrapper,
-			.buttons-wrapper {
-				width: 100%;
+			.scratch-total-buttons {
+				display: flex;
+				flex-wrap: wrap;
+				gap: space(sm);
+			}
+
+			.scratch-location-rows {
+				display: flex;
+				flex-direction: column;
+				gap: space(sm);
+			}
+
+			.scratch-location-row {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: space(sm);
+
+				&__label {
+					@include fluid-text(xs, medium, 1.2);
+					color: var(--text-tertiary);
+					flex-shrink: 0;
+				}
+			}
+
+			.scratch-location-buttons {
+				display: flex;
+				gap: space(xs);
+
+				.scratch-option-btn {
+					padding: space(xs) space(sm);
+				}
+			}
+
+			.scratch-location-total {
+				@include fluid-text(sm, medium, 1.2);
+				color: var(--text-primary);
+				text-align: center;
+				margin-top: space(xs);
 			}
 		}
 

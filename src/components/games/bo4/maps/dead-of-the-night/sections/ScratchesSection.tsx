@@ -1,9 +1,6 @@
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import { SymbolPicker, ResultsDisplay } from "@/components/ui";
-import { MovementSlider } from "@/components/ui";
-import { MovementStepper } from "@/components/ui";
-import { MovementButtons } from "@/components/ui";
 import { useSectionSettings } from "@/hooks/useSectionSettings";
 import type { SequenceItem } from "@/components/ui/ResultsDisplay";
 
@@ -109,18 +106,153 @@ const ZODIAC_SYMBOLS = [
 	},
 ];
 
-// Data interface for this section
+// ─── Scratch counting ───────────────────────────────────────────────────────
+//
+// The final total for a set can only ever be 7, 9, 11, 13, or 15 - never an
+// even number. In Individual mode the player enters the count observed at
+// each of up to 3 locations (0, 3, 4, or 5), which are added together.
+//
+// Only 6 location combinations are actually possible (derived from testing):
+// whenever one location is 4, exactly one other is 3 or 5 and the third is
+// empty (0); totals of 11/13/15 never involve a 4 at all.
+type LocationValue = 0 | 3 | 4 | 5;
+type LocationSlot = LocationValue | null;
+
 interface ScratchCard {
 	symbol: string;
 	count: number;
+	locations: [LocationSlot, LocationSlot, LocationSlot];
 }
 
 interface ScratchesData {
 	cards: [ScratchCard, ScratchCard, ScratchCard];
 }
 
-const MIN_SCRATCHES = 7;
-const MAX_SCRATCHES = 15;
+const TOTAL_OPTIONS = [7, 9, 11, 13, 15] as const;
+const LOCATION_OPTIONS: LocationValue[] = [0, 3, 4, 5];
+
+const VALID_LOCATION_COMBOS: LocationValue[][] = [
+	[0, 3, 4],
+	[0, 4, 5],
+	[3, 3, 3],
+	[3, 3, 5],
+	[3, 5, 5],
+	[5, 5, 5],
+];
+
+function isSubMultiset(candidate: number[], combo: number[]): boolean {
+	const comboCounts = new Map<number, number>();
+	for (const n of combo) comboCounts.set(n, (comboCounts.get(n) ?? 0) + 1);
+	const candidateCounts = new Map<number, number>();
+	for (const n of candidate)
+		candidateCounts.set(n, (candidateCounts.get(n) ?? 0) + 1);
+	for (const [n, count] of candidateCounts) {
+		if ((comboCounts.get(n) ?? 0) < count) return false;
+	}
+	return true;
+}
+
+// Every combo consistent with whatever's already known (nulls are ignored -
+// still-open rows can be filled with whatever's needed to complete one).
+function possibleCombos(
+	locations: [LocationSlot, LocationSlot, LocationSlot],
+): LocationValue[][] {
+	const known = locations.filter((v): v is LocationValue => v !== null);
+	return VALID_LOCATION_COMBOS.filter((combo) => isSubMultiset(known, combo));
+}
+
+// Same as possibleCombos, but steers away from combos whose total is already
+// used by another card - UNLESS that's the only way to complete a valid
+// combo at all, in which case the forced (duplicate-total) answer still
+// wins, since it's what the player will actually observe in-game. The
+// resulting duplicate is left for the existing isCountDuplicate error to
+// surface, rather than silently hidden here.
+function preferredCombos(
+	locations: [LocationSlot, LocationSlot, LocationSlot],
+	takenTotals: Set<number>,
+): LocationValue[][] {
+	const all = possibleCombos(locations);
+	const nonDuplicate = all.filter(
+		(combo) => !takenTotals.has(combo.reduce<number>((sum, v) => sum + v, 0)),
+	);
+	return nonDuplicate.length > 0 ? nonDuplicate : all;
+}
+
+// Whether `value` is still worth offering for this row, given the other rows'
+// current values and totals already used by other cards.
+function isLocationValueViable(
+	locations: [LocationSlot, LocationSlot, LocationSlot],
+	rowIndex: number,
+	value: LocationValue,
+	takenTotals: Set<number>,
+): boolean {
+	const candidate = [...locations] as [LocationSlot, LocationSlot, LocationSlot];
+	candidate[rowIndex] = value;
+	return preferredCombos(candidate, takenTotals).length > 0;
+}
+
+function locationsTotal(
+	locations: [LocationSlot, LocationSlot, LocationSlot],
+): number {
+	if (locations.some((v) => v === null)) return 0;
+	return (locations as LocationValue[]).reduce<number>((sum, v) => sum + v, 0);
+}
+
+// If the remaining unset rows only have one possible completion - preferring
+// combos that don't duplicate another card's total - fill them in
+// automatically rather than making the player click a foregone conclusion.
+function withAutoFill(
+	locations: [LocationSlot, LocationSlot, LocationSlot],
+	takenTotals: Set<number>,
+): [LocationSlot, LocationSlot, LocationSlot] {
+	const nullIndices = locations
+		.map((v, i) => (v === null ? i : -1))
+		.filter((i) => i !== -1);
+	if (nullIndices.length === 0) return locations;
+
+	const combos = preferredCombos(locations, takenTotals);
+	if (combos.length !== 1) return locations;
+
+	const remaining = [...combos[0]];
+	for (const known of locations) {
+		if (known === null) continue;
+		remaining.splice(remaining.indexOf(known), 1);
+	}
+
+	const result = [...locations] as [LocationSlot, LocationSlot, LocationSlot];
+	nullIndices.forEach((rowIndex, i) => {
+		result[rowIndex] = remaining[i];
+	});
+	return result;
+}
+
+const EMPTY_CARD: ScratchCard = {
+	symbol: "",
+	count: 0,
+	locations: [null, null, null],
+};
+
+// Cards saved before Individual Scratches mode existed have no `locations`
+// field at all in localStorage, so it can be undefined at runtime.
+function getLocations(
+	card: ScratchCard,
+): [LocationSlot, LocationSlot, LocationSlot] {
+	return card.locations ?? [null, null, null];
+}
+
+// Totals already used by the *other* two cards, for duplicate-avoiding
+// narrowing while filling in the current card's locations.
+function getTakenTotals(
+	cards: [ScratchCard, ScratchCard, ScratchCard],
+	excludeIndex: number,
+): Set<number> {
+	return new Set(
+		cards
+			.filter((_, i) => i !== excludeIndex)
+			.map((c) => c.count)
+			.filter((count) => count > 0),
+	);
+}
 
 function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 	// Register with the global settings system
@@ -130,33 +262,26 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 		sectionName: "Scratches",
 		settings: [
 			{
-				id: "input-method",
-				label: "Input Method",
-				defaultValue: "sliders",
+				id: "count-mode",
+				label: "Counting Method",
+				defaultValue: "total",
 				options: [
-					{ value: "sliders", label: "Sliders (range controls)" },
-					{ value: "steppers", label: "Steppers (+/- buttons)" },
-					{ value: "buttons", label: "Button Grid" },
-					{ value: "text", label: "Text Input" },
+					{ value: "total", label: "Total Scratches" },
+					{ value: "individual", label: "Individual Scratches" },
 				],
-				note: "How you input scratch mark totals (7-15)",
-			}
+				note: "Total: enter the final tally directly. Individual: add up the count from each location.",
+			},
 		],
 	});
 
-	// Get input method from settings
-	const inputMethod = getSetting("input-method", "sliders") as string;
+	const countMode = getSetting("count-mode", "total") as "total" | "individual";
 
 	return (
 		<BaseSection
 			config={{
 				storageKey: "dead-of-the-night-scratches-data",
 				defaultValue: {
-					cards: [
-						{ symbol: "", count: 0 },
-						{ symbol: "", count: 0 },
-						{ symbol: "", count: 0 },
-					],
+					cards: [EMPTY_CARD, EMPTY_CARD, EMPTY_CARD],
 				},
 				title: "Scratches",
 				description:
@@ -174,8 +299,22 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 							text: "Each set has a zodiac symbol and up to 3 scratch mark locations. Count all scratches (0, 3, 4, or 5 per location) for each symbol",
 						},
 						{
+							label: "Counting Modes",
+							nested: [
+								{
+									text: "Total Scratches: if you already know the final tally, enter it directly.",
+								},
+								{
+									text: "Individual Scratches: enter the count observed at each location and the total is calculated for you.",
+								},
+								{
+									text: "If any location shows 4 scratches, exactly one other location will show 3 or 5, and the third will be empty (0).",
+								},
+							],
+						},
+						{
 							label: "Total Range",
-							text: "The total scratch count for each symbol will be between 7 and 15",
+							text: "The total scratch count for each symbol will always be 7, 9, 11, 13, or 15 - never an even number",
 						},
 						{
 							label: "Final Solution",
@@ -185,14 +324,13 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 				},
 			}}
 			getProgress={(data: ScratchesData) => {
-				// Check for duplicate counts
 				const counts = data.cards
-					.filter((card) => card.count >= MIN_SCRATCHES)
+					.filter((card) => card.count > 0)
 					.map((card) => card.count);
 				const hasDuplicates = counts.length !== new Set(counts).size;
 
 				const completeCards = data.cards.filter(
-					(card) => card.symbol !== "" && card.count >= MIN_SCRATCHES
+					(card) => card.symbol !== "" && card.count > 0,
 				).length;
 
 				return {
@@ -213,16 +351,16 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 				const handleSymbolSelect = (_locationId: string, symbolId: string) => {
 					// Find first empty card
 					const emptyCardIndex = data.cards.findIndex(
-						(card) => card.symbol === ""
+						(card) => card.symbol === "",
 					);
 					if (emptyCardIndex !== -1) {
 						setData((prev) => {
 							const newCards = [...prev.cards] as [
 								ScratchCard,
 								ScratchCard,
-								ScratchCard
+								ScratchCard,
 							];
-							newCards[emptyCardIndex] = { symbol: symbolId, count: 0 };
+							newCards[emptyCardIndex] = { ...EMPTY_CARD, symbol: symbolId };
 							return { ...prev, cards: newCards };
 						});
 					}
@@ -234,43 +372,76 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 						const newCards = [...prev.cards] as [
 							ScratchCard,
 							ScratchCard,
-							ScratchCard
+							ScratchCard,
 						];
-						newCards[cardIndex] = { symbol: "", count: 0 };
+						newCards[cardIndex] = { ...EMPTY_CARD };
 						return { ...prev, cards: newCards };
 					});
 				};
 
-				// Handle count change for a card
-				const handleCountChange = (cardIndex: number, count: number) => {
+				// Handle picking a total directly (Total Scratches mode)
+				const handleTotalSelect = (cardIndex: number, total: number) => {
 					setData((prev) => {
 						const newCards = [...prev.cards] as [
 							ScratchCard,
 							ScratchCard,
-							ScratchCard
+							ScratchCard,
 						];
-						newCards[cardIndex] = { ...newCards[cardIndex], count };
+						const card = newCards[cardIndex];
+						newCards[cardIndex] = {
+							...card,
+							count: card.count === total ? 0 : total,
+						};
 						return { ...prev, cards: newCards };
 					});
 				};
 
-				// Handle text input change
-				const handleTextInputChange = (cardIndex: number, value: string) => {
-					// Allow empty or valid numbers
-					if (value === "" || /^\d+$/.test(value)) {
-						const numValue = value === "" ? 0 : parseInt(value);
-						handleCountChange(cardIndex, numValue);
-					}
+				// Handle picking a location's count (Individual Scratches mode)
+				const handleLocationSelect = (
+					cardIndex: number,
+					rowIndex: number,
+					value: LocationValue,
+				) => {
+					setData((prev) => {
+						const newCards = [...prev.cards] as [
+							ScratchCard,
+							ScratchCard,
+							ScratchCard,
+						];
+						const card = newCards[cardIndex];
+						const cardLocations = getLocations(card);
+						const takenTotals = getTakenTotals(prev.cards, cardIndex);
+						const isSelected = cardLocations[rowIndex] === value;
+						if (
+							!isSelected &&
+							!isLocationValueViable(cardLocations, rowIndex, value, takenTotals)
+						) {
+							return prev;
+						}
+						const newLocations = [...cardLocations] as [
+							LocationSlot,
+							LocationSlot,
+							LocationSlot,
+						];
+						newLocations[rowIndex] = isSelected ? null : value;
+						const filledLocations = withAutoFill(newLocations, takenTotals);
+						newCards[cardIndex] = {
+							...card,
+							locations: filledLocations,
+							count: locationsTotal(filledLocations),
+						};
+						return { ...prev, cards: newCards };
+					});
 				};
 
 				// Get sorted results (smallest to largest count) as SequenceItems
 				const getSortedResults = (): SequenceItem[] => {
 					const completeCards = data.cards
-						.filter((card) => card.symbol !== "" && card.count >= MIN_SCRATCHES)
+						.filter((card) => card.symbol !== "" && card.count > 0)
 						.sort((a, b) => a.count - b.count)
 						.map((card, index) => {
 							const symbolData = ZODIAC_SYMBOLS.find(
-								(s) => s.id === card.symbol
+								(s) => s.id === card.symbol,
 							);
 							return {
 								id: card.symbol,
@@ -288,7 +459,7 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 							id: `pending-${i}`,
 							order: completeCards.length + i + 1,
 							status: "pending" as const,
-						})
+						}),
 					);
 
 					return [...completeCards, ...pendingItems];
@@ -296,21 +467,11 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 
 				const sortedResults = getSortedResults();
 
-				// Check if a count is out of valid range
-				const isCountOutOfRange = (count: number) => {
-					return (
-						count !== 0 && (count < MIN_SCRATCHES || count > MAX_SCRATCHES)
-					);
-				};
-
 				// Check if a count is used on another card
 				const isCountDuplicate = (count: number, currentCardIndex: number) => {
 					if (count === 0) return false;
 					return data.cards.some(
-						(card, index) =>
-							index !== currentCardIndex &&
-							card.count === count &&
-							card.count >= MIN_SCRATCHES
+						(card, index) => index !== currentCardIndex && card.count === count,
 					);
 				};
 
@@ -339,15 +500,15 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 						<div className="scratch-cards">
 							{data.cards.map((card, index) => {
 								const symbolData = ZODIAC_SYMBOLS.find(
-									(s) => s.id === card.symbol
+									(s) => s.id === card.symbol,
 								);
 								const SymbolComponent = symbolData?.component;
 								const hasSymbol = card.symbol !== "";
-								const hasCount = card.count >= MIN_SCRATCHES;
-								const outOfRange = isCountOutOfRange(card.count);
+								const hasCount = card.count > 0;
 								const isDuplicate = isCountDuplicate(card.count, index);
-								const hasError = outOfRange || isDuplicate;
-								const isComplete = hasSymbol && hasCount && !hasError;
+								const isComplete = hasSymbol && hasCount && !isDuplicate;
+								const cardLocations = getLocations(card);
+								const takenTotals = getTakenTotals(data.cards, index);
 
 								return (
 									<div
@@ -355,7 +516,7 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 										className={`scratch-card ${
 											isComplete ? "scratch-card--complete" : ""
 										} ${hasSymbol ? "scratch-card--has-symbol" : ""} ${
-											hasError ? "scratch-card--error" : ""
+											isDuplicate ? "scratch-card--error" : ""
 										}`}
 									>
 										<div className="scratch-card-header">
@@ -387,99 +548,88 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 
 												{/* Count Input */}
 												<div className="card-count-input">
-													<label>Scratch Count:</label>
-
-													{inputMethod === "text" && (
-														<div className="text-input-wrapper">
-															<input
-																type="text"
-																inputMode="numeric"
-																value={card.count === 0 ? "" : card.count}
-																onChange={(e) =>
-																	handleTextInputChange(index, e.target.value)
-																}
-																placeholder="0"
-																className={`scratch-count-input ${
-																	outOfRange || isDuplicate
-																		? "scratch-count-input--error"
-																		: ""
-																}`}
-															/>
-															{outOfRange && (
-																<span className="error-text">
-																	Must be between {MIN_SCRATCHES}-
-																	{MAX_SCRATCHES}
-																</span>
-															)}
-															{!outOfRange && isDuplicate && (
-																<span className="error-text">
-																	This count is already used on another card
-																</span>
-															)}
-														</div>
+													{countMode === "total" ? (
+														<>
+															<label>Total Scratches:</label>
+															<div className="scratch-total-buttons">
+																{TOTAL_OPTIONS.map((total) => (
+																	<button
+																		key={total}
+																		type="button"
+																		className={`scratch-option-btn ${
+																			card.count === total
+																				? "scratch-option-btn--selected"
+																				: ""
+																		}`}
+																		onClick={() =>
+																			handleTotalSelect(index, total)
+																		}
+																	>
+																		{total}
+																	</button>
+																))}
+															</div>
+														</>
+													) : (
+														<>
+															<label>Scratches per Location:</label>
+															<div className="scratch-location-rows">
+																{cardLocations.map((locationValue, rowIndex) => (
+																	<div
+																		key={rowIndex}
+																		className="scratch-location-row"
+																	>
+																		<span className="scratch-location-row__label">
+																			Location {rowIndex + 1}
+																		</span>
+																		<div className="scratch-location-buttons">
+																			{LOCATION_OPTIONS.map((value) => {
+																				const isSelected =
+																					locationValue === value;
+																				const isViable =
+																					isSelected ||
+																					isLocationValueViable(
+																						cardLocations,
+																						rowIndex,
+																						value,
+																						takenTotals,
+																					);
+																				return (
+																					<button
+																						key={value}
+																						type="button"
+																						className={`scratch-option-btn ${
+																							isSelected
+																								? "scratch-option-btn--selected"
+																								: ""
+																						}`}
+																						disabled={!isViable}
+																						onClick={() =>
+																							handleLocationSelect(
+																								index,
+																								rowIndex,
+																								value,
+																							)
+																						}
+																					>
+																						{value}
+																					</button>
+																				);
+																			})}
+																		</div>
+																	</div>
+																))}
+															</div>
+															<div className="scratch-location-total">
+																Total:{" "}
+																{card.count > 0 ? card.count : "—"}
+															</div>
+														</>
 													)}
-
-													{inputMethod === "sliders" && (
-														<div className="slider-wrapper">
-															<MovementSlider
-																locationId={`card-${index}`}
-																label="Scratches"
-																movement={card.count}
-																limits={{
-																	min: MIN_SCRATCHES,
-																	max: MAX_SCRATCHES,
-																}}
-																displayFormat="time"
-																movementToTime={(count: number) =>
-																	count.toString()
-																}
-																onChange={(_: string, count: number) =>
-																	handleCountChange(index, count)
-																}
-															/>
-														</div>
-													)}
-
-													{inputMethod === "steppers" && (
-														<div className="stepper-wrapper">
-															<MovementStepper
-																locationId={`card-${index}`}
-																label="Scratches"
-																movement={card.count}
-																limits={{
-																	min: MIN_SCRATCHES,
-																	max: MAX_SCRATCHES,
-																}}
-																displayFormat="time"
-																movementToTime={(count: number) =>
-																	count.toString()
-																}
-																onChange={(_: string, count: number) =>
-																	handleCountChange(index, count)
-																}
-															/>
-														</div>
-													)}
-
-													{inputMethod === "buttons" && (
-														<div className="buttons-wrapper">
-															<MovementButtons
-																locationId={`card-${index}`}
-																label="Scratches"
-																movement={card.count}
-																limits={{
-																	min: MIN_SCRATCHES,
-																	max: MAX_SCRATCHES,
-																}}
-																displayFormat="time"
-																movementToTime={(count: number) =>
-																	count.toString()
-																}
-																onChange={(_: string, count: number) =>
-																	handleCountChange(index, count)
-																}
-															/>
-														</div>
+													{isDuplicate && (
+														<span className="error-text">
+															This total is already used on another card
+														</span>
 													)}
 												</div>
 											</>
