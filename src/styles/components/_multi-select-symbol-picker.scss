@@ -16,8 +16,8 @@
 	&__symbol {
 		position: relative;
 		background: transparent;
-		border: 2px solid var(--border-color);
-		border-radius: radius(base);
+		border: 1px solid var(--border-color);
+		border-radius: radius(zero);
 		padding: space(sm);
 		cursor: pointer;
 		transition: all 0.2s ease;
