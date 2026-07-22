@@ -23,9 +23,7 @@ export const BO7_MAPS: BO7Map[] = [
 		status: "Available",
 		route: ROUTES.games.bo7.maps.ashesOfTheDamned,
 		component: () =>
-			import(
-				"../../components/games/bo7/maps/ashes-of-the-damned/AshesOfTheDamned"
-			),
+			import("../../components/games/bo7/maps/ashes-of-the-damned/AshesOfTheDamned"),
 		available: true,
 		tools: ["Serum", "Rocket Launch"],
 		difficulty: "medium",
@@ -36,9 +34,7 @@ export const BO7_MAPS: BO7Map[] = [
 		status: "Available",
 		route: ROUTES.games.bo7.maps.astraMalorum,
 		component: () =>
-			import(
-				"../../components/games/bo7/maps/astra-malorum/AstraMalorum"
-			),
+			import("../../components/games/bo7/maps/astra-malorum/AstraMalorum"),
 		available: true,
 		tools: ["OSCAR Code", "Books", "Teleporter", "Organ / Mars"],
 		difficulty: "medium",
@@ -49,9 +45,7 @@ export const BO7_MAPS: BO7Map[] = [
 		status: "Available",
 		route: ROUTES.games.bo7.maps.paradoxJunction,
 		component: () =>
-			import(
-				"../../components/games/bo7/maps/paradox-junction/ParadoxJunction"
-			),
+			import("../../components/games/bo7/maps/paradox-junction/ParadoxJunction"),
 		available: true,
 		tools: ["Piano Notes"],
 		difficulty: "medium",
@@ -62,9 +56,7 @@ export const BO7_MAPS: BO7Map[] = [
 		status: "Available",
 		route: ROUTES.games.bo7.maps.totenreich,
 		component: () =>
-			import(
-				"../../components/games/bo7/maps/totenreich/Totenreich"
-			),
+			import("../../components/games/bo7/maps/totenreich/Totenreich"),
 		available: true,
 		tools: ["AA Bullet", "Wunderbarrage", "Claw Machine"],
 		difficulty: "medium",
@@ -77,7 +69,7 @@ export const BO7_MAPS: BO7Map[] = [
 		component: () =>
 			import("../../components/games/bo7/maps/kowakujo/Kowakujo"),
 		available: true,
-		tools: ["Scrolls", "Murder Mystery"],
+		tools: ["Masks", "Scrolls", "Flags", "Evidence Solver"],
 		difficulty: "medium",
 	},
 	{
