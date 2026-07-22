@@ -264,7 +264,7 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 			{
 				id: "count-mode",
 				label: "Counting Method",
-				defaultValue: "total",
+				defaultValue: "individual",
 				options: [
 					{ value: "total", label: "Total Scratches" },
 					{ value: "individual", label: "Individual Scratches" },
@@ -274,7 +274,9 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 		],
 	});
 
-	const countMode = getSetting("count-mode", "total") as "total" | "individual";
+	const countMode = getSetting("count-mode", "individual") as
+		| "total"
+		| "individual";
 
 	return (
 		<BaseSection
