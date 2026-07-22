@@ -152,7 +152,6 @@ function BeamCodeSection(props: BaseSectionProps<BeamCodeData>) {
 										usedSymbols={usedSymbols}
 										locationId={location.id}
 										className="symbol-picker--terminus"
-										gridConfig={{ columns: 3, rows: 2 }}
 										allowDeselect={true}
 										greyOutUnselected={true}
 									/>

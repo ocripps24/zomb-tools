@@ -489,8 +489,7 @@ function ScratchesSection(props: BaseSectionProps<ScratchesData>) {
 								onSymbolChange={handleSymbolSelect}
 								usedSymbols={getUsedSymbols()}
 								locationId="zodiac-picker"
-								className="zodiac-picker"
-								gridConfig={{ columns: 12, rows: 1 }}
+								className="zodiac-picker symbol-picker--zodiac"
 								allowDeselect={false}
 								greyOutUnselected={false}
 							/>

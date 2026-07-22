@@ -7,19 +7,14 @@ export interface Symbol {
 	value?: number;
 }
 
-export interface GridConfig {
-	columns: number;
-	rows?: number;
-}
-
 export interface SymbolPickerProps {
 	symbols?: Symbol[];
 	selectedSymbol?: string;
 	onSymbolChange: (locationId: string, symbolId: string) => void;
 	usedSymbols?: string[];
 	locationId: string;
+	/** Layout modifier class, e.g. "symbol-picker--voyage" - see _symbol-picker.scss for the grid it defines at each breakpoint. */
 	className?: string;
-	gridConfig?: GridConfig;
 	allowDeselect?: boolean;
 	greyOutUnselected?: boolean;
 }
@@ -31,7 +26,6 @@ function SymbolPicker({
 	usedSymbols = [],
 	locationId,
 	className = "",
-	gridConfig = { columns: 3, rows: 2 },
 	allowDeselect = false,
 	greyOutUnselected = false,
 }: SymbolPickerProps) {
@@ -54,16 +48,9 @@ function SymbolPicker({
 		return usedElsewhere || greyedOut;
 	};
 
-	const gridStyle = {
-		gridTemplateColumns: `repeat(${gridConfig.columns}, 1fr)`,
-		...(gridConfig.rows && { gridTemplateRows: `repeat(${gridConfig.rows}, 1fr)` }),
-	};
-
 	return (
-		<div
-			className={`symbol-picker ${className}`}
-			style={gridStyle}
-		>
+		<div className={`symbol-picker ${className}`}>
+
 			{symbols.map((symbol) => {
 				const isSelected = selectedSymbol === symbol.id;
 				const isDisabled = isSymbolDisabled(symbol.id);

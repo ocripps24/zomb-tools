@@ -407,7 +407,6 @@ function ClockSection(props: BaseSectionProps<ClocksData>) {
 												usedSymbols={getUsedSymbols()}
 												locationId={location.id}
 												className="symbol-picker--voyage"
-												gridConfig={{ columns: 4, rows: 1 }}
 												allowDeselect={true}
 												greyOutUnselected={true}
 											/>
