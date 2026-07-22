@@ -6,16 +6,16 @@ import ScratchesSection from "./sections/ScratchesSection";
 
 const STEPS = [
 	{
-		id: "alastair-folly",
-		name: "Alastair's Folly",
-		path: "/bo4/dead-of-the-night/alastair-folly",
-		component: AlastairFollySection,
-	},
-	{
 		id: "atlas",
 		name: "Atlas",
 		path: "/bo4/dead-of-the-night/atlas",
 		component: AtlasSection,
+	},
+	{
+		id: "alastair-folly",
+		name: "Alastair's Folly",
+		path: "/bo4/dead-of-the-night/alastair-folly",
+		component: AlastairFollySection,
 	},
 	{
 		id: "scratches",
