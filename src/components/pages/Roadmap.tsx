@@ -21,7 +21,7 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 		date: "2026",
 		items: [
 			"BO7: Final map coming End of August/early September 2026",
-			"BO2: Potential to add Die Rise, Buried",
+			"BO2: Buried under review",
 			"IW: Development in progress",
 			"AW/WW2: I'm unfamiliar with these games but they will be reviewed in the fullness of time",
 		],
@@ -29,8 +29,12 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 	{
 		date: "July 2026",
 		items: [
+			"Birthday: Zomb Tools is 1 year old! Thanks to everyone for the support and feedback",
 			"BO2: Added Die Rise - Mahjong Tiles section",
-			"IW: Thanks to Mennobot - there have been updates to Attack improving the solve for ambiguous O-numbers and new words added to the rooftop section of Shaolin Shuffle.",
+			"BO4: rewrote the Scratches section for Dead of the Night",
+			"BO7: Reworked the Rocket Launch section for Ashes of the Damned",
+			"IW: Thanks to Mennobot - there have been updates to Attack improving the solve for ambiguous O-numbers and new words added to the rooftop section of Shaolin Shuffle and improvements to Beast from Beyond.",
+			"UI: various improvements and alignments",
 		],
 	},
 	{
@@ -141,7 +145,7 @@ function Roadmap() {
 			<div className="roadmap">
 				<div className="roadmap__container">
 					<div className="roadmap__card">
-						<h1 className="roadmap__title">Development Roadmap</h1>
+						<h1 className="roadmap__title">Development Roadmap / Changes</h1>
 						<p className="roadmap__description">
 							Track our progress and see what's coming next for Zomb Tools. This
 							page is updated regularly with new features, map additions, and
