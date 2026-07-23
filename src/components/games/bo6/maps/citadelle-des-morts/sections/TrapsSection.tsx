@@ -28,9 +28,9 @@ const PAGES = [
 const TRAP_LOCATIONS = [
 	"Quick Revive",
 	"Pack-a-Punch",
+	"Deadshot",
 	"Courtyard",
 	"Speed Cola",
-	"Deadshot",
 ];
 
 // Data interface for this section
@@ -75,33 +75,33 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 					items: [
 						{
 							label: "Page Location",
-							text: "All 4 pages are in the same room with fixed positions"
+							text: "All 4 pages are in the same room with fixed positions",
 						},
 						{
 							label: "Symbol Selection",
-							text: "Each symbol (0, 1, 4, 8) can only be used once across all pages"
+							text: "Each symbol (0, 1, 4, 8) can only be used once across all pages",
 						},
 						{
 							label: "Auto-Assignment",
-							text: "When you select 3 symbols, the 4th will be automatically assigned"
+							text: "When you select 3 symbols, the 4th will be automatically assigned",
 						},
 						{
 							label: "Trap Order",
-							text: "Traps must be activated in the same order as the page symbols"
+							text: "Traps must be activated in the same order as the page symbols",
 						},
 						{
 							label: "Final Trap",
-							text: "The 4th trap location is always Stamina Up and cannot be changed"
-						}
-					]
-				}
+							text: "The 4th trap location is always Stamina Up and cannot be changed",
+						},
+					],
+				},
 			}}
 			getProgress={(data: TrapsData) => {
 				const pagesCompleted = Object.values(data.pageSymbols).filter(
-					Boolean
+					Boolean,
 				).length;
 				const locationsCompleted = Object.values(data.trapLocations).filter(
-					Boolean
+					Boolean,
 				).length;
 				const totalCompleted = pagesCompleted + locationsCompleted;
 
@@ -120,12 +120,12 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 				// Auto-assign the 4th symbol when 3 are selected
 				if (usedSymbols.length === 3) {
 					const remainingSymbol = SYMBOLS.find(
-						(s) => !usedSymbols.includes(s.id)
+						(s) => !usedSymbols.includes(s.id),
 					)?.id;
 					if (remainingSymbol) {
 						// Find which page is empty and assign the remaining symbol
 						const emptyPageKey = Object.keys(data.pageSymbols).find(
-							(key) => !data.pageSymbols[key as keyof typeof data.pageSymbols]
+							(key) => !data.pageSymbols[key as keyof typeof data.pageSymbols],
 						) as keyof typeof data.pageSymbols;
 
 						if (emptyPageKey && data.pageSymbols[emptyPageKey] === "") {
@@ -170,34 +170,35 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 
 				const handleTrapLocationSelect = (
 					trapNumber: number,
-					location: string
+					location: string,
 				) => {
-					setData((prev: TrapsData) => ({
-						...prev,
-						trapLocations: {
-							...prev.trapLocations,
-							[`trap${trapNumber}`]: location,
-						},
-					}));
+					setData((prev: TrapsData) => {
+						const key = `trap${trapNumber}` as keyof typeof prev.trapLocations;
+						const isSelected = prev.trapLocations[key] === location;
+						return {
+							...prev,
+							trapLocations: {
+								...prev.trapLocations,
+								[key]: isSelected ? "" : location,
+							},
+						};
+					});
 				};
 
-				// Get available locations (excluding already selected ones)
-				const getAvailableLocations = (currentTrap: number) => {
-					const selectedLocations = Object.values(data.trapLocations).filter(
-						Boolean
-					);
-					return TRAP_LOCATIONS.filter(
-						(location) =>
-							!selectedLocations.includes(location) ||
-							data.trapLocations[
-								`trap${currentTrap}` as keyof typeof data.trapLocations
-							] === location
+				// A location is used elsewhere if another trap already has it selected
+				const isLocationUsedElsewhere = (
+					location: string,
+					currentTrap: number,
+				) => {
+					return Object.entries(data.trapLocations).some(
+						([key, value]) =>
+							key !== `trap${currentTrap}` && value === location,
 					);
 				};
 
 				// Check if all pages are completed
 				const allPagesCompleted = Object.values(data.pageSymbols).every(
-					Boolean
+					Boolean,
 				);
 
 				// Get the symbols in the order they were selected
@@ -306,25 +307,37 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 													</div>
 
 													<div className="location-selection">
-														<select
-															value={selectedLocation}
-															onChange={(e) =>
-																handleTrapLocationSelect(
-																	trapNumber,
-																	e.target.value
-																)
-															}
-															className="location-select"
-														>
-															<option value="">Select location...</option>
-															{getAvailableLocations(trapNumber).map(
-																(location) => (
-																	<option key={location} value={location}>
-																		{location}
-																	</option>
-																)
-															)}
-														</select>
+														{TRAP_LOCATIONS.map((location) => {
+															const isSelected = selectedLocation === location;
+															const isUsedElsewhere = isLocationUsedElsewhere(
+																location,
+																trapNumber,
+															);
+															return (
+																<button
+																	key={location}
+																	type="button"
+																	className={`location-option ${
+																		isSelected
+																			? "location-option--selected"
+																			: ""
+																	} ${
+																		isUsedElsewhere
+																			? "location-option--disabled"
+																			: ""
+																	}`}
+																	onClick={() =>
+																		handleTrapLocationSelect(
+																			trapNumber,
+																			location,
+																		)
+																	}
+																	disabled={isUsedElsewhere}
+																>
+																	{location}
+																</button>
+															);
+														})}
 													</div>
 												</div>
 											);
@@ -354,7 +367,6 @@ function TrapsSection(props: BaseSectionProps<TrapsData>) {
 								</div>
 							</div>
 						)}
-
 					</div>
 				);
 			}}
