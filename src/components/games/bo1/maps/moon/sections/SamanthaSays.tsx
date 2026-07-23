@@ -49,14 +49,8 @@ function SamanthaSays(props: BaseSectionProps<SamanthaSaysData>) {
 											sequence: [...data.sequence, terminal.id],
 										});
 									}}
-								>
-									<div className="samantha-says__terminal-number">
-										{terminal.id}
-									</div>
-									<div className="samantha-says__terminal-name">
-										{terminal.name}
-									</div>
-								</button>
+									aria-label={`${terminal.name} terminal`}
+								/>
 							))}
 						</div>
 					</div>
@@ -101,10 +95,10 @@ function SamanthaSays(props: BaseSectionProps<SamanthaSaysData>) {
 											} as React.CSSProperties}
 										>
 											<div className="result-order">{index + 1}</div>
-											<div className="result-box">
-												<div className="result-number">{terminalId}</div>
-												<div className="result-label">{terminal?.name}</div>
-											</div>
+											<div
+												className="result-box"
+												aria-label={`${terminal?.name} terminal`}
+											/>
 										</div>
 									);
 								})}

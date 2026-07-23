@@ -8,6 +8,8 @@
 		grid-template-columns: repeat(4, 1fr);
 		gap: space(md);
 		margin-bottom: space(lg);
+		max-width: 30rem;
+		margin-inline: auto;
 
 		// Tablet and up: Larger gaps
 		@include tmd-up {
@@ -17,70 +19,26 @@
 	}
 
 	&__terminal {
-		position: relative;
-		background: var(--bg-tertiary);
-		border: 3px solid var(--terminal-color);
+		aspect-ratio: 1;
+		min-width: 0;
+		background: var(--terminal-color);
+		border: none;
 		border-radius: radius(base);
-		padding: space(lg) space(md);
 		cursor: pointer;
 		transition: all 0.2s ease;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: space(xs);
-		min-height: 80px;
 
-		// Tablet and up: More padding and larger
-		@include tmd-up {
-			padding: space(xl) space(lg);
-			gap: space(sm);
-			min-height: 100px;
-		}
-
-		&:hover {
+		&:hover:not(:disabled) {
 			transform: translateY(-2px);
 			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 		}
 
-		&:active {
+		&:active:not(:disabled) {
 			transform: translateY(0);
 		}
-	}
 
-	&__terminal-number {
-		position: absolute;
-		top: 0;
-		right: 0;
-		background: var(--terminal-color);
-		color: var(--text-primary);
-		border-bottom-left-radius: 50%;
-		width: 20px;
-		height: 20px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 0.75rem;
-		font-weight: 600;
-		transition: all 0.2s ease;
-
-		// Tablet and up: Larger badge
-		@include tlg-up {
-			width: 28px;
-			height: 28px;
-			font-size: 0.875rem;
-		}
-	}
-
-	&__terminal-name {
-		font-size: 1rem;
-		font-weight: 600;
-		color: var(--terminal-color);
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-
-		@include tmd-up {
-			font-size: 1.125rem;
+		&:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
 		}
 	}
 }
@@ -164,11 +122,12 @@
 
 	&__sequence {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+		grid-template-columns: repeat(4, 1fr);
+		justify-content: center;
 		gap: space(sm);
 
 		@include tmd-up {
-			grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+			grid-template-columns: repeat(8, 1fr);
 			gap: space(md);
 		}
 	}
@@ -189,56 +148,10 @@
 
 	.result-box {
 		width: 100%;
-		background: var(--bg-tertiary);
-		border: 3px solid var(--result-color);
-		border-radius: radius(base);
-		padding: space(md);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: space(xs);
-		position: relative;
-
-		@include tmd-up {
-			padding: space(lg);
-		}
-	}
-
-	.result-number {
-		position: absolute;
-		top: 0;
-		right: 0;
+		aspect-ratio: 1;
+		min-width: 0;
 		background: var(--result-color);
-		color: var(--text-primary);
-		border-bottom-left-radius: 50%;
-		width: 20px;
-		height: 20px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 0.75rem;
-		font-weight: 600;
-		transition: all 0.2s ease;
-
-		// Tablet and up: Larger badge
-		@include tlg-up {
-			width: 24px;
-			height: 24px;
-			font-size: 0.875rem;
-		}
-	}
-
-	.result-label {
-		font-size: 1rem;
-		font-weight: 600;
-		color: var(--result-color);
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		// margin-top: space(md);
-
-		@include tmd-up {
-			font-size: 1.125rem;
-		}
+		border-radius: radius(base);
 	}
 }
 
@@ -252,36 +165,6 @@
 			@include tmd-up {
 				gap: space(md);
 				margin-bottom: space(md);
-			}
-		}
-
-		&__terminal {
-			padding: space(md) space(sm);
-			min-height: 60px;
-
-			@include tmd-up {
-				padding: space(lg) space(md);
-				min-height: 80px;
-			}
-		}
-
-		&__terminal-number {
-			width: 16px;
-			height: 16px;
-			font-size: 0.625rem;
-
-			@include tlg-up {
-				width: 20px;
-				height: 20px;
-				font-size: 0.75rem;
-			}
-		}
-
-		&__terminal-name {
-			font-size: 0.875rem;
-
-			@include tmd-up {
-				font-size: 1rem;
 			}
 		}
 	}
