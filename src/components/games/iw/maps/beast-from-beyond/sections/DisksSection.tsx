@@ -106,6 +106,10 @@ function computeSlots(
 		.filter(({ sym }) => !selectedIds.includes(sym))
 		.map(({ pos }) => pos);
 
+	// How many more disks will end up selected in total (not how many symbols
+	// remain in the set - only some of those will actually be found).
+	const remainingToFind = MAX_SELECTIONS - selectedIds.length;
+
 	selectedWithPos.forEach(({ id, pos }) => {
 		const beforeCount = selectedWithPos.filter(
 			(x) => x.id !== id && x.pos < pos,
@@ -115,11 +119,12 @@ function computeSlots(
 		const allRemainingBefore = remainingPositions.every((rp) => rp < pos);
 
 		if (allRemainingAfter) {
-			// The 4th disk will always slot after this symbol, so this symbol's rank is fixed
+			// None of the not-yet-found symbols can end up before this one
 			slots[beforeCount] = id;
 		} else if (allRemainingBefore) {
-			// The 4th disk will always slot before this symbol, pushing it one rank higher
-			slots[beforeCount + 1] = id;
+			// Every not-yet-found symbol is positioned earlier in the set, so
+			// all of them (remainingToFind of them) will end up before this one
+			slots[beforeCount + remainingToFind] = id;
 		}
 		// Otherwise rank is ambiguous — leave as null until more symbols are selected
 	});
@@ -214,15 +219,24 @@ function DisksSection(props: BaseSectionProps<DisksData>) {
 					possibleSets.flatMap((set) => set.symbols),
 				);
 
+				// A real 4-disk find always narrows to exactly one set, so on the
+				// final pick, grey out any candidate that would instead land on 0
+				// or 2+ possible sets — that combination can't legitimately occur.
+				const isFinalPick = selectedSymbols.length === MAX_SELECTIONS - 1;
+
 				const symbols: MultiSelectSymbol[] = ALL_SYMBOL_IDS.map((id) => {
 					const isSelected = selectedSymbols.includes(id);
 					const inPossibleSets =
 						selectedSymbols.length === 0 || possibleSymbolIds.has(id);
+					const leadsToAmbiguousResult =
+						isFinalPick &&
+						getPossibleSets([...selectedSymbols, id]).length !== 1;
 					return {
 						id,
 						component: SYMBOL_COMPONENTS[id],
 						label: `Symbol ${id}`,
-						disabled: !isSelected && (!inPossibleSets || atMax),
+						disabled:
+							!isSelected && (!inPossibleSets || atMax || leadsToAmbiguousResult),
 					};
 				});
 
