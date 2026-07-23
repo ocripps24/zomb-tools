@@ -10,7 +10,7 @@
 	// Location grid
 	.location-note-grid {
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(1, 1fr);
 		gap: space(sm);
 		margin-bottom: space(xl);
 
@@ -129,11 +129,12 @@
 
 		&__picker {
 			display: grid;
-			grid-template-columns: repeat(4, 1fr);
+			grid-template-columns: repeat(8, 1fr);
 			gap: 3px;
 			margin-top: space(xs);
 
 			@include tmd-up {
+				grid-template-columns: repeat(4, 1fr);
 				gap: space(xs);
 			}
 		}
