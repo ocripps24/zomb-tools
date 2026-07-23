@@ -924,3 +924,10 @@
 		}
 	}
 }
+
+// Compact mode adjustments
+.base-section.compact .aa-bullet-section {
+	.quote-card__text {
+		display: none;
+	}
+}
