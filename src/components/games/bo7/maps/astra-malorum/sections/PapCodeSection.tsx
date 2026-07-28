@@ -81,7 +81,7 @@ function PapCodeSection(props: BaseSectionProps<PapCodeData>) {
 						// Deselect planet - remove it from the array
 						setData({
 							selectedPlanets: data.selectedPlanets.filter(
-								(id) => id !== planetId
+								(id) => id !== planetId,
 							),
 						});
 					} else if (data.selectedPlanets.length < 3) {
@@ -98,8 +98,8 @@ function PapCodeSection(props: BaseSectionProps<PapCodeData>) {
 				const resultStateClass = isComplete
 					? "pap-code-section__result--success"
 					: hasSelection
-					? "pap-code-section__result--warning"
-					: "";
+						? "pap-code-section__result--warning"
+						: "";
 
 				return (
 					<div className="pap-code-section">
@@ -124,7 +124,7 @@ function PapCodeSection(props: BaseSectionProps<PapCodeData>) {
 										)}
 										<span className="planet-button__name">{planet.name}</span>
 										<span className="planet-button__position">
-											Position: {planet.position}
+											{planet.position}
 										</span>
 									</button>
 								);
@@ -152,7 +152,7 @@ function PapCodeSection(props: BaseSectionProps<PapCodeData>) {
 															planet: planet?.name || "",
 														},
 													};
-												}
+												},
 											)}
 										/>
 										<p className="code-instruction">
