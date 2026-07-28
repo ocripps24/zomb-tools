@@ -9,12 +9,22 @@ import Symbol2 from "@/assets/maps/bo7/astra-malorum/astra-malorum-symbol-2.svg"
 import Symbol3 from "@/assets/maps/bo7/astra-malorum/astra-malorum-symbol-3.svg";
 import Symbol4 from "@/assets/maps/bo7/astra-malorum/astra-malorum-symbol-4.svg";
 import Symbol5 from "@/assets/maps/bo7/astra-malorum/astra-malorum-symbol-5.svg";
+import MarsMap from "@/assets/maps/bo7/astra-malorum/astra-malorum-mars-map.jpg";
 
 interface OrganData {
 	sequence: Array<string>; // Array of symbol IDs or "static"
 }
 
 type SymbolId = "symbol-1" | "symbol-2" | "symbol-3" | "symbol-4" | "symbol-5";
+
+// Column positions on the Mars map, as percentages of the image's natural size
+const MARS_COLUMN_POSITIONS: Record<SymbolId, { top: string; left: string }> = {
+	"symbol-1": { top: "21.02%", left: "67.08%" },
+	"symbol-2": { top: "30.05%", left: "67.08%" },
+	"symbol-3": { top: "84.55%", left: "67.19%" },
+	"symbol-4": { top: "72.97%", left: "31.64%" },
+	"symbol-5": { top: "31.24%", left: "31.53%" },
+};
 
 const SYMBOLS = [
 	{
@@ -121,17 +131,30 @@ function OrganSection(props: BaseSectionProps<OrganData>) {
 				const getMissingSymbol = (): SymbolId | null => {
 					const allSymbolIds: SymbolId[] = SYMBOLS.map((s) => s.id);
 					const symbolsInSequence = data.sequence.filter(
-						(id) => id !== "static"
+						(id) => id !== "static",
 					) as SymbolId[];
 
 					const missing = allSymbolIds.find(
-						(id) => !symbolsInSequence.includes(id)
+						(id) => !symbolsInSequence.includes(id),
 					);
 					return missing || null;
 				};
 
 				const missingSymbol = getMissingSymbol();
 				const isComplete = data.sequence.length === 5;
+
+				// Resolve a symbol's Mars interaction order, replacing STATIC with the missing symbol
+				const getOrderForSymbol = (symbolId: SymbolId): number | null => {
+					const directIndex = data.sequence.indexOf(symbolId);
+					if (directIndex !== -1) return directIndex + 1;
+
+					if (isComplete && symbolId === missingSymbol) {
+						const staticIndex = data.sequence.indexOf("static");
+						return staticIndex !== -1 ? staticIndex + 1 : null;
+					}
+
+					return null;
+				};
 
 				return (
 					<div className="organ-section">
@@ -181,9 +204,7 @@ function OrganSection(props: BaseSectionProps<OrganData>) {
 											disabled={data.sequence.length >= 5 || isUsed}
 										>
 											{isUsed && (
-												<span className="symbol-btn__order">
-													{orderNumber}
-												</span>
+												<span className="symbol-btn__order">{orderNumber}</span>
 											)}
 											<div className="symbol-btn__content">
 												<SymbolComponent className="symbol-icon" />
@@ -197,7 +218,9 @@ function OrganSection(props: BaseSectionProps<OrganData>) {
 						{/* Results Display */}
 						{data.sequence.length > 0 && (
 							<div className="organ-section__results">
-								<h4>{isComplete ? "Mars Column Sequence" : "Current Sequence"}</h4>
+								<h4>
+									{isComplete ? "Mars Column Sequence" : "Current Sequence"}
+								</h4>
 								<p className="result-instruction">
 									{isComplete
 										? "Interact with the columns on Mars in this order (STATIC has been replaced with the missing symbol):"
@@ -233,6 +256,41 @@ function OrganSection(props: BaseSectionProps<OrganData>) {
 										};
 									})}
 								/>
+
+								{isComplete && (
+									<div className="mars-map-block">
+										<h4>Mars Column Map</h4>
+										<p className="result-instruction">
+											Column locations on Mars, numbered in your interaction
+											order:
+										</p>
+										<div className="mars-map">
+											<img
+												src={MarsMap}
+												alt="Mars column locations"
+												className="mars-map__image"
+											/>
+											{SYMBOLS.map((symbol) => {
+												const order = getOrderForSymbol(symbol.id);
+												if (order === null) return null;
+
+												const position = MARS_COLUMN_POSITIONS[symbol.id];
+												return (
+													<span
+														key={symbol.id}
+														className="mars-map__marker"
+														style={{
+															top: position.top,
+															left: position.left,
+														}}
+													>
+														{order}
+													</span>
+												);
+											})}
+										</div>
+									</div>
+								)}
 							</div>
 						)}
 					</div>
