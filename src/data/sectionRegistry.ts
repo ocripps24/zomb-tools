@@ -22,6 +22,7 @@ import AstraTeleporterSection from "@/components/games/bo7/maps/astra-malorum/se
 import AstraOrganSection from "@/components/games/bo7/maps/astra-malorum/sections/OrganSection";
 
 // Ashes of the Damned
+import AshesGauntletSection from "@/components/games/bo7/maps/ashes-of-the-damned/sections/GauntletSection";
 import AshesRocketLaunchSection from "@/components/games/bo7/maps/ashes-of-the-damned/sections/RocketLaunchSection";
 import AshesSerumSection from "@/components/games/bo7/maps/ashes-of-the-damned/sections/SerumSection";
 
@@ -264,6 +265,15 @@ export const SECTION_REGISTRY: SectionRegistry = {
 			},
 		},
 		"ashes-of-the-damned": {
+			gauntlet: {
+				id: "gauntlet",
+				name: "Gauntlet",
+				component: AshesGauntletSection,
+				gameId: "bo7",
+				gameName: "Black Ops 7",
+				mapId: "ashes-of-the-damned",
+				mapName: "Ashes of the Damned",
+			},
 			"rocket-launch": {
 				id: "rocket-launch",
 				name: "Rocket Launch",

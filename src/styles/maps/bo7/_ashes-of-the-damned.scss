@@ -3,6 +3,171 @@
 @use "../../abstracts/mixins" as *;
 
 // ============================================================================
+// Gauntlet Section
+// ============================================================================
+
+.gauntlet-section {
+	&__boxes {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: space(md);
+		margin-bottom: space(lg);
+
+		@include tmd-up {
+			grid-template-columns: repeat(3, 1fr);
+			gap: space(lg);
+			margin-bottom: space(xl);
+		}
+	}
+
+	&__results {
+		padding: space(lg);
+		background: var(--bg-tertiary);
+		border: 2px solid var(--success-color);
+		border-radius: radius(base);
+
+		h4 {
+			margin: 0 0 space(md) 0;
+			color: var(--success-color);
+			font-size: 1.125rem;
+			text-align: center;
+
+			@include tmd-up {
+				font-size: 1.25rem;
+			}
+		}
+
+		.result-instruction {
+			color: var(--text-secondary);
+			text-align: center;
+			margin: 0 0 space(lg) 0;
+			font-size: 0.875rem;
+
+			@include tmd-up {
+				font-size: 1rem;
+			}
+		}
+
+		// Remove border from inner ResultsDisplay to avoid double border
+		.results-display {
+			border: none !important;
+			background: transparent !important;
+			padding: 0 !important;
+		}
+
+		.result-image-svg {
+			fill: none;
+			color: var(--success-light-color);
+			stroke: var(--success-light-color);
+			stroke-width: 14px;
+		}
+	}
+}
+
+.gauntlet-box {
+	background: var(--bg-tertiary);
+	border: 1px solid var(--border-color);
+	border-radius: radius(base);
+	padding: space(md);
+
+	@include tmd-up {
+		padding: space(lg);
+	}
+
+	&__header {
+		margin: 0 0 space(md) 0;
+		padding-bottom: space(sm);
+		border-bottom: 1px solid var(--border-subtle);
+		color: var(--text-primary);
+		font-size: 1.125rem;
+		text-align: center;
+
+		@include tmd-up {
+			font-size: 1.25rem;
+		}
+	}
+
+	&__symbols {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: space(sm);
+
+		@include tmd-up {
+			gap: space(md);
+		}
+	}
+}
+
+.gauntlet-symbol-btn {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: space(sm);
+	background: transparent;
+	border: 1px solid var(--border-color);
+	border-radius: radius(base);
+	cursor: pointer;
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: transparent;
+	user-select: none;
+	transition:
+		background var(--transition),
+		border-color var(--transition),
+		opacity var(--transition),
+		transform 80ms ease;
+	min-height: 64px;
+
+	@include tmd-up {
+		padding: space(md);
+		min-height: 80px;
+	}
+
+	@media (hover: hover) {
+		&:hover {
+			border-color: var(--accent-color);
+			background: var(--location-card-hover-bg);
+		}
+	}
+
+	&:active {
+		transform: scale(0.95);
+		border-color: var(--success-color);
+		background: var(--location-card-completed-bg);
+	}
+
+	&--selected {
+		border-color: var(--success-color);
+		background: var(--location-card-completed-bg);
+
+		.gauntlet-symbol-icon {
+			color: var(--success-color);
+			stroke: var(--success-color);
+		}
+	}
+
+	&--dimmed {
+		opacity: 0.4;
+	}
+}
+
+.gauntlet-symbol-icon {
+	width: 100%;
+	height: 100%;
+	max-width: 44px;
+	max-height: 44px;
+	fill: none;
+	color: color(neon-red);
+	stroke: color(neon-red);
+	stroke-width: 14px;
+
+	@include tmd-up {
+		max-width: 56px;
+		max-height: 56px;
+	}
+}
+
+// ============================================================================
 // Serum Section
 // ============================================================================
 

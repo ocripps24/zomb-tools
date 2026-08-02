@@ -25,7 +25,7 @@ export const BO7_MAPS: BO7Map[] = [
 		component: () =>
 			import("../../components/games/bo7/maps/ashes-of-the-damned/AshesOfTheDamned"),
 		available: true,
-		tools: ["Serum", "Rocket Launch"],
+		tools: ["Gauntlet", "Serum", "Rocket Launch"],
 		difficulty: "medium",
 	},
 	{

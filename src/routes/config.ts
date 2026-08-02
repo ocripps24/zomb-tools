@@ -245,6 +245,7 @@ export const MAP_STEPS = {
 		ashesOfTheDamned: {
 			base: "/bo7/ashes-of-the-damned",
 			steps: {
+				gauntlet: "/bo7/ashes-of-the-damned/gauntlet",
 				serum: "/bo7/ashes-of-the-damned/serum",
 				rocketLaunch: "/bo7/ashes-of-the-damned/rocket-launch",
 			},

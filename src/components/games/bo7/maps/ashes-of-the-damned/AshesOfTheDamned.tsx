@@ -1,10 +1,17 @@
 import { MapContainer } from "@/components/core";
 import type { MapStep } from "@/hooks";
 import { getBO7MapById } from "@/data/bo7/maps";
+import GauntletSection from "./sections/GauntletSection";
 import SerumSection from "./sections/SerumSection";
 import RocketLaunchSection from "./sections/RocketLaunchSection";
 
 const STEPS: MapStep[] = [
+	{
+		id: "gauntlet",
+		name: "Gauntlet",
+		path: "/bo7/ashes-of-the-damned/gauntlet",
+		component: GauntletSection,
+	},
 	{
 		id: "serum",
 		name: "Serum",

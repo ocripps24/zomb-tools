@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 428.97 428.97">
+  <g id="c" data-name="Layer 1">
+    <g id="d" data-name="symbol-8" transform="rotate(3 214.485 214.485)">
+      <line x1="55.98" y1="69.98" x2="372.98" y2="358.98"/>
+      <line x1="358.98" y1="55.98" x2="69.98" y2="372.98"/>
+      <line x1="204.58" y1=".23" x2="224.38" y2="428.74"/>
+      <line x1="428.74" y1="204.58" x2=".23" y2="224.38"/>
+    </g>
+  </g>
+</svg>
