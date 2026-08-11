@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84.45 84.33">
+  <g id="c" data-name="Layer 1">
+    <g id="d" data-name="de-symbol-circle">
+      <path d="M46.55,70.18v13.04c20.73-2.16,36.89-19.69,36.89-41C83.45,19.46,64.99,1,42.22,1S1,19.46,1,42.22c0,21.3,16.16,38.83,36.89,41v-13.04" fill="none" stroke-miterlimit="10" stroke-width="2"/>
+      <circle cx="29.54" cy="49.78" r="4.8" stroke-miterlimit="10"/>
+      <circle cx="42.22" cy="31.42" r="4.8" stroke-miterlimit="10"/>
+      <circle cx="54.67" cy="49.78" r="4.8" stroke-miterlimit="10"/>
+      <line x1="34.34" y1="49.78" x2="49.87" y2="49.78" stroke-miterlimit="10"/>
+    </g>
+  </g>
+</svg>

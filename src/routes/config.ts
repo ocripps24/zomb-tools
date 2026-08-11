@@ -42,6 +42,7 @@ export const ROUTES = {
 		bo3: {
 			base: "/bo3",
 			maps: {
+				derEisendrache: "/bo3/der-eisendrache",
 				gorodKrovi: "/bo3/gorod-krovi",
 				shadowsOfEvil: "/bo3/shadows-of-evil",
 			},
@@ -117,6 +118,12 @@ export const MAP_STEPS = {
 		},
 	},
 	bo3: {
+		derEisendrache: {
+			base: "/bo3/der-eisendrache",
+			steps: {
+				simonSays: "/bo3/der-eisendrache/simon-says",
+			},
+		},
 		gorodKrovi: {
 			base: "/bo3/gorod-krovi",
 			steps: {
@@ -328,6 +335,7 @@ export const ROUTE_PATTERNS = {
 		bo3: {
 			base: "/bo3",
 			maps: {
+				derEisendrache: "/bo3/der-eisendrache/*",
 				gorodKrovi: "/bo3/gorod-krovi/*",
 				shadowsOfEvil: "/bo3/shadows-of-evil/*",
 			},
@@ -462,6 +470,12 @@ export const ROUTE_METADATA = {
 		documentTitle: "Die Rise Easter Eggs - COD Zombies Tools",
 		description:
 			"Die Rise (Black Ops 2) Easter Egg walkthrough — Mahjong Tiles steps, codes, and progress tracking.",
+	},
+	[ROUTES.games.bo3.maps.derEisendrache]: {
+		title: "Der Eisendrache",
+		documentTitle: "Der Eisendrache Easter Eggs - COD Zombies Tools",
+		description:
+			"Der Eisendrache (Black Ops 3) Easter Egg walkthrough — Simon Says steps, codes, and progress tracking.",
 	},
 	[ROUTES.games.bo3.maps.gorodKrovi]: {
 		title: "Gorod Krovi",

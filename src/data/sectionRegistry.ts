@@ -103,6 +103,9 @@ import TagTotemsSection from "@/components/games/bo4/maps/tag-der-toten/sections
 import TagApothicanOfferingsSection from "@/components/games/bo4/maps/tag-der-toten/sections/ApothicanOfferingsSection";
 
 // ===== BO3 Imports =====
+// Der Eisendrache
+import DerEisendracheSimonSaysSection from "@/components/games/bo3/maps/der-eisendrache/sections/SimonSaysSection";
+
 // Gorod Krovi
 import GorodKroviValvesSection from "@/components/games/bo3/maps/gorod-krovi/sections/ValvesSection";
 import GorodKroviBombsSection from "@/components/games/bo3/maps/gorod-krovi/sections/BombsSection";
@@ -641,6 +644,17 @@ export const SECTION_REGISTRY: SectionRegistry = {
 		},
 	},
 	bo3: {
+		"der-eisendrache": {
+			"simon-says": {
+				id: "simon-says",
+				name: "Simon Says",
+				component: DerEisendracheSimonSaysSection,
+				gameId: "bo3",
+				gameName: "Black Ops 3",
+				mapId: "der-eisendrache",
+				mapName: "Der Eisendrache",
+			},
+		},
 		"gorod-krovi": {
 			valves: {
 				id: "valves",

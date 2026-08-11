@@ -27,6 +27,10 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 		],
 	},
 	{
+		date: "August 2026",
+		items: ["BO3: Added Der Eisendrache - Simon Says section"],
+	},
+	{
 		date: "July 2026",
 		items: [
 			"Birthday: Zomb Tools is 1 year old! Thanks to everyone for the support and feedback",

@@ -63,11 +63,14 @@
 		}
 
 		// BO3 Maps
-		&[data-map="gorod-krovi"]::before {
-			background-image: url("/src/assets/maps/bo3/gorod-krovi-preview.jpg");
-		}
 		&[data-map="shadows-of-evil"]::before {
 			background-image: url("/src/assets/maps/bo3/shadows-of-evil-preview.jpg");
+		}
+		&[data-map="der-eisendrache"]::before {
+			background-image: url("/src/assets/maps/bo3/der-eisendrache-preview.jpg");
+		}
+		&[data-map="gorod-krovi"]::before {
+			background-image: url("/src/assets/maps/bo3/gorod-krovi-preview.jpg");
 		}
 
 		// IW Maps

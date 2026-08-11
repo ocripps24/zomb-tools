@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 59.55 76.41">
+  <g id="c" data-name="Layer 1">
+    <g id="d" data-name="de-symbol-rocket">
+      <rect x="22.81" y="38.53" width="14.49" height="14.49" stroke-miterlimit="10"/>
+      <polyline points="18.67 38.53 18.67 74.67 .6 45.78 5.49 38.53" fill="none" stroke-miterlimit="10"/>
+      <polyline points="40.5 38.53 40.5 74.67 58.95 45.78 53.68 38.53" fill="none" stroke-miterlimit="10"/>
+      <polygon points="30.06 .92 51.51 33.81 8.6 33.81 30.06 .92" stroke-miterlimit="10"/>
+    </g>
+  </g>
+</svg>

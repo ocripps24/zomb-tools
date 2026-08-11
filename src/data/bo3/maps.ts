@@ -23,9 +23,7 @@ export const BO3_MAPS: BO3Map[] = [
 		status: "Available",
 		route: ROUTES.games.bo3.maps.shadowsOfEvil,
 		component: () =>
-			import(
-				"../../components/games/bo3/maps/shadows-of-evil/ShadowsOfEvil.tsx"
-			),
+			import("../../components/games/bo3/maps/shadows-of-evil/ShadowsOfEvil.tsx"),
 		available: true,
 		tools: ["Egg Symbols"],
 		difficulty: "medium",
@@ -33,6 +31,22 @@ export const BO3_MAPS: BO3Map[] = [
 			url: "https://www.youtube.com/embed/zz9m-MB725o",
 			type: "external",
 			channelName: "MrRoflWaffles",
+		},
+	},
+	{
+		id: "der-eisendrache",
+		name: "Der Eisendrache",
+		status: "Available",
+		route: ROUTES.games.bo3.maps.derEisendrache,
+		component: () =>
+			import("../../components/games/bo3/maps/der-eisendrache/DerEisendrache.tsx"),
+		available: true,
+		tools: ["Simon Says"],
+		difficulty: "hard",
+		guide: {
+			url: "https://www.youtube.com/embed/hHjeVQxbEJE?si=RYHPJLC_fm3vwLjf",
+			type: "external",
+			channelName: "Joltz",
 		},
 	},
 	{
