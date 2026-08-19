@@ -28,7 +28,10 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 	},
 	{
 		date: "August 2026",
-		items: ["BO3: Added Der Eisendrache - Simon Says section"],
+		items: [
+			"BO3: Added Revelations - Symbols section",
+			"BO3: Added Der Eisendrache - Simon Says section",
+		],
 	},
 	{
 		date: "July 2026",

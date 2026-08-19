@@ -44,6 +44,7 @@ export const ROUTES = {
 			maps: {
 				derEisendrache: "/bo3/der-eisendrache",
 				gorodKrovi: "/bo3/gorod-krovi",
+				revelations: "/bo3/revelations",
 				shadowsOfEvil: "/bo3/shadows-of-evil",
 			},
 		},
@@ -128,6 +129,12 @@ export const MAP_STEPS = {
 			base: "/bo3/gorod-krovi",
 			steps: {
 				valves: "/bo3/gorod-krovi/valves",
+			},
+		},
+		revelations: {
+			base: "/bo3/revelations",
+			steps: {
+				kronorium: "/bo3/revelations/kronorium",
 			},
 		},
 		shadowsOfEvil: {
@@ -337,6 +344,7 @@ export const ROUTE_PATTERNS = {
 			maps: {
 				derEisendrache: "/bo3/der-eisendrache/*",
 				gorodKrovi: "/bo3/gorod-krovi/*",
+				revelations: "/bo3/revelations/*",
 				shadowsOfEvil: "/bo3/shadows-of-evil/*",
 			},
 		},
@@ -482,6 +490,12 @@ export const ROUTE_METADATA = {
 		documentTitle: "Gorod Krovi Easter Eggs - COD Zombies Tools",
 		description:
 			"Gorod Krovi (Black Ops 3) Easter Egg walkthrough — valve steps, codes, and progress tracking.",
+	},
+	[ROUTES.games.bo3.maps.revelations]: {
+		title: "Revelations",
+		documentTitle: "Revelations Easter Eggs - COD Zombies Tools",
+		description:
+			"Revelations (Black Ops 3) Easter Egg walkthrough — Kronorium symbol steps, codes, and progress tracking.",
 	},
 	[ROUTES.games.bo3.maps.shadowsOfEvil]: {
 		title: "Shadows of Evil",

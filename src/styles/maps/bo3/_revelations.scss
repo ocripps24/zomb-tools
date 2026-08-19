@@ -1,0 +1,235 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+// ============================================================================
+// Kronorium Section
+// ============================================================================
+
+.kronorium-section {
+	display: flex;
+	flex-direction: column;
+	gap: space(lg);
+
+	@include tmd-up {
+		gap: space(xl);
+	}
+}
+
+.kronorium-picker {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: space(sm);
+
+	@include tmd-up {
+		grid-template-columns: repeat(4, 1fr);
+		gap: space(md);
+	}
+}
+
+.kronorium-symbol-btn {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: space(xs);
+	padding: space(md);
+	background: transparent;
+	border: 1px solid var(--border-color);
+	border-radius: radius(base);
+	cursor: pointer;
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: transparent;
+	user-select: none;
+	transition:
+		background var(--transition),
+		border-color var(--transition),
+		opacity var(--transition),
+		transform 80ms ease;
+	min-height: 90px;
+
+	@include tmd-up {
+		padding: space(lg);
+		min-height: 110px;
+	}
+
+	@media (hover: hover) {
+		&:hover:not(:disabled) {
+			border-color: var(--accent-color);
+			background: var(--location-card-hover-bg);
+		}
+	}
+
+	&:active:not(:disabled) {
+		transform: scale(0.95);
+		border-color: var(--success-color);
+		background: var(--location-card-completed-bg);
+	}
+
+	&--used {
+		border-color: var(--success-color);
+		background: var(--location-card-completed-bg);
+
+		.kronorium-symbol-icon {
+			fill: var(--success-color);
+		}
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+	}
+
+	&__order {
+		position: absolute;
+		top: 0;
+		right: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 28px;
+		height: 28px;
+		padding: 0 space(xs);
+		background: var(--success-color);
+		color: var(--bg-primary);
+		border-radius: 0 radius(sm) 0 radius(base);
+		font-weight: 700;
+		font-size: 0.875rem;
+
+		@include tmd-up {
+			min-width: 32px;
+			height: 32px;
+			font-size: 1rem;
+		}
+	}
+
+	&__label {
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--text-secondary);
+
+		@include tmd-up {
+			font-size: 0.8125rem;
+		}
+	}
+}
+
+.kronorium-symbol-icon {
+	width: 100%;
+	height: 100%;
+	max-width: 48px;
+	max-height: 48px;
+	fill: var(--text-primary);
+
+	@include tmd-up {
+		max-width: 60px;
+		max-height: 60px;
+	}
+}
+
+.kronorium-section__results {
+	padding: space(lg);
+	background: var(--bg-tertiary);
+	border: 2px solid var(--success-color);
+	border-radius: radius(base);
+
+	h4 {
+		margin: 0 0 space(md) 0;
+		color: var(--success-color);
+		font-size: 1.125rem;
+		text-align: center;
+
+		@include tmd-up {
+			font-size: 1.25rem;
+		}
+	}
+
+	.result-instruction {
+		color: var(--text-secondary);
+		text-align: center;
+		margin: 0 0 space(lg) 0;
+		font-size: 0.875rem;
+
+		@include tmd-up {
+			font-size: 1rem;
+		}
+	}
+}
+
+.kronorium-results-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: space(md);
+
+	@include tmd-up {
+		grid-template-columns: repeat(4, 1fr);
+		gap: space(lg);
+	}
+}
+
+.kronorium-results-slot {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: space(xs);
+}
+
+.kronorium-results-slot__ordinal {
+	color: var(--success-color);
+	font-size: 0.8125rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+
+	@include tmd-up {
+		font-size: 0.875rem;
+	}
+}
+
+.kronorium-results-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: space(xs);
+	width: 100%;
+	padding: space(md);
+	background: var(--bg-tertiary);
+	border-radius: radius(base);
+	min-height: 90px;
+
+	@include tmd-up {
+		padding: space(lg);
+		min-height: 110px;
+	}
+
+	&--filled {
+		border: 1px solid var(--success-color);
+		background: var(--location-card-completed-bg);
+
+		.kronorium-symbol-icon {
+			fill: var(--success-color);
+		}
+	}
+
+	&--pending {
+		border: 1px dashed var(--border-subtle);
+		opacity: 0.5;
+	}
+
+	// Reuse the picker label's font treatment, but in white for contrast
+	// against this box's green-tinted "filled" background
+	&__label {
+		color: white;
+	}
+
+	&__pending-text {
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--text-secondary);
+
+		@include tmd-up {
+			font-size: 0.8125rem;
+		}
+	}
+}

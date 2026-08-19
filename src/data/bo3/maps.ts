@@ -65,6 +65,17 @@ export const BO3_MAPS: BO3Map[] = [
 			channelName: "Joltz",
 		},
 	},
+	{
+		id: "revelations",
+		name: "Revelations",
+		status: "Available",
+		route: ROUTES.games.bo3.maps.revelations,
+		component: () =>
+			import("../../components/games/bo3/maps/revelations/Revelations.tsx"),
+		available: true,
+		tools: ["Kronorium"],
+		difficulty: "hard",
+	},
 ];
 
 export const getBO3MapById = (mapId: string): BO3Map | null => {

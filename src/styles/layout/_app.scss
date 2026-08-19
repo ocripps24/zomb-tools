@@ -72,6 +72,9 @@
 		&[data-map="gorod-krovi"]::before {
 			background-image: url("/src/assets/maps/bo3/gorod-krovi-preview.jpg");
 		}
+		&[data-map="revelations"]::before {
+			background-image: url("/src/assets/maps/bo3/revelations-preview.jpg");
+		}
 
 		// IW Maps
 		&[data-map="shaolin-shuffle"]::before {

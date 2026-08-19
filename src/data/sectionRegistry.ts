@@ -110,6 +110,9 @@ import DerEisendracheSimonSaysSection from "@/components/games/bo3/maps/der-eise
 import GorodKroviValvesSection from "@/components/games/bo3/maps/gorod-krovi/sections/ValvesSection";
 import GorodKroviBombsSection from "@/components/games/bo3/maps/gorod-krovi/sections/BombsSection";
 
+// Revelations
+import RevelationsKronoriumSection from "@/components/games/bo3/maps/revelations/sections/KronoriumSection";
+
 // Shadows of Evil
 import ShadowsEggSymbols from "@/components/games/bo3/maps/shadows-of-evil/sections/EggSymbols";
 
@@ -673,6 +676,17 @@ export const SECTION_REGISTRY: SectionRegistry = {
 				gameName: "Black Ops 3",
 				mapId: "gorod-krovi",
 				mapName: "Gorod Krovi",
+			},
+		},
+		revelations: {
+			kronorium: {
+				id: "kronorium",
+				name: "Kronorium",
+				component: RevelationsKronoriumSection,
+				gameId: "bo3",
+				gameName: "Black Ops 3",
+				mapId: "revelations",
+				mapName: "Revelations",
 			},
 		},
 		"shadows-of-evil": {
