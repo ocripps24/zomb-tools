@@ -3,6 +3,7 @@ import type { MapStep } from "@/hooks";
 import { getBO7MapById } from "@/data/bo7/maps";
 import WWForgeSection from "./sections/WWForgeSection";
 import CorruptionEngineSection from "./sections/CorruptionEngineSection";
+import HouseSymbolsSection from "./sections/HouseSymbolsSection";
 
 const STEPS: MapStep[] = [
 	{
@@ -10,6 +11,12 @@ const STEPS: MapStep[] = [
 		name: "WW Forge",
 		path: "/bo7/rex-infernus/ww-forge",
 		component: WWForgeSection,
+	},
+	{
+		id: "house-symbols",
+		name: "House Symbols",
+		path: "/bo7/rex-infernus/house-symbols",
+		component: HouseSymbolsSection,
 	},
 	{
 		id: "corruption-engine",

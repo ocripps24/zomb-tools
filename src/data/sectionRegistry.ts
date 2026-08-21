@@ -38,6 +38,7 @@ import KowakujoFlagsSection from "@/components/games/bo7/maps/kowakujo/sections/
 import KowakujoMurderMysterySection from "@/components/games/bo7/maps/kowakujo/sections/MurderMysterySection";
 import RexInfernusWWForgeSection from "@/components/games/bo7/maps/rex-infernus/sections/WWForgeSection";
 import RexInfernusCorruptionEngineSection from "@/components/games/bo7/maps/rex-infernus/sections/CorruptionEngineSection";
+import RexInfernusHouseSymbolsSection from "@/components/games/bo7/maps/rex-infernus/sections/HouseSymbolsSection";
 
 // Paradox Junction
 import ParadoxPianoNotesSection from "@/components/games/bo7/maps/paradox-junction/sections/PianoNotesSection";
@@ -355,6 +356,15 @@ export const SECTION_REGISTRY: SectionRegistry = {
 				id: "ww-forge",
 				name: "WW Forge",
 				component: RexInfernusWWForgeSection,
+				gameId: "bo7",
+				gameName: "Black Ops 7",
+				mapId: "rex-infernus",
+				mapName: "Rex Infernus",
+			},
+			"house-symbols": {
+				id: "house-symbols",
+				name: "House Symbols",
+				component: RexInfernusHouseSymbolsSection,
 				gameId: "bo7",
 				gameName: "Black Ops 7",
 				mapId: "rex-infernus",
