@@ -36,6 +36,7 @@ import KowakujoMasksSection from "@/components/games/bo7/maps/kowakujo/sections/
 import KowakujoScrollsSection from "@/components/games/bo7/maps/kowakujo/sections/ScrollsSection";
 import KowakujoFlagsSection from "@/components/games/bo7/maps/kowakujo/sections/FlagsSection";
 import KowakujoMurderMysterySection from "@/components/games/bo7/maps/kowakujo/sections/MurderMysterySection";
+import RexInfernusWWForgeSection from "@/components/games/bo7/maps/rex-infernus/sections/WWForgeSection";
 
 // Paradox Junction
 import ParadoxPianoNotesSection from "@/components/games/bo7/maps/paradox-junction/sections/PianoNotesSection";
@@ -346,6 +347,17 @@ export const SECTION_REGISTRY: SectionRegistry = {
 				gameName: "Black Ops 7",
 				mapId: "astra-malorum",
 				mapName: "Astra Malorum",
+			},
+		},
+		"rex-infernus": {
+			"ww-forge": {
+				id: "ww-forge",
+				name: "WW Forge",
+				component: RexInfernusWWForgeSection,
+				gameId: "bo7",
+				gameName: "Black Ops 7",
+				mapId: "rex-infernus",
+				mapName: "Rex Infernus",
 			},
 		},
 	},
@@ -803,6 +815,7 @@ const MAP_ORDER: Record<string, string[]> = {
 		"paradox-junction",
 		"totenreich",
 		"kowakujo",
+		"rex-infernus",
 	],
 };
 

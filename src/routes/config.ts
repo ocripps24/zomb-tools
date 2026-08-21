@@ -87,6 +87,7 @@ export const ROUTES = {
 				paradoxJunction: "/bo7/paradox-junction",
 				totenreich: "/bo7/totenreich",
 				kowakujo: "/bo7/kowakujo",
+				rexInfernus: "/bo7/rex-infernus",
 			},
 		},
 		iw: {
@@ -296,6 +297,12 @@ export const MAP_STEPS = {
 				flags: "/bo7/kowakujo/flags",
 			},
 		},
+		rexInfernus: {
+			base: "/bo7/rex-infernus",
+			steps: {
+				wwForge: "/bo7/rex-infernus/ww-forge",
+			},
+		},
 	},
 	iw: {
 		shaolinShuffle: {
@@ -387,6 +394,7 @@ export const ROUTE_PATTERNS = {
 				paradoxJunction: "/bo7/paradox-junction/*",
 				totenreich: "/bo7/totenreich/*",
 				kowakujo: "/bo7/kowakujo/*",
+				rexInfernus: "/bo7/rex-infernus/*",
 			},
 		},
 		iw: {
@@ -622,6 +630,12 @@ export const ROUTE_METADATA = {
 		documentTitle: "Kowakujo Easter Eggs - COD Zombies Tools",
 		description:
 			"Kowakujo (Black Ops 7) Easter Egg walkthrough — masks, scrolls, murder mystery, and flags steps, codes, and progress tracking.",
+	},
+	[ROUTES.games.bo7.maps.rexInfernus]: {
+		title: "Rex Infernus",
+		documentTitle: "Rex Infernus Easter Eggs - COD Zombies Tools",
+		description:
+			"Rex Infernus (Black Ops 7) Easter Egg walkthrough — WW Forge pillar puzzle steps and progress tracking.",
 	},
 	"/iw": {
 		title: "Infinite Warfare - Select Map",

@@ -9,6 +9,7 @@ export interface BO7Map {
 	available: boolean;
 	tools: string[];
 	difficulty: "easy" | "medium" | "hard";
+	beta?: boolean;
 	guide?: {
 		url: string;
 		type: "internal" | "external";
@@ -75,12 +76,14 @@ export const BO7_MAPS: BO7Map[] = [
 	{
 		id: "rex-infernus",
 		name: "Rex Infernus",
-		status: "Coming Soon",
-		route: "",
-		component: null,
-		available: false,
-		tools: [],
+		status: "Available",
+		route: ROUTES.games.bo7.maps.rexInfernus,
+		component: () =>
+			import("../../components/games/bo7/maps/rex-infernus/RexInfernus"),
+		available: true,
+		tools: ["WW Forge"],
 		difficulty: "medium",
+		beta: true,
 	},
 ];
 

@@ -1,0 +1,117 @@
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/functions" as *;
+@use "../../abstracts/mixins" as *;
+
+// ============================================================================
+// WW Forge Section
+// ============================================================================
+
+.ww-forge-section {
+	// ── Quote picker ──────────────────────────────────────────────────────────
+
+	.quote-picker {
+		&__title {
+			font-size: 1.0625rem;
+			font-weight: 600;
+			margin-bottom: space(xs);
+		}
+
+		&__hint {
+			font-size: 0.875rem;
+			color: var(--text-secondary);
+			margin-bottom: space(md);
+
+			strong {
+				color: var(--text-primary);
+			}
+		}
+
+		&__cards {
+			display: flex;
+			flex-direction: column;
+			gap: space(sm);
+			margin-bottom: space(xl);
+		}
+	}
+
+	.quote-card {
+		display: flex;
+		flex-direction: column;
+		gap: space(xs);
+		text-align: left;
+		padding: space(md);
+		background: var(--bg-tertiary);
+		border: 1px solid var(--border-color);
+		border-radius: radius(base);
+		cursor: pointer;
+		touch-action: manipulation;
+		-webkit-tap-highlight-color: transparent;
+		transition:
+			border-color var(--transition),
+			box-shadow var(--transition);
+
+		@media (hover: hover) {
+			&:hover {
+				border-color: color-mix(
+					in srgb,
+					var(--accent-color) 60%,
+					var(--border-color)
+				);
+			}
+		}
+
+		&--selected {
+			border-color: var(--success-color);
+			box-shadow: 0 0 0 2px
+				color-mix(in srgb, var(--success-color) 20%, transparent);
+		}
+
+		&__header {
+			display: flex;
+			align-items: center;
+			gap: space(sm);
+		}
+
+		&__label {
+			font-size: 0.6875rem;
+			font-weight: 700;
+			color: var(--accent-color);
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+		}
+
+		&__keyword {
+			font-size: 0.75rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+			color: var(--accent-color);
+			background: color-mix(in srgb, var(--accent-color) 12%, transparent);
+			border: 1px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
+			border-radius: radius(sm);
+			padding: 0.1em 0.45em;
+		}
+
+		&__text {
+			font-size: 0.9375rem;
+			color: var(--text-primary);
+			line-height: 1.55;
+
+			strong {
+				font-weight: 700;
+				color: var(--accent-color);
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+// ============================================================================
+// Compact Mode
+// ============================================================================
+
+.base-section.compact .ww-forge-section {
+	.quote-card__text {
+		display: none;
+	}
+}
