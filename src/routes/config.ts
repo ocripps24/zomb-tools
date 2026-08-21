@@ -301,6 +301,7 @@ export const MAP_STEPS = {
 			base: "/bo7/rex-infernus",
 			steps: {
 				wwForge: "/bo7/rex-infernus/ww-forge",
+				corruptionEngine: "/bo7/rex-infernus/corruption-engine",
 			},
 		},
 	},
@@ -635,7 +636,7 @@ export const ROUTE_METADATA = {
 		title: "Rex Infernus",
 		documentTitle: "Rex Infernus Easter Eggs - COD Zombies Tools",
 		description:
-			"Rex Infernus (Black Ops 7) Easter Egg walkthrough — WW Forge pillar puzzle steps and progress tracking.",
+			"Rex Infernus (Black Ops 7) Easter Egg walkthrough — WW Forge and Corruption Engine pillar puzzle steps and progress tracking.",
 	},
 	"/iw": {
 		title: "Infinite Warfare - Select Map",

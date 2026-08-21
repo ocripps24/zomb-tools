@@ -81,7 +81,7 @@ export const BO7_MAPS: BO7Map[] = [
 		component: () =>
 			import("../../components/games/bo7/maps/rex-infernus/RexInfernus"),
 		available: true,
-		tools: ["WW Forge"],
+		tools: ["WW Forge", "Corruption Engine"],
 		difficulty: "medium",
 		beta: true,
 	},

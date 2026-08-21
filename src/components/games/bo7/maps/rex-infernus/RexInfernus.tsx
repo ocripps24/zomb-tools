@@ -2,6 +2,7 @@ import { MapContainer } from "@/components/core";
 import type { MapStep } from "@/hooks";
 import { getBO7MapById } from "@/data/bo7/maps";
 import WWForgeSection from "./sections/WWForgeSection";
+import CorruptionEngineSection from "./sections/CorruptionEngineSection";
 
 const STEPS: MapStep[] = [
 	{
@@ -9,6 +10,12 @@ const STEPS: MapStep[] = [
 		name: "WW Forge",
 		path: "/bo7/rex-infernus/ww-forge",
 		component: WWForgeSection,
+	},
+	{
+		id: "corruption-engine",
+		name: "Corruption Engine",
+		path: "/bo7/rex-infernus/corruption-engine",
+		component: CorruptionEngineSection,
 	},
 ];
 

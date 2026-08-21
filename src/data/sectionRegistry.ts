@@ -37,6 +37,7 @@ import KowakujoScrollsSection from "@/components/games/bo7/maps/kowakujo/section
 import KowakujoFlagsSection from "@/components/games/bo7/maps/kowakujo/sections/FlagsSection";
 import KowakujoMurderMysterySection from "@/components/games/bo7/maps/kowakujo/sections/MurderMysterySection";
 import RexInfernusWWForgeSection from "@/components/games/bo7/maps/rex-infernus/sections/WWForgeSection";
+import RexInfernusCorruptionEngineSection from "@/components/games/bo7/maps/rex-infernus/sections/CorruptionEngineSection";
 
 // Paradox Junction
 import ParadoxPianoNotesSection from "@/components/games/bo7/maps/paradox-junction/sections/PianoNotesSection";
@@ -354,6 +355,15 @@ export const SECTION_REGISTRY: SectionRegistry = {
 				id: "ww-forge",
 				name: "WW Forge",
 				component: RexInfernusWWForgeSection,
+				gameId: "bo7",
+				gameName: "Black Ops 7",
+				mapId: "rex-infernus",
+				mapName: "Rex Infernus",
+			},
+			"corruption-engine": {
+				id: "corruption-engine",
+				name: "Corruption Engine",
+				component: RexInfernusCorruptionEngineSection,
 				gameId: "bo7",
 				gameName: "Black Ops 7",
 				mapId: "rex-infernus",
