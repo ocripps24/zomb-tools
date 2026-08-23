@@ -504,6 +504,15 @@
 // ============================================================================
 
 .house-symbols-section {
+	padding: space(md);
+	background: var(--bg-tertiary);
+	border: 1px solid var(--border-color);
+	border-radius: radius(base);
+
+	@include tmd-up {
+		padding: space(lg);
+	}
+
 	&__hint {
 		margin-bottom: space(md);
 		font-size: 0.875rem;
@@ -543,9 +552,12 @@
 		color: var(--bg-primary);
 		font-size: 0.9375rem;
 		font-weight: 700;
-		cursor: pointer;
+		cursor: grab;
+		touch-action: none;
 		box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-color) 40%, transparent);
-		transition: transform var(--transition);
+		transition:
+			transform var(--transition),
+			box-shadow var(--transition);
 
 		@include tmd-up {
 			width: 34px;
@@ -555,6 +567,13 @@
 
 		&:hover {
 			transform: translate(-50%, -50%) scale(1.1);
+		}
+
+		&--dragging {
+			cursor: grabbing;
+			transition: none;
+			box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-color) 55%, transparent);
+			z-index: 2;
 		}
 	}
 }
@@ -595,4 +614,8 @@
 	.corruption-direction-toggle__hint {
 		display: none;
 	}
+}
+
+.base-section.compact .house-symbols-section {
+	padding: space(sm);
 }
