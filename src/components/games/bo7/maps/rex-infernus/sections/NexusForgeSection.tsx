@@ -24,6 +24,11 @@ type Direction = "clockwise" | "anticlockwise";
 interface LocationInfo {
 	id: LocationId;
 	name: string;
+	// The side temple labels sit outside the diagram's own circle, so on
+	// narrow screens the full name can run past the edge of the page. Below
+	// the tmd (768px) breakpoint the diagram swaps to this instead — falls
+	// back to `name` for the two stops that are short enough already.
+	shortName?: string;
 	temple: boolean;
 	angle: number; // degrees clockwise from top, for the diagram layout only
 }
@@ -33,11 +38,11 @@ interface LocationInfo {
 // grapple totems) — neither has a temple to power up.
 const LOCATIONS: LocationInfo[] = [
 	{ id: "north-totem", name: "North Grapple", temple: false, angle: 0 },
-	{ id: "dravakar", name: "Dravakar", temple: true, angle: 60 },
-	{ id: "caltheris", name: "Caltheris", temple: true, angle: 120 },
+	{ id: "dravakar", name: "Dravakar", shortName: "Drav", temple: true, angle: 60 },
+	{ id: "caltheris", name: "Caltheris", shortName: "Cal", temple: true, angle: 120 },
 	{ id: "house", name: "House", temple: false, angle: 180 },
-	{ id: "nyxara", name: "Nyxara", temple: true, angle: 240 },
-	{ id: "veytherion", name: "Veytherion", temple: true, angle: 300 },
+	{ id: "nyxara", name: "Nyxara", shortName: "Nyx", temple: true, angle: 240 },
+	{ id: "veytherion", name: "Veytherion", shortName: "Vey", temple: true, angle: 300 },
 ];
 
 const TEMPLES = LOCATIONS.filter((l) => l.temple);
@@ -526,7 +531,12 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 											.join(" ")}
 										style={labelStyle(loc.angle, 50)}
 									>
-										{loc.name}
+										<span className="nexus-forge-diagram__label-full">
+											{loc.name}
+										</span>
+										<span className="nexus-forge-diagram__label-short">
+											{loc.shortName ?? loc.name}
+										</span>
 									</div>
 								))}
 

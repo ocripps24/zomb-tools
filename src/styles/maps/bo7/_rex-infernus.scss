@@ -313,6 +313,25 @@
 				font-style: italic;
 				font-weight: 400;
 			}
+
+			// The side temple labels sit outside the ring circle, so on narrow
+			// screens the full name can run past the edge of the page — swap
+			// to the shortened one below tablet width instead.
+			&-full {
+				display: none;
+
+				@include tmd-up {
+					display: inline;
+				}
+			}
+
+			&-short {
+				display: inline;
+
+				@include tmd-up {
+					display: none;
+				}
+			}
 		}
 	}
 
