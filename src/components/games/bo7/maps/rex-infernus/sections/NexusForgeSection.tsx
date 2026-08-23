@@ -356,11 +356,17 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 				const completedTemples = data.completedTemples ?? [];
 				const isCompleted = (id: LocationId) => completedTemples.includes(id);
 				const toggleCompleted = (id: LocationId) => {
+					const wasDone = isCompleted(id);
 					setData({
 						...data,
-						completedTemples: isCompleted(id)
+						completedTemples: wasDone
 							? completedTemples.filter((t) => t !== id)
 							: [...completedTemples, id],
+						// Un-marking means the player wants to revisit this temple,
+						// so point the picker at it — otherwise it'd stay parked on
+						// whatever was last completed and the solution panel would
+						// keep showing that instead of the temple just reopened.
+						target: wasDone ? id : data.target,
 					});
 				};
 
@@ -683,73 +689,79 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 									switch is needed, one more box for it. A ring that needs 0
 									presses isn't an action the player has to take, so it's
 									left out entirely rather than shown as an empty "0x" box.
+									When NOTHING needs pressing (rings are already sitting on
+									the target), skip the row — and the press-count line below
+									it — entirely rather than rendering an empty green box.
 									Always the same style in both standard and compact mode;
 									only the box sizing (below, via CSS) changes between them. */}
 								{(() => {
 									const visiblePhase1 = plan.phase1.filter(
 										(step) => step.count > 0,
 									);
-									const columnCount = Math.max(
-										1,
+									const visibleCount =
 										visiblePhase1.length +
-											(plan.usesSwitch ? 1 : 0) +
-											plan.phase2.length,
-									);
+										(plan.usesSwitch ? 1 : 0) +
+										plan.phase2.length;
+									if (visibleCount === 0) return null;
+
 									return (
-										<div
-											className="nexus-forge-solution__results"
-											style={{
-												gridTemplateColumns: `repeat(${columnCount}, 1fr)`,
-											}}
-										>
-											{visiblePhase1.map((step) => (
-												<div
-													key={step.ring}
-													className="nexus-forge-solution__result-cell"
-												>
-													<span className="nexus-forge-solution__result-value">
-														{step.count}x
-													</span>
-													<span className="nexus-forge-solution__result-label">
-														{step.ringName}
-													</span>
-												</div>
-											))}
-											{plan.usesSwitch && (
-												<div
-													className="nexus-forge-solution__result-cell nexus-forge-solution__result-cell--switch"
-													title={`Switch the nexus handle to ${directionLabel(plan.otherDirection)}`}
-												>
-													<span className="nexus-forge-solution__result-value">
-														⟳
-													</span>
-													<span className="nexus-forge-solution__result-label">
-														Switch to {directionLabel(plan.otherDirection)}
-													</span>
-												</div>
-											)}
-											{plan.phase2.map((step) => (
-												<div
-													key={step.ring}
-													className="nexus-forge-solution__result-cell"
-												>
-													<span className="nexus-forge-solution__result-value">
-														{step.count}x
-													</span>
-													<span className="nexus-forge-solution__result-label">
-														{step.ringName}
-													</span>
-												</div>
-											))}
-										</div>
+										<>
+											<div
+												className="nexus-forge-solution__results"
+												style={{
+													gridTemplateColumns: `repeat(${visibleCount}, 1fr)`,
+												}}
+											>
+												{visiblePhase1.map((step) => (
+													<div
+														key={step.ring}
+														className="nexus-forge-solution__result-cell"
+													>
+														<span className="nexus-forge-solution__result-value">
+															{step.count}x
+														</span>
+														<span className="nexus-forge-solution__result-label">
+															{step.ringName}
+														</span>
+													</div>
+												))}
+												{plan.usesSwitch && (
+													<div
+														className="nexus-forge-solution__result-cell nexus-forge-solution__result-cell--switch"
+														title={`Switch the nexus handle to ${directionLabel(plan.otherDirection)}`}
+													>
+														<span className="nexus-forge-solution__result-value">
+															⟳
+														</span>
+														<span className="nexus-forge-solution__result-label">
+															Switch to {directionLabel(plan.otherDirection)}
+														</span>
+													</div>
+												)}
+												{plan.phase2.map((step) => (
+													<div
+														key={step.ring}
+														className="nexus-forge-solution__result-cell"
+													>
+														<span className="nexus-forge-solution__result-value">
+															{step.count}x
+														</span>
+														<span className="nexus-forge-solution__result-label">
+															{step.ringName}
+														</span>
+													</div>
+												))}
+											</div>
+
+											<p className="nexus-forge-solution__total">
+												{plan.totalPresses} press
+												{plan.totalPresses === 1 ? "" : "es"}
+												{plan.usesSwitch ? " + 1 direction switch" : ""} — about{" "}
+												{plan.totalTimeSeconds}s total.
+											</p>
+										</>
 									);
 								})()}
-
-								<p className="nexus-forge-solution__total">
-									{plan.totalPresses} press{plan.totalPresses === 1 ? "" : "es"}
-									{plan.usesSwitch ? " + 1 direction switch" : ""} — about{" "}
-									{plan.totalTimeSeconds}s total.
-								</p>
 
 								{ringsAtTarget ? (
 									<p className="nexus-forge-solution__done">

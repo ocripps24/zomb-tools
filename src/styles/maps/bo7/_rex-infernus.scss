@@ -676,10 +676,16 @@
 			font-size: 0.9375rem;
 			font-weight: 700;
 			cursor: pointer;
-			transition: opacity var(--transition);
+			box-shadow: 0 0 0 0
+				color-mix(in srgb, var(--accent-color) 45%, transparent);
+			transition:
+				box-shadow var(--transition),
+				transform var(--transition);
 
 			&:hover {
-				opacity: 0.85;
+				box-shadow: 0 0 3px 3px
+					color-mix(in srgb, var(--accent-color) 25%, transparent);
+				transform: translateY(-1px);
 			}
 		}
 
