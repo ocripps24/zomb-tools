@@ -381,14 +381,6 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 					data.middle === data.target &&
 					data.inner === data.target;
 
-				const toResultItems = (steps: RingPressStep[]): ResultItem[] =>
-					steps.map((step) => ({
-						id: step.ring,
-						value: `${step.count}x`,
-						label: `${step.ringName} Monolith`,
-						status: "complete",
-					}));
-
 				const placeholderResults: ResultItem[] = [
 					{
 						id: "outer",
@@ -566,39 +558,58 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 									Monolith Solution
 								</h3>
 
-								{plan.phase1.length > 0 && (
-									<>
-										<h4 className="nexus-forge-solution__phase-title">
-											Direction: Now — {directionLabel(data.direction)}{" "}
-											(current)
-										</h4>
-										<ResultsDisplay
-											variant="grid"
-											results={toResultItems(plan.phase1)}
-											gridColumns={plan.phase1.length}
-											colorScheme="accent"
-										/>
-									</>
-								)}
-
-								{plan.usesSwitch && (
-									<>
-										<div className="nexus-forge-solution__switch-step">
-											⟳ {plan.phase1.length > 0 ? "Then switch" : "Switch"} the
-											nexus handle to {directionLabel(plan.otherDirection)}
+								{/* One row of boxes — the ring presses plus, only when a
+									switch is needed, one more box for it. Always the same
+									style in both standard and compact mode; only the box
+									sizing (below, via CSS) changes between them. */}
+								<div
+									className="nexus-forge-solution__results"
+									style={{
+										gridTemplateColumns: `repeat(${
+											plan.usesSwitch ? 4 : plan.phase1.length
+										}, 1fr)`,
+									}}
+								>
+									{plan.phase1.map((step) => (
+										<div
+											key={step.ring}
+											className="nexus-forge-solution__result-cell"
+										>
+											<span className="nexus-forge-solution__result-value">
+												{step.count}x
+											</span>
+											<span className="nexus-forge-solution__result-label">
+												{step.ringName}
+											</span>
 										</div>
-										<h4 className="nexus-forge-solution__phase-title">
-											Direction: After switching —{" "}
-											{directionLabel(plan.otherDirection)}
-										</h4>
-										<ResultsDisplay
-											variant="grid"
-											results={toResultItems(plan.phase2)}
-											gridColumns={plan.phase2.length}
-											colorScheme="accent"
-										/>
-									</>
-								)}
+									))}
+									{plan.usesSwitch && (
+										<div
+											className="nexus-forge-solution__result-cell nexus-forge-solution__result-cell--switch"
+											title={`Switch the nexus handle to ${directionLabel(plan.otherDirection)}`}
+										>
+											<span className="nexus-forge-solution__result-value">
+												⟳
+											</span>
+											<span className="nexus-forge-solution__result-label">
+												Switch to {directionLabel(plan.otherDirection)}
+											</span>
+										</div>
+									)}
+									{plan.phase2.map((step) => (
+										<div
+											key={step.ring}
+											className="nexus-forge-solution__result-cell"
+										>
+											<span className="nexus-forge-solution__result-value">
+												{step.count}x
+											</span>
+											<span className="nexus-forge-solution__result-label">
+												{step.ringName}
+											</span>
+										</div>
+									))}
+								</div>
 
 								<p className="nexus-forge-solution__total">
 									{plan.totalPresses} press{plan.totalPresses === 1 ? "" : "es"}
