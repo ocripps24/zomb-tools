@@ -228,6 +228,31 @@
 // ============================================================================
 
 .nexus-forge-section {
+	// ── Top row (desktop only) ───────────────────────────────────────────────
+	// Below desktop width there isn't room for target picker + diagram +
+	// direction toggle side by side, so they stay in their natural stacked
+	// order; only desktop rearranges them into a row via `order`.
+
+	.nexus-forge-top-row {
+		@include desktop-up {
+			display: grid;
+			// Side columns shrink to their content's width instead of
+			// stretching, so the diagram's `1fr` track gets whatever space
+			// they don't need — a definite size (not `auto`) is still
+			// required on that track for the diagram's `width: 100%` to
+			// resolve against, which `1fr` provides.
+			grid-template-columns: max-content 1fr max-content;
+			align-items: center;
+			gap: space(xl);
+			// The diagram's location labels (e.g. "House") sit outside its own
+			// box via absolute positioning, so the grid's row height doesn't
+			// account for them — pad the row so they don't collide with
+			// whatever follows.
+			margin-top: space(2xl);
+			margin-bottom: space(2xl);
+		}
+	}
+
 	// ── Ring diagram ──────────────────────────────────────────────────────────
 
 	.nexus-forge-diagram {
@@ -236,6 +261,12 @@
 		max-width: 380px;
 		aspect-ratio: 1 / 1;
 		margin: space(2xl) auto;
+
+		@include desktop-up {
+			order: 2;
+			margin: 0 auto;
+			max-width: 440px;
+		}
 
 		&__center {
 			position: absolute;
@@ -366,6 +397,12 @@
 	.nexus-forge-target-picker {
 		margin-bottom: space(lg);
 
+		@include desktop-up {
+			order: 1;
+			margin-bottom: 0;
+			width: 240px;
+		}
+
 		&__title {
 			font-size: 1.0625rem;
 			font-weight: 600;
@@ -385,6 +422,10 @@
 
 			@include tmd-up {
 				grid-template-columns: repeat(4, 1fr);
+			}
+
+			@include desktop-up {
+				grid-template-columns: 1fr;
 			}
 		}
 	}
@@ -429,7 +470,11 @@
 		}
 
 		&--fastest {
-			border-color: color-mix(in srgb, var(--accent-color) 50%, var(--border-color));
+			border-color: color-mix(
+				in srgb,
+				var(--accent-color) 50%,
+				var(--border-color)
+			);
 		}
 
 		&--selected {
@@ -454,6 +499,13 @@
 	.nexus-forge-direction-toggle {
 		margin-bottom: space(xl);
 
+		@include desktop-up {
+			order: 3;
+			margin-bottom: 0;
+			width: 240px;
+			text-align: right;
+		}
+
 		&__title {
 			font-size: 1.0625rem;
 			font-weight: 600;
@@ -464,6 +516,10 @@
 			display: grid;
 			grid-template-columns: repeat(2, 1fr);
 			gap: space(sm);
+
+			@include desktop-up {
+				grid-template-columns: 1fr;
+			}
 		}
 
 		&__hint {
@@ -557,7 +613,8 @@
 			margin-top: space(md);
 			padding: space(sm) space(md);
 			background: color-mix(in srgb, var(--success-color) 12%, transparent);
-			border: 1px solid color-mix(in srgb, var(--success-color) 35%, transparent);
+			border: 1px solid
+				color-mix(in srgb, var(--success-color) 35%, transparent);
 			border-radius: radius(base);
 			color: var(--success-color);
 			font-weight: 600;
@@ -674,6 +731,10 @@
 }
 
 .base-section.compact .nexus-forge-section {
+	.nexus-forge-top-row {
+		margin-top: 0;
+		margin-bottom: space(lg);
+	}
 	.nexus-forge-diagram {
 		// Kept at full size deliberately — shrinking it makes the ring
 		// markers too fiddly to hit quickly during a run.

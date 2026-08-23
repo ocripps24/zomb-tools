@@ -252,9 +252,7 @@ const DEFAULT_VALUE: NexusForgeData = {
 	direction: "anticlockwise",
 };
 
-function NexusForgeSection(
-	props: BaseSectionProps<NexusForgeData>,
-) {
+function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 	const { getSetting } = useSectionSettings({
 		mapId: "rex-infernus",
 		sectionId: "nexus-forge",
@@ -297,11 +295,7 @@ function NexusForgeSection(
 						},
 						{
 							label: "Nexus Direction",
-							text: "The handle in the nexus core sets the direction: pointing toward the centre moves everything clockwise, pointing away moves everything anti-clockwise.",
-						},
-						{
-							label: "Likely Starting Direction",
-							text: "Most players will already be set to anti-clockwise, since the final step of an earlier puzzle is pressing that handle once from its clockwise default.",
+							text: "The handle in the nexus core sets the direction: pointing toward the centre moves everything clockwise, pointing away moves everything anti-clockwise. A successful first-time activation will set the Nexus Direction to Anti-clockwise.",
 						},
 						{
 							label: "Timing",
@@ -317,7 +311,7 @@ function NexusForgeSection(
 						},
 						{
 							label: "After You've Powered a Temple",
-							text: "Once you've done the real interactions in-game, tap \"Mark rings at [temple]\" to update the diagram to match — quicker than clicking all three rings by hand, and it immediately recalculates the fastest next temple.",
+							text: 'Once you\'ve done the real interactions in-game, tap "Mark rings at [temple]" to update the diagram to match — quicker than clicking all three rings by hand, and it immediately recalculates the fastest next temple.',
 						},
 					],
 				},
@@ -418,149 +412,152 @@ function NexusForgeSection(
 
 				return (
 					<div className="nexus-forge-section">
-						<div className="nexus-forge-diagram">
-							<DirectionArrow side="left" direction={data.direction} />
-							<DirectionArrow side="right" direction={data.direction} />
+						<div className="nexus-forge-top-row">
+							<div className="nexus-forge-diagram">
+								<DirectionArrow side="left" direction={data.direction} />
+								<DirectionArrow side="right" direction={data.direction} />
 
-							<div className="nexus-forge-diagram__center">
-								Nexus
-								<br />
-								Forge
-							</div>
-
-							{LOCATIONS.map((loc) => (
-								<div
-									key={loc.id}
-									className={[
-										"nexus-forge-diagram__label",
-										loc.temple ? "" : "nexus-forge-diagram__label--totem",
-									]
-										.filter(Boolean)
-										.join(" ")}
-									style={labelStyle(loc.angle, 50)}
-								>
-									{loc.name}
+								<div className="nexus-forge-diagram__center">
+									Nexus
+									<br />
+									Forge
 								</div>
-							))}
 
-							{RINGS.map((ring) => (
-								<div
-									key={ring.id}
-									className={`nexus-forge-ring nexus-forge-ring--${ring.id}`}
-								>
+								{LOCATIONS.map((loc) => (
 									<div
-										className="nexus-forge-ring__track"
-										style={{
-											width: `${ring.radius * 2}%`,
-											height: `${ring.radius * 2}%`,
-										}}
-									/>
-									{LOCATIONS.map((loc) => (
-										<button
-											key={loc.id}
-											type="button"
-											className={[
-												"nexus-forge-ring__marker",
-												data[ring.id] === loc.id
-													? "nexus-forge-ring__marker--active"
-													: "",
-											]
-												.filter(Boolean)
-												.join(" ")}
-											style={radialStyle(loc.angle, ring.radius)}
-											onClick={() => setRing(ring.id, loc.id)}
-											aria-label={`Set ${ring.name} ring to ${loc.name}`}
-										>
-											{ring.name[0]}
-										</button>
-									))}
+										key={loc.id}
+										className={[
+											"nexus-forge-diagram__label",
+											loc.temple ? "" : "nexus-forge-diagram__label--totem",
+										]
+											.filter(Boolean)
+											.join(" ")}
+										style={labelStyle(loc.angle, 50)}
+									>
+										{loc.name}
+									</div>
+								))}
+
+								{RINGS.map((ring) => (
+									<div
+										key={ring.id}
+										className={`nexus-forge-ring nexus-forge-ring--${ring.id}`}
+									>
+										<div
+											className="nexus-forge-ring__track"
+											style={{
+												width: `${ring.radius * 2}%`,
+												height: `${ring.radius * 2}%`,
+											}}
+										/>
+										{LOCATIONS.map((loc) => (
+											<button
+												key={loc.id}
+												type="button"
+												className={[
+													"nexus-forge-ring__marker",
+													data[ring.id] === loc.id
+														? "nexus-forge-ring__marker--active"
+														: "",
+												]
+													.filter(Boolean)
+													.join(" ")}
+												style={radialStyle(loc.angle, ring.radius)}
+												onClick={() => setRing(ring.id, loc.id)}
+												aria-label={`Set ${ring.name} ring to ${loc.name}`}
+											>
+												{ring.name[0]}
+											</button>
+										))}
+									</div>
+								))}
+							</div>
+
+							<div className="nexus-forge-target-picker">
+								<h3 className="nexus-forge-target-picker__title">
+									Target Temple
+								</h3>
+								<p className="nexus-forge-target-picker__hint">
+									Times shown are the fastest achievable from where the rings
+									are right now.
+								</p>
+								<div className="nexus-forge-target-picker__buttons">
+									{TEMPLES.map((temple) => {
+										const time = templeTimes.find((t) => t.id === temple.id)!;
+										const isFastest = time.timeSeconds === fastestTimeSeconds;
+										return (
+											<button
+												key={temple.id}
+												type="button"
+												className={[
+													"nexus-forge-target-btn",
+													isFastest ? "nexus-forge-target-btn--fastest" : "",
+													data.target === temple.id
+														? "nexus-forge-target-btn--selected"
+														: "",
+												]
+													.filter(Boolean)
+													.join(" ")}
+												onClick={() => setData({ ...data, target: temple.id })}
+											>
+												<span className="nexus-forge-target-btn__name">
+													{temple.name}
+												</span>
+												<span className="nexus-forge-target-btn__time">
+													{isFastest && (
+														<span className="nexus-forge-target-btn__badge">
+															Fastest
+														</span>
+													)}
+													~{time.timeSeconds}s
+												</span>
+											</button>
+										);
+									})}
 								</div>
-							))}
-						</div>
-
-						<div className="nexus-forge-target-picker">
-							<h3 className="nexus-forge-target-picker__title">Target Temple</h3>
-							<p className="nexus-forge-target-picker__hint">
-								Times shown are the fastest achievable from where the rings
-								are right now.
-							</p>
-							<div className="nexus-forge-target-picker__buttons">
-								{TEMPLES.map((temple) => {
-									const time = templeTimes.find((t) => t.id === temple.id)!;
-									const isFastest = time.timeSeconds === fastestTimeSeconds;
-									return (
-										<button
-											key={temple.id}
-											type="button"
-											className={[
-												"nexus-forge-target-btn",
-												isFastest ? "nexus-forge-target-btn--fastest" : "",
-												data.target === temple.id
-													? "nexus-forge-target-btn--selected"
-													: "",
-											]
-												.filter(Boolean)
-												.join(" ")}
-											onClick={() => setData({ ...data, target: temple.id })}
-										>
-											<span className="nexus-forge-target-btn__name">
-												{temple.name}
-											</span>
-											<span className="nexus-forge-target-btn__time">
-												{isFastest && (
-													<span className="nexus-forge-target-btn__badge">
-														Fastest
-													</span>
-												)}
-												~{time.timeSeconds}s
-											</span>
-										</button>
-									);
-								})}
 							</div>
-						</div>
 
-						<div className="nexus-forge-direction-toggle">
-							<h3 className="nexus-forge-direction-toggle__title">
-								Current Nexus Direction
-							</h3>
-							<div className="nexus-forge-direction-toggle__buttons">
-								<button
-									type="button"
-									className={[
-										"nexus-forge-direction-btn",
-										data.direction === "anticlockwise"
-											? "nexus-forge-direction-btn--selected"
-											: "",
-									]
-										.filter(Boolean)
-										.join(" ")}
-									onClick={() =>
-										setData({ ...data, direction: "anticlockwise" })
-									}
-								>
-									Anti-clockwise
-								</button>
-								<button
-									type="button"
-									className={[
-										"nexus-forge-direction-btn",
-										data.direction === "clockwise"
-											? "nexus-forge-direction-btn--selected"
-											: "",
-									]
-										.filter(Boolean)
-										.join(" ")}
-									onClick={() => setData({ ...data, direction: "clockwise" })}
-								>
-									Clockwise
-								</button>
+							<div className="nexus-forge-direction-toggle">
+								<h3 className="nexus-forge-direction-toggle__title">
+									Current Nexus Direction
+								</h3>
+								<div className="nexus-forge-direction-toggle__buttons">
+									<button
+										type="button"
+										className={[
+											"nexus-forge-direction-btn",
+											data.direction === "anticlockwise"
+												? "nexus-forge-direction-btn--selected"
+												: "",
+										]
+											.filter(Boolean)
+											.join(" ")}
+										onClick={() =>
+											setData({ ...data, direction: "anticlockwise" })
+										}
+									>
+										Anti-clockwise
+									</button>
+									<button
+										type="button"
+										className={[
+											"nexus-forge-direction-btn",
+											data.direction === "clockwise"
+												? "nexus-forge-direction-btn--selected"
+												: "",
+										]
+											.filter(Boolean)
+											.join(" ")}
+										onClick={() => setData({ ...data, direction: "clockwise" })}
+									>
+										Clockwise
+									</button>
+								</div>
+								<p className="nexus-forge-direction-toggle__hint">
+									Anticlockwise: the handle points towards the cogs in the Nexus
+									Core. Clockwise: the handle points to the centre of the room.
+								</p>
 							</div>
-							<p className="nexus-forge-direction-toggle__hint">
-								Defaults to anti-clockwise — most players already flip it once
-								during activation. Change this if your handle points toward the
-								centre.
-							</p>
 						</div>
 
 						{plan ? (
