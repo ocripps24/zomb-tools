@@ -1,7 +1,5 @@
 import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
-import { ResultsDisplay } from "@/components/ui";
-import type { ResultItem } from "@/components/ui/ResultsDisplay";
 import { useSectionSettings } from "@/hooks/useSectionSettings";
 import RotationArrowIcon from "@/assets/icons/rotation-arrow.svg";
 
@@ -186,6 +184,53 @@ function computeMixedPlan(
 	};
 }
 
+function permutations<T>(items: T[]): T[][] {
+	if (items.length <= 1) return [items];
+	return items.flatMap((item, i) => {
+		const rest = [...items.slice(0, i), ...items.slice(i + 1)];
+		return permutations(rest).map((tail) => [item, ...tail]);
+	});
+}
+
+// There are at most 4 temples, so brute-forcing all orderings (≤24) rather
+// than visiting whichever is fastest next at each step is cheap and, unlike
+// that greedy approach, guaranteed correct — the cheapest single next hop
+// isn't always part of the cheapest full route, since starting somewhere
+// slightly pricier can set up a much cheaper direction for what follows.
+function computeOptimalOrder(
+	remaining: LocationInfo[],
+	startIndices: [number, number, number],
+	startDirection: Direction,
+	allowSwitch: boolean,
+): LocationId[] {
+	let best: { order: LocationId[]; totalTimeSeconds: number } | null = null;
+
+	for (const order of permutations(remaining)) {
+		let indices = startIndices;
+		let direction = startDirection;
+		let totalTimeSeconds = 0;
+
+		for (const temple of order) {
+			const plan = computeMixedPlan(
+				indices,
+				locationIndex(temple.id),
+				direction,
+				allowSwitch,
+			);
+			totalTimeSeconds += plan.totalTimeSeconds;
+			const idx = locationIndex(temple.id);
+			indices = [idx, idx, idx];
+			if (plan.usesSwitch) direction = plan.otherDirection;
+		}
+
+		if (!best || totalTimeSeconds < best.totalTimeSeconds) {
+			best = { order: order.map((t) => t.id), totalTimeSeconds };
+		}
+	}
+
+	return best?.order ?? [];
+}
+
 function radialStyle(angleDeg: number, radiusPercent: number) {
 	const rad = (angleDeg * Math.PI) / 180;
 	return {
@@ -260,14 +305,14 @@ interface NexusForgeData {
 	completedTemples: LocationId[];
 }
 
-// The pillars always start here once the Nexus Forge is activated, so
-// pre-fill them rather than making players set the same starting state every
-// game — they only need to pick a target and confirm their direction.
+// There's no fixed starting layout — the pillars move as soon as the Nexus
+// Forge is first activated, so the player has to read their own positions
+// off the room and set them here before anything else can be solved.
 const DEFAULT_VALUE: NexusForgeData = {
-	outer: "north-totem",
-	middle: "dravakar",
-	inner: "caltheris",
-	target: "dravakar",
+	outer: null,
+	middle: null,
+	inner: null,
+	target: null,
 	direction: "anticlockwise",
 	completedTemples: [],
 };
@@ -307,7 +352,7 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 					items: [
 						{
 							label: "Starting Positions",
-							text: "The pillars always start at Outer: North Grapple, Middle: Dravakar, Inner: Caltheris once the Nexus Forge is activated — already set below by default.",
+							text: "There's no fixed starting layout — the pillars move as soon as the Nexus Forge is first activated. Check where each ring actually landed and set Outer, Middle and Inner on the diagram below to match before doing anything else.",
 						},
 						{
 							label: "Monolith Handles",
@@ -327,7 +372,7 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 						},
 						{
 							label: "Fastest Temple",
-							text: "Each temple button shows its fastest achievable time from the rings' current positions, with the cheapest one tagged. This updates as you go, so it stays accurate for your second and third temple too, not just the first.",
+							text: "Once your starting positions are set, the temple buttons show each one's fastest achievable time and reorder themselves into the fastest overall route through all of them — not just tag the cheapest one. This recalculates after every temple you mark done, so it stays accurate right to the last one.",
 						},
 						{
 							label: "After You've Powered a Temple",
@@ -336,10 +381,6 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 						{
 							label: "Tracking Completed Temples",
 							text: 'A temple is marked done automatically the moment you use "Mark rings at [temple]" for it. You can also tap the circle on any temple button to mark or unmark it by hand. Completed temples are excluded from the Fastest suggestion, even if the rings later pass back through 0s there.',
-						},
-						{
-							label: "Fastest Route",
-							text: "Dravakar → Caltheris → Nyxara → Veytherion assuming default start positions and direction changes are followed.",
 						},
 					],
 				},
@@ -375,14 +416,73 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 					});
 				};
 
-				// Ring positions always have a value (defaulted), so only the
-				// target is ever genuinely unset.
-				const ringStartIndices: [number, number, number] = [
-					locationIndex(data.outer as LocationId),
-					locationIndex(data.middle as LocationId),
-					locationIndex(data.inner as LocationId),
+				// Ring positions have no fixed default — the pillars move as soon
+				// as the Nexus Forge is first activated — so nothing below can be
+				// solved until the player has set all three to match where
+				// theirs actually landed.
+				const ringStartIndices: [number, number, number] | null =
+					data.outer !== null && data.middle !== null && data.inner !== null
+						? [
+								locationIndex(data.outer),
+								locationIndex(data.middle),
+								locationIndex(data.inner),
+							]
+						: null;
+				const ringsSet = ringStartIndices !== null;
+
+				const incompleteTemples = TEMPLES.filter((t) => !isCompleted(t.id));
+				const doneTemples = TEMPLES.filter((t) => isCompleted(t.id));
+
+				// From the CURRENT ring positions (not a fixed default), work out
+				// the fastest achievable time to each temple, so the picker can
+				// flag the best next temple even after the player has already
+				// moved on from an earlier one.
+				const templeTimes = ringStartIndices
+					? TEMPLES.map((temple) => {
+							const { totalTimeSeconds } = computeMixedPlan(
+								ringStartIndices,
+								locationIndex(temple.id),
+								data.direction,
+								allowSwitch,
+							);
+							return { id: temple.id, timeSeconds: totalTimeSeconds };
+						})
+					: [];
+				// 0s means the rings are already sitting there, and a completed
+				// temple doesn't need revisiting — neither is a useful "go here
+				// next" suggestion, so both are excluded from Fastest eligibility.
+				const eligibleTimes = templeTimes
+					.filter((t) => t.timeSeconds > 0 && !isCompleted(t.id))
+					.map((t) => t.timeSeconds);
+				const fastestTimeSeconds =
+					eligibleTimes.length > 0 ? Math.min(...eligibleTimes) : null;
+
+				// The fastest order to visit every temple that isn't done yet,
+				// from the CURRENT ring positions — done temples are tacked on
+				// the end since there's no route left to plan for them.
+				const optimalOrder = ringStartIndices
+					? computeOptimalOrder(
+							incompleteTemples,
+							ringStartIndices,
+							data.direction,
+							allowSwitch,
+						)
+					: [];
+				const orderedTemples = [
+					...optimalOrder.map((id) => TEMPLES.find((t) => t.id === id)!),
+					...doneTemples,
 				];
-				const targetIdx = data.target ? locationIndex(data.target) : null;
+
+				// With no target explicitly picked yet, default to whatever's
+				// first in the fastest route, so the player always has a
+				// sensible starting point without working it out by hand — and
+				// it stays dynamic (no hardcoded "best first temple") since it
+				// tracks whatever the player's own starting positions produce.
+				const effectiveTargetId: LocationId | null =
+					data.target ?? orderedTemples[0]?.id ?? null;
+				const targetIdx = effectiveTargetId
+					? locationIndex(effectiveTargetId)
+					: null;
 
 				// The real starting direction isn't a free choice — it's whatever
 				// the handle physically points to — so `computeMixedPlan` anchored
@@ -395,7 +495,7 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 				// disagree, undercounts by exactly one switch cost, because it
 				// treats that direction as free to already be in.
 				const plan =
-					targetIdx !== null
+					ringStartIndices && targetIdx !== null
 						? computeMixedPlan(
 								ringStartIndices,
 								targetIdx,
@@ -404,111 +504,64 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 							)
 						: null;
 
-				// From the CURRENT ring positions (not a fixed default), work out
-				// the fastest achievable time to each temple, so the picker can
-				// flag the best next temple even after the player has already
-				// moved on from an earlier one.
-				const templeTimes = TEMPLES.map((temple) => {
-					const idx = locationIndex(temple.id);
-					const { totalTimeSeconds } = computeMixedPlan(
-						ringStartIndices,
-						idx,
-						data.direction,
-						allowSwitch,
-					);
-					return { id: temple.id, timeSeconds: totalTimeSeconds };
-				});
-				// 0s means the rings are already sitting there, and a completed
-				// temple doesn't need revisiting — neither is a useful "go here
-				// next" suggestion, so both are excluded from Fastest eligibility.
-				const eligibleTimes = templeTimes
-					.filter((t) => t.timeSeconds > 0 && !isCompleted(t.id))
-					.map((t) => t.timeSeconds);
-				const fastestTimeSeconds =
-					eligibleTimes.length > 0 ? Math.min(...eligibleTimes) : null;
-
-				const targetTemple = TEMPLES.find((t) => t.id === data.target);
+				const targetTemple = TEMPLES.find((t) => t.id === effectiveTargetId);
 				const ringsAtTarget =
-					data.target !== null &&
-					data.outer === data.target &&
-					data.middle === data.target &&
-					data.inner === data.target;
+					effectiveTargetId !== null &&
+					data.outer === effectiveTargetId &&
+					data.middle === effectiveTargetId &&
+					data.inner === effectiveTargetId;
 
 				// Moves the rings to the target temple (and flips the direction
 				// too, if the solution called for a switch), marks it complete,
-				// then immediately re-runs the fastest-temple search from that new
-				// state so the picker jumps straight to the next real move instead
-				// of leaving the player to work it out by hand.
+				// then immediately re-runs the fastest-route search from that new
+				// state so the picker's default target and ordering both jump
+				// straight to the next real move instead of leaving the player to
+				// work it out by hand.
 				const markRingsAtTarget = () => {
-					if (!data.target || !plan) return;
+					if (!effectiveTargetId || !plan) return;
 					const newDirection = plan.usesSwitch
 						? plan.otherDirection
 						: data.direction;
 					const newCompletedTemples = [
-						...completedTemples.filter((t) => t !== data.target),
-						data.target,
+						...completedTemples.filter((t) => t !== effectiveTargetId),
+						effectiveTargetId,
 					];
-					const newRingIndex = locationIndex(data.target);
+					const newRingIndex = locationIndex(effectiveTargetId);
 					const newRingIndices: [number, number, number] = [
 						newRingIndex,
 						newRingIndex,
 						newRingIndex,
 					];
 
-					const nextTimes = TEMPLES.map((temple) => {
-						const idx = locationIndex(temple.id);
-						const { totalTimeSeconds } = computeMixedPlan(
-							newRingIndices,
-							idx,
-							newDirection,
-							allowSwitch,
-						);
-						return { id: temple.id, timeSeconds: totalTimeSeconds };
-					});
-					const nextFastest = nextTimes
-						.filter(
-							(t) => t.timeSeconds > 0 && !newCompletedTemples.includes(t.id),
-						)
-						.reduce<{ id: LocationId; timeSeconds: number } | null>(
-							(best, t) =>
-								!best || t.timeSeconds < best.timeSeconds ? t : best,
-							null,
-						);
+					const nextOrder = computeOptimalOrder(
+						TEMPLES.filter((t) => !newCompletedTemples.includes(t.id)),
+						newRingIndices,
+						newDirection,
+						allowSwitch,
+					);
 
 					setData({
 						...data,
-						outer: data.target,
-						middle: data.target,
-						inner: data.target,
+						outer: effectiveTargetId,
+						middle: effectiveTargetId,
+						inner: effectiveTargetId,
 						direction: newDirection,
 						completedTemples: newCompletedTemples,
-						target: nextFastest ? nextFastest.id : data.target,
+						target: nextOrder[0] ?? effectiveTargetId,
 					});
 				};
 
-				const placeholderResults: ResultItem[] = [
-					{
-						id: "outer",
-						value: "----",
-						label: "Outer Monolith",
-						status: "pending",
-					},
-					{
-						id: "middle",
-						value: "----",
-						label: "Middle Monolith",
-						status: "pending",
-					},
-					{
-						id: "inner",
-						value: "----",
-						label: "Inner Monolith",
-						status: "pending",
-					},
-				];
-
 				return (
 					<div className="nexus-forge-section">
+						{!ringsSet && (
+							<div className="nexus-forge-notice">
+								<strong>Set your starting positions first.</strong> The
+								pillars don't reset to a fixed layout — they move as soon
+								as the Nexus Forge is activated. Check where each ring
+								actually landed and tap the matching stop for Outer,
+								Middle and Inner below.
+							</div>
+						)}
 						<div className="nexus-forge-top-row">
 							<div className="nexus-forge-diagram">
 								<DirectionArrow side="left" direction={data.direction} />
@@ -579,71 +632,108 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 								<h3 className="nexus-forge-target-picker__title">
 									Target Temple
 								</h3>
-								<p className="nexus-forge-target-picker__hint">
-									Times shown are the fastest achievable from where the rings
-									are right now.
-								</p>
-								<div className="nexus-forge-target-picker__buttons">
-									{TEMPLES.map((temple) => {
-										const time = templeTimes.find((t) => t.id === temple.id)!;
-										const isFastest = time.timeSeconds === fastestTimeSeconds;
-										const done = isCompleted(temple.id);
-										return (
-											<button
-												key={temple.id}
-												type="button"
-												className={[
-													"nexus-forge-target-btn",
-													isFastest ? "nexus-forge-target-btn--fastest" : "",
-													done ? "nexus-forge-target-btn--completed" : "",
-													data.target === temple.id
-														? "nexus-forge-target-btn--selected"
-														: "",
-												]
-													.filter(Boolean)
-													.join(" ")}
-												onClick={() => setData({ ...data, target: temple.id })}
-											>
-												<span
-													className={[
-														"nexus-forge-target-btn__check",
-														done ? "nexus-forge-target-btn__check--done" : "",
-													]
-														.filter(Boolean)
-														.join(" ")}
-													onClick={(e) => {
-														e.stopPropagation();
-														toggleCompleted(temple.id);
-													}}
-													aria-label={
-														done
-															? `Mark ${temple.name} as not completed`
-															: `Mark ${temple.name} as completed`
-													}
-												>
-													{done ? "✓" : ""}
-												</span>
-												<span className="nexus-forge-target-btn__name">
-													{temple.name}
-												</span>
-												<span className="nexus-forge-target-btn__time">
-													{done ? (
-														"Done"
-													) : (
-														<>
-															{isFastest && (
-																<span className="nexus-forge-target-btn__badge">
-																	Fastest
-																</span>
+								{ringsSet ? (
+									<>
+										<p className="nexus-forge-target-picker__hint">
+											Ordered fastest-route-first from where the rings are
+											right now.
+										</p>
+										<div className="nexus-forge-target-picker__buttons">
+											{orderedTemples.map((temple) => {
+												const time = templeTimes.find(
+													(t) => t.id === temple.id,
+												)!;
+												const isFastest =
+													time.timeSeconds === fastestTimeSeconds;
+												const done = isCompleted(temple.id);
+												return (
+													<button
+														key={temple.id}
+														type="button"
+														className={[
+															"nexus-forge-target-btn",
+															isFastest
+																? "nexus-forge-target-btn--fastest"
+																: "",
+															done ? "nexus-forge-target-btn--completed" : "",
+															effectiveTargetId === temple.id
+																? "nexus-forge-target-btn--selected"
+																: "",
+														]
+															.filter(Boolean)
+															.join(" ")}
+														onClick={() =>
+															setData({ ...data, target: temple.id })
+														}
+													>
+														<span
+															className={[
+																"nexus-forge-target-btn__check",
+																done
+																	? "nexus-forge-target-btn__check--done"
+																	: "",
+															]
+																.filter(Boolean)
+																.join(" ")}
+															onClick={(e) => {
+																e.stopPropagation();
+																toggleCompleted(temple.id);
+															}}
+															aria-label={
+																done
+																	? `Mark ${temple.name} as not completed`
+																	: `Mark ${temple.name} as completed`
+															}
+														>
+															{done ? "✓" : ""}
+														</span>
+														<span className="nexus-forge-target-btn__name">
+															{temple.name}
+														</span>
+														<span className="nexus-forge-target-btn__time">
+															{done ? (
+																"Done"
+															) : (
+																<>
+																	{isFastest && (
+																		<span className="nexus-forge-target-btn__badge">
+																			Fastest
+																		</span>
+																	)}
+																	~{time.timeSeconds}s
+																</>
 															)}
-															~{time.timeSeconds}s
-														</>
-													)}
-												</span>
-											</button>
-										);
-									})}
-								</div>
+														</span>
+													</button>
+												);
+											})}
+										</div>
+									</>
+								) : (
+									<>
+										<p className="nexus-forge-target-picker__hint">
+											Set your starting positions on the diagram to see temple
+											times and the fastest route.
+										</p>
+										<div className="nexus-forge-target-picker__buttons">
+											{TEMPLES.map((temple) => (
+												<button
+													key={temple.id}
+													type="button"
+													className="nexus-forge-target-btn nexus-forge-target-btn--placeholder"
+													disabled
+												>
+													<span className="nexus-forge-target-btn__name">
+														----
+													</span>
+													<span className="nexus-forge-target-btn__time">
+														----
+													</span>
+												</button>
+											))}
+										</div>
+									</>
+								)}
 							</div>
 
 							<div className="nexus-forge-direction-toggle">
@@ -689,7 +779,7 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 							</div>
 						</div>
 
-						{plan ? (
+						{plan && (
 							<div className="nexus-forge-solution">
 								<h3 className="nexus-forge-solution__title">
 									Monolith Solution
@@ -789,15 +879,6 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 									</button>
 								)}
 							</div>
-						) : (
-							<ResultsDisplay
-								variant="grid"
-								title="Monolith Solution"
-								description="Interact with each monolith handle this many times:"
-								results={placeholderResults}
-								gridColumns={3}
-								colorScheme="accent"
-							/>
 						)}
 					</div>
 				);

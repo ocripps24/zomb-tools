@@ -228,6 +228,25 @@
 // ============================================================================
 
 .nexus-forge-section {
+	// ── Starting-position notice ─────────────────────────────────────────────
+	// Boxed and warning-colored so it reads as an action the player needs to
+	// take, not just another tip — only shown until all three rings are set.
+
+	.nexus-forge-notice {
+		margin-bottom: space(lg);
+		padding: space(md) space(lg);
+		background: color-mix(in srgb, var(--warning-color) 12%, transparent);
+		border: 1px solid color-mix(in srgb, var(--warning-color) 40%, transparent);
+		border-radius: radius(base);
+		font-size: 0.9375rem;
+		line-height: 1.5;
+		color: var(--text-primary);
+
+		strong {
+			color: var(--warning-color);
+		}
+	}
+
 	// ── Top row (desktop only) ───────────────────────────────────────────────
 	// Below desktop width there isn't room for target picker + diagram +
 	// direction toggle side by side, so they stay in their natural stacked
@@ -504,6 +523,20 @@
 
 			&:hover {
 				opacity: 0.85;
+			}
+		}
+
+		&--placeholder {
+			opacity: 0.4;
+			cursor: default;
+
+			&:hover {
+				border-color: var(--border-color);
+			}
+
+			.nexus-forge-target-btn__name,
+			.nexus-forge-target-btn__time {
+				color: var(--text-secondary);
 			}
 		}
 
