@@ -82,16 +82,16 @@ function DravakarsSanctuarySection(
 			{
 				id: "display-mode",
 				label: "Display Mode",
-				defaultValue: "quote-select",
+				defaultValue: "cheat-sheet",
 				options: [
-					{ value: "quote-select", label: "Quote Select" },
 					{ value: "cheat-sheet", label: "Cheat Sheet" },
+					{ value: "quote-select", label: "Quote Select" },
 				],
-				note: "Quote Select: pick the quote you got. Cheat Sheet: every quote and its solution at a glance.",
+				note: "Cheat Sheet: every quote and its solution at a glance. Quote Select: pick the quote you got.",
 			},
 		],
 	});
-	const displayMode = getSetting("display-mode", "quote-select") as
+	const displayMode = getSetting("display-mode", "cheat-sheet") as
 		| "quote-select"
 		| "cheat-sheet";
 
@@ -181,14 +181,17 @@ function DravakarsSanctuarySection(
 											data.quote === quote.id
 												? "dravakars-sanctuary-cheat-sheet__row--selected"
 												: "",
+											data.quote && data.quote !== quote.id
+												? "dravakars-sanctuary-cheat-sheet__row--dimmed"
+												: "",
 										]
 											.filter(Boolean)
 											.join(" ")}
 										onClick={() => setData({ quote: quote.id })}
 									>
 										<div className="dravakars-sanctuary-cheat-sheet__quote">
-											<span className="dravakars-sanctuary-cheat-sheet__label">
-												Quote {quote.id}
+											<span className="quote-card__keyword">
+												{quote.highlight}
 											</span>
 											<span className="dravakars-sanctuary-cheat-sheet__text">
 												{renderQuoteText(quote.text, quote.highlight)}
@@ -243,6 +246,9 @@ function DravakarsSanctuarySection(
 										className={[
 											"quote-card",
 											data.quote === quote.id ? "quote-card--selected" : "",
+											data.quote && data.quote !== quote.id
+												? "quote-card--dimmed"
+												: "",
 										]
 											.filter(Boolean)
 											.join(" ")}

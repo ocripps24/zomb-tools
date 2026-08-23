@@ -46,9 +46,11 @@
 		cursor: pointer;
 		touch-action: manipulation;
 		-webkit-tap-highlight-color: transparent;
+		opacity: 1;
 		transition:
 			border-color var(--transition),
-			box-shadow var(--transition);
+			box-shadow var(--transition),
+			opacity var(--transition);
 
 		@media (hover: hover) {
 			&:hover {
@@ -57,6 +59,7 @@
 					var(--accent-color) 60%,
 					var(--border-color)
 				);
+				opacity: 1;
 			}
 		}
 
@@ -64,6 +67,10 @@
 			border-color: var(--success-color);
 			box-shadow: 0 0 0 2px
 				color-mix(in srgb, var(--success-color) 20%, transparent);
+		}
+
+		&--dimmed {
+			opacity: 0.55;
 		}
 
 		&__header {
@@ -131,9 +138,11 @@
 			text-align: left;
 			touch-action: manipulation;
 			-webkit-tap-highlight-color: transparent;
+			opacity: 1;
 			transition:
 				border-color var(--transition),
-				box-shadow var(--transition);
+				box-shadow var(--transition),
+				opacity var(--transition);
 
 			@include tmd-up {
 				grid-template-columns: 1fr 1fr;
@@ -147,6 +156,7 @@
 						var(--accent-color) 60%,
 						var(--border-color)
 					);
+					opacity: 1;
 				}
 			}
 
@@ -155,16 +165,16 @@
 				box-shadow: 0 0 0 2px
 					color-mix(in srgb, var(--success-color) 20%, transparent);
 			}
+
+			&--dimmed {
+				opacity: 0.55;
+			}
 		}
 
-		&__label {
+		.quote-card__keyword {
 			display: block;
-			font-size: 0.6875rem;
-			font-weight: 700;
-			color: var(--accent-color);
-			text-transform: uppercase;
-			letter-spacing: 0.08em;
-			margin-bottom: 2px;
+			width: fit-content;
+			margin-bottom: space(xs);
 		}
 
 		&__text {
@@ -554,7 +564,8 @@
 		font-weight: 700;
 		cursor: grab;
 		touch-action: none;
-		box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-color) 40%, transparent);
+		box-shadow: 0 0 0 2px
+			color-mix(in srgb, var(--accent-color) 40%, transparent);
 		transition:
 			transform var(--transition),
 			box-shadow var(--transition);
@@ -572,7 +583,8 @@
 		&--dragging {
 			cursor: grabbing;
 			transition: none;
-			box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-color) 55%, transparent);
+			box-shadow: 0 0 0 4px
+				color-mix(in srgb, var(--accent-color) 55%, transparent);
 			z-index: 2;
 		}
 	}
@@ -588,8 +600,6 @@
 	}
 
 	.dravakars-sanctuary-cheat-sheet {
-		gap: space(xs);
-
 		&__hint {
 			margin-bottom: space(sm);
 		}
