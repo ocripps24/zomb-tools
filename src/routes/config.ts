@@ -300,8 +300,8 @@ export const MAP_STEPS = {
 		rexInfernus: {
 			base: "/bo7/rex-infernus",
 			steps: {
-				wwForge: "/bo7/rex-infernus/ww-forge",
-				corruptionEngine: "/bo7/rex-infernus/corruption-engine",
+				dravakarsSanctuary: "/bo7/rex-infernus/dravakars-sanctuary",
+				nexusForge: "/bo7/rex-infernus/nexus-forge",
 				houseSymbols: "/bo7/rex-infernus/house-symbols",
 			},
 		},
@@ -637,7 +637,7 @@ export const ROUTE_METADATA = {
 		title: "Rex Infernus",
 		documentTitle: "Rex Infernus Easter Eggs - COD Zombies Tools",
 		description:
-			"Rex Infernus (Black Ops 7) Easter Egg walkthrough — WW Forge, Corruption Engine, and House Symbols steps and progress tracking.",
+			"Rex Infernus (Black Ops 7) Easter Egg walkthrough — Dravakar's Sanctuary, Nexus Forge, and House Symbols steps and progress tracking.",
 	},
 	"/iw": {
 		title: "Infinite Warfare - Select Map",

@@ -81,7 +81,7 @@ export const BO7_MAPS: BO7Map[] = [
 		component: () =>
 			import("../../components/games/bo7/maps/rex-infernus/RexInfernus"),
 		available: true,
-		tools: ["WW Forge", "House Symbols", "Corruption Engine"],
+		tools: ["Dravakar's Sanctuary", "House Symbols", "Nexus Forge"],
 		difficulty: "medium",
 		beta: true,
 	},

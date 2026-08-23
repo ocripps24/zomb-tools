@@ -3,10 +3,10 @@
 @use "../../abstracts/mixins" as *;
 
 // ============================================================================
-// WW Forge Section
+// Dravakar's Sanctuary Section
 // ============================================================================
 
-.ww-forge-section {
+.dravakars-sanctuary-section {
 	// ── Quote picker ──────────────────────────────────────────────────────────
 
 	.quote-picker {
@@ -107,7 +107,7 @@
 
 	// ── Cheat sheet ───────────────────────────────────────────────────────────
 
-	.ww-forge-cheat-sheet {
+	.dravakars-sanctuary-cheat-sheet {
 		display: flex;
 		flex-direction: column;
 		gap: space(sm);
@@ -214,13 +214,13 @@
 }
 
 // ============================================================================
-// Corruption Engine Section
+// Nexus Forge Section
 // ============================================================================
 
-.corruption-engine-section {
+.nexus-forge-section {
 	// ── Ring diagram ──────────────────────────────────────────────────────────
 
-	.corruption-diagram {
+	.nexus-forge-diagram {
 		position: relative;
 		width: 100%;
 		max-width: 380px;
@@ -275,7 +275,7 @@
 		}
 	}
 
-	.corruption-direction-arrow {
+	.nexus-forge-direction-arrow {
 		position: absolute;
 		top: 50%;
 		width: 14px;
@@ -298,7 +298,7 @@
 		}
 	}
 
-	.corruption-ring {
+	.nexus-forge-ring {
 		position: absolute;
 		inset: 0;
 		pointer-events: none;
@@ -353,7 +353,7 @@
 
 	// ── Target temple picker ─────────────────────────────────────────────────
 
-	.corruption-target-picker {
+	.nexus-forge-target-picker {
 		margin-bottom: space(lg);
 
 		&__title {
@@ -373,7 +373,7 @@
 		}
 	}
 
-	.corruption-target-btn {
+	.nexus-forge-target-btn {
 		padding: space(sm) space(md);
 		background: var(--bg-tertiary);
 		border: 1px solid var(--border-color);
@@ -397,7 +397,7 @@
 
 	// ── Direction toggle ──────────────────────────────────────────────────────
 
-	.corruption-direction-toggle {
+	.nexus-forge-direction-toggle {
 		margin-bottom: space(xl);
 
 		&__title {
@@ -419,7 +419,7 @@
 		}
 	}
 
-	.corruption-direction-compare {
+	.nexus-forge-direction-compare {
 		margin-top: space(sm);
 		padding: space(sm) space(md);
 		background: var(--bg-tertiary);
@@ -436,7 +436,7 @@
 		}
 	}
 
-	.corruption-direction-btn {
+	.nexus-forge-direction-btn {
 		padding: space(sm) space(md);
 		background: var(--bg-tertiary);
 		border: 1px solid var(--border-color);
@@ -460,7 +460,7 @@
 
 	// ── Solution ──────────────────────────────────────────────────────────────
 
-	.corruption-solution {
+	.nexus-forge-solution {
 		&__title {
 			font-size: 1.0625rem;
 			font-weight: 600;
@@ -582,12 +582,12 @@
 // Compact Mode
 // ============================================================================
 
-.base-section.compact .ww-forge-section {
+.base-section.compact .dravakars-sanctuary-section {
 	.quote-card__text {
 		display: none;
 	}
 
-	.ww-forge-cheat-sheet {
+	.dravakars-sanctuary-cheat-sheet {
 		gap: space(xs);
 
 		&__hint {
@@ -605,13 +605,13 @@
 	}
 }
 
-.base-section.compact .corruption-engine-section {
-	.corruption-diagram {
+.base-section.compact .nexus-forge-section {
+	.nexus-forge-diagram {
 		max-width: 280px;
 		margin: space(xl) auto;
 	}
 
-	.corruption-direction-toggle__hint {
+	.nexus-forge-direction-toggle__hint {
 		display: none;
 	}
 }

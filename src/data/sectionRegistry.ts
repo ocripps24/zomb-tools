@@ -36,8 +36,8 @@ import KowakujoMasksSection from "@/components/games/bo7/maps/kowakujo/sections/
 import KowakujoScrollsSection from "@/components/games/bo7/maps/kowakujo/sections/ScrollsSection";
 import KowakujoFlagsSection from "@/components/games/bo7/maps/kowakujo/sections/FlagsSection";
 import KowakujoMurderMysterySection from "@/components/games/bo7/maps/kowakujo/sections/MurderMysterySection";
-import RexInfernusWWForgeSection from "@/components/games/bo7/maps/rex-infernus/sections/WWForgeSection";
-import RexInfernusCorruptionEngineSection from "@/components/games/bo7/maps/rex-infernus/sections/CorruptionEngineSection";
+import RexInfernusDravakarsSanctuarySection from "@/components/games/bo7/maps/rex-infernus/sections/DravakarsSanctuarySection";
+import RexInfernusNexusForgeSection from "@/components/games/bo7/maps/rex-infernus/sections/NexusForgeSection";
 import RexInfernusHouseSymbolsSection from "@/components/games/bo7/maps/rex-infernus/sections/HouseSymbolsSection";
 
 // Paradox Junction
@@ -352,10 +352,10 @@ export const SECTION_REGISTRY: SectionRegistry = {
 			},
 		},
 		"rex-infernus": {
-			"ww-forge": {
-				id: "ww-forge",
-				name: "WW Forge",
-				component: RexInfernusWWForgeSection,
+			"dravakars-sanctuary": {
+				id: "dravakars-sanctuary",
+				name: "Dravakar's Sanctuary",
+				component: RexInfernusDravakarsSanctuarySection,
 				gameId: "bo7",
 				gameName: "Black Ops 7",
 				mapId: "rex-infernus",
@@ -370,10 +370,10 @@ export const SECTION_REGISTRY: SectionRegistry = {
 				mapId: "rex-infernus",
 				mapName: "Rex Infernus",
 			},
-			"corruption-engine": {
-				id: "corruption-engine",
-				name: "Corruption Engine",
-				component: RexInfernusCorruptionEngineSection,
+			"nexus-forge": {
+				id: "nexus-forge",
+				name: "Nexus Forge",
+				component: RexInfernusNexusForgeSection,
 				gameId: "bo7",
 				gameName: "Black Ops 7",
 				mapId: "rex-infernus",

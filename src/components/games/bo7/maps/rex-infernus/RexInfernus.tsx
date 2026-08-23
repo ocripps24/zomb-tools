@@ -1,16 +1,16 @@
 import { MapContainer } from "@/components/core";
 import type { MapStep } from "@/hooks";
 import { getBO7MapById } from "@/data/bo7/maps";
-import WWForgeSection from "./sections/WWForgeSection";
-import CorruptionEngineSection from "./sections/CorruptionEngineSection";
+import DravakarsSanctuarySection from "./sections/DravakarsSanctuarySection";
+import NexusForgeSection from "./sections/NexusForgeSection";
 import HouseSymbolsSection from "./sections/HouseSymbolsSection";
 
 const STEPS: MapStep[] = [
 	{
-		id: "ww-forge",
-		name: "WW Forge",
-		path: "/bo7/rex-infernus/ww-forge",
-		component: WWForgeSection,
+		id: "dravakars-sanctuary",
+		name: "Dravakar's Sanctuary",
+		path: "/bo7/rex-infernus/dravakars-sanctuary",
+		component: DravakarsSanctuarySection,
 	},
 	{
 		id: "house-symbols",
@@ -19,10 +19,10 @@ const STEPS: MapStep[] = [
 		component: HouseSymbolsSection,
 	},
 	{
-		id: "corruption-engine",
-		name: "Corruption Engine",
-		path: "/bo7/rex-infernus/corruption-engine",
-		component: CorruptionEngineSection,
+		id: "nexus-forge",
+		name: "Nexus Forge",
+		path: "/bo7/rex-infernus/nexus-forge",
+		component: NexusForgeSection,
 	},
 ];
 

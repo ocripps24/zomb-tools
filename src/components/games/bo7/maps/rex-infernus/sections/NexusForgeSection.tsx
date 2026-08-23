@@ -84,7 +84,8 @@ function solvePresses(
 const PRESS_SECONDS = 15;
 const DIRECTION_SWITCH_SECONDS = 10;
 
-const directionLabel = (d: Direction) => (d === "clockwise" ? "Clockwise" : "Anti-clockwise");
+const directionLabel = (d: Direction) =>
+	d === "clockwise" ? "Clockwise" : "Anti-clockwise";
 const otherDirectionOf = (d: Direction): Direction =>
 	d === "clockwise" ? "anticlockwise" : "clockwise";
 
@@ -132,7 +133,10 @@ function computeMixedPlan(
 	});
 
 	const usesSwitch = phase2.length > 0;
-	const totalPresses = [...phase1, ...phase2].reduce((sum, p) => sum + p.count, 0);
+	const totalPresses = [...phase1, ...phase2].reduce(
+		(sum, p) => sum + p.count,
+		0,
+	);
 	const totalTimeSeconds =
 		totalPresses * PRESS_SECONDS + (usesSwitch ? DIRECTION_SWITCH_SECONDS : 0);
 
@@ -166,12 +170,14 @@ function labelStyle(angleDeg: number, radiusPercent: number) {
 	if (Math.abs(sin) > 0.3) {
 		return {
 			...base,
-			transform: sin > 0 ? "translate(6px, -50%)" : "translate(calc(-100% - 6px), -50%)",
+			transform:
+				sin > 0 ? "translate(6px, -50%)" : "translate(calc(-100% - 6px), -50%)",
 		};
 	}
 	return {
 		...base,
-		transform: cos > 0 ? "translate(-50%, calc(-100% - 4px))" : "translate(-50%, 4px)",
+		transform:
+			cos > 0 ? "translate(-50%, calc(-100% - 4px))" : "translate(-50%, 4px)",
 	};
 }
 
@@ -182,7 +188,13 @@ function labelStyle(angleDeg: number, radiusPercent: number) {
 // drawing: right+CW flips vertically (arrow now points down), left+CW flips
 // horizontally (bulges left, arrow still up), left+ACW flips both (bulges
 // left, arrow down).
-function DirectionArrow({ side, direction }: { side: "left" | "right"; direction: Direction }) {
+function DirectionArrow({
+	side,
+	direction,
+}: {
+	side: "left" | "right";
+	direction: Direction;
+}) {
 	// Combined with the CSS vertical centering, since an inline `transform`
 	// replaces the stylesheet's value entirely rather than composing with it.
 	const flip =
@@ -196,14 +208,14 @@ function DirectionArrow({ side, direction }: { side: "left" | "right"; direction
 
 	return (
 		<RotationArrow
-			className={`corruption-direction-arrow corruption-direction-arrow--${side}`}
+			className={`nexus-forge-direction-arrow nexus-forge-direction-arrow--${side}`}
 			style={{ transform: `translateY(-50%)${flip}` }}
 			aria-hidden="true"
 		/>
 	);
 }
 
-interface CorruptionEngineData {
+interface NexusForgeData {
 	outer: LocationId | null;
 	middle: LocationId | null;
 	inner: LocationId | null;
@@ -211,19 +223,24 @@ interface CorruptionEngineData {
 	direction: Direction;
 }
 
-const DEFAULT_VALUE: CorruptionEngineData = {
-	outer: null,
-	middle: null,
-	inner: null,
+// The pillars always start here once the Nexus Forge is activated, so
+// pre-fill them rather than making players set the same starting state every
+// game — they only need to pick a target and confirm their direction.
+const DEFAULT_VALUE: NexusForgeData = {
+	outer: "north-totem",
+	middle: "dravakar",
+	inner: "caltheris",
 	target: null,
 	direction: "anticlockwise",
 };
 
-function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) {
+function NexusForgeSection(
+	props: BaseSectionProps<NexusForgeData>,
+) {
 	const { getSetting } = useSectionSettings({
 		mapId: "rex-infernus",
-		sectionId: "corruption-engine",
-		sectionName: "Corruption Engine",
+		sectionId: "nexus-forge",
+		sectionName: "Nexus Forge",
 		settings: [
 			{
 				id: "direction-switching",
@@ -237,20 +254,25 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 			},
 		],
 	});
-	const allowSwitch = getSetting("direction-switching", "include") === "include";
+	const allowSwitch =
+		getSetting("direction-switching", "include") === "include";
 
 	return (
 		<BaseSection
 			config={{
-				storageKey: "rex-infernus-corruption-engine-data",
+				storageKey: "rex-infernus-nexus-forge-data",
 				defaultValue: DEFAULT_VALUE,
-				title: "Corruption Engine",
+				title: "Nexus Forge",
 				description:
-					"Set where each ring's monolith currently sits and which temple you want to power up. The solver works out how many times to interact with each monolith handle.",
+					"Using starting positions, rotation direction and a target, the solver calculates the interactions for each monolith.",
 				resetButtonText: "Clear",
 				tipsConfig: {
 					show: true,
 					items: [
+						{
+							label: "Starting Positions",
+							text: "The pillars always start at Outer: North Grapple, Middle: Dravakar, Inner: Caltheris once the Nexus Forge is activated — already set below by default.",
+						},
 						{
 							label: "Monolith Handles",
 							text: "Interacting with a ring's monolith always advances that ring 1 stop and the other two rings 2 stops each, in the current nexus direction.",
@@ -274,7 +296,7 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 					],
 				},
 			}}
-			getProgress={(data: CorruptionEngineData) => {
+			getProgress={(data: NexusForgeData) => {
 				const fields = [data.outer, data.middle, data.inner, data.target];
 				const completed = fields.filter(Boolean).length;
 				return { completed, total: fields.length, isComplete: completed === 4 };
@@ -294,13 +316,20 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 							locationIndex(data.inner as LocationId),
 						]
 					: null;
-				const targetIdx = allSet ? locationIndex(data.target as LocationId) : null;
+				const targetIdx = allSet
+					? locationIndex(data.target as LocationId)
+					: null;
 
 				const otherDirection = otherDirectionOf(data.direction);
 
 				const plan =
 					startIndices && targetIdx !== null
-						? computeMixedPlan(startIndices, targetIdx, data.direction, allowSwitch)
+						? computeMixedPlan(
+								startIndices,
+								targetIdx,
+								data.direction,
+								allowSwitch,
+							)
 						: null;
 
 				// What the total would be if the player's handle were actually
@@ -310,7 +339,12 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 				// before making any presses at all.
 				const altPlan =
 					startIndices && targetIdx !== null
-						? computeMixedPlan(startIndices, targetIdx, otherDirection, allowSwitch)
+						? computeMixedPlan(
+								startIndices,
+								targetIdx,
+								otherDirection,
+								allowSwitch,
+							)
 						: null;
 
 				const toResultItems = (steps: RingPressStep[]): ResultItem[] =>
@@ -322,29 +356,44 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 					}));
 
 				const placeholderResults: ResultItem[] = [
-					{ id: "outer", value: "----", label: "Outer Monolith", status: "pending" },
-					{ id: "middle", value: "----", label: "Middle Monolith", status: "pending" },
-					{ id: "inner", value: "----", label: "Inner Monolith", status: "pending" },
+					{
+						id: "outer",
+						value: "----",
+						label: "Outer Monolith",
+						status: "pending",
+					},
+					{
+						id: "middle",
+						value: "----",
+						label: "Middle Monolith",
+						status: "pending",
+					},
+					{
+						id: "inner",
+						value: "----",
+						label: "Inner Monolith",
+						status: "pending",
+					},
 				];
 
 				return (
-					<div className="corruption-engine-section">
-						<div className="corruption-diagram">
+					<div className="nexus-forge-section">
+						<div className="nexus-forge-diagram">
 							<DirectionArrow side="left" direction={data.direction} />
 							<DirectionArrow side="right" direction={data.direction} />
 
-							<div className="corruption-diagram__center">
-								Corruption
+							<div className="nexus-forge-diagram__center">
+								Nexus
 								<br />
-								Engine
+								Forge
 							</div>
 
 							{LOCATIONS.map((loc) => (
 								<div
 									key={loc.id}
 									className={[
-										"corruption-diagram__label",
-										loc.temple ? "" : "corruption-diagram__label--totem",
+										"nexus-forge-diagram__label",
+										loc.temple ? "" : "nexus-forge-diagram__label--totem",
 									]
 										.filter(Boolean)
 										.join(" ")}
@@ -355,9 +404,12 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 							))}
 
 							{RINGS.map((ring) => (
-								<div key={ring.id} className={`corruption-ring corruption-ring--${ring.id}`}>
+								<div
+									key={ring.id}
+									className={`nexus-forge-ring nexus-forge-ring--${ring.id}`}
+								>
 									<div
-										className="corruption-ring__track"
+										className="nexus-forge-ring__track"
 										style={{
 											width: `${ring.radius * 2}%`,
 											height: `${ring.radius * 2}%`,
@@ -368,9 +420,9 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 											key={loc.id}
 											type="button"
 											className={[
-												"corruption-ring__marker",
+												"nexus-forge-ring__marker",
 												data[ring.id] === loc.id
-													? "corruption-ring__marker--active"
+													? "nexus-forge-ring__marker--active"
 													: "",
 											]
 												.filter(Boolean)
@@ -386,17 +438,17 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 							))}
 						</div>
 
-						<div className="corruption-target-picker">
-							<h3 className="corruption-target-picker__title">Target Temple</h3>
-							<div className="corruption-target-picker__buttons">
+						<div className="nexus-forge-target-picker">
+							<h3 className="nexus-forge-target-picker__title">Target Temple</h3>
+							<div className="nexus-forge-target-picker__buttons">
 								{TEMPLES.map((temple) => (
 									<button
 										key={temple.id}
 										type="button"
 										className={[
-											"corruption-target-btn",
+											"nexus-forge-target-btn",
 											data.target === temple.id
-												? "corruption-target-btn--selected"
+												? "nexus-forge-target-btn--selected"
 												: "",
 										]
 											.filter(Boolean)
@@ -409,31 +461,33 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 							</div>
 						</div>
 
-						<div className="corruption-direction-toggle">
-							<h3 className="corruption-direction-toggle__title">
+						<div className="nexus-forge-direction-toggle">
+							<h3 className="nexus-forge-direction-toggle__title">
 								Current Nexus Direction
 							</h3>
-							<div className="corruption-direction-toggle__buttons">
+							<div className="nexus-forge-direction-toggle__buttons">
 								<button
 									type="button"
 									className={[
-										"corruption-direction-btn",
+										"nexus-forge-direction-btn",
 										data.direction === "anticlockwise"
-											? "corruption-direction-btn--selected"
+											? "nexus-forge-direction-btn--selected"
 											: "",
 									]
 										.filter(Boolean)
 										.join(" ")}
-									onClick={() => setData({ ...data, direction: "anticlockwise" })}
+									onClick={() =>
+										setData({ ...data, direction: "anticlockwise" })
+									}
 								>
 									Anti-clockwise
 								</button>
 								<button
 									type="button"
 									className={[
-										"corruption-direction-btn",
+										"nexus-forge-direction-btn",
 										data.direction === "clockwise"
-											? "corruption-direction-btn--selected"
+											? "nexus-forge-direction-btn--selected"
 											: "",
 									]
 										.filter(Boolean)
@@ -443,7 +497,7 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 									Clockwise
 								</button>
 							</div>
-							<p className="corruption-direction-toggle__hint">
+							<p className="nexus-forge-direction-toggle__hint">
 								Defaults to anti-clockwise — most players already flip it once
 								during activation. Change this if your handle points toward the
 								centre.
@@ -452,9 +506,9 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 							{plan && altPlan && (
 								<div
 									className={[
-										"corruption-direction-compare",
+										"nexus-forge-direction-compare",
 										plan.totalTimeSeconds !== altPlan.totalTimeSeconds
-											? "corruption-direction-compare--tip"
+											? "nexus-forge-direction-compare--tip"
 											: "",
 									]
 										.filter(Boolean)
@@ -462,20 +516,21 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 								>
 									{plan.totalTimeSeconds === altPlan.totalTimeSeconds ? (
 										<>
-											Both directions take the same time (~{plan.totalTimeSeconds}
+											Both directions take the same time (~
+											{plan.totalTimeSeconds}
 											s) — it doesn't matter which one you're currently in.
 										</>
 									) : plan.totalTimeSeconds < altPlan.totalTimeSeconds ? (
 										<>
 											{directionLabel(data.direction)} (current) is fastest: ~
-											{plan.totalTimeSeconds}s vs ~{altPlan.totalTimeSeconds}s for{" "}
-											{directionLabel(otherDirection)}.
+											{plan.totalTimeSeconds}s vs ~{altPlan.totalTimeSeconds}s
+											for {directionLabel(otherDirection)}.
 										</>
 									) : (
 										<>
 											{directionLabel(otherDirection)} would be faster: ~
-											{altPlan.totalTimeSeconds}s vs ~{plan.totalTimeSeconds}s for
-											your current {directionLabel(data.direction)} — worth
+											{altPlan.totalTimeSeconds}s vs ~{plan.totalTimeSeconds}s
+											for your current {directionLabel(data.direction)} — worth
 											switching before you press anything, to save{" "}
 											{plan.totalTimeSeconds - altPlan.totalTimeSeconds}s.
 										</>
@@ -485,13 +540,16 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 						</div>
 
 						{plan ? (
-							<div className="corruption-solution">
-								<h3 className="corruption-solution__title">Monolith Solution</h3>
+							<div className="nexus-forge-solution">
+								<h3 className="nexus-forge-solution__title">
+									Monolith Solution
+								</h3>
 
 								{plan.phase1.length > 0 && (
 									<>
-										<h4 className="corruption-solution__phase-title">
-											Direction: Now — {directionLabel(data.direction)} (current)
+										<h4 className="nexus-forge-solution__phase-title">
+											Direction: Now — {directionLabel(data.direction)}{" "}
+											(current)
 										</h4>
 										<ResultsDisplay
 											variant="grid"
@@ -504,11 +562,11 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 
 								{plan.usesSwitch && (
 									<>
-										<div className="corruption-solution__switch-step">
+										<div className="nexus-forge-solution__switch-step">
 											⟳ {plan.phase1.length > 0 ? "Then switch" : "Switch"} the
 											nexus handle to {directionLabel(plan.otherDirection)}
 										</div>
-										<h4 className="corruption-solution__phase-title">
+										<h4 className="nexus-forge-solution__phase-title">
 											Direction: After switching —{" "}
 											{directionLabel(plan.otherDirection)}
 										</h4>
@@ -521,7 +579,7 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 									</>
 								)}
 
-								<p className="corruption-solution__total">
+								<p className="nexus-forge-solution__total">
 									{plan.totalPresses} press{plan.totalPresses === 1 ? "" : "es"}
 									{plan.usesSwitch ? " + 1 direction switch" : ""} — about{" "}
 									{plan.totalTimeSeconds}s total.
@@ -544,4 +602,4 @@ function CorruptionEngineSection(props: BaseSectionProps<CorruptionEngineData>) 
 	);
 }
 
-export default CorruptionEngineSection;
+export default NexusForgeSection;

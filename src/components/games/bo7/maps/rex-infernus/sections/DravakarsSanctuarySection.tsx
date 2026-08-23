@@ -4,11 +4,11 @@ import { ResultsDisplay } from "@/components/ui";
 import type { ResultItem } from "@/components/ui/ResultsDisplay";
 import { useSectionSettings } from "@/hooks/useSectionSettings";
 
-interface WWForgeData {
+interface DravakarsSanctuaryData {
 	quote: string;
 }
 
-const DEFAULT_VALUE: WWForgeData = {
+const DEFAULT_VALUE: DravakarsSanctuaryData = {
 	quote: "",
 };
 
@@ -71,11 +71,13 @@ function renderQuoteText(text: string, highlight: string) {
 	);
 }
 
-function WWForgeSection(props: BaseSectionProps<WWForgeData>) {
+function DravakarsSanctuarySection(
+	props: BaseSectionProps<DravakarsSanctuaryData>,
+) {
 	const { getSetting } = useSectionSettings({
 		mapId: "rex-infernus",
-		sectionId: "ww-forge",
-		sectionName: "WW Forge",
+		sectionId: "dravakars-sanctuary",
+		sectionName: "Dravakar's Sanctuary",
 		settings: [
 			{
 				id: "display-mode",
@@ -96,9 +98,9 @@ function WWForgeSection(props: BaseSectionProps<WWForgeData>) {
 	return (
 		<BaseSection
 			config={{
-				storageKey: "rex-infernus-ww-forge-data",
+				storageKey: "rex-infernus-dravakars-sanctuary-data",
 				defaultValue: DEFAULT_VALUE,
-				title: "WW Forge",
+				title: "Dravakar's Sanctuary",
 				description:
 					"Interact with the blue scripture on the wall in Dravakar's Sanctuary to receive a quote, then select it below to see how many times to pull each lever.",
 				resetButtonText: "Clear",
@@ -132,7 +134,7 @@ function WWForgeSection(props: BaseSectionProps<WWForgeData>) {
 					],
 				},
 			}}
-			getProgress={(data: WWForgeData) => ({
+			getProgress={(data: DravakarsSanctuaryData) => ({
 				completed: data.quote ? 1 : 0,
 				total: 1,
 				isComplete: Boolean(data.quote),
@@ -165,55 +167,55 @@ function WWForgeSection(props: BaseSectionProps<WWForgeData>) {
 
 				if (displayMode === "cheat-sheet") {
 					return (
-						<div className="ww-forge-section ww-forge-section--cheat-sheet">
-							<p className="ww-forge-cheat-sheet__hint">
+						<div className="dravakars-sanctuary-section dravakars-sanctuary-section--cheat-sheet">
+							<p className="dravakars-sanctuary-cheat-sheet__hint">
 								Click your quote to mark it as confirmed:
 							</p>
-							<div className="ww-forge-cheat-sheet">
+							<div className="dravakars-sanctuary-cheat-sheet">
 								{QUOTES.map((quote) => (
 									<button
 										key={quote.id}
 										type="button"
 										className={[
-											"ww-forge-cheat-sheet__row",
+											"dravakars-sanctuary-cheat-sheet__row",
 											data.quote === quote.id
-												? "ww-forge-cheat-sheet__row--selected"
+												? "dravakars-sanctuary-cheat-sheet__row--selected"
 												: "",
 										]
 											.filter(Boolean)
 											.join(" ")}
 										onClick={() => setData({ quote: quote.id })}
 									>
-										<div className="ww-forge-cheat-sheet__quote">
-											<span className="ww-forge-cheat-sheet__label">
+										<div className="dravakars-sanctuary-cheat-sheet__quote">
+											<span className="dravakars-sanctuary-cheat-sheet__label">
 												Quote {quote.id}
 											</span>
-											<span className="ww-forge-cheat-sheet__text">
+											<span className="dravakars-sanctuary-cheat-sheet__text">
 												{renderQuoteText(quote.text, quote.highlight)}
 											</span>
 										</div>
-										<div className="ww-forge-cheat-sheet__levers">
-											<div className="ww-forge-cheat-sheet__lever">
-												<span className="ww-forge-cheat-sheet__lever-value">
+										<div className="dravakars-sanctuary-cheat-sheet__levers">
+											<div className="dravakars-sanctuary-cheat-sheet__lever">
+												<span className="dravakars-sanctuary-cheat-sheet__lever-value">
 													{quote.left}x
 												</span>
-												<span className="ww-forge-cheat-sheet__lever-label">
+												<span className="dravakars-sanctuary-cheat-sheet__lever-label">
 													Left
 												</span>
 											</div>
-											<div className="ww-forge-cheat-sheet__lever">
-												<span className="ww-forge-cheat-sheet__lever-value">
+											<div className="dravakars-sanctuary-cheat-sheet__lever">
+												<span className="dravakars-sanctuary-cheat-sheet__lever-value">
 													{quote.middle}x
 												</span>
-												<span className="ww-forge-cheat-sheet__lever-label">
+												<span className="dravakars-sanctuary-cheat-sheet__lever-label">
 													Middle
 												</span>
 											</div>
-											<div className="ww-forge-cheat-sheet__lever">
-												<span className="ww-forge-cheat-sheet__lever-value">
+											<div className="dravakars-sanctuary-cheat-sheet__lever">
+												<span className="dravakars-sanctuary-cheat-sheet__lever-value">
 													{quote.right}x
 												</span>
-												<span className="ww-forge-cheat-sheet__lever-label">
+												<span className="dravakars-sanctuary-cheat-sheet__lever-label">
 													Right
 												</span>
 											</div>
@@ -226,7 +228,7 @@ function WWForgeSection(props: BaseSectionProps<WWForgeData>) {
 				}
 
 				return (
-					<div className="ww-forge-section">
+					<div className="dravakars-sanctuary-section">
 						<div className="quote-picker">
 							<h3 className="quote-picker__title">Select Your Quote</h3>
 							<p className="quote-picker__hint">
@@ -277,4 +279,4 @@ function WWForgeSection(props: BaseSectionProps<WWForgeData>) {
 	);
 }
 
-export default WWForgeSection;
+export default DravakarsSanctuarySection;

@@ -29,7 +29,8 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 		date: "August 2026",
 		items: [
 			"BO7: Rex Infernus - whilst in BETA, updates to features and UI will be ongoing. Be sure to to check both the settings pane and the section structure itself in case it affects how you use the solvers.",
-			"BO7: Added Rex Infernus - WW Forge aka Dravakar's temple puzzle, the House Symbols and the Corruption Engine aka Nexus Core pillar rotations",
+			"BO7: Rex Infernus - Corruption Engine renamed to Nexus Forge with default starting positions added (post activation) and optimal next temples added. Cheat sheet version added to Dravakar's Sanctuary puzzle section. WW Forge renamed to Dravakar's Sanctuary.",
+			"BO7: Added Rex Infernus - Dravakar's Sanctuary puzzle, the House Symbols and the Nexus Forge pillar rotations",
 			"BO3: Added Revelations - Symbols section",
 			"BO3: Added Der Eisendrache - Simon Says section",
 		],
