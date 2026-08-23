@@ -372,6 +372,12 @@
 			margin-bottom: space(sm);
 		}
 
+		&__hint {
+			font-size: 0.8125rem;
+			color: var(--text-secondary);
+			margin-bottom: space(sm);
+		}
+
 		&__buttons {
 			display: grid;
 			grid-template-columns: repeat(2, 1fr);
@@ -384,6 +390,10 @@
 	}
 
 	.nexus-forge-target-btn {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2px;
 		padding: space(sm) space(md);
 		background: var(--bg-tertiary);
 		border: 1px solid var(--border-color);
@@ -398,10 +408,44 @@
 			border-color: var(--accent-color);
 		}
 
+		&__time {
+			display: flex;
+			align-items: center;
+			gap: space(xs);
+			font-size: 0.75rem;
+			font-weight: 500;
+			color: var(--text-secondary);
+		}
+
+		&__badge {
+			font-size: 0.625rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+			color: var(--accent-color);
+			background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+			border-radius: radius(sm);
+			padding: 0.05em 0.4em;
+		}
+
+		&--fastest {
+			border-color: color-mix(in srgb, var(--accent-color) 50%, var(--border-color));
+		}
+
 		&--selected {
 			background: var(--accent-color);
 			border-color: var(--accent-color);
 			color: var(--bg-primary);
+
+			.nexus-forge-target-btn__time {
+				color: var(--bg-primary);
+				opacity: 0.85;
+			}
+
+			.nexus-forge-target-btn__badge {
+				color: var(--bg-primary);
+				background: color-mix(in srgb, var(--bg-primary) 20%, transparent);
+			}
 		}
 	}
 
@@ -426,23 +470,6 @@
 			margin-top: space(sm);
 			font-size: 0.8125rem;
 			color: var(--text-secondary);
-		}
-	}
-
-	.nexus-forge-direction-compare {
-		margin-top: space(sm);
-		padding: space(sm) space(md);
-		background: var(--bg-tertiary);
-		border: 1px solid var(--border-color);
-		border-radius: radius(base);
-		color: var(--text-secondary);
-		font-size: 0.8125rem;
-
-		&--tip {
-			background: color-mix(in srgb, var(--accent-color) 10%, transparent);
-			border-color: color-mix(in srgb, var(--accent-color) 30%, transparent);
-			color: var(--accent-color);
-			font-weight: 600;
 		}
 	}
 
@@ -504,6 +531,37 @@
 			margin-top: space(md);
 			font-size: 0.875rem;
 			color: var(--text-secondary);
+			text-align: center;
+		}
+
+		&__mark-done {
+			display: block;
+			width: 100%;
+			margin-top: space(md);
+			padding: space(sm) space(md);
+			background: var(--accent-color);
+			border: none;
+			border-radius: radius(base);
+			color: var(--bg-primary);
+			font-size: 0.9375rem;
+			font-weight: 700;
+			cursor: pointer;
+			transition: opacity var(--transition);
+
+			&:hover {
+				opacity: 0.85;
+			}
+		}
+
+		&__done {
+			margin-top: space(md);
+			padding: space(sm) space(md);
+			background: color-mix(in srgb, var(--success-color) 12%, transparent);
+			border: 1px solid color-mix(in srgb, var(--success-color) 35%, transparent);
+			border-radius: radius(base);
+			color: var(--success-color);
+			font-weight: 600;
+			font-size: 0.9375rem;
 			text-align: center;
 		}
 	}
@@ -617,7 +675,8 @@
 
 .base-section.compact .nexus-forge-section {
 	.nexus-forge-diagram {
-		max-width: 280px;
+		// Kept at full size deliberately — shrinking it makes the ring
+		// markers too fiddly to hit quickly during a run.
 		margin: space(xl) auto;
 	}
 

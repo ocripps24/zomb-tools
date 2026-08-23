@@ -82,7 +82,18 @@ function solvePresses(
 }
 
 const PRESS_SECONDS = 15;
-const DIRECTION_SWITCH_SECONDS = 10;
+const NEXUS_CORE_TRAVEL_SECONDS = 5;
+
+// The handle can't be touched while a monolith is still physically rotating.
+// If the switch happens right after a press — which it always does whenever
+// there's a phase1 — the player only gets a `NEXUS_CORE_TRAVEL_SECONDS` head
+// start on that press's rotation before they arrive, so they wait out
+// whatever's left of it before they can actually flip the handle.
+const DIRECTION_SWITCH_SECONDS = NEXUS_CORE_TRAVEL_SECONDS * 2;
+const DIRECTION_SWITCH_WITH_WAIT_SECONDS =
+	NEXUS_CORE_TRAVEL_SECONDS +
+	Math.max(0, PRESS_SECONDS - NEXUS_CORE_TRAVEL_SECONDS) +
+	NEXUS_CORE_TRAVEL_SECONDS;
 
 const directionLabel = (d: Direction) =>
 	d === "clockwise" ? "Clockwise" : "Anti-clockwise";
@@ -137,8 +148,15 @@ function computeMixedPlan(
 		(sum, p) => sum + p.count,
 		0,
 	);
-	const totalTimeSeconds =
-		totalPresses * PRESS_SECONDS + (usesSwitch ? DIRECTION_SWITCH_SECONDS : 0);
+	// No wait if the switch is the very first action (nothing's rotating
+	// yet); otherwise it follows straight on from phase1's last press, so
+	// the handle isn't reachable until that rotation finishes.
+	const switchCost = usesSwitch
+		? phase1.length > 0
+			? DIRECTION_SWITCH_WITH_WAIT_SECONDS
+			: DIRECTION_SWITCH_SECONDS
+		: 0;
+	const totalTimeSeconds = totalPresses * PRESS_SECONDS + switchCost;
 
 	return {
 		phase1,
@@ -287,11 +305,19 @@ function NexusForgeSection(
 						},
 						{
 							label: "Timing",
-							text: "Each monolith press takes about 15s to settle, and switching direction takes about 10s to run to the nexus core and back.",
+							text: "Each monolith press takes about 15s to settle. Switching direction takes about 10s (5s down to the nexus core, 5s back) if nothing's mid-rotation — but you can't touch the handle while a monolith is turning, so if you switch right after a press it's closer to 20s: 5s down, then waiting out the rest of that rotation, then 5s back.",
 						},
 						{
 							label: "Mid-Sequence Switching",
 							text: "The solution below is always based on your current direction. If it's faster to press some monoliths now and the rest after switching, it'll tell you exactly which ones go in each step — otherwise it'll say no switch is needed. Turn this off in the settings widget if you'd rather always stick to a single direction.",
+						},
+						{
+							label: "Fastest Temple",
+							text: "Each temple button shows its fastest achievable time from the rings' current positions, with the cheapest one tagged. This updates as you go, so it stays accurate for your second and third temple too, not just the first.",
+						},
+						{
+							label: "After You've Powered a Temple",
+							text: "Once you've done the real interactions in-game, tap \"Mark rings at [temple]\" to update the diagram to match — quicker than clicking all three rings by hand, and it immediately recalculates the fastest next temple.",
 						},
 					],
 				},
@@ -307,45 +333,59 @@ function NexusForgeSection(
 				const setRing = (ring: RingId, id: LocationId) =>
 					setData({ ...data, [ring]: id });
 
-				const allSet = data.outer && data.middle && data.inner && data.target;
+				// Ring positions always have a value (defaulted), so only the
+				// target is ever genuinely unset.
+				const ringStartIndices: [number, number, number] = [
+					locationIndex(data.outer as LocationId),
+					locationIndex(data.middle as LocationId),
+					locationIndex(data.inner as LocationId),
+				];
+				const targetIdx = data.target ? locationIndex(data.target) : null;
 
-				const startIndices: [number, number, number] | null = allSet
-					? [
-							locationIndex(data.outer as LocationId),
-							locationIndex(data.middle as LocationId),
-							locationIndex(data.inner as LocationId),
-						]
-					: null;
-				const targetIdx = allSet
-					? locationIndex(data.target as LocationId)
-					: null;
-
-				const otherDirection = otherDirectionOf(data.direction);
-
+				// The real starting direction isn't a free choice — it's whatever
+				// the handle physically points to — so `computeMixedPlan` anchored
+				// to it is already the true optimum: it discovers "switch before
+				// pressing anything" on its own (as an empty phase1) whenever
+				// that's genuinely cheapest, with the switch cost correctly
+				// charged. There's no separate "what if I'd started the other way"
+				// case worth computing — a parallel plan anchored to the other
+				// direction always either matches this one or, whenever the two
+				// disagree, undercounts by exactly one switch cost, because it
+				// treats that direction as free to already be in.
 				const plan =
-					startIndices && targetIdx !== null
+					targetIdx !== null
 						? computeMixedPlan(
-								startIndices,
+								ringStartIndices,
 								targetIdx,
 								data.direction,
 								allowSwitch,
 							)
 						: null;
 
-				// What the total would be if the player's handle were actually
-				// pointing the other way right now — lets them see, without
-				// physically or manually toggling anything, whether it's worth
-				// walking to the nexus core and setting the other direction
-				// before making any presses at all.
-				const altPlan =
-					startIndices && targetIdx !== null
-						? computeMixedPlan(
-								startIndices,
-								targetIdx,
-								otherDirection,
-								allowSwitch,
-							)
-						: null;
+				// From the CURRENT ring positions (not a fixed default), work out
+				// the fastest achievable time to each temple, so the picker can
+				// flag the best next temple even after the player has already
+				// moved on from an earlier one.
+				const templeTimes = TEMPLES.map((temple) => {
+					const idx = locationIndex(temple.id);
+					const { totalTimeSeconds } = computeMixedPlan(
+						ringStartIndices,
+						idx,
+						data.direction,
+						allowSwitch,
+					);
+					return { id: temple.id, timeSeconds: totalTimeSeconds };
+				});
+				const fastestTimeSeconds = Math.min(
+					...templeTimes.map((t) => t.timeSeconds),
+				);
+
+				const targetTemple = TEMPLES.find((t) => t.id === data.target);
+				const ringsAtTarget =
+					data.target !== null &&
+					data.outer === data.target &&
+					data.middle === data.target &&
+					data.inner === data.target;
 
 				const toResultItems = (steps: RingPressStep[]): ResultItem[] =>
 					steps.map((step) => ({
@@ -440,24 +480,43 @@ function NexusForgeSection(
 
 						<div className="nexus-forge-target-picker">
 							<h3 className="nexus-forge-target-picker__title">Target Temple</h3>
+							<p className="nexus-forge-target-picker__hint">
+								Times shown are the fastest achievable from where the rings
+								are right now.
+							</p>
 							<div className="nexus-forge-target-picker__buttons">
-								{TEMPLES.map((temple) => (
-									<button
-										key={temple.id}
-										type="button"
-										className={[
-											"nexus-forge-target-btn",
-											data.target === temple.id
-												? "nexus-forge-target-btn--selected"
-												: "",
-										]
-											.filter(Boolean)
-											.join(" ")}
-										onClick={() => setData({ ...data, target: temple.id })}
-									>
-										{temple.name}
-									</button>
-								))}
+								{TEMPLES.map((temple) => {
+									const time = templeTimes.find((t) => t.id === temple.id)!;
+									const isFastest = time.timeSeconds === fastestTimeSeconds;
+									return (
+										<button
+											key={temple.id}
+											type="button"
+											className={[
+												"nexus-forge-target-btn",
+												isFastest ? "nexus-forge-target-btn--fastest" : "",
+												data.target === temple.id
+													? "nexus-forge-target-btn--selected"
+													: "",
+											]
+												.filter(Boolean)
+												.join(" ")}
+											onClick={() => setData({ ...data, target: temple.id })}
+										>
+											<span className="nexus-forge-target-btn__name">
+												{temple.name}
+											</span>
+											<span className="nexus-forge-target-btn__time">
+												{isFastest && (
+													<span className="nexus-forge-target-btn__badge">
+														Fastest
+													</span>
+												)}
+												~{time.timeSeconds}s
+											</span>
+										</button>
+									);
+								})}
 							</div>
 						</div>
 
@@ -502,41 +561,6 @@ function NexusForgeSection(
 								during activation. Change this if your handle points toward the
 								centre.
 							</p>
-
-							{plan && altPlan && (
-								<div
-									className={[
-										"nexus-forge-direction-compare",
-										plan.totalTimeSeconds !== altPlan.totalTimeSeconds
-											? "nexus-forge-direction-compare--tip"
-											: "",
-									]
-										.filter(Boolean)
-										.join(" ")}
-								>
-									{plan.totalTimeSeconds === altPlan.totalTimeSeconds ? (
-										<>
-											Both directions take the same time (~
-											{plan.totalTimeSeconds}
-											s) — it doesn't matter which one you're currently in.
-										</>
-									) : plan.totalTimeSeconds < altPlan.totalTimeSeconds ? (
-										<>
-											{directionLabel(data.direction)} (current) is fastest: ~
-											{plan.totalTimeSeconds}s vs ~{altPlan.totalTimeSeconds}s
-											for {directionLabel(otherDirection)}.
-										</>
-									) : (
-										<>
-											{directionLabel(otherDirection)} would be faster: ~
-											{altPlan.totalTimeSeconds}s vs ~{plan.totalTimeSeconds}s
-											for your current {directionLabel(data.direction)} — worth
-											switching before you press anything, to save{" "}
-											{plan.totalTimeSeconds - altPlan.totalTimeSeconds}s.
-										</>
-									)}
-								</div>
-							)}
 						</div>
 
 						{plan ? (
@@ -584,6 +608,27 @@ function NexusForgeSection(
 									{plan.usesSwitch ? " + 1 direction switch" : ""} — about{" "}
 									{plan.totalTimeSeconds}s total.
 								</p>
+
+								{ringsAtTarget ? (
+									<p className="nexus-forge-solution__done">
+										✓ All rings are at {targetTemple?.name}.
+									</p>
+								) : (
+									<button
+										type="button"
+										className="nexus-forge-solution__mark-done"
+										onClick={() =>
+											setData({
+												...data,
+												outer: data.target,
+												middle: data.target,
+												inner: data.target,
+											})
+										}
+									>
+										Mark rings at {targetTemple?.name}
+									</button>
+								)}
 							</div>
 						) : (
 							<ResultsDisplay
