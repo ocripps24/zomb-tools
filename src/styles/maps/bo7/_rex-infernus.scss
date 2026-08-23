@@ -104,6 +104,113 @@
 			}
 		}
 	}
+
+	// ── Cheat sheet ───────────────────────────────────────────────────────────
+
+	.ww-forge-cheat-sheet {
+		display: flex;
+		flex-direction: column;
+		gap: space(sm);
+
+		&__hint {
+			font-size: 0.875rem;
+			color: var(--text-secondary);
+			margin-bottom: space(md);
+		}
+
+		&__row {
+			display: grid;
+			grid-template-columns: 1fr; // Mobile: stack
+			gap: space(sm);
+			align-items: center;
+			padding: space(md);
+			background: var(--bg-tertiary);
+			border: 1px solid var(--border-color);
+			border-radius: radius(base);
+			cursor: pointer;
+			text-align: left;
+			touch-action: manipulation;
+			-webkit-tap-highlight-color: transparent;
+			transition:
+				border-color var(--transition),
+				box-shadow var(--transition);
+
+			@include tmd-up {
+				grid-template-columns: 1fr 1fr;
+				gap: space(md);
+			}
+
+			@media (hover: hover) {
+				&:hover {
+					border-color: color-mix(
+						in srgb,
+						var(--accent-color) 60%,
+						var(--border-color)
+					);
+				}
+			}
+
+			&--selected {
+				border-color: var(--success-color);
+				box-shadow: 0 0 0 2px
+					color-mix(in srgb, var(--success-color) 20%, transparent);
+			}
+		}
+
+		&__label {
+			display: block;
+			font-size: 0.6875rem;
+			font-weight: 700;
+			color: var(--accent-color);
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			margin-bottom: 2px;
+		}
+
+		&__text {
+			font-size: 0.875rem;
+			color: var(--text-primary);
+			line-height: 1.45;
+
+			strong {
+				font-weight: 700;
+				color: var(--accent-color);
+				text-decoration: underline;
+			}
+		}
+
+		&__levers {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: space(xs);
+
+			@include tmd-up {
+				gap: space(sm);
+			}
+		}
+
+		&__lever {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: space(xs);
+			background: color-mix(in srgb, var(--accent-color) 8%, transparent);
+			border-radius: radius(sm);
+		}
+
+		&__lever-value {
+			font-size: 1.0625rem;
+			font-weight: 700;
+			color: var(--accent-color);
+		}
+
+		&__lever-label {
+			font-size: 0.6875rem;
+			color: var(--text-secondary);
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+		}
+	}
 }
 
 // ============================================================================
@@ -459,6 +566,23 @@
 .base-section.compact .ww-forge-section {
 	.quote-card__text {
 		display: none;
+	}
+
+	.ww-forge-cheat-sheet {
+		gap: space(xs);
+
+		&__hint {
+			margin-bottom: space(sm);
+		}
+
+		&__row {
+			padding: space(sm);
+			gap: space(xs);
+		}
+
+		&__text {
+			font-size: 0.8125rem;
+		}
 	}
 }
 

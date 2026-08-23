@@ -18,9 +18,8 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 		],
 	},
 	{
-		date: "2026",
+		date: "2026 & Beyond",
 		items: [
-			"BO7: Final map coming End of August/early September 2026",
 			"BO2: Buried under review",
 			"IW: Development in progress",
 			"AW/WW2: I'm unfamiliar with these games but they will be reviewed in the fullness of time",
@@ -29,6 +28,8 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 	{
 		date: "August 2026",
 		items: [
+			"BO7: Rex Infernus - whilst in BETA, updates to features and UI will be ongoing. Be sure to to check both the settings pane and the section structure itself in case it affects how you use the solvers.",
+			"BO7: Added Rex Infernus - WW Forge aka Dravakar's temple puzzle, the House Symbols and the Corruption Engine aka Nexus Core pillar rotations",
 			"BO3: Added Revelations - Symbols section",
 			"BO3: Added Der Eisendrache - Simon Says section",
 		],

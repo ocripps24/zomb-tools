@@ -2,6 +2,7 @@ import { BaseSection } from "@/components/core";
 import type { BaseSectionProps } from "@/components/core/BaseSection";
 import { ResultsDisplay } from "@/components/ui";
 import type { ResultItem } from "@/components/ui/ResultsDisplay";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 interface WWForgeData {
 	quote: string;
@@ -33,7 +34,7 @@ const QUOTES: QuoteSolution[] = [
 		right: 3,
 	},
 	{
-		id: "4",
+		id: "2",
 		text: "I remember galaxies that drift to moons, who borrow the runner that travels the stars",
 		highlight: "remember galaxies",
 		left: 2,
@@ -49,7 +50,7 @@ const QUOTES: QuoteSolution[] = [
 		right: 2,
 	},
 	{
-		id: "2",
+		id: "4",
 		text: "I drift to the runner that travels moon, who borrow from galaxies when stars stay true",
 		highlight: "drift to the runner",
 		left: 3,
@@ -71,6 +72,27 @@ function renderQuoteText(text: string, highlight: string) {
 }
 
 function WWForgeSection(props: BaseSectionProps<WWForgeData>) {
+	const { getSetting } = useSectionSettings({
+		mapId: "rex-infernus",
+		sectionId: "ww-forge",
+		sectionName: "WW Forge",
+		settings: [
+			{
+				id: "display-mode",
+				label: "Display Mode",
+				defaultValue: "quote-select",
+				options: [
+					{ value: "quote-select", label: "Quote Select" },
+					{ value: "cheat-sheet", label: "Cheat Sheet" },
+				],
+				note: "Quote Select: pick the quote you got. Cheat Sheet: every quote and its solution at a glance.",
+			},
+		],
+	});
+	const displayMode = getSetting("display-mode", "quote-select") as
+		| "quote-select"
+		| "cheat-sheet";
+
 	return (
 		<BaseSection
 			config={{
@@ -102,6 +124,10 @@ function WWForgeSection(props: BaseSectionProps<WWForgeData>) {
 						{
 							label: "Confirm",
 							text: "Once the pillars are set, interact with the handle on the central pillar in the middle of the square to confirm.",
+						},
+						{
+							label: "Options",
+							text: "Choose between Quote Select or Cheat Sheet mode in the section settings.",
 						},
 					],
 				},
@@ -137,13 +163,75 @@ function WWForgeSection(props: BaseSectionProps<WWForgeData>) {
 					},
 				];
 
+				if (displayMode === "cheat-sheet") {
+					return (
+						<div className="ww-forge-section ww-forge-section--cheat-sheet">
+							<p className="ww-forge-cheat-sheet__hint">
+								Click your quote to mark it as confirmed:
+							</p>
+							<div className="ww-forge-cheat-sheet">
+								{QUOTES.map((quote) => (
+									<button
+										key={quote.id}
+										type="button"
+										className={[
+											"ww-forge-cheat-sheet__row",
+											data.quote === quote.id
+												? "ww-forge-cheat-sheet__row--selected"
+												: "",
+										]
+											.filter(Boolean)
+											.join(" ")}
+										onClick={() => setData({ quote: quote.id })}
+									>
+										<div className="ww-forge-cheat-sheet__quote">
+											<span className="ww-forge-cheat-sheet__label">
+												Quote {quote.id}
+											</span>
+											<span className="ww-forge-cheat-sheet__text">
+												{renderQuoteText(quote.text, quote.highlight)}
+											</span>
+										</div>
+										<div className="ww-forge-cheat-sheet__levers">
+											<div className="ww-forge-cheat-sheet__lever">
+												<span className="ww-forge-cheat-sheet__lever-value">
+													{quote.left}x
+												</span>
+												<span className="ww-forge-cheat-sheet__lever-label">
+													Left
+												</span>
+											</div>
+											<div className="ww-forge-cheat-sheet__lever">
+												<span className="ww-forge-cheat-sheet__lever-value">
+													{quote.middle}x
+												</span>
+												<span className="ww-forge-cheat-sheet__lever-label">
+													Middle
+												</span>
+											</div>
+											<div className="ww-forge-cheat-sheet__lever">
+												<span className="ww-forge-cheat-sheet__lever-value">
+													{quote.right}x
+												</span>
+												<span className="ww-forge-cheat-sheet__lever-label">
+													Right
+												</span>
+											</div>
+										</div>
+									</button>
+								))}
+							</div>
+						</div>
+					);
+				}
+
 				return (
 					<div className="ww-forge-section">
 						<div className="quote-picker">
 							<h3 className="quote-picker__title">Select Your Quote</h3>
 							<p className="quote-picker__hint">
-								Interact with the <strong>blue scripture</strong> in
-								Dravakar's Sanctuary and select the matching quote below.
+								Interact with the <strong>blue scripture</strong> in Dravakar's
+								Sanctuary and select the matching quote below.
 							</p>
 							<div className="quote-picker__cards">
 								{QUOTES.map((quote) => (
