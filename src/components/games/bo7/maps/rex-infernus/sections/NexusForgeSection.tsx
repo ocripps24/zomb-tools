@@ -144,19 +144,32 @@ function computeMixedPlan(
 	});
 
 	const usesSwitch = phase2.length > 0;
-	const totalPresses = [...phase1, ...phase2].reduce(
-		(sum, p) => sum + p.count,
-		0,
-	);
-	// No wait if the switch is the very first action (nothing's rotating
-	// yet); otherwise it follows straight on from phase1's last press, so
-	// the handle isn't reachable until that rotation finishes.
-	const switchCost = usesSwitch
-		? phase1.length > 0
-			? DIRECTION_SWITCH_WITH_WAIT_SECONDS
-			: DIRECTION_SWITCH_SECONDS
-		: 0;
-	const totalTimeSeconds = totalPresses * PRESS_SECONDS + switchCost;
+	const phase1Presses = phase1.reduce((sum, p) => sum + p.count, 0);
+	const phase2Presses = phase2.reduce((sum, p) => sum + p.count, 0);
+	const totalPresses = phase1Presses + phase2Presses;
+
+	// Travel to the nexus core starts the instant the last phase1 press is
+	// made, overlapping with that press's own settle time — so it only ever
+	// costs the REMAINING settle time (folded into the switch cost below),
+	// not a fresh PRESS_SECONDS on top of it. Any EARLIER phase1 presses
+	// still have to fully settle before the next one can happen, so only
+	// those pay the full PRESS_SECONDS each. A ring can land in phase1 with
+	// a count of 0 (already at the target either direction), which isn't a
+	// real press — checking `phase1Presses` (not `phase1.length`) is what
+	// decides whether there's a press to overlap the switch with.
+	let totalTimeSeconds: number;
+	if (usesSwitch) {
+		const switchCost =
+			phase1Presses > 0
+				? DIRECTION_SWITCH_WITH_WAIT_SECONDS
+				: DIRECTION_SWITCH_SECONDS;
+		const priorPhase1Cost =
+			phase1Presses > 0 ? (phase1Presses - 1) * PRESS_SECONDS : 0;
+		totalTimeSeconds =
+			priorPhase1Cost + switchCost + phase2Presses * PRESS_SECONDS;
+	} else {
+		totalTimeSeconds = totalPresses * PRESS_SECONDS;
+	}
 
 	return {
 		phase1,
@@ -239,6 +252,7 @@ interface NexusForgeData {
 	inner: LocationId | null;
 	target: LocationId | null;
 	direction: Direction;
+	completedTemples: LocationId[];
 }
 
 // The pillars always start here once the Nexus Forge is activated, so
@@ -248,8 +262,9 @@ const DEFAULT_VALUE: NexusForgeData = {
 	outer: "north-totem",
 	middle: "dravakar",
 	inner: "caltheris",
-	target: null,
+	target: "dravakar",
 	direction: "anticlockwise",
+	completedTemples: [],
 };
 
 function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
@@ -311,21 +326,43 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 						},
 						{
 							label: "After You've Powered a Temple",
-							text: 'Once you\'ve done the real interactions in-game, tap "Mark rings at [temple]" to update the diagram to match — quicker than clicking all three rings by hand, and it immediately recalculates the fastest next temple.',
+							text: 'Once you\'ve done the real interactions in-game, tap "Mark rings at [temple]" to update the diagram to match — quicker than clicking all three rings by hand, and it automatically selects the next fastest temple as your new target.',
+						},
+						{
+							label: "Tracking Completed Temples",
+							text: 'A temple is marked done automatically the moment you use "Mark rings at [temple]" for it. You can also tap the circle on any temple button to mark or unmark it by hand. Completed temples are excluded from the Fastest suggestion, even if the rings later pass back through 0s there.',
+						},
+						{
+							label: "Fastest Route",
+							text: "Dravakar → Caltheris → Nyxara → Veytherion assuming default start positions and direction changes are followed.",
 						},
 					],
 				},
 			}}
 			getProgress={(data: NexusForgeData) => {
-				const fields = [data.outer, data.middle, data.inner, data.target];
-				const completed = fields.filter(Boolean).length;
-				return { completed, total: fields.length, isComplete: completed === 4 };
+				const completed = (data.completedTemples ?? []).length;
+				return {
+					completed,
+					total: TEMPLES.length,
+					isComplete: completed === TEMPLES.length,
+				};
 			}}
 			{...props}
 		>
 			{({ data, setData }) => {
 				const setRing = (ring: RingId, id: LocationId) =>
 					setData({ ...data, [ring]: id });
+
+				const completedTemples = data.completedTemples ?? [];
+				const isCompleted = (id: LocationId) => completedTemples.includes(id);
+				const toggleCompleted = (id: LocationId) => {
+					setData({
+						...data,
+						completedTemples: isCompleted(id)
+							? completedTemples.filter((t) => t !== id)
+							: [...completedTemples, id],
+					});
+				};
 
 				// Ring positions always have a value (defaulted), so only the
 				// target is ever genuinely unset.
@@ -370,9 +407,14 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 					);
 					return { id: temple.id, timeSeconds: totalTimeSeconds };
 				});
-				const fastestTimeSeconds = Math.min(
-					...templeTimes.map((t) => t.timeSeconds),
-				);
+				// 0s means the rings are already sitting there, and a completed
+				// temple doesn't need revisiting — neither is a useful "go here
+				// next" suggestion, so both are excluded from Fastest eligibility.
+				const eligibleTimes = templeTimes
+					.filter((t) => t.timeSeconds > 0 && !isCompleted(t.id))
+					.map((t) => t.timeSeconds);
+				const fastestTimeSeconds =
+					eligibleTimes.length > 0 ? Math.min(...eligibleTimes) : null;
 
 				const targetTemple = TEMPLES.find((t) => t.id === data.target);
 				const ringsAtTarget =
@@ -380,6 +422,58 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 					data.outer === data.target &&
 					data.middle === data.target &&
 					data.inner === data.target;
+
+				// Moves the rings to the target temple (and flips the direction
+				// too, if the solution called for a switch), marks it complete,
+				// then immediately re-runs the fastest-temple search from that new
+				// state so the picker jumps straight to the next real move instead
+				// of leaving the player to work it out by hand.
+				const markRingsAtTarget = () => {
+					if (!data.target || !plan) return;
+					const newDirection = plan.usesSwitch
+						? plan.otherDirection
+						: data.direction;
+					const newCompletedTemples = [
+						...completedTemples.filter((t) => t !== data.target),
+						data.target,
+					];
+					const newRingIndex = locationIndex(data.target);
+					const newRingIndices: [number, number, number] = [
+						newRingIndex,
+						newRingIndex,
+						newRingIndex,
+					];
+
+					const nextTimes = TEMPLES.map((temple) => {
+						const idx = locationIndex(temple.id);
+						const { totalTimeSeconds } = computeMixedPlan(
+							newRingIndices,
+							idx,
+							newDirection,
+							allowSwitch,
+						);
+						return { id: temple.id, timeSeconds: totalTimeSeconds };
+					});
+					const nextFastest = nextTimes
+						.filter(
+							(t) => t.timeSeconds > 0 && !newCompletedTemples.includes(t.id),
+						)
+						.reduce<{ id: LocationId; timeSeconds: number } | null>(
+							(best, t) =>
+								!best || t.timeSeconds < best.timeSeconds ? t : best,
+							null,
+						);
+
+					setData({
+						...data,
+						outer: data.target,
+						middle: data.target,
+						inner: data.target,
+						direction: newDirection,
+						completedTemples: newCompletedTemples,
+						target: nextFastest ? nextFastest.id : data.target,
+					});
+				};
 
 				const placeholderResults: ResultItem[] = [
 					{
@@ -477,6 +571,7 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 									{TEMPLES.map((temple) => {
 										const time = templeTimes.find((t) => t.id === temple.id)!;
 										const isFastest = time.timeSeconds === fastestTimeSeconds;
+										const done = isCompleted(temple.id);
 										return (
 											<button
 												key={temple.id}
@@ -484,6 +579,7 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 												className={[
 													"nexus-forge-target-btn",
 													isFastest ? "nexus-forge-target-btn--fastest" : "",
+													done ? "nexus-forge-target-btn--completed" : "",
 													data.target === temple.id
 														? "nexus-forge-target-btn--selected"
 														: "",
@@ -492,16 +588,41 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 													.join(" ")}
 												onClick={() => setData({ ...data, target: temple.id })}
 											>
+												<span
+													className={[
+														"nexus-forge-target-btn__check",
+														done ? "nexus-forge-target-btn__check--done" : "",
+													]
+														.filter(Boolean)
+														.join(" ")}
+													onClick={(e) => {
+														e.stopPropagation();
+														toggleCompleted(temple.id);
+													}}
+													aria-label={
+														done
+															? `Mark ${temple.name} as not completed`
+															: `Mark ${temple.name} as completed`
+													}
+												>
+													{done ? "✓" : ""}
+												</span>
 												<span className="nexus-forge-target-btn__name">
 													{temple.name}
 												</span>
 												<span className="nexus-forge-target-btn__time">
-													{isFastest && (
-														<span className="nexus-forge-target-btn__badge">
-															Fastest
-														</span>
+													{done ? (
+														"Done"
+													) : (
+														<>
+															{isFastest && (
+																<span className="nexus-forge-target-btn__badge">
+																	Fastest
+																</span>
+															)}
+															~{time.timeSeconds}s
+														</>
 													)}
-													~{time.timeSeconds}s
 												</span>
 											</button>
 										);
@@ -559,57 +680,70 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 								</h3>
 
 								{/* One row of boxes — the ring presses plus, only when a
-									switch is needed, one more box for it. Always the same
-									style in both standard and compact mode; only the box
-									sizing (below, via CSS) changes between them. */}
-								<div
-									className="nexus-forge-solution__results"
-									style={{
-										gridTemplateColumns: `repeat(${
-											plan.usesSwitch ? 4 : plan.phase1.length
-										}, 1fr)`,
-									}}
-								>
-									{plan.phase1.map((step) => (
+									switch is needed, one more box for it. A ring that needs 0
+									presses isn't an action the player has to take, so it's
+									left out entirely rather than shown as an empty "0x" box.
+									Always the same style in both standard and compact mode;
+									only the box sizing (below, via CSS) changes between them. */}
+								{(() => {
+									const visiblePhase1 = plan.phase1.filter(
+										(step) => step.count > 0,
+									);
+									const columnCount = Math.max(
+										1,
+										visiblePhase1.length +
+											(plan.usesSwitch ? 1 : 0) +
+											plan.phase2.length,
+									);
+									return (
 										<div
-											key={step.ring}
-											className="nexus-forge-solution__result-cell"
+											className="nexus-forge-solution__results"
+											style={{
+												gridTemplateColumns: `repeat(${columnCount}, 1fr)`,
+											}}
 										>
-											<span className="nexus-forge-solution__result-value">
-												{step.count}x
-											</span>
-											<span className="nexus-forge-solution__result-label">
-												{step.ringName}
-											</span>
+											{visiblePhase1.map((step) => (
+												<div
+													key={step.ring}
+													className="nexus-forge-solution__result-cell"
+												>
+													<span className="nexus-forge-solution__result-value">
+														{step.count}x
+													</span>
+													<span className="nexus-forge-solution__result-label">
+														{step.ringName}
+													</span>
+												</div>
+											))}
+											{plan.usesSwitch && (
+												<div
+													className="nexus-forge-solution__result-cell nexus-forge-solution__result-cell--switch"
+													title={`Switch the nexus handle to ${directionLabel(plan.otherDirection)}`}
+												>
+													<span className="nexus-forge-solution__result-value">
+														⟳
+													</span>
+													<span className="nexus-forge-solution__result-label">
+														Switch to {directionLabel(plan.otherDirection)}
+													</span>
+												</div>
+											)}
+											{plan.phase2.map((step) => (
+												<div
+													key={step.ring}
+													className="nexus-forge-solution__result-cell"
+												>
+													<span className="nexus-forge-solution__result-value">
+														{step.count}x
+													</span>
+													<span className="nexus-forge-solution__result-label">
+														{step.ringName}
+													</span>
+												</div>
+											))}
 										</div>
-									))}
-									{plan.usesSwitch && (
-										<div
-											className="nexus-forge-solution__result-cell nexus-forge-solution__result-cell--switch"
-											title={`Switch the nexus handle to ${directionLabel(plan.otherDirection)}`}
-										>
-											<span className="nexus-forge-solution__result-value">
-												⟳
-											</span>
-											<span className="nexus-forge-solution__result-label">
-												Switch to {directionLabel(plan.otherDirection)}
-											</span>
-										</div>
-									)}
-									{plan.phase2.map((step) => (
-										<div
-											key={step.ring}
-											className="nexus-forge-solution__result-cell"
-										>
-											<span className="nexus-forge-solution__result-value">
-												{step.count}x
-											</span>
-											<span className="nexus-forge-solution__result-label">
-												{step.ringName}
-											</span>
-										</div>
-									))}
-								</div>
+									);
+								})()}
 
 								<p className="nexus-forge-solution__total">
 									{plan.totalPresses} press{plan.totalPresses === 1 ? "" : "es"}
@@ -625,16 +759,11 @@ function NexusForgeSection(props: BaseSectionProps<NexusForgeData>) {
 									<button
 										type="button"
 										className="nexus-forge-solution__mark-done"
-										onClick={() =>
-											setData({
-												...data,
-												outer: data.target,
-												middle: data.target,
-												inner: data.target,
-											})
-										}
+										onClick={markRingsAtTarget}
 									>
-										Mark rings at {targetTemple?.name}
+										{plan.usesSwitch
+											? `Confirm direction change & mark rings at ${targetTemple?.name}`
+											: `Mark rings at ${targetTemple?.name}`}
 									</button>
 								)}
 							</div>
