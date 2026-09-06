@@ -26,6 +26,12 @@ const ROADMAP_DATA: RoadmapEntry[] = [
 		],
 	},
 	{
+		date: "September 2026",
+		items: [
+			"BO7: Totenreich - Claw Machine has been updated to cater for the 7-1-1 and 6-2-1 layout possibilities. These are very rare layouts with only a few percent chance of appearing and cannot easily be fully tested. Please provide feedback if you come across an inaccurate solve.",
+		],
+	},
+	{
 		date: "August 2026",
 		items: [
 			"BO7: Rex Infernus - whilst in BETA, updates to features and UI will be ongoing. Be sure to to check both the settings pane and the section structure itself in case it affects how you use the solvers.",
