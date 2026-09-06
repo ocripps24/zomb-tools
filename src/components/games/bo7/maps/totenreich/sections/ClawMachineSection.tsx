@@ -6,13 +6,7 @@ import { useSectionSettings } from "@/hooks/useSectionSettings";
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type Pos = [number, number];
-type CellType =
-	| "empty"
-	| "core"
-	| "core-a"
-	| "core-b"
-	| "uranium-a"
-	| "uranium-b";
+type CellType = "empty" | "core" | "uranium";
 
 interface ClawMachineData {
 	cores: string[];
@@ -34,9 +28,6 @@ function unpack(key: string): Pos {
 // ─── BFS / Solver ─────────────────────────────────────────────────────────────
 
 interface Group {
-	cells: string[];
-	uraniumCount: number;
-	hasUranium: boolean;
 	size: number;
 }
 
@@ -54,15 +45,13 @@ function findGroups(coreSet: Set<string>, uraniumSet: Set<string>): Group[] {
 
 	for (const key of allActive) {
 		if (visited.has(key)) continue;
-		const cells: string[] = [];
-		let uraniumCount = 0;
+		let size = 0;
 		const queue: string[] = [key];
 		visited.add(key);
 		while (queue.length > 0) {
 			const cur = queue.shift()!;
 			const [r, c] = unpack(cur);
-			cells.push(cur);
-			if (uraniumSet.has(cur)) uraniumCount++;
+			size++;
 			for (const [dr, dc] of DIRS) {
 				const nr = r + dr;
 				const nc = c + dc;
@@ -73,25 +62,45 @@ function findGroups(coreSet: Set<string>, uraniumSet: Set<string>): Group[] {
 				queue.push(nk);
 			}
 		}
-		groups.push({
-			cells,
-			uraniumCount,
-			hasUranium: uraniumCount > 0,
-			size: cells.length,
-		});
+		groups.push({ size });
 	}
 	return groups;
 }
 
-type ConfigType = "7+2" | "6+3";
+type ConfigType = "7+2" | "6+3" | "7+1+1" | "6+2+1";
+
+// A circuit is just a connected group of the right size — nothing in the
+// real game requires uranium to appear in *every* group. A pair of
+// pre-existing cores that were already isolated from the rest (0 uranium
+// touching them) is just as valid a "2" as a pair formed by placing 2
+// uranium next to each other; the size split is all that matters. Matching
+// on `hasUranium` here was the bug that produced false negatives on
+// otherwise-valid 7+2/6+3 layouts.
+const CONFIG_BY_SIZES: Record<string, ConfigType> = {
+	"7,2": "7+2",
+	"6,3": "6+3",
+	"7,1,1": "7+1+1",
+	"6,2,1": "6+2+1",
+};
+
+// Tier 1 (7+2 / 6+3) is the well-tested, common case and always wins when
+// available. 7+1+1 and 6+2+1 only ever get surfaced when NO tier-1 solve
+// exists at all — they're rarer, less-verified layouts, not alternatives to
+// offer alongside a normal solve.
+const CONFIG_TIER: Record<ConfigType, 1 | 2 | 3> = {
+	"7+2": 1,
+	"6+3": 1,
+	"7+1+1": 2,
+	"6+2+1": 3,
+};
+const isExperimentalConfig = (t: ConfigType) => CONFIG_TIER[t] > 1;
 
 function classifyConfig(groups: Group[]): ConfigType | null {
-	const scoring = groups.filter((g) => g.hasUranium);
-	if (scoring.length !== 2) return null;
-	const sizes = scoring.map((g) => g.size).sort((a, b) => b - a);
-	if (sizes[0] === 7 && sizes[1] === 2) return "7+2";
-	if (sizes[0] === 6 && sizes[1] === 3) return "6+3";
-	return null;
+	const sizes = groups
+		.map((g) => g.size)
+		.sort((a, b) => b - a)
+		.join(",");
+	return CONFIG_BY_SIZES[sizes] ?? null;
 }
 
 function fn(n: number): number {
@@ -99,9 +108,11 @@ function fn(n: number): number {
 }
 
 function estimateScore(groups: Group[]): number {
-	const scoring = groups.filter((g) => g.hasUranium);
-	const groupScore = scoring.reduce((sum, g) => sum + fn(g.size), 0);
-	const splitBonus = scoring.length === 2 ? 104 : 0;
+	const groupScore = groups.reduce((sum, g) => sum + fn(g.size), 0);
+	// The +104 split bonus is only confirmed for the standard 2-circuit
+	// (7+2 / 6+3) case — there's no in-game data yet on whether a 3-way
+	// 7+1+1 / 6+2+1 split scores a bonus at all, so it's left out for those.
+	const splitBonus = groups.length === 2 ? 104 : 0;
 	return Math.round(27 + groupScore + splitBonus);
 }
 
@@ -109,7 +120,6 @@ interface Arrangement {
 	uranium: Pos[];
 	configType: ConfigType;
 	score: number;
-	groups: Group[];
 }
 
 function findArrangements(cores: string[]): Arrangement[] {
@@ -123,7 +133,10 @@ function findArrangements(cores: string[]): Arrangement[] {
 		}
 	}
 
-	const results: Arrangement[] = [];
+	// One pass over every 3-cell uranium placement, bucketed by tier —
+	// cheaper than re-searching per tier, and the search space (≤C(10,3) =
+	// 120 combinations) is tiny either way.
+	const byTier: Record<1 | 2 | 3, Arrangement[]> = { 1: [], 2: [], 3: [] };
 	const n = emptyCells.length;
 
 	for (let i = 0; i < n - 2; i++) {
@@ -134,16 +147,17 @@ function findArrangements(cores: string[]): Arrangement[] {
 				const groups = findGroups(coreSet, uraniumSet);
 				const configType = classifyConfig(groups);
 				if (configType) {
-					results.push({
+					byTier[CONFIG_TIER[configType]].push({
 						uranium,
 						configType,
 						score: estimateScore(groups),
-						groups,
 					});
 				}
 			}
 		}
 	}
+
+	const results = byTier[1].length > 0 ? byTier[1] : byTier[2].length > 0 ? byTier[2] : byTier[3];
 
 	results.sort((a, b) => {
 		const colA = a.uranium.reduce((s, [, c]) => s + c, 0);
@@ -172,21 +186,13 @@ function buildCellTypeMap(
 		}
 	}
 
+	// Every pre-existing core stays the same plain grey regardless of which
+	// circuit it ends up in — only the placed uranium gets highlighted, so
+	// the grid reads as "here's what to add", not "here's the circuit shape".
 	if (arrangement) {
-		const sortedGroups = arrangement.groups
-			.filter((g) => g.hasUranium)
-			.sort((a, b) => b.size - a.size);
-		const uraniumKeys = new Set(arrangement.uranium.map(([r, c]) => pk(r, c)));
-
-		sortedGroups.forEach((group, idx) => {
-			const suffix = idx === 0 ? "a" : "b";
-			for (const key of group.cells) {
-				map.set(
-					key,
-					uraniumKeys.has(key) ? `uranium-${suffix}` : `core-${suffix}`,
-				);
-			}
-		});
+		for (const [r, c] of arrangement.uranium) {
+			map.set(pk(r, c), "uranium");
+		}
 	}
 
 	return map;
@@ -261,20 +267,12 @@ function ClawResult({
 	onPrev,
 	onNext,
 }: ClawResultProps) {
-	const sortedGroups = arrangement.groups
-		.filter((g) => g.hasUranium)
-		.sort((a, b) => b.size - a.size);
-	const groupAKeys = new Set(sortedGroups[0]?.cells ?? []);
-
 	const sortedUranium = [...arrangement.uranium].sort(([r1, c1], [r2, c2]) => {
-		const aInA = groupAKeys.has(pk(r1, c1));
-		const bInA = groupAKeys.has(pk(r2, c2));
-		if (aInA !== bInA) return aInA ? -1 : 1;
 		if (r1 !== r2) return r1 - r2;
 		return c1 - c2;
 	});
 
-	const configId = arrangement.configType.replace("+", "");
+	const configId = arrangement.configType.replace(/\+/g, "");
 
 	return (
 		<div className="claw-result">
@@ -310,24 +308,14 @@ function ClawResult({
 			</div>
 
 			<div className="claw-result__placements">
-				{sortedUranium.map(([r, c], i) => {
-					const inA = groupAKeys.has(pk(r, c));
-					const group = inA ? sortedGroups[0] : sortedGroups[1];
-					return (
-						<div
-							key={i}
-							className={`claw-placement claw-placement--${inA ? "a" : "b"}`}
-						>
-							<span className="claw-placement__label">U{i + 1}</span>
-							<span className="claw-placement__coords">
-								Row {r + 1}, Col {c + 1}
-							</span>
-							<span className="claw-placement__circuit">
-								Circuit {inA ? "A" : "B"} · {group?.size ?? "?"} nodes
-							</span>
-						</div>
-					);
-				})}
+				{sortedUranium.map(([r, c], i) => (
+					<div key={i} className="claw-placement">
+						<span className="claw-placement__label">U{i + 1}</span>
+						<span className="claw-placement__coords">
+							Row {r + 1}, Col {c + 1}
+						</span>
+					</div>
+				))}
 			</div>
 		</div>
 	);
@@ -352,14 +340,14 @@ function ClawMachineSection(props: BaseSectionProps<ClawMachineData>) {
 				defaultValue: DEFAULT_VALUE,
 				title: "Claw Machine",
 				description:
-					"Mark the 6 inactive core positions on the grid. The solver will find valid uranium placements for 7+2 and 6+3 circuit configurations.",
+					"Mark the 6 inactive core positions on the grid. The solver will find valid uranium placements for 7+2 and 6+3 circuit configurations, falling back to a rarer 7+1+1 or 6+2+1 split if neither is possible.",
 				resetButtonText: "Clear Grid",
 				tipsConfig: {
 					show: true,
 					items: [
 						{
 							label: "The Goal",
-							text: "Place 3 uranium cores to create two separate circuits.",
+							text: "Place 3 uranium cores to split the grid into separate circuits of the right sizes.",
 						},
 						{
 							label: "7+2 Config",
@@ -368,6 +356,10 @@ function ClawMachineSection(props: BaseSectionProps<ClawMachineData>) {
 						{
 							label: "6+3 Config",
 							text: "Connect 5 inactive cores with 1 uranium (6-node circuit). Connect 1 isolated inactive core with 2 adjacent uranium to form a separate 3-node circuit.",
+						},
+						{
+							label: "7+1+1 / 6+2+1 Configs",
+							text: "Rarer layouts that only get suggested when no 7+2 or 6+3 solve exists for your cores. A circuit doesn't need uranium in it to count — 2 pre-existing cores that are already isolated from everything else are just as valid a group as one you build with uranium. These configs are less tested in-game, so treat them as a best guess.",
 						},
 						{
 							label: "Grid Layout",
@@ -417,12 +409,23 @@ function ClawMachineSection(props: BaseSectionProps<ClawMachineData>) {
 				return (
 					<div className="claw-machine-section">
 						<div className="claw-machine-section__grid-area">
-							<ClawGrid
-								coreSet={coreSet}
-								arrangement={arrangement}
-								onToggle={handleToggle}
-								coreCount={coreCount}
-							/>
+							<div className="claw-machine-section__grid-row">
+								<ClawGrid
+									coreSet={coreSet}
+									arrangement={arrangement}
+									onToggle={handleToggle}
+									coreCount={coreCount}
+								/>
+								{arrangement && isExperimentalConfig(arrangement.configType) && (
+									<p className="claw-machine-section__warning">
+										<strong>Heads up:</strong> no 7+2 or 6+3 split was
+										possible, in rare cases a 7+1+1 or 6-2-1 layout can work.
+										Given the rarity, not all 7-1-1 or 6-2-1 solutions have
+										been fully tested, however the tested ones have been
+										successful.
+									</p>
+								)}
+							</div>
 							<p className="claw-machine-section__status">{statusText}</p>
 						</div>
 

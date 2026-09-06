@@ -370,10 +370,41 @@
 		align-items: flex-start;
 	}
 
+	// Stacked (warning below the grid) until there's enough width to sit it
+	// beside the grid instead.
+	&__grid-row {
+		display: flex;
+		flex-direction: column;
+		gap: space(lg);
+		align-items: flex-start;
+		width: 100%;
+
+		@include desktop-up {
+			flex-direction: row;
+			align-items: flex-start;
+			gap: space(xl);
+		}
+	}
+
 	&__status {
 		font-size: 0.875rem;
 		color: var(--text-secondary);
 		margin-top: space(sm);
+	}
+
+	&__warning {
+		padding: space(sm) space(md);
+		max-width: 24rem;
+		background: color-mix(in srgb, var(--warning-color) 12%, transparent);
+		border: 1px solid color-mix(in srgb, var(--warning-color) 40%, transparent);
+		border-radius: radius(base);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		color: var(--text-primary);
+
+		strong {
+			color: var(--warning-color);
+		}
 	}
 }
 
@@ -456,7 +487,7 @@
 
 	&--core {
 		background: color-mix(in srgb, var(--text-secondary) 15%, transparent);
-		border-color: color-mix(in srgb, var(--text-secondary) 35%, transparent);
+		border-color: white;
 		color: var(--text-secondary);
 
 		@media (hover: hover) {
@@ -466,41 +497,14 @@
 		}
 	}
 
-	&--core-a {
-		background: color-mix(in srgb, var(--accent-color) 18%, transparent);
-		border-color: var(--accent-color);
-		color: var(--accent-color);
-
-		@media (hover: hover) {
-			&:hover {
-				background: color-mix(in srgb, var(--accent-color) 28%, transparent);
-			}
-		}
-	}
-
-	&--core-b {
-		background: color-mix(in srgb, #{color(info)} 18%, transparent);
-		border-color: #{color(info)};
-		color: #{color(info)};
-
-		@media (hover: hover) {
-			&:hover {
-				background: color-mix(in srgb, #{color(info)} 28%, transparent);
-			}
-		}
-	}
-
-	&--uranium-a {
-		background: color-mix(in srgb, var(--accent-color) 28%, transparent);
-		border: 2px dashed var(--accent-color);
-		color: var(--accent-color);
-		cursor: not-allowed;
-	}
-
-	&--uranium-b {
-		background: color-mix(in srgb, #{color(info)} 28%, transparent);
-		border: 2px dashed #{color(info)};
-		color: #{color(info)};
+	// One consistent colour for every placed uranium, regardless of which
+	// circuit it ends up in — the grid's job is "here's what to add", not
+	// "here's which circuit this belongs to" (the result list below already
+	// breaks that out per placement).
+	&--uranium {
+		background: color-mix(in srgb, #{color(success)} 28%, transparent);
+		border: 2px dashed #{color(success)};
+		color: #{color(success)};
 		cursor: not-allowed;
 	}
 }
@@ -540,6 +544,15 @@
 			background: color-mix(in srgb, #{color(info)} 18%, transparent);
 			color: #{color(info)};
 			border: 1px solid color-mix(in srgb, #{color(info)} 40%, transparent);
+		}
+
+		// Rarer, less-tested fallback configs — warning-colored to match the
+		// notice next to the grid.
+		&--711,
+		&--621 {
+			background: color-mix(in srgb, var(--warning-color) 18%, transparent);
+			color: var(--warning-color);
+			border: 1px solid color-mix(in srgb, var(--warning-color) 40%, transparent);
 		}
 	}
 
@@ -600,29 +613,14 @@
 	gap: space(sm);
 	padding: space(xs) space(sm);
 	border-radius: radius(sm);
-
-	&--a {
-		background: color-mix(in srgb, var(--accent-color) 8%, transparent);
-		border: 1px solid color-mix(in srgb, var(--accent-color) 20%, transparent);
-	}
-
-	&--b {
-		background: color-mix(in srgb, #{color(info)} 8%, transparent);
-		border: 1px solid color-mix(in srgb, #{color(info)} 20%, transparent);
-	}
+	background: var(--bg-tertiary);
+	border: 1px solid var(--border-color);
 
 	&__label {
 		font-size: 0.875rem;
 		font-weight: 800;
 		min-width: 2rem;
-
-		.claw-placement--a & {
-			color: var(--accent-color);
-		}
-
-		.claw-placement--b & {
-			color: #{color(info)};
-		}
+		color: var(--accent-color);
 	}
 
 	&__coords {
@@ -631,12 +629,6 @@
 		color: var(--text-primary);
 		font-family: monospace;
 		flex: 1;
-	}
-
-	&__circuit {
-		font-size: 0.75rem;
-		color: var(--text-secondary);
-		white-space: nowrap;
 	}
 }
 
