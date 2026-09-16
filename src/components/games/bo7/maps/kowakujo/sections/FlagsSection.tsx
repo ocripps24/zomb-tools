@@ -44,6 +44,16 @@ const LOCATIONS = [
 
 type Location = (typeof LOCATIONS)[number];
 
+// Nearest to farthest — Stables and Central Courtyard are the close pair,
+// Outer Ward and Flower Garden the far pair, with Flower Garden the
+// farthest of all.
+const LOCATION_DISTANCE_RANK: Record<Location, number> = {
+	Stables: 1,
+	"Central Courtyard": 2,
+	"Outer Ward": 3,
+	"Flower Garden": 4,
+};
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface FlagsData {
@@ -64,9 +74,20 @@ const DEFAULT_VALUE: FlagsData = {
 
 // ─── Solver ───────────────────────────────────────────────────────────────────
 
+// Every valid solution always splits the 6 flags into exactly 2 singles and
+// 2 pairs across the 4 targets (1+1+2+2=6) — so a genuine choice between
+// solutions only ever exists when two positions need the same value and the
+// flag pool happens to support that value as both a lone flag and a pair.
+// Rather than special-case that, this enumerates every valid split and,
+// once every position is known to map to a location, picks whichever
+// minimizes total "flags carried × distance to that location" — sending
+// single-flag combos to the farther locations and pairs to the nearer
+// ones. With no location info yet, it just returns the first valid split
+// found (matching the previous single-solution behaviour).
 function solveFlags(
 	clockNumbers: (number | null)[],
 	flagValues: number[],
+	positionMap: string[] = [],
 ): (number[] | null)[] {
 	const empty: (number[] | null)[] = [null, null, null, null];
 	if (clockNumbers.some((n) => n === null) || flagValues.length === 0) {
@@ -76,16 +97,20 @@ function solveFlags(
 	const targets = clockNumbers as number[];
 	const used = new Array(flagValues.length).fill(false);
 	const assignments: number[][] = [];
+	const allSolutions: number[][][] = [];
 
-	function backtrack(targetIdx: number): boolean {
-		if (targetIdx === 4) return true;
+	function backtrack(targetIdx: number): void {
+		if (targetIdx === 4) {
+			allSolutions.push(assignments.map((indices) => [...indices]));
+			return;
+		}
 		const target = targets[targetIdx];
 
 		for (let i = 0; i < flagValues.length; i++) {
 			if (!used[i] && flagValues[i] === target) {
 				used[i] = true;
 				assignments.push([i]);
-				if (backtrack(targetIdx + 1)) return true;
+				backtrack(targetIdx + 1);
 				assignments.pop();
 				used[i] = false;
 			}
@@ -97,18 +122,38 @@ function solveFlags(
 				if (!used[j] && flagValues[i] + flagValues[j] === target) {
 					used[i] = used[j] = true;
 					assignments.push([i, j]);
-					if (backtrack(targetIdx + 1)) return true;
+					backtrack(targetIdx + 1);
 					assignments.pop();
 					used[i] = used[j] = false;
 				}
 			}
 		}
-
-		return false;
 	}
 
-	if (!backtrack(0)) return empty;
-	return assignments.map((indices) => indices.map((i) => flagValues[i]));
+	backtrack(0);
+	if (allSolutions.length === 0) return empty;
+
+	const ranks = positionMap.map(
+		(loc) => LOCATION_DISTANCE_RANK[loc as Location],
+	);
+	const allRanked = ranks.length === 4 && ranks.every((r) => r !== undefined);
+
+	let best = allSolutions[0];
+	if (allRanked) {
+		let bestCost = Infinity;
+		for (const solution of allSolutions) {
+			const cost = solution.reduce(
+				(sum, indices, i) => sum + indices.length * ranks[i],
+				0,
+			);
+			if (cost < bestCost) {
+				bestCost = cost;
+				best = solution;
+			}
+		}
+	}
+
+	return best.map((indices) => indices.map((i) => flagValues[i]));
 }
 
 function formatCombo(values: number[] | null): string {
@@ -242,11 +287,11 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 					items: [
 						{
 							label: "Clock Times",
-							text: "Interact with the Lantern Clock to trigger it. The hands spin and stop four times — record each hour shown (1–11).",
+							text: "Interact with the Lantern Clock to trigger it. The hands spin and stop four times — record each hour shown (1–12).",
 						},
 						{
 							label: "Flags",
-							text: "After the clock, a defence round spawns zombies carrying flags. Kill them to release wisps. Count the objects depicted on each flag (1–7 per flag).",
+							text: "After the clock, a defence round spawns zombies carrying flags. Kill them to release wisps. Count the objects depicted on each flag (1–6 per flag).",
 						},
 						{
 							label: "Flag Count",
@@ -399,7 +444,11 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 
 				// ── Derived state ───────────────────────────────────────────────
 
-				const solution = solveFlags(data.clockNumbers, data.flagValues);
+				const solution = solveFlags(
+					data.clockNumbers,
+					data.flagValues,
+					positionMap,
+				);
 				const hasSolution = solution[0] !== null;
 				const noSolution =
 					clockFull && data.flagValues.length > 0 && !hasSolution;
@@ -435,14 +484,14 @@ function FlagsSection(props: BaseSectionProps<FlagsData>) {
 									{enteringFlags ? "Enter Flag Value" : "Enter Clock Time"}
 								</h3>
 								<div className="flags-number-row">
-									{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((n) => (
+									{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => (
 										<button
 											key={n}
 											className="flags-num-btn"
 											onClick={() =>
 												enteringFlags ? handleFlagInput(n) : handleClockInput(n)
 											}
-											disabled={bothComplete || (enteringFlags && n > 7)}
+											disabled={bothComplete || (enteringFlags && n > 6)}
 											type="button"
 										>
 											{n}
